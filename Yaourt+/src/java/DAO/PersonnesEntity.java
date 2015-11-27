@@ -55,37 +55,59 @@ public class PersonnesEntity implements Serializable {
 	@Column
 	private Date dateConnexion;
 	
+// Relations ONE TO ONE
+	
+	// Imc associé à la personne
 	@OneToOne
 	@JoinColumn(name="IMCId")
 	private IMCEntity imc;
 	
+// Relations ONE TO MANY	
+	// Liste des notifications émises par une personne
+	@OneToMany(mappedBy="notifieur")
+	private List<NotificationsEntity> notificationsEmises = new ArrayList();
+ 	
+	// Liste des statuts émis par une personne
 	@OneToMany(mappedBy="auteur")
 	private List<StatutsEntity> status = new ArrayList();
 	
+	// Liste des messages émis par une personne
+	@OneToMany(mappedBy="emetteur")
+	private List<MessagesEntity> messagesEmis = new ArrayList();
+	
+// Relations MANY TO ONE
+	
+// Relations MANY TO MANY
+	// Gestion du lien ManyToMany sur lui même?
+	// Liste des amis de la personne
 	@JoinTable(
 			name="Personnes_Personnes",
 			joinColumns=@JoinColumn(name="FilousId"),
 			inverseJoinColumns=@JoinColumn(name="PersonneId")
 	)
-	@ManyToMany
+	@ManyToMany(mappedBy="listFilous")
 	private List<PersonnesEntity> listFilous = new ArrayList();
 
+	// Liste des notifications reçu par la personne
 	@JoinTable(
 			name="Personnes_Messages",
 			joinColumns=@JoinColumn(name="FilousId"),
 			inverseJoinColumns=@JoinColumn(name="PersonneId")
 	)
 	@ManyToMany
-	private List<NotificationsEntity> listNotifications = new ArrayList();
+	private List<NotificationsEntity> notificationRecues = new ArrayList();
 		
+	// Liste des messages recu par la personne
 	@JoinTable(
 			name="Personnes_Notifications",
 			joinColumns=@JoinColumn(name="FilousId"),
 			inverseJoinColumns=@JoinColumn(name="PersonneId")
 	)
 	@ManyToMany
-	private List<MessagesEntity> listMessages = new ArrayList();
+	private List<MessagesEntity> messagesRecus = new ArrayList();
 	
+	
+// Accesseurs ==================================================================
 	public Integer getId() {
 		return id;
 	}

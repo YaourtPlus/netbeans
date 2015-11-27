@@ -12,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -30,6 +33,17 @@ public class NotificationsEntity implements Serializable {
 	@Column(nullable=false, length=32)
 	private String type;
 
+// Relations ONE TO ONE
+// Relations ONE TO MANY
+// Relations MANY TO ONE
+
+	// Auteur de la notification
+	@Column(nullable=false)
+	@ManyToOne
+	@JoinColumn(name="notifieurId")
+	private PersonnesEntity notifieur;
+// Relations MANY TO MANY
+	
 // Accesseurs ==================================================================
 	
 	public Integer getId() {

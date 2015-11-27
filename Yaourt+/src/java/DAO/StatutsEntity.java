@@ -32,10 +32,6 @@ public class StatutsEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-
-	@ManyToOne
-	@JoinColumn(name="auteurId")
-	private PersonnesEntity auteur;
 	
 	@Column(nullable=false, length=1024)
 	private String texte;
@@ -49,6 +45,18 @@ public class StatutsEntity implements Serializable {
 	@Column(nullable=false)
 	private Integer nbLourd;
 	
+// Relations ONE TO ONE
+// Relations ONE TO MANY
+// Relations MANY TO ONE
+	
+	// Auteur du statut
+	@ManyToOne
+	@JoinColumn(name="auteurId")
+	private PersonnesEntity auteur;
+	
+// Relations MANY TO MANY
+	
+	// Liste des fichiers liés au statut
 	@JoinTable(
 			name="Statuts_Fichiers",
 			joinColumns=@JoinColumn(name="FichiersID"),

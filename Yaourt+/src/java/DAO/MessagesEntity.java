@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -42,7 +43,19 @@ public class MessagesEntity implements Serializable {
 	
 	@Column(nullable=true)
 	private Date date;
-
+	
+// Relations ONE TO ONE
+// Relations ONE TO MANY
+// Relations MANY TO ONE
+	
+	// Auteur du message
+	@ManyToOne
+	@JoinColumn(name="auteurMessage")
+	private PersonnesEntity emetteur;
+	
+// Relations MANY TO MANY
+	
+	// Liste des fichiers liés au message
 	@JoinTable(
 			name="Messages_Fichiers",
 			joinColumns=@JoinColumn(name="FichiersID"),

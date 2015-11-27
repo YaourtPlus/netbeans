@@ -33,8 +33,14 @@ public class IMCEntity implements Serializable {
 	@Column(nullable=false)
 	private int QteLeger;
 	
+// Relations ONE TO ONE
+	
+	// Personne associée à l'IMC
 	@OneToOne(mappedBy="imc")
 	private PersonnesEntity personne;
+// Relations ONE TO MANY
+// Relations MANY TO ONE	
+// Relations MANY TO MANY
 
 // Accesseurs ==================================================================
 	public Integer getId() {
