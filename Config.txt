@@ -1,0 +1,62 @@
+Erreurs rencontrées lors de la configuration
+
+- données incompletes des éléments dans le fichier dispatcher-servlet.xml
+	Si problèmes :
+		- Vérifier que les liens xml correspondent :
+			<beans xmlns="http://www.springframework.org/schema/beans"
+		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		   xmlns:p="http://www.springframework.org/schema/p"
+		   xmlns:aop="http://www.springframework.org/schema/aop"
+		   xmlns:tx="http://www.springframework.org/schema/tx"
+		   xmlns:context= "http://www.springframework.org/schema/context"
+		   xmlns:mvc="http://www.springframework.org/schema/mvc"
+		   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		    http://www.springframework.org/schema/aop 
+		    http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		    http://www.springframework.org/schema/tx 
+		    http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		    http://www.springframework.org/schema/context 
+		    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		    http://www.springframework.org/schema/mvc
+		    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+		 /!\ Spring MVC version 3.2.7 utilisée => Si supérieur je ne sais pas comment ça se passe, à voir, sinon repasser à la version 3.2.7 en changeant les jar correspondant /!\
+		- Vérifier qu'il n'y a pas d'éléments parasites (du style un controller en trop ou autre)
+		- Vérifier que les component-scan passe bien dans tous les packages (<context:component-scan base-package="nomdupackage"/>)
+		- Vérifier que les balises sont bien fermées
+		
+- données incompletes des éléments dans le fichier applicationController.xml
+	Si problèmes :
+		- Vérifier que les liens xml correspondent :
+			<beans xmlns="http://www.springframework.org/schema/beans"
+		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		   xmlns:p="http://www.springframework.org/schema/p"
+		   xmlns:aop="http://www.springframework.org/schema/aop"
+		   xmlns:tx="http://www.springframework.org/schema/tx"
+		   xmlns:context="http://www.springframework.org/schema/context"
+		   xsi:schemaLocation=
+		    "http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		    http://www.springframework.org/schema/aop
+		    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		    http://www.springframework.org/schema/tx
+		    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		    http://www.springframework.org/schema/context
+		    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		/!\ Même remarque que pour le fichier dispatcher-servlet.xml /!\
+		
+		- Vérifier que l'adresse, le login et le mot de passe de la base de donnée correspondent
+		- Vérifier que le nom de l'entité correspond avec le nom de persistence.xml
+		- Vérifier que les balises sont bien fermées
+		
+- Problèmes de type "jandex"
+	Télécharger le jar jandex-1.2.1.Final (je ne sais pas si la version à une influence mais celle-ci marche donc c'est cool)
+	https://repository.jboss.org/nexus/content/groups/public/org/jboss/jandex/1.2.1.Final/
+	
+- Problèmes de type entityManager
+	Vérifier que des annotations ne sont pas manquantes
+	
+- Problèmes de type Hibernate
+	Si il n'y a pas 1 DAO par entity, vérifier que le paramètre <exclude-unlisted-classes> du fichier persistence est à true
+	
+J'ai pas d'autre problèmes en tête pour le moment, à compléter si d'autre erreurs rencontrées.
