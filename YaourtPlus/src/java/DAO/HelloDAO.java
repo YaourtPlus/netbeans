@@ -18,5 +18,5 @@ public interface HelloDAO {
 		public void delete(HelloEntity h);
 		public HelloEntity find(long id);
 		public List<HelloEntity> findAll();
-		public List<HelloEntity> findByName(HelloEntity h, String nom);
+		public List<HelloEntity> findByName(String nom);
 }

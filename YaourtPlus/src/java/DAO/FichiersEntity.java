@@ -23,6 +23,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class FichiersEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -38,7 +39,7 @@ public class FichiersEntity implements Serializable {
 	List<StatutsEntity> listeStatuts = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="listeFichiers", fetch = FetchType.EAGER)
-	List<StatutsEntity> listeMessages = new ArrayList<>();
+	List<MessagesEntity> listeMessages = new ArrayList<>();
 	
 // Accesseurs ==================================================================
 	public Integer getId() {

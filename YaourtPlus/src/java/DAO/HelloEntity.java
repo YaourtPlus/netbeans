@@ -6,6 +6,7 @@
 package DAO;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +19,15 @@ import javax.persistence.Id;
 @Entity
 public class HelloEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column
 	private String nom;
 	
+	@Column
 	private String message;
 
 	public HelloEntity() {
@@ -34,6 +38,10 @@ public class HelloEntity implements Serializable {
 	public HelloEntity(String nom, String message) {
 		this.nom = nom;
 		this.message = message;
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
 	}
 	
 	public Long getId() {

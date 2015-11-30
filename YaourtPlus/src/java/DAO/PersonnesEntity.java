@@ -91,20 +91,20 @@ public class PersonnesEntity implements Serializable {
 	// Liste des notifications reçu par la personne
 	@JoinTable(
 			name="Personnes_Messages",
-			joinColumns=@JoinColumn(name="FilousId"),
-			inverseJoinColumns=@JoinColumn(name="PersonneId")
+			joinColumns=@JoinColumn(name="MessageId"),
+			inverseJoinColumns=@JoinColumn(name="DestinataireId")
 	)
 	@ManyToMany
-	private List<NotificationsEntity> notificationRecues = new ArrayList();
+	private List<NotificationsEntity> messagesRecus = new ArrayList();
 		
 	// Liste des messages recu par la personne
 	@JoinTable(
 			name="Personnes_Notifications",
-			joinColumns=@JoinColumn(name="FilousId"),
-			inverseJoinColumns=@JoinColumn(name="PersonneId")
+			joinColumns=@JoinColumn(name="NotificationsId"),
+			inverseJoinColumns=@JoinColumn(name="DestinataireId")
 	)
 	@ManyToMany
-	private List<MessagesEntity> messagesRecus = new ArrayList();
+	private List<MessagesEntity> notificationRecues = new ArrayList();
 	
 	
 // Accesseurs ==================================================================

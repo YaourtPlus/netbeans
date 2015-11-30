@@ -10,5 +10,10 @@ package Service;
  * @author tbenoist
  */
 public interface HelloService {
-	
+
+	public void add(String nom, String message);
+
+	public void remove(String nom);
+
+	public String getNomsMessages();
 }

@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class HelloDAOImpl implements HelloDAO{
 
-	@PersistenceContext(unitName="HelloPU")
+	@PersistenceContext(unitName="Yaourt_PU")
 	private EntityManager em;
 	
 	public EntityManager getEm(){
@@ -65,7 +65,7 @@ public class HelloDAOImpl implements HelloDAO{
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<HelloEntity> findByName(HelloEntity h, String nom) {
+	public List<HelloEntity> findByName(String nom) {
 		Query q = em.createQuery("Select h from HelloEntity h where h.nom =  ?").setParameter(1, nom);
 		return q.getResultList();
 	}
