@@ -24,21 +24,21 @@
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
-<!--
-The index controller.
--->
-<bean name="indexController"
+    <!--
+    The index controller.
+    -->
+    <bean name="indexController"
       class="org.springframework.web.servlet.mvc.ParameterizableViewController"
       p:viewName="index" /> 
     
-<!--Prise en charge des annotations -->
-<context:annotation-config/>
-<mvc:annotation-driven />
-<!--Scan des annotations dans les classes du package controller-->
-<context:component-scan base-package="Controllers"/>
-<context:component-scan base-package="DAO"/>
-<context:component-scan base-package="Service"/>
-<!--On laisse Spring interpréter les annotations pour faire le mapping -->
+    <!--Prise en charge des annotations -->
+    <context:annotation-config/>
+    <mvc:annotation-driven />
+    <!--Scan des annotations dans les classes du package controller-->
+    <context:component-scan base-package="Controllers"/>
+    <context:component-scan base-package="DAO"/>
+    <context:component-scan base-package="Service"/>
+    <!--On laisse Spring interpréter les annotations pour faire le mapping -->
     
-<tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
