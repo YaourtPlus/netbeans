@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/conf/persistence.xml</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/web/WEB-INF/applicationContext.xml</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/DAO/FichiersEntity.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/Controllers/Hello.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/Service/HelloServiceImpl.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/DAO/HelloDAOImpl.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/web/WEB-INF/dispatcher-servlet.xml</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/DAO/HelloEntity.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/DAO/MessagesEntity.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/DAO/PersonnesEntity.java</file>
-            <file>file:/home/SP2MI/tbenoist/Documents/M2%20Info/AAW/Projet/netbeans/YaourtPlus/src/java/Service/HelloService.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
