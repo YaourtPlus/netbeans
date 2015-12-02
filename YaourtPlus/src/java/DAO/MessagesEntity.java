@@ -62,7 +62,7 @@ public class MessagesEntity implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="MessagesID")
 	)
 	@ManyToMany(fetch = FetchType.EAGER)
-	List<FichiersEntity> listeFichiers2 = new ArrayList<>();
+	List<FichiersEntity> listeFichiers = new ArrayList<>();
 // Accesseurs ==================================================================			
 	public Integer getId() {
 		return id;

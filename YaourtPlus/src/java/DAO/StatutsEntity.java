@@ -63,7 +63,7 @@ public class StatutsEntity implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="StatutsID")
 	)
 	@ManyToMany(fetch = FetchType.EAGER)
-	List<FichiersEntity> listeFichiers1 = new ArrayList<>();
+	List<FichiersEntity> listeFichiers = new ArrayList<>();
 	
 	public Integer getId() {
 		return id;
