@@ -6,9 +6,10 @@
 package DAO;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -84,6 +84,14 @@ public class MessagesEntity implements Serializable {
 		return date;
 	}
 
+	public PersonnesEntity getEmetteur() {
+		return emetteur;
+	}
+
+	public List<FichiersEntity> getListeFichiers() {
+		return listeFichiers;
+	}
+
 // Mutateurs ===================================================================
 	public void setId(Integer id) {
 		this.id = id;
@@ -105,22 +113,57 @@ public class MessagesEntity implements Serializable {
 		this.date = date;
 	}
 
+	public void setEmetteur(PersonnesEntity emetteur) {
+		this.emetteur = emetteur;
+	}
+
+	public void setListeFichiers(List<FichiersEntity> listeFichiers) {
+		this.listeFichiers = listeFichiers;
+	}
+
 // =============================================================================
+
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		int hash = 3;
+		hash = 53 * hash + Objects.hashCode(this.id);
+		hash = 53 * hash + Objects.hashCode(this.texte);
+		hash = 53 * hash + Objects.hashCode(this.image);
+		hash = 53 * hash + Objects.hashCode(this.video);
+		hash = 53 * hash + Objects.hashCode(this.date);
+		hash = 53 * hash + Objects.hashCode(this.emetteur);
+		hash = 53 * hash + Objects.hashCode(this.listeFichiers);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof MessagesEntity)) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		MessagesEntity other = (MessagesEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final MessagesEntity other = (MessagesEntity) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.texte, other.texte)) {
+			return false;
+		}
+		if (!Objects.equals(this.image, other.image)) {
+			return false;
+		}
+		if (!Objects.equals(this.video, other.video)) {
+			return false;
+		}
+		if (!Objects.equals(this.date, other.date)) {
+			return false;
+		}
+		if (!Objects.equals(this.emetteur, other.emetteur)) {
+			return false;
+		}
+		if (!Objects.equals(this.listeFichiers, other.listeFichiers)) {
 			return false;
 		}
 		return true;
@@ -128,7 +171,8 @@ public class MessagesEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DAO.MessagesEntity[ id=" + id + " ]";
+		return "MessagesEntity{" + "id=" + id + ", texte=" + texte + ", image=" + image + ", video=" + video + ", date=" + date + ", emetteur=" + emetteur + ", listeFichiers=" + listeFichiers + '}';
 	}
+	
 	
 }
