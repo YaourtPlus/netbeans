@@ -6,6 +6,7 @@
 package DAO;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +60,10 @@ public class IMCEntity implements Serializable {
 		return QteLeger;
 	}
 
+	public PersonnesEntity getPersonne() {
+		return personne;
+	}
+
 // Mutateurs ===================================================================
 	public void setId(Integer id) {
 		this.id = id;
@@ -76,22 +81,45 @@ public class IMCEntity implements Serializable {
 		this.QteLeger = QteLeger;
 	}
 
+	public void setPersonne(PersonnesEntity personne) {
+		this.personne = personne;
+	}
+
 // =============================================================================
+
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		int hash = 7;
+		hash = 53 * hash + Objects.hashCode(this.id);
+		hash = 53 * hash + (int) (Double.doubleToLongBits(this.valeur) ^ (Double.doubleToLongBits(this.valeur) >>> 32));
+		hash = 53 * hash + this.QteLourd;
+		hash = 53 * hash + this.QteLeger;
+		hash = 53 * hash + Objects.hashCode(this.personne);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof IMCEntity)) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		IMCEntity other = (IMCEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final IMCEntity other = (IMCEntity) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (Double.doubleToLongBits(this.valeur) != Double.doubleToLongBits(other.valeur)) {
+			return false;
+		}
+		if (this.QteLourd != other.QteLourd) {
+			return false;
+		}
+		if (this.QteLeger != other.QteLeger) {
+			return false;
+		}
+		if (!Objects.equals(this.personne, other.personne)) {
 			return false;
 		}
 		return true;
@@ -99,7 +127,8 @@ public class IMCEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DAO.IMCEntity[ id=" + id + " ]";
+		return "IMCEntity{" + "id=" + id + ", valeur=" + valeur + ", QteLourd=" + QteLourd + ", QteLeger=" + QteLeger + ", personne=" + personne + '}';
 	}
+
 	
 }
