@@ -5,6 +5,7 @@
 <HTML>
 <HEAD>
 <TITLE> Servlet Hello avec SPRING MVC </TITLE>
+<meta http-equiv="refresh" content="0; url=connexion.html" />
 </HEAD>
 <BODY>
 	<H1> Servlet Hello avec SPRING MVC </H1>

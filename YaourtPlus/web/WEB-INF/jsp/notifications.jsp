@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Mur
-    Created on : 3 déc. 2015, 08:41:22
+    Document   : notifications
+    Created on : 3 déc. 2015, 08:48:42
     Author     : Olivier
 --%>
 
@@ -13,8 +13,5 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <p>
-            ${murMessage}
-        </p>
     </body>
 </html>
