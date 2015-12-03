@@ -7,8 +7,9 @@ package DAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -106,31 +107,227 @@ public class PersonnesEntity implements Serializable {
 	@ManyToMany
 	private List<MessagesEntity> notificationRecues = new ArrayList();
 	
-	
+// Constructeur=================================================================
+	public PersonnesEntity(String nom, String prenom, int age, String mail, String login, String password) {	
+		this.nom = nom;
+		this.prenom = prenom;
+		this.age = age;
+		this.mail = mail;
+		this.login = login;
+		this.password = password;
+	}
+
 // Accesseurs ==================================================================
 	public Integer getId() {
 		return id;
 	}
 
+	public String getNom() {
+		return nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public Date getDateInscription() {
+		return dateInscription;
+	}
+
+	public Date getDateConnexion() {
+		return dateConnexion;
+	}
+
+	public IMCEntity getImc() {
+		return imc;
+	}
+
+	public List<NotificationsEntity> getNotificationsEmises() {
+		return notificationsEmises;
+	}
+
+	public List<StatutsEntity> getStatus() {
+		return status;
+	}
+
+	public List<MessagesEntity> getMessagesEmis() {
+		return messagesEmis;
+	}
+
+	public List<PersonnesEntity> getListFilous() {
+		return listFilous;
+	}
+
+	public List<NotificationsEntity> getMessagesRecus() {
+		return messagesRecus;
+	}
+
+	public List<MessagesEntity> getNotificationRecues() {
+		return notificationRecues;
+	}
+	
+	
+// Mutateurs ===================================================================
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setDateInscription(Date dateInscription) {
+		this.dateInscription = dateInscription;
+	}
+
+	public void setDateConnexion(Date dateConnexion) {
+		this.dateConnexion = dateConnexion;
+	}
+
+	public void setImc(IMCEntity imc) {
+		this.imc = imc;
+	}
+
+	public void setNotificationsEmises(List<NotificationsEntity> notificationsEmises) {
+		this.notificationsEmises = notificationsEmises;
+	}
+
+	public void setStatus(List<StatutsEntity> status) {
+		this.status = status;
+	}
+
+	public void setMessagesEmis(List<MessagesEntity> messagesEmis) {
+		this.messagesEmis = messagesEmis;
+	}
+
+	public void setListFilous(List<PersonnesEntity> listFilous) {
+		this.listFilous = listFilous;
+	}
+
+	public void setMessagesRecus(List<NotificationsEntity> messagesRecus) {
+		this.messagesRecus = messagesRecus;
+	}
+
+	public void setNotificationRecues(List<MessagesEntity> notificationRecues) {
+		this.notificationRecues = notificationRecues;
+	}
+
+// =============================================================================
+
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		int hash = 7;
+		hash = 47 * hash + Objects.hashCode(this.id);
+		hash = 47 * hash + Objects.hashCode(this.nom);
+		hash = 47 * hash + Objects.hashCode(this.prenom);
+		hash = 47 * hash + this.age;
+		hash = 47 * hash + Objects.hashCode(this.mail);
+		hash = 47 * hash + Objects.hashCode(this.login);
+		hash = 47 * hash + Objects.hashCode(this.password);
+		hash = 47 * hash + Objects.hashCode(this.dateInscription);
+		hash = 47 * hash + Objects.hashCode(this.dateConnexion);
+		hash = 47 * hash + Objects.hashCode(this.imc);
+		hash = 47 * hash + Objects.hashCode(this.notificationsEmises);
+		hash = 47 * hash + Objects.hashCode(this.status);
+		hash = 47 * hash + Objects.hashCode(this.messagesEmis);
+		hash = 47 * hash + Objects.hashCode(this.listFilous);
+		hash = 47 * hash + Objects.hashCode(this.messagesRecus);
+		hash = 47 * hash + Objects.hashCode(this.notificationRecues);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof PersonnesEntity)) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		PersonnesEntity other = (PersonnesEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final PersonnesEntity other = (PersonnesEntity) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.nom, other.nom)) {
+			return false;
+		}
+		if (!Objects.equals(this.prenom, other.prenom)) {
+			return false;
+		}
+		if (this.age != other.age) {
+			return false;
+		}
+		if (!Objects.equals(this.mail, other.mail)) {
+			return false;
+		}
+		if (!Objects.equals(this.login, other.login)) {
+			return false;
+		}
+		if (!Objects.equals(this.password, other.password)) {
+			return false;
+		}
+		if (!Objects.equals(this.dateInscription, other.dateInscription)) {
+			return false;
+		}
+		if (!Objects.equals(this.dateConnexion, other.dateConnexion)) {
+			return false;
+		}
+		if (!Objects.equals(this.imc, other.imc)) {
+			return false;
+		}
+		if (!Objects.equals(this.notificationsEmises, other.notificationsEmises)) {
+			return false;
+		}
+		if (!Objects.equals(this.status, other.status)) {
+			return false;
+		}
+		if (!Objects.equals(this.messagesEmis, other.messagesEmis)) {
+			return false;
+		}
+		if (!Objects.equals(this.listFilous, other.listFilous)) {
+			return false;
+		}
+		if (!Objects.equals(this.messagesRecus, other.messagesRecus)) {
+			return false;
+		}
+		if (!Objects.equals(this.notificationRecues, other.notificationRecues)) {
 			return false;
 		}
 		return true;
@@ -138,7 +335,8 @@ public class PersonnesEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DAO.PersonnesEntity[ id=" + id + " ]";
+		return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", login=" + login + ", password=" + password + ", dateInscription=" + dateInscription + ", dateConnexion=" + dateConnexion + ", imc=" + imc + ", notificationsEmises=" + notificationsEmises + ", status=" + status + ", messagesEmis=" + messagesEmis + ", listFilous=" + listFilous + ", messagesRecus=" + messagesRecus + ", notificationRecues=" + notificationRecues + '}';
 	}
+
 	
 }
