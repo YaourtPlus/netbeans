@@ -5,6 +5,7 @@
  */
 package Service;
 
+import DAO.PersonnesEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +17,10 @@ public class InscriptionServiceImpl implements InscriptionService {
 
     public InscriptionServiceImpl() {
 
+    }
+
+    @Override
+    public void add(String nom, String prenom, String login, String password, String mail, int age) {
+        PersonnesEntity pe = new PersonnesEntity();
     }
 }
