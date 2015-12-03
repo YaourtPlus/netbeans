@@ -32,7 +32,15 @@ public class InscriptionController {
             HttpServletResponse response) throws Exception {
         String result;
         ModelAndView mv = new ModelAndView("inscription");
-        result = "test";
+        
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("nom");
+        String login = request.getParameter("nom");
+        String password = request.getParameter("nom");
+        String mail = request.getParameter("nom");
+        String age = request.getParameter("age");
+        inscriptionService.add(nom, prenom, login, password, mail, Integer.parseInt(age));
+        result = "Personne ajoutée : " + nom + prenom + login + password + mail + age;
         mv.addObject("inscriptionMessage", result);
         return mv;
     }
