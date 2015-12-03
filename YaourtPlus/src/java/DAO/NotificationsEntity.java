@@ -39,7 +39,6 @@ public class NotificationsEntity implements Serializable {
 // Relations MANY TO ONE
 
 	// Auteur de la notification
-	@Column(nullable=false)
 	@ManyToOne
 	@JoinColumn(name="notifieurId")
 	private PersonnesEntity notifieur;

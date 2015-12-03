@@ -8,6 +8,7 @@ package Service;
 import DAO.PersonnesDAO;
 import DAO.PersonnesDAOImpl;
 import DAO.PersonnesEntity;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,15 +17,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InscriptionServiceImpl implements InscriptionService {
-
+    @Resource 
+    PersonnesDAO pdao;
+    
     public InscriptionServiceImpl() {
 
     }
 
     @Override
     public void add(String nom, String prenom, String login, String password, String mail, int age) {
-        PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, password);
-        PersonnesDAO pdao = new PersonnesDAOImpl();
-        pdao.save(pe);
+        pdao.save(new PersonnesEntity(nom, prenom, age, mail, login, password));
     }
 }
