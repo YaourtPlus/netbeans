@@ -8,6 +8,7 @@ package DAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +41,18 @@ public class FichiersEntity implements Serializable {
 	
 	@ManyToMany(mappedBy="listeFichiers", fetch = FetchType.EAGER)
 	List<MessagesEntity> listeMessages = new ArrayList<>();
-	
+// Constructeurs ===============================================================
+
+	public FichiersEntity() {
+		this.type = "txt";
+		this.contenu = "";
+	}
+
+	public FichiersEntity(String type, String contenu) {
+		this.type = type;
+		this.contenu = contenu;
+	}
+
 // Accesseurs ==================================================================
 	public Integer getId() {
 		return id;
@@ -52,6 +64,14 @@ public class FichiersEntity implements Serializable {
 
 	public String getContenu() {
 		return contenu;
+	}
+
+	public List<StatutsEntity> getListeStatuts() {
+		return listeStatuts;
+	}
+
+	public List<MessagesEntity> getListeMessages() {
+		return listeMessages;
 	}
 
 // Mutateurs ===================================================================
@@ -67,23 +87,49 @@ public class FichiersEntity implements Serializable {
 		this.contenu = contenu;
 	}
 
+	public void setListeStatuts(List<StatutsEntity> listeStatuts) {
+		this.listeStatuts = listeStatuts;
+	}
+
+	public void setListeMessages(List<MessagesEntity> listeMessages) {
+		this.listeMessages = listeMessages;
+	}
+
 // =============================================================================
 
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		int hash = 5;
+		hash = 47 * hash + Objects.hashCode(this.id);
+		hash = 47 * hash + Objects.hashCode(this.type);
+		hash = 47 * hash + Objects.hashCode(this.contenu);
+		hash = 47 * hash + Objects.hashCode(this.listeStatuts);
+		hash = 47 * hash + Objects.hashCode(this.listeMessages);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof FichiersEntity)) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		FichiersEntity other = (FichiersEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final FichiersEntity other = (FichiersEntity) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.type, other.type)) {
+			return false;
+		}
+		if (!Objects.equals(this.contenu, other.contenu)) {
+			return false;
+		}
+		if (!Objects.equals(this.listeStatuts, other.listeStatuts)) {
+			return false;
+		}
+		if (!Objects.equals(this.listeMessages, other.listeMessages)) {
 			return false;
 		}
 		return true;
@@ -91,7 +137,10 @@ public class FichiersEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DAO.FichiersEntity[ id=" + id + " ]";
+		return "FichiersEntity{" + "id=" + id + ", type=" + type + ", contenu=" + contenu + ", listeStatuts=" + listeStatuts + ", listeMessages=" + listeMessages + '}';
 	}
+
+
+
 	
 }

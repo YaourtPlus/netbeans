@@ -2,6 +2,11 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="Yaourt_PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>DAO.FichiersEntity</class>
+    <class>DAO.IMCEntity</class>
+    <class>DAO.MessagesEntity</class>
+    <class>DAO.NotificationsEntity</class>
+    <class>DAO.StatutsEntity</class>
     <class>DAO.PersonnesEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>

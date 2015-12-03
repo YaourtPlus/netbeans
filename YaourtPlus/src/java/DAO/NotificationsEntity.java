@@ -6,7 +6,8 @@
 package DAO;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,6 +59,10 @@ public class NotificationsEntity implements Serializable {
 		return type;
 	}
 
+	public PersonnesEntity getNotifieur() {
+		return notifieur;
+	}
+
 // Mutateurs ===================================================================
 
 	public void setId(Integer id) {
@@ -71,24 +76,42 @@ public class NotificationsEntity implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public void setNotifieur(PersonnesEntity notifieur) {
+		this.notifieur = notifieur;
+	}
 	
 // =============================================================================
 
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		int hash = 7;
+		hash = 43 * hash + Objects.hashCode(this.id);
+		hash = 43 * hash + Objects.hashCode(this.date);
+		hash = 43 * hash + Objects.hashCode(this.type);
+		hash = 43 * hash + Objects.hashCode(this.notifieur);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof NotificationsEntity)) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		NotificationsEntity other = (NotificationsEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final NotificationsEntity other = (NotificationsEntity) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.date, other.date)) {
+			return false;
+		}
+		if (!Objects.equals(this.type, other.type)) {
+			return false;
+		}
+		if (!Objects.equals(this.notifieur, other.notifieur)) {
 			return false;
 		}
 		return true;
@@ -96,7 +119,8 @@ public class NotificationsEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DAO.NotificationsEntity[ id=" + id + " ]";
+		return "NotificationsEntity{" + "id=" + id + ", date=" + date + ", type=" + type + ", notifieur=" + notifieur + '}';
 	}
-	
+
+
 }

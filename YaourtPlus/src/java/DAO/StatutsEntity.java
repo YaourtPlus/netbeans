@@ -7,8 +7,9 @@ package DAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -64,30 +65,122 @@ public class StatutsEntity implements Serializable {
 	)
 	@ManyToMany(fetch = FetchType.EAGER)
 	List<FichiersEntity> listeFichiers = new ArrayList<>();
-	
+// Constructeur ================================================================
+
+	public StatutsEntity() {
+		this.texte ="";
+		this.date = null;
+		this.auteur = null;
+	}
+
+	public StatutsEntity(String texte, Date date, PersonnesEntity auteur) {
+		this.texte = texte;
+		this.date = date;
+		this.auteur = auteur;
+	}
+
+// Accesseurs ==================================================================	
 	public Integer getId() {
 		return id;
 	}
+
+	public String getTexte() {
+		return texte;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public Integer getNbLeger() {
+		return nbLeger;
+	}
+
+	public Integer getNbLourd() {
+		return nbLourd;
+	}
+
+	public PersonnesEntity getAuteur() {
+		return auteur;
+	}
+
+	public List<FichiersEntity> getListeFichiers() {
+		return listeFichiers;
+	}
+	
+// Mutateurs ===================================================================
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	public void setTexte(String texte) {
+		this.texte = texte;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setNbLeger(Integer nbLeger) {
+		this.nbLeger = nbLeger;
+	}
+
+	public void setNbLourd(Integer nbLourd) {
+		this.nbLourd = nbLourd;
+	}
+
+	public void setAuteur(PersonnesEntity auteur) {
+		this.auteur = auteur;
+	}
+
+	public void setListeFichiers(List<FichiersEntity> listeFichiers) {
+		this.listeFichiers = listeFichiers;
+	}
+	
+// =============================================================================
+
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		int hash = 5;
+		hash = 97 * hash + Objects.hashCode(this.id);
+		hash = 97 * hash + Objects.hashCode(this.texte);
+		hash = 97 * hash + Objects.hashCode(this.date);
+		hash = 97 * hash + Objects.hashCode(this.nbLeger);
+		hash = 97 * hash + Objects.hashCode(this.nbLourd);
+		hash = 97 * hash + Objects.hashCode(this.auteur);
+		hash = 97 * hash + Objects.hashCode(this.listeFichiers);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof StatutsEntity)) {
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		StatutsEntity other = (StatutsEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final StatutsEntity other = (StatutsEntity) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.texte, other.texte)) {
+			return false;
+		}
+		if (!Objects.equals(this.date, other.date)) {
+			return false;
+		}
+		if (!Objects.equals(this.nbLeger, other.nbLeger)) {
+			return false;
+		}
+		if (!Objects.equals(this.nbLourd, other.nbLourd)) {
+			return false;
+		}
+		if (!Objects.equals(this.auteur, other.auteur)) {
+			return false;
+		}
+		if (!Objects.equals(this.listeFichiers, other.listeFichiers)) {
 			return false;
 		}
 		return true;
@@ -95,7 +188,8 @@ public class StatutsEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DAO.StatusEntity[ id=" + id + " ]";
+		return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date=" + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd + ", auteur=" + auteur + ", listeFichiers=" + listeFichiers + '}';
 	}
+
 	
 }
