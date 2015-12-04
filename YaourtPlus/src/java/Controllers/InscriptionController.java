@@ -31,7 +31,7 @@ public class InscriptionController {
     public ModelAndView handleRequestInternal(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String result;
-        ModelAndView mv = new ModelAndView("inscription");
+        ModelAndView mv = new ModelAndView("connexion");
         
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("nom");
@@ -39,6 +39,10 @@ public class InscriptionController {
         String password = request.getParameter("nom");
         String mail = request.getParameter("nom");
         String age = request.getParameter("age");
+        if(age == null || age.length() == 0)
+        {
+            age = "0";
+        }
         inscriptionService.add(nom, prenom, login, password, mail, Integer.parseInt(age));
         result = "Personne ajoutée : " + nom + prenom + login + password + mail + age;
         mv.addObject("inscriptionMessage", result);

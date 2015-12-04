@@ -51,7 +51,7 @@ public class PersonnesEntity implements Serializable {
     @Column(nullable = false, length = 32)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dateInscription;
 
     @Column
