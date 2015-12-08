@@ -32,6 +32,7 @@ public class NotificationsDAOImpl implements NotificationsDAO {
 		this.em = em;
 	}
 
+// Ecriture ====================================================================
 	@Transactional
 	@Override
 	public void save(NotificationsEntity n) {
@@ -52,6 +53,7 @@ public class NotificationsDAOImpl implements NotificationsDAO {
 		em.remove(n);
 	}
 
+// Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override
 	public NotificationsEntity find(int id) {

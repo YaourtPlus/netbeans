@@ -30,6 +30,7 @@ public class StatutsDAOImpl implements StatutsDAO {
 		this.em = em;
 	}
 
+// Ecriture ====================================================================
 	@Transactional
 	@Override
 	public void save(StatutsEntity s) {
@@ -50,6 +51,7 @@ public class StatutsDAOImpl implements StatutsDAO {
 		em.remove(s);
 	}
 
+// Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override
 	public StatutsEntity find(int id) {

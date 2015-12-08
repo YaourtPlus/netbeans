@@ -31,6 +31,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 		this.em = em;
 	}
 
+// Ecriture ====================================================================
 	@Transactional
 	@Override
 	public void save(MessagesEntity m) {
@@ -51,6 +52,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 		em.remove(m);
 	}
 
+// Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override
 	public MessagesEntity find(int id) {

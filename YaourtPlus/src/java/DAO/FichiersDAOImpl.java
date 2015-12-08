@@ -30,6 +30,7 @@ public class FichiersDAOImpl implements FichiersDAO {
 		this.em = em;
 	}
 
+// Ecriture ====================================================================
 	@Transactional
 	@Override
 	public void save(FichiersEntity f) {
@@ -50,6 +51,7 @@ public class FichiersDAOImpl implements FichiersDAO {
 		em.remove(f);
 	}
 
+// Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override
 	public FichiersEntity find(int id) {
