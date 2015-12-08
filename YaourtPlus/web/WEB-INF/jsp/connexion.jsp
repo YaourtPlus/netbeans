@@ -11,11 +11,11 @@
         <title>Connexion au réseau léger</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="foundation.css" type="text/css" media="screen" /> 
+        <link rel="stylesheet" href="bootstrap/bootstrap-3.3.6-dist/css/bootstrap.css" type="text/css" media="screen" /> 
     </head>
     <body>
        <div>${inscriptionMessage}</div>
-        <div>
+        <div class="starter-template">
             <form Method="POST" action="mur.htm">
                 <label for="login"> login : </label>
                 <input type="text" value="Entrez votre login" name="login" />
