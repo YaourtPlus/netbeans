@@ -24,12 +24,6 @@
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
-    <!--
-    The index controller.
-    -->
-    <bean name="indexController"
-      class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-      p:viewName="index" /> 
     
     <!--Prise en charge des annotations -->
     <context:annotation-config/>
