@@ -5,8 +5,11 @@
  */
 package Service;
 
+import DAO.IMCEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import java.sql.Date;
+import java.util.Calendar;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,11 @@ public class InscriptionServiceImpl implements InscriptionService {
 
     @Override
     public void add(String nom, String prenom, String login, String password, String mail, int age) {
-        pdao.save(new PersonnesEntity(nom, prenom, age, mail, login, password));
+        // Création de la date d'inscription
+		Date dateInscription = new Date(Calendar.getInstance().getTime().getTime());
+        PersonnesEntity newPers = new PersonnesEntity(nom, prenom, age, mail, login, password);
+		newPers.setDateInscription(dateInscription);
+		newPers.setImc(new IMCEntity());
+		pdao.save(newPers);
     }
 }
