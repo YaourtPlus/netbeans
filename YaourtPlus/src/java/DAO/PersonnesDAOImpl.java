@@ -31,6 +31,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 		this.em = em;
 	}
 
+// Ecriture ====================================================================
 	@Transactional
 	@Override
 	public void save(PersonnesEntity p) {
@@ -51,6 +52,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 		em.remove(p);
 	}
 
+// Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override
 	public PersonnesEntity find(int id) {

@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,8 +61,8 @@ public class PersonnesEntity implements Serializable {
 
 // Relations ONE TO ONE
     // Imc associé à la personne
-    //@JoinColumn(name = "IMCId")
-    //@OneToOne
+    @JoinColumn(name = "IMCId")
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private IMCEntity imc;
 
 // Relations ONE TO MANY	
@@ -78,7 +80,6 @@ public class PersonnesEntity implements Serializable {
 
 // Relations MANY TO ONE
 // Relations MANY TO MANY
-    // Gestion du lien ManyToMany sur lui même?
     // Liste des amis de la personne
     @JoinTable(
             name = "Personnes_Personnes",
@@ -87,7 +88,7 @@ public class PersonnesEntity implements Serializable {
     )
     @ManyToMany
     private List<PersonnesEntity> listFilous = new ArrayList();
-
+	
     @ManyToMany(mappedBy = "listFilous")
     private List<PersonnesEntity> listFilous2 = new ArrayList();
 
