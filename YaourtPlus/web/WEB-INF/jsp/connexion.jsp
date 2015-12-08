@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="foundation.css" type="text/css" media="screen" /> 
     </head>
     <body>
+       <div>${inscriptionMessage}</div>
         <div>
             <form Method="POST" action="mur.htm">
                 <label for="login"> login : </label>
@@ -29,5 +30,7 @@
             </form>
             <p> Pas encore inscrit? Inscrivez-vous <a href="inscription.html">par ici!</a> C'est gratuit!</p>
         </div>
+        
+        
     </body>
 </html>

@@ -45,7 +45,7 @@ public class InscriptionController {
             age = "0";
         }
         inscriptionService.add(nom, prenom, login, password, mail, Integer.parseInt(age));
-        result = "Personne ajoutée : " + nom + prenom + login + password + mail + age;
+        result = "Vous vous êtes bien inscrits, veuillez vous connecter";
         mv.addObject("inscriptionMessage", result);
         return mv;
     }

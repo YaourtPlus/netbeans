@@ -35,4 +35,13 @@ public class InscriptionServiceImpl implements InscriptionService {
 		newPers.setImc(new IMCEntity());
 		pdao.save(newPers);
     }
+    
+    @Override
+    public int getId(String nom, String prenom, String login, String password, String mail, int age)
+    {
+        PersonnesEntity p = new PersonnesEntity(nom, prenom, age, mail, login, password);
+        int id = p.getId();
+        pdao.save(p);
+        return id;
+    }
 }
