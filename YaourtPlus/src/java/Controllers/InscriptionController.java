@@ -5,7 +5,6 @@
  */
 package Controllers;
 
-import Service.MurService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import Service.InscriptionService;
+import java.sql.Date;
+import java.util.Calendar;
 
 /**
  *
@@ -34,12 +35,12 @@ public class InscriptionController {
         ModelAndView mv = new ModelAndView("connexion");
         
         String nom = request.getParameter("nom");
-        String prenom = request.getParameter("nom");
-        String login = request.getParameter("nom");
-        String password = request.getParameter("nom");
-        String mail = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        String mail = request.getParameter("mail");
         String age = request.getParameter("age");
-        if(age == null || age.length() == 0)
+		if(age == null || age.length() == 0)
         {
             age = "0";
         }
