@@ -25,6 +25,17 @@ public class InscriptionServiceImpl implements InscriptionService {
 
     @Override
     public void add(String nom, String prenom, String login, String password, String mail, int age) {
-        pdao.save(new PersonnesEntity(nom, prenom, age, mail, login, password));
+        PersonnesEntity p = new PersonnesEntity(nom, prenom, age, mail, login, password);
+        pdao.save(p);
+        
+    }
+    
+    @Override
+    public int getId(String nom, String prenom, String login, String password, String mail, int age)
+    {
+        PersonnesEntity p = new PersonnesEntity(nom, prenom, age, mail, login, password);
+        int id = p.getId();
+        pdao.save(p);
+        return id;
     }
 }
