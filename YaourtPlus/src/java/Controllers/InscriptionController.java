@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import Service.InscriptionService;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -21,32 +26,35 @@ import Service.InscriptionService;
  */
 @Controller
 public class InscriptionController {
-    
+
     @Autowired
     InscriptionService inscriptionService;
-
-    
 
     @RequestMapping(value = "inscription", method = RequestMethod.POST)
     public ModelAndView handleRequestInternal(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String result;
         ModelAndView mv = new ModelAndView("connexion");
-        
+
         String nom = request.getParameter("nom");
-        String prenom = request.getParameter("nom");
-        String login = request.getParameter("nom");
-        String password = request.getParameter("nom");
-        String mail = request.getParameter("nom");
-        String age = request.getParameter("age");
-        if(age == null || age.length() == 0)
-        {
+        String prenom = request.getParameter("prenom");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        String mail = request.getParameter("mail");
+        String age = request.getParameter("ddn");
+        if (age == null || age.length() == 0) {
             age = "0";
         }
-        inscriptionService.add(nom, prenom, login, password, mail, Integer.parseInt(age));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        LocalDate birthdate = LocalDate.parse(age);
+        LocalDate now = LocalDate.now();
+        int years = birthdate.until(now).getYears();
+
+        inscriptionService.add(nom, prenom, login, password, mail, (int) (gc.getTimeInMillis() - gc2.getTimeInMillis()) * 1000);
         result = "Vous vous êtes bien inscrits, veuillez vous connecter";
-        mv.addObject("inscriptionMessage", result);
+        mv.addObject("inscriptionMessage", years);
         return mv;
     }
-    
+
 }
