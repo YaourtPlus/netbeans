@@ -61,6 +61,7 @@ public class PersonnesEntity implements Serializable {
 
 // Relations ONE TO ONE
     // Imc associé à la personne
+	// Relation unidirectionnelle
     @JoinColumn(name = "IMCId")
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private IMCEntity imc;

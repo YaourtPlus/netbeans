@@ -61,6 +61,19 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 
 	@Transactional(readOnly = true)
 	@Override
+	public PersonnesEntity find(String login, String password){
+		Query q = em.createQuery("SELECT p FROM PersonnesEntity p WHERE p.login = ? AND p.password = ?");
+		q.setParameter(1, login);
+		q.setParameter(2, password);
+		PersonnesEntity p = null;
+		if(q.getResultList().size() == 1){
+			p = (PersonnesEntity) q.getSingleResult();
+		}
+		return p;
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
 	public List<PersonnesEntity> findAll() {
 		Query q = em.createQuery("SELECT p FROM PersonnesEntity p");
 		return q.getResultList();

@@ -16,8 +16,10 @@ public interface PersonnesDAO {
 		public void update(PersonnesEntity p);
 		public void delete(PersonnesEntity p);
 		public PersonnesEntity find(int id);
+		public PersonnesEntity find(String login, String password);
 		public List<PersonnesEntity> findAll();
 		public List<PersonnesEntity> findByNom(String nom);
 		public List<PersonnesEntity> findByPrenom(String prenom);
 		public List<PersonnesEntity> findByMail(String mail);
+		
 }
