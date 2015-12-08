@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import Service.InscriptionService;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -45,15 +46,18 @@ public class InscriptionController {
         if (age == null || age.length() == 0) {
             age = "0";
         }
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-        LocalDate birthdate = LocalDate.parse(age);
-        LocalDate now = LocalDate.now();
-        int years = birthdate.until(now).getYears();
-
-        inscriptionService.add(nom, prenom, login, password, mail, (int) (gc.getTimeInMillis() - gc2.getTimeInMillis()) * 1000);
+        
+        
+        GregorianCalendar gcBirth = new GregorianCalendar(Integer.parseInt(age.split("/")[2]), Integer.parseInt(age.split("/")[1])-1, Integer.parseInt(age.split("/")[0]));
+        GregorianCalendar now = new GregorianCalendar();
+        long diff = now.getTimeInMillis() - gcBirth.getTimeInMillis();
+        
+        int yeardiff = now.get(Calendar.YEAR) - gcBirth.get(Calendar.YEAR);
+        
+        inscriptionService.add(nom, prenom, login, password, mail, yeardiff);
         result = "Vous vous êtes bien inscrits, veuillez vous connecter";
-        mv.addObject("inscriptionMessage", years);
+        mv.addObject("inscriptionMessage", result);
         return mv;
     }
 
