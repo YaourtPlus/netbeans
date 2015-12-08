@@ -39,11 +39,18 @@ public class IMCEntity implements Serializable {
 // Relations ONE TO MANY
 // Relations MANY TO ONE	
 // Relations MANY TO MANY
+	
+// Constructeur ================================================================
+    public IMCEntity() {
+		this.QteLeger = 0;
+		this.QteLourd = 0;
+		this.valeur = 25;
+    }
 
 // Accesseurs ==================================================================
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
     public double getValeur() {
         return valeur;

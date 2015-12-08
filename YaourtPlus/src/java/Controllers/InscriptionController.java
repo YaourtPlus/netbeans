@@ -5,7 +5,6 @@
  */
 package Controllers;
 
-import Service.MurService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 /**
  *
@@ -43,7 +43,8 @@ public class InscriptionController {
         String password = request.getParameter("password");
         String mail = request.getParameter("mail");
         String age = request.getParameter("ddn");
-        if (age == null || age.length() == 0) {
+        if (age == null || age.length() == 0)
+        {
             age = "0";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");

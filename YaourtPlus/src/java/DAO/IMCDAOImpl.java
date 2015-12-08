@@ -30,6 +30,7 @@ public class IMCDAOImpl implements IMCDAO {
 		this.em = em;
 	}
 
+// Ecriture ====================================================================
 	@Transactional
 	@Override
 	public void save(IMCEntity i) {
@@ -50,6 +51,7 @@ public class IMCDAOImpl implements IMCDAO {
 		em.remove(i);
 	}
 
+// Lecture =====================================================================
 	@Transactional
 	@Override
 	public IMCEntity find(int id) {
