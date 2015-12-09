@@ -86,8 +86,8 @@ public class CompteController {
 		
 		if(session != null){
 			
-			session.setAttribute("idPersonne", connexionService.connexion(login, password));
-			int idPersonne = (int) session.getAttribute("idPersonne");
+			session.setAttribute("idUtilisateur", connexionService.connexion(login, password));
+			int idPersonne = (int) session.getAttribute("idUtilisateur");
 			if(idPersonne != -1){
 				mv  = new ModelAndView("redirect:/mur.htm");
 			}

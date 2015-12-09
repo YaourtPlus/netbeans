@@ -55,7 +55,7 @@ public class MurController {
 		String password = request.getParameter("password");
 		
 		// Test d'existence de session
-		int idPersonne = (int) session.getAttribute("idPersonne");
+		int idPersonne = (int) session.getAttribute("idUtilisateur");
 		if(idPersonne != -1){
 			mv  = new ModelAndView("mur");
 			String nomPersonne = profilService.getPersonne(idPersonne).getNom();
