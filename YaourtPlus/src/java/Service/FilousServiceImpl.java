@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @author tbenoist
  */
 @Service
-public class FilousServicesImpl implements FilousService{
+public class FilousServiceImpl implements FilousService{
 	
 	@Resource
 	PersonnesDAO personnesDAO;
