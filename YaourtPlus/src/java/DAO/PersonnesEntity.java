@@ -68,20 +68,21 @@ public class PersonnesEntity implements Serializable {
 
 // Relations ONE TO MANY	
     // Liste des notifications émises par une personne
-    @OneToMany(mappedBy = "notifieur")
+    @OneToMany(mappedBy = "notifieur", fetch = FetchType.EAGER)
     private List<NotificationsEntity> notificationsEmises = new ArrayList();
 
     // Liste des statuts émis par une personne
-    @OneToMany(mappedBy = "auteur")
+    @OneToMany(mappedBy = "auteur", fetch = FetchType.EAGER)
     private List<StatutsEntity> status = new ArrayList();
 
     // Liste des messages émis par une personne
-    @OneToMany(mappedBy = "emetteur")
+    @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
     private List<MessagesEntity> messagesEmis = new ArrayList();
 
 // Relations MANY TO ONE
 // Relations MANY TO MANY
     // Liste des amis de la personne
+	// Problème de fetch eager quelque part dans la liste filous
     @JoinTable(
             name = "Personnes_Personnes",
             joinColumns = @JoinColumn(name = "FilousId"),
@@ -90,7 +91,7 @@ public class PersonnesEntity implements Serializable {
     @ManyToMany
     private List<PersonnesEntity> listFilous = new ArrayList();
 	
-    @ManyToMany(mappedBy = "listFilous")
+    @ManyToMany(mappedBy = "listFilous", fetch = FetchType.EAGER)
     private List<PersonnesEntity> listFilousDe = new ArrayList();
 
     // Liste des notifications reçu par la personne
@@ -283,12 +284,6 @@ public class PersonnesEntity implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.dateInscription);
         hash = 47 * hash + Objects.hashCode(this.dateConnexion);
         hash = 47 * hash + Objects.hashCode(this.imc);
-        hash = 47 * hash + Objects.hashCode(this.notificationsEmises);
-        hash = 47 * hash + Objects.hashCode(this.status);
-        hash = 47 * hash + Objects.hashCode(this.messagesEmis);
-        hash = 47 * hash + Objects.hashCode(this.listFilous);
-        hash = 47 * hash + Objects.hashCode(this.messagesRecus);
-        hash = 47 * hash + Objects.hashCode(this.notificationRecues);
         return hash;
     }
 
@@ -330,31 +325,13 @@ public class PersonnesEntity implements Serializable {
         }
         if (!Objects.equals(this.imc, other.imc)) {
             return false;
-        }
-        if (!Objects.equals(this.notificationsEmises, other.notificationsEmises)) {
-            return false;
-        }
-        if (!Objects.equals(this.status, other.status)) {
-            return false;
-        }
-        if (!Objects.equals(this.messagesEmis, other.messagesEmis)) {
-            return false;
-        }
-        if (!Objects.equals(this.listFilous, other.listFilous)) {
-            return false;
-        }
-        if (!Objects.equals(this.messagesRecus, other.messagesRecus)) {
-            return false;
-        }
-        if (!Objects.equals(this.notificationRecues, other.notificationRecues)) {
-            return false;
-        }
+		}
         return true;
     }
 
     @Override
     public String toString() {
-        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", login=" + login + ", password=" + password + ", dateInscription=" + dateInscription + ", dateConnexion=" + dateConnexion + ", imc=" + imc + ", notificationsEmises=" + notificationsEmises + ", status=" + status + ", messagesEmis=" + messagesEmis + ", listFilous=" + listFilous + ", messagesRecus=" + messagesRecus + ", notificationRecues=" + notificationRecues + '}';
+        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc + '}';
     }
 
 }
