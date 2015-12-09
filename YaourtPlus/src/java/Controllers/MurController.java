@@ -3,6 +3,8 @@ package Controllers;
 import Service.ConnexionService;
 import Service.MurService;
 import Service.ProfilService;
+import java.util.Date;
+import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,36 +36,38 @@ public class MurController {
     ConnexionService connexionService;
     
 
-    @RequestMapping(value = "mur", method = RequestMethod.POST)
+    @RequestMapping(value = "mur", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView handleRequestInternal(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+		
         ModelAndView mv;
+		
+		
+		HttpSession session = request.getSession(false); 
+		// Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+		if(session == null){
+			mv = new ModelAndView("connexion");
+			mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+			return mv;
+		}
+		
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 		
-		// Création de la session
-		HttpSession session = request.getSession(true); 
-		
-		if(session != null){
-			
-			session.setAttribute("idPersonne", connexionService.connexion(login, password));
-			int idPersonne = (int) session.getAttribute("idPersonne");
-			if(idPersonne != -1){
-				mv  = new ModelAndView("mur");
-				String nomPersonne = profilService.getPersonne(idPersonne).getNom();
-				String mur = "";
-				mv.addObject("nomPersonne", nomPersonne);
-				mv.addObject("murMessage", mur);
-			}
-			else{	
-				mv = new ModelAndView("connexion");
-				mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
-			}
+		// Test d'existence de session
+		int idPersonne = (int) session.getAttribute("idPersonne");
+		if(idPersonne != -1){
+			mv  = new ModelAndView("mur");
+			String nomPersonne = profilService.getPersonne(idPersonne).getNom();
+			String mur = "";
+			mv.addObject("nomPersonne", nomPersonne);
+			mv.addObject("murMessage", mur);
 		}
-		else{
+		else{	
 			mv = new ModelAndView("connexion");
 			mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
 		}
+		
         return mv;
     }
 }
