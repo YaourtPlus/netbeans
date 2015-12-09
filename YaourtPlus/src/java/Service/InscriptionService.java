@@ -11,5 +11,4 @@ package Service;
  */
 public interface InscriptionService {
     public void add(String nom, String prenom, String login, String password, String mail, int age);
-    public int getId(String nom, String prenom, String login, String password, String mail, int age);
 }
