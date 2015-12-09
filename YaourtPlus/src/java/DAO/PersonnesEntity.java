@@ -7,7 +7,7 @@ package DAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -91,7 +91,7 @@ public class PersonnesEntity implements Serializable {
     private List<PersonnesEntity> listFilous = new ArrayList();
 	
     @ManyToMany(mappedBy = "listFilous")
-    private List<PersonnesEntity> listFilous2 = new ArrayList();
+    private List<PersonnesEntity> listFilousDe = new ArrayList();
 
     // Liste des notifications reçu par la personne
     @JoinTable(
@@ -196,8 +196,8 @@ public class PersonnesEntity implements Serializable {
         return notificationRecues;
     }
 
-    public List<PersonnesEntity> getListFilous2() {
-        return listFilous2;
+    public List<PersonnesEntity> getListFilousDe() {
+        return listFilousDe;
     }
 
 // Mutateurs ===================================================================
@@ -265,8 +265,8 @@ public class PersonnesEntity implements Serializable {
         this.notificationRecues = notificationRecues;
     }
 
-    public void setListFilous2(List<PersonnesEntity> listFilous2) {
-        this.listFilous2 = listFilous2;
+    public void setListFilousDe(List<PersonnesEntity> listFilousDe) {
+        this.listFilousDe = listFilousDe;
     }
 
 // =============================================================================
