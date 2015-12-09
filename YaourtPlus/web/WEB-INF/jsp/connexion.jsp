@@ -16,7 +16,7 @@
     <body>
        <div>${inscriptionMessage}</div>
         <div class="starter-template">
-            <form Method="POST" action="mur.htm">
+            <form Method="POST" action="connexion.htm">
                 <label for="login"> login : </label>
                 <input type="text" value="Entrez votre login" name="login" />
                 <br />
