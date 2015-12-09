@@ -7,6 +7,7 @@ package Service;
 
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import java.util.Date;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,11 @@ public class ConnexionServiceImpl implements ConnexionService{
 			return -1;
 		}
 		else{
+			// On a récupéré une personne candidate à la connexion.
+			// On l'autorise et on met à jour sa date de Connexion
+			Date dConnexion = new Date();
+			p.setDateConnexion(dConnexion);
+			pdao.update(p);
 			return p.getId();
 		}
 	}
