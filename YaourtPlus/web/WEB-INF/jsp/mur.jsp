@@ -13,6 +13,8 @@
     </head>
     <body>
         <h1>Mur ${nomPersonne}!</h1>
+        <div> ${listeAmi} </div>
+        <a href="filous.htm"> Ptits Filous</a>
         <p>
             ${murMessage}
         </p>
