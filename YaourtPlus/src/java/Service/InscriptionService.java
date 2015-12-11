@@ -10,5 +10,5 @@ package Service;
  * @author Olivier
  */
 public interface InscriptionService {
-    public void add(String nom, String prenom, String login, String password, String mail, int age);
+    public void add(String nom, String prenom, String login, String password, String mail, Integer age);
 }

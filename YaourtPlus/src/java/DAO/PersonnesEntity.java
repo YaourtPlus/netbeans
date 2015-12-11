@@ -42,7 +42,7 @@ public class PersonnesEntity implements Serializable {
     private String prenom;
 
     @Column
-    private int age;
+    private Integer age;
 
     @Column(nullable = false, length = 64)
     private String mail;
@@ -123,7 +123,7 @@ public class PersonnesEntity implements Serializable {
     }
     
     
-    public PersonnesEntity(String nom, String prenom, int age, String mail, String login, String password) {
+    public PersonnesEntity(String nom, String prenom, Integer age, String mail, String login, String password) {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
@@ -145,7 +145,7 @@ public class PersonnesEntity implements Serializable {
         return prenom;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -214,7 +214,7 @@ public class PersonnesEntity implements Serializable {
         this.prenom = prenom;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -305,7 +305,7 @@ public class PersonnesEntity implements Serializable {
         if (!Objects.equals(this.prenom, other.prenom)) {
             return false;
         }
-        if (this.age != other.age) {
+        if (!Objects.equals(this.age,other.age)) {
             return false;
         }
         if (!Objects.equals(this.mail, other.mail)) {

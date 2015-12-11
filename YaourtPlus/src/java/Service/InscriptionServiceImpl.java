@@ -26,7 +26,7 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
-    public void add(String nom, String prenom, String login, String password, String mail, int age) {
+    public void add(String nom, String prenom, String login, String password, String mail, Integer age) {
         // Création de la date d'inscription
 		Date dateInscription = new Date();
         PersonnesEntity newPers = new PersonnesEntity(nom, prenom, age, mail, login, password);

@@ -17,6 +17,7 @@ public interface PersonnesDAO {
 		public void delete(PersonnesEntity p);
 		public PersonnesEntity find(int id);
 		public PersonnesEntity find(String login, String password);
+		public PersonnesEntity findByLogin(String login);
 		public List<PersonnesEntity> findAll();
 		public List<PersonnesEntity> findByNom(String nom);
 		public List<PersonnesEntity> findByPrenom(String prenom);

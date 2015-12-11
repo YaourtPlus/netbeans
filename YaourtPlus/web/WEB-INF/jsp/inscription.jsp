@@ -1,3 +1,10 @@
+<%-- 
+    Document   : inscription
+    Created on : 10 déc. 2015, 12:09:30
+    Author     : Olivier
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -12,8 +19,9 @@ and open the template in the editor.
         <link rel="stylesheet" href="cssSite.css" type="text/css" media="screen" /> 
     </head>
     <body>
+        <div>${inscriptionMessage}</div>
         <div class="divCentre">
-            <form method="POST" action="inscription.htm">
+            <form method="POST" action="validation.htm">
                 <label for="nom"> nom : </label>
                 <input type="text" value="nom" name="nom" />
                 <br />

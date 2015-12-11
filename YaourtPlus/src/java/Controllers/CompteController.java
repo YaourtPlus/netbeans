@@ -26,22 +26,26 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class CompteController {
-	
-	@Autowired
+
+    @Autowired
     ConnexionService connexionService;
-	@Autowired
-	ProfilService profilService;
-	@Autowired
+    @Autowired
+    ProfilService profilService;
+    @Autowired
     InscriptionService inscriptionService;
 
-	
     @RequestMapping(value = "connexion", method = RequestMethod.GET)
-    public String connexion(){
+    public String connexion() {
         return "connexion";
     }
 
-	// Gestion de l'inscrition
-    @RequestMapping(value = "inscription", method = RequestMethod.POST)
+    @RequestMapping(value = "inscription", method = RequestMethod.GET)
+    public String inscription() {
+        return "inscription";
+    }
+
+    // Gestion de l'inscrition
+    @RequestMapping(value = "validation", method = RequestMethod.POST)
     public ModelAndView inscription(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String result;
@@ -53,53 +57,70 @@ public class CompteController {
         String password = request.getParameter("password");
         String mail = request.getParameter("mail");
         String age = request.getParameter("ddn");
-        if (age == null || age.length() == 0)
-        {
-            age = "0";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         
+        if(login.isEmpty() || password.isEmpty() || mail.isEmpty() || nom.isEmpty() || prenom.isEmpty())
+        {
+            mv = new ModelAndView("inscription");
+            result = "Veuillez renseigner tous les champs...";
+            mv.addObject("inscriptionMessage", result);
+            return mv;
+        }
+        
+        Integer ageInscription = null;
+        if (age != null &&   age.length() != 0) {
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+
         // A faire : Vérification des paramètres.
-        GregorianCalendar gcBirth = new GregorianCalendar(Integer.parseInt(age.split("/")[2]), Integer.parseInt(age.split("/")[1])-1, Integer.parseInt(age.split("/")[0]));
+        GregorianCalendar gcBirth = new GregorianCalendar(Integer.parseInt(age.split("/")[2]), Integer.parseInt(age.split("/")[1]) - 1, Integer.parseInt(age.split("/")[0]));
         GregorianCalendar now = new GregorianCalendar();
         long diff = now.getTimeInMillis() - gcBirth.getTimeInMillis();
+
+        ageInscription = now.get(Calendar.YEAR) - gcBirth.get(Calendar.YEAR);
+        }
         
-        int yeardiff = now.get(Calendar.YEAR) - gcBirth.get(Calendar.YEAR);
         
-        inscriptionService.add(nom, prenom, login, password, mail, yeardiff);
-        result = "Vous vous êtes bien inscrits, veuillez vous connecter";
-        mv.addObject("inscriptionMessage", result);
-        return mv;
+
+        if (profilService.exists(login)) {
+            mv = new ModelAndView("inscription");
+            result = "Le login " + login + " existe déjà! veuillez le changer";
+            mv.addObject("inscriptionMessage", result);
+            return mv;
+
+        } else {
+            inscriptionService.add(nom, prenom, login, password, mail, ageInscription);
+            result = "Vous vous êtes bien inscrit, veuillez vous connecter";
+            mv.addObject("inscriptionMessage", result);
+            return mv;
+        }
     }
-	
-	
-	// Gestion de la connexion
-	@RequestMapping(value = "connexion", method = RequestMethod.POST)
+
+    // Gestion de la connexion
+    @RequestMapping(value = "connexion", method = RequestMethod.POST)
     public ModelAndView connection(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ModelAndView mv;
-		String login = request.getParameter("login");
-		String password = request.getParameter("password");
-		
-		// Création de la session
-		HttpSession session = request.getSession(true); 
-		
-		if(session != null){
-			
-			session.setAttribute("idUtilisateur", connexionService.connexion(login, password));
-			int idPersonne = (int) session.getAttribute("idUtilisateur");
-			if(idPersonne != -1){
-				mv  = new ModelAndView("redirect:/mur.htm");
-			}
-			else{	
-				mv = new ModelAndView("connexion");
-				mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
-			}
-		}
-		else{
-			mv = new ModelAndView("connexion");
-			mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-		}
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        // Création de la session
+        HttpSession session = request.getSession(true);
+
+        if (session != null) {
+
+            session.setAttribute("idUtilisateur", connexionService.connexion(login, password));
+            int idPersonne = (int) session.getAttribute("idUtilisateur");
+            if (idPersonne != -1) {
+                mv = new ModelAndView("redirect:/mur.htm");
+            } else {
+                mv = new ModelAndView("connexion");
+                mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
+            }
+        } else {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+        }
         return mv;
     }
+
 }

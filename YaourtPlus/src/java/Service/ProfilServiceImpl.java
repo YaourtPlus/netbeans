@@ -15,12 +15,20 @@ import org.springframework.stereotype.Service;
  * @author tbenoist
  */
 @Service
-public class ProfilServiceImpl implements ProfilService{
-	@Resource
-	PersonnesDAO personneDAO;
+public class ProfilServiceImpl implements ProfilService {
 
-	@Override
-	public PersonnesEntity getPersonne(int id) {
-		return personneDAO.find(id);
-	}
+    @Resource
+    PersonnesDAO personneDAO;
+
+    @Override
+    public PersonnesEntity getPersonne(int id) {
+        return personneDAO.find(id);
+    }
+
+    
+
+    @Override
+    public boolean exists(String login) {
+        return personneDAO.findByLogin(login) != null;
+    }
 }
