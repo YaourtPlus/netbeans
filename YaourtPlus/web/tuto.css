@@ -29,3 +29,7 @@ input{
     display : block;
     float : left;
 }
+
+form{
+    margin : 10%;
+}
