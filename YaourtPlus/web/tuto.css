@@ -29,3 +29,8 @@ input{
     display : block;
     float : left;
 }
+
+#connectButton{
+    display : inline-block;
+    margin: auto;
+}

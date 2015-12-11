@@ -15,26 +15,27 @@
         <link rel="stylesheet" href="tuto.css" type="text/css" media="screen" />
     </head>
     <body>
-       <div class="jumbotron" style="text-align:center">Bienvenue sur le premier réseau social allégé!</div>
-       <div>${inscriptionMessage}</div>
+        <div class="jumbotron" style="text-align:center">Bienvenue sur le premier réseau social allégé!</div>
+        <div>${inscriptionMessage}</div>
         <div class="col-lg-offset-4 col-lg-4">
             <form Method="POST" action="connexion.htm">
                 <label for="login"> login : </label>
                 <input type="text" value="Entrez votre login" name="login" id ="login" />
                 <br />
                 <br />
-                
+
                 <label for="password"> mot de passe : </label>
                 <input type="password" name="password" id="password"/>
                 <br />
                 <br />
-                
-                <input type="submit" value="connexion" name="submit" />
-                <br />
+                <div id="connectButton">
+                    <input type="submit" value="connexion" name="submit" />
+                </div>
             </form>
+            <br/>
             <p> Pas encore inscrit? Inscrivez-vous <a href="inscription.htm">par ici!</a> C'est gratuit!</p>
         </div>
-        
-        
+
+
     </body>
 </html>
