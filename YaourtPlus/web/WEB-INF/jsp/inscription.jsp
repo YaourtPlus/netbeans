@@ -23,22 +23,22 @@ and open the template in the editor.
         <div class="divCentre">
             <form method="POST" action="validation.htm">
                 <label for="nom"> nom : </label>
-                <input type="text" value="nom" name="nom" />
+                <input type="text" placeholder="Nom" onfocus="this.placeholder='' " onblur="this.placeholder='Nom'" name="nom" />
                 <br />
                 <label for="prenom"> prenom : </label>
-                <input type="text" value="prenom" name="prenom" />
+                <input type="text" placeholder="Prenom" onfocus="this.placeholder='' " onblur="this.placeholder='Prenom'" name="prenom" />
                 <br />
                 <label for="ddn"> Date de naissance : </label>
-                <input type="text" value="01/01/1990" name="ddn"/>
+                <input type="text" placeholder="01/01/1990" onfocus="this.placeholder='' " onblur="this.placeholder='01/011990'" name="ddn"/>
                 <br />
                 <label for="login"> login : </label>
-                <input type="text" value="login" name="login" />
+                <input type="text" placeholder="Login" onfocus="this.placeholder='' " onblur="this.placeholder='Login'" name="login" />
                 <br />
                 <label for="password"> mot de passe : </label>
                 <input type="password" value="" name="password" />
                 <br />
                 <label for="mail"> mail : </label>
-                <input type="text" value="mail" name="mail" />
+                <input type="text" placeholder="Mail" onfocus="this.placeholder='' " onblur="this.placeholder='Mail'" name="mail" />
                 <br />
                 <input type="submit" value="s'inscrire" />
             </form>

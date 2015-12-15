@@ -20,7 +20,7 @@
         <div class="col-lg-offset-4 col-lg-4">
             <form Method="POST" action="connexion.htm">
                 <label for="login"> login : </label>
-                <input type="text" value="Entrez votre login" name="login" id ="login" />
+                <input type="text" placeholder="Entrez votre login" onfocus="this.placeholder='' " onblur="this.placeholder='Entrez votre login' " name="login" id ="login" />
                 <br />
                 <br />
 
