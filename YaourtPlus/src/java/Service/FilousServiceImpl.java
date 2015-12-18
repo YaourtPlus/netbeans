@@ -35,8 +35,9 @@ public class FilousServiceImpl implements FilousService{
 		
 		for(PersonnesEntity p : filous){
 			affichagePersonnes += "<div class=\"col-lg-offset-1 col-lg-10\">";
-			affichagePersonnes += p.toString();
+			affichagePersonnes += p.getPrenom() + " " + p.getNom();
                         affichagePersonnes += "</div>";
+                        affichagePersonnes += " <a href='filous.htm' id='" + p.getId() + "' > Ajouter </a> ";
 		}
 		return affichagePersonnes;
 	}
