@@ -16,11 +16,13 @@ and open the template in the editor.
         <title>Inscription légère</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="cssSite.css" type="text/css" media="screen" /> 
+        <link rel="stylesheet" href="bootstrap/bootstrap-3.3.6-dist/css/bootstrap.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="tuto.css" type="text/css" media="screen" />
     </head>
     <body>
+        <div class="jumbotron" style="text-align:center">Bienvenue sur le premier réseau social allégé!</div>
         <div>${inscriptionMessage}</div>
-        <div class="divCentre">
+        <div class="col-lg-offset-4 col-lg-4" style="text-align:center">
             <form method="POST" action="validation.htm">
                 <label for="nom"> nom : </label>
                 <input type="text" value="nom" name="nom" />
@@ -39,6 +41,8 @@ and open the template in the editor.
                 <br />
                 <label for="mail"> mail : </label>
                 <input type="text" value="mail" name="mail" />
+                <br />
+                <br />
                 <br />
                 <input type="submit" value="s'inscrire" />
             </form>
