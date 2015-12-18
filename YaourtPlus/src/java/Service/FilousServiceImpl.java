@@ -21,26 +21,25 @@ public class FilousServiceImpl implements FilousService {
     @Resource
     PersonnesDAO personnesDAO;
 
-    /**
-     * @param idUtilisateur Permet d'enlever le user de la liste des amis créée
-     * @return Un string contenant les informations des potentiels filous
-     */
-    @Override
-    public String getFilous(int idUtilisateur) {
-        String affichagePersonnes = "";
-        List<PersonnesEntity> filous = personnesDAO.findAll();
-
-        filous.remove(personnesDAO.find(idUtilisateur));
-
-        for (PersonnesEntity p : filous) {
-            affichagePersonnes += "<div class=\"col-lg-offset-1 col-lg-10\" style=\"text-align:left\">";
-            affichagePersonnes += p.getPrenom() + " " + p.getNom();
-            affichagePersonnes += "<br />";
-            affichagePersonnes += p.getAge() + " ans";
-            affichagePersonnes += "<br />";
-            affichagePersonnes += p.getMail();
-            affichagePersonnes += "</div>";
-        }
-        return affichagePersonnes;
-    }
+   
+	/**
+	 * @param idUtilisateur Permet d'enlever le user de la liste des amis créée
+	 * @return Un string contenant les informations des potentiels filous
+	 */
+	@Override
+	public String getFilous(int idUtilisateur) {
+		String affichagePersonnes = "";
+		List<PersonnesEntity> filous = personnesDAO.findAll();
+		
+		filous.remove(personnesDAO.find(idUtilisateur));
+		
+		
+		for(PersonnesEntity p : filous){
+			affichagePersonnes += "<div class=\"col-lg-offset-1 col-lg-10\">";
+			affichagePersonnes += p.getPrenom() + " " + p.getNom() + " et id = " + p.getId();
+                        affichagePersonnes += "</div>";
+                        affichagePersonnes += " <a href='ajout.htm?id=" + p.getId() + "' > Ajouter </a> ";
+		}
+		return affichagePersonnes;
+	}
 }

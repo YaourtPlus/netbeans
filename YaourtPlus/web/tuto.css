@@ -30,6 +30,21 @@ input{
     float : left;
 }
 
+
 form{
     margin : 10%;
+}
+
+#connectButton{
+    display : inline-block;
+    margin: auto;
+}
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
 }
