@@ -33,7 +33,7 @@
                 </div>
             </form>
             <br/>
-            <p> Pas encore inscrit? Inscrivez-vous <a href="inscription.htm">par ici!</a> C'est gratuit!</p>
+            <p> Pas encore inscrit? Inscrivez-vous <a href="${pageContext.servletContext.contextPath}/inscription.htm">par ici!</a> C'est gratuit!</p>
         </div>
 
 
