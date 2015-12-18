@@ -69,13 +69,13 @@ public class FilousController {
         
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
         int idFilous = Integer.parseInt(request.getParameter("id"));
-        if(filousService.ajoutFilous(idUtilisateur, idFilous)){  
+        filousService.ajoutFilous(idUtilisateur, idFilous);  
             mv = new ModelAndView("filous");
             mv.addObject("listFilous", profilService.getPersonne(idUtilisateur).toString());
-        }
-        else{
+        //}
+        /*else{
             mv = new ModelAndView("redirect:/error.htm");
-        }
+        }*/
         return mv;
     }
 }
