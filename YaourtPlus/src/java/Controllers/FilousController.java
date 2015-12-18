@@ -54,7 +54,7 @@ public class FilousController {
     }
     
     @RequestMapping(value = "ajout", method = RequestMethod.GET)
-    public ModelAndView ajotuAmi(@PathVariable("id") int id, HttpServletRequest request,
+    public ModelAndView ajoutAmi(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
