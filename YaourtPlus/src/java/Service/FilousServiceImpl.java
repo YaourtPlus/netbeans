@@ -42,4 +42,11 @@ public class FilousServiceImpl implements FilousService {
 		}
 		return affichagePersonnes;
 	}
+        
+        @Override
+        public boolean ajoutFilous(int idUtilisateur, int idNouveauFilous){
+            PersonnesEntity utilisateur = personnesDAO.find(idUtilisateur);
+            PersonnesEntity nouveauFilous = personnesDAO.find(idNouveauFilous);
+            return personnesDAO.ajoutFilous(utilisateur, nouveauFilous);
+        }
 }

@@ -15,6 +15,7 @@ public interface PersonnesDAO {
 		public void save(PersonnesEntity p);
 		public void update(PersonnesEntity p);
 		public void delete(PersonnesEntity p);
+                public boolean ajoutFilous(PersonnesEntity p1, PersonnesEntity p2);
 		public PersonnesEntity find(int id);
 		public PersonnesEntity find(String login, String password);
 		public PersonnesEntity findByLogin(String login);

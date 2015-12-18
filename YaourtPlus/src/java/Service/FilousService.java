@@ -11,4 +11,5 @@ package Service;
  */
 public interface FilousService {
 	public String getFilous(int idUtilisateur);
+        public boolean ajoutFilous(int idUtilisateur, int nouveauFilous);
 }

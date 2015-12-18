@@ -91,6 +91,7 @@ public class PersonnesEntity implements Serializable {
     @ManyToMany
     private List<PersonnesEntity> listFilous = new ArrayList();
 	
+    // Liste des personnes dont il est ami
     @ManyToMany(mappedBy = "listFilous", fetch = FetchType.EAGER)
     private List<PersonnesEntity> listFilousDe = new ArrayList();
 
@@ -270,6 +271,22 @@ public class PersonnesEntity implements Serializable {
         this.listFilousDe = listFilousDe;
     }
 
+// Gestion d'ami ===============================================================
+    /**
+     *  Ajoute un nouvel ami à la personne
+     * @param filous : le nouvel ami à ajouter
+     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans la liste)
+     */
+    public boolean ajoutFilous(PersonnesEntity filous){
+        if(!listFilous.contains(filous)){
+            listFilous.add(filous);
+            return true;
+        }
+        else{
+            return false;
+        }
+         
+   }
 // =============================================================================
     @Override
     public int hashCode() {
