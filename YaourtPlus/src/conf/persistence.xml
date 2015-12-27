@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="Yaourt_PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>DAO.PersonnesEntity</class>
+    <class>DAO.FichiersEntity</class>
+    <class>DAO.IMCEntity</class>
+    <class>DAO.MessagesEntity</class>
+    <class>DAO.NotificationsEntity</class>
+    <class>DAO.StatutsEntity</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Yaourt+db"/>
+      <property name="javax.persistence.jdbc.password" value="yaourt+"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.user" value="yaourt"/>
+    </properties>
+  </persistence-unit>
+</persistence>

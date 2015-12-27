@@ -52,9 +52,9 @@ public class FilousController {
 
         return mv;
     }
-    
+
     @RequestMapping(value = "ajout", method = RequestMethod.GET)
-    public ModelAndView ajotuAmi(@PathVariable("id") int id, HttpServletRequest request,
+    public ModelAndView ajoutAmi(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
@@ -66,11 +66,16 @@ public class FilousController {
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
-
-        mv = new ModelAndView("filous");
+        
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        mv.addObject("listFilous", request.getParameter("id"));
-
+        int idFilous = Integer.parseInt(request.getParameter("id"));
+        filousService.ajoutFilous(idUtilisateur, idFilous);  
+            mv = new ModelAndView("filous");
+            mv.addObject("listFilous", profilService.getPersonne(idUtilisateur).toString());
+        //}
+        /*else{
+            mv = new ModelAndView("redirect:/error.htm");
+        }*/
         return mv;
     }
 }

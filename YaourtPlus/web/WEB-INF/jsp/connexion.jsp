@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="tuto.css" type="text/css" media="screen" />
     </head>
     <body>
+
         <div class="jumbotron" style="text-align:center">Bienvenue sur le premier réseau social allégé!</div>
         <div>${inscriptionMessage}</div>
         <div class="col-lg-offset-4 col-lg-4">
@@ -28,6 +29,7 @@
                 <input type="password" name="password" id="password"/>
                 <br />
                 <br />
+
                 <div id="connectButton">
                     <input type="submit" value="connexion" name="submit" />
                 </div>

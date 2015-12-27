@@ -88,11 +88,12 @@ public class PersonnesEntity implements Serializable {
             joinColumns = @JoinColumn(name = "FilousId"),
             inverseJoinColumns = @JoinColumn(name = "PersonneId")
     )
-    @ManyToMany
-    private List<PersonnesEntity> listFilous = new ArrayList();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<PersonnesEntity> listFilous = new ArrayList<>();
 	
+    // Liste des personnes dont il est ami
     @ManyToMany(mappedBy = "listFilous", fetch = FetchType.EAGER)
-    private List<PersonnesEntity> listFilousDe = new ArrayList();
+    private List<PersonnesEntity> listFilousDe = new ArrayList<>();
 
     // Liste des notifications reçu par la personne
     @JoinTable(
@@ -100,7 +101,7 @@ public class PersonnesEntity implements Serializable {
             joinColumns = @JoinColumn(name = "MessageId"),
             inverseJoinColumns = @JoinColumn(name = "DestinataireId")
     )
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<NotificationsEntity> messagesRecus = new ArrayList();
 
     // Liste des messages recu par la personne
@@ -109,7 +110,7 @@ public class PersonnesEntity implements Serializable {
             joinColumns = @JoinColumn(name = "NotificationsId"),
             inverseJoinColumns = @JoinColumn(name = "DestinataireId")
     )
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<MessagesEntity> notificationRecues = new ArrayList();
 
 // Constructeur=================================================================
@@ -270,6 +271,22 @@ public class PersonnesEntity implements Serializable {
         this.listFilousDe = listFilousDe;
     }
 
+// Gestion d'ami ===============================================================
+    /**
+     *  Ajoute un nouvel ami à la personne
+     * @param filous : le nouvel ami à ajouter
+     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans la liste)
+     */
+    public boolean ajoutFilous(PersonnesEntity filous){
+        if(!listFilous.contains(filous)){
+            listFilous.add(filous);
+            return true;
+        }
+        else{
+            return false;
+        }
+         
+   }
 // =============================================================================
     @Override
     public int hashCode() {
@@ -299,39 +316,22 @@ public class PersonnesEntity implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.nom, other.nom)) {
-            return false;
-        }
-        if (!Objects.equals(this.prenom, other.prenom)) {
-            return false;
-        }
-        if (!Objects.equals(this.age,other.age)) {
-            return false;
-        }
-        if (!Objects.equals(this.mail, other.mail)) {
-            return false;
-        }
-        if (!Objects.equals(this.login, other.login)) {
-            return false;
-        }
-        if (!Objects.equals(this.password, other.password)) {
-            return false;
-        }
-        if (!Objects.equals(this.dateInscription, other.dateInscription)) {
-            return false;
-        }
-        if (!Objects.equals(this.dateConnexion, other.dateConnexion)) {
-            return false;
-        }
-        if (!Objects.equals(this.imc, other.imc)) {
-            return false;
-		}
         return true;
     }
 
+    public String afficheAmi()
+    {
+        String s ="";
+        for(PersonnesEntity p : listFilous)
+        {
+            s += "{" + p.getNom() + " " + p.getPrenom() + "}"; 
+        }
+        return s;
+    }
+    
     @Override
     public String toString() {
-        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc + '}';
+        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc + " " + afficheAmi() + '}';
     }
 
 }

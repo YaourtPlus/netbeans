@@ -52,6 +52,18 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 		em.remove(p);
 	}
 
+        
+        @Transactional
+	@Override
+	public boolean ajoutFilous(PersonnesEntity p1, PersonnesEntity p2) {
+            boolean added = p1.ajoutFilous(p2);
+            added = added && p2.ajoutFilous(p1);
+            if(added){
+                em.merge(p1);
+                em.merge(p2);
+            }
+            return added;
+	}
 // Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override

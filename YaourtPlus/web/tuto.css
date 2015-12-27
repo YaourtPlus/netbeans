@@ -20,7 +20,7 @@ body {
 }
 
 label{
-    width:110px;
+    width:200px;
     display:block;
     float : left;
 }
@@ -28,6 +28,11 @@ label{
 input{
     display : block;
     float : left;
+}
+
+
+form{
+    margin : 10%;
 }
 
 #connectButton{
