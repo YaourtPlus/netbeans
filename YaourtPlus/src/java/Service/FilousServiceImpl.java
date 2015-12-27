@@ -52,4 +52,12 @@ public class FilousServiceImpl implements FilousService {
             PersonnesEntity nouveauFilous = personnesDAO.find(idNouveauFilous);
             return personnesDAO.ajoutFilous(utilisateur, nouveauFilous);
         }
+        
+        
+        @Override
+        public boolean suppressionFilous(int idUtilisateur, int idFilou){
+            PersonnesEntity utilisateur = personnesDAO.find(idUtilisateur);
+            PersonnesEntity nouveauFilous = personnesDAO.find(idFilou);
+            return personnesDAO.suppressionFilous(utilisateur, nouveauFilous);
+        }
 }

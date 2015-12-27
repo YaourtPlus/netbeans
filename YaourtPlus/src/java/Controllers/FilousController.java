@@ -76,4 +76,26 @@ public class FilousController {
         mv.addObject("ajoutFilous", "Filou ajouté");
         return mv;
     }
+    
+    
+    @RequestMapping(value = "suppression", method = RequestMethod.GET)
+    public ModelAndView suppresssionFilous(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+        
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        int idFilou = Integer.parseInt(request.getParameter("id"));
+        filousService.suppressionFilous(idUtilisateur, idFilou);  
+     
+        return new ModelAndView("redirect:/mur.htm");
+    }
 }
