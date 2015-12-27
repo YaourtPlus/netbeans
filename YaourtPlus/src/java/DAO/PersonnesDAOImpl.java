@@ -64,6 +64,35 @@ public class PersonnesDAOImpl implements PersonnesDAO {
             }
             return added;
 	}
+        
+        
+        @Transactional
+	@Override
+	public boolean suppressionFilous(PersonnesEntity p1, PersonnesEntity p2) {
+            boolean delete = p1.suppressionFilous(p2);
+            delete = delete && p2.suppressionFilous(p1);
+            if(delete){
+                em.merge(p1);
+                em.merge(p2);
+            }
+            return delete;
+	}
+        
+        
+        @Transactional
+	@Override
+	public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s) {
+            // Sens d'ajout?
+            boolean add = p.ajoutStatut(s);
+            s.setAuteur(p);
+            
+            if(add){
+                em.merge(p);
+                em.merge(s);
+            }
+            return add;
+	}
+        
 // Lecture =====================================================================
 	@Transactional(readOnly = true)
 	@Override
