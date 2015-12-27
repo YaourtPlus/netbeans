@@ -123,4 +123,22 @@ public class CompteController {
         return mv;
     }
 
+    
+    // Gestion de la connexion
+    @RequestMapping(value = "deconnexion", method = RequestMethod.GET)
+    public ModelAndView deconnexion(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ModelAndView mv = new ModelAndView("connexion");
+
+        // Création de la session
+        HttpSession session = request.getSession();
+
+        if (session != null) {
+            session.invalidate();
+            mv.addObject("inscriptionMessage", "Deconnexion réussie");
+        } else {
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+        }
+        return mv;
+    }
 }
