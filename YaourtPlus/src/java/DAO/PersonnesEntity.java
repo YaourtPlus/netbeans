@@ -73,7 +73,7 @@ public class PersonnesEntity implements Serializable {
 
     // Liste des statuts émis par une personne
     @OneToMany(mappedBy = "auteur", fetch = FetchType.EAGER)
-    private List<StatutsEntity> status = new ArrayList();
+    private List<StatutsEntity> statuts = new ArrayList();
 
     // Liste des messages émis par une personne
     @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
@@ -178,8 +178,8 @@ public class PersonnesEntity implements Serializable {
         return notificationsEmises;
     }
 
-    public List<StatutsEntity> getStatus() {
-        return status;
+    public List<StatutsEntity> getStatuts() {
+        return statuts;
     }
 
     public List<MessagesEntity> getMessagesEmis() {
@@ -247,8 +247,8 @@ public class PersonnesEntity implements Serializable {
         this.notificationsEmises = notificationsEmises;
     }
 
-    public void setStatus(List<StatutsEntity> status) {
-        this.status = status;
+    public void setStatuts(List<StatutsEntity> statuts) {
+        this.statuts = statuts;
     }
 
     public void setMessagesEmis(List<MessagesEntity> messagesEmis) {
@@ -271,11 +271,11 @@ public class PersonnesEntity implements Serializable {
         this.listFilousDe = listFilousDe;
     }
 
-// Gestion d'ami ===============================================================
+// Gestion de filous ===========================================================
     /**
      *  Ajoute un nouvel ami à la personne
-     * @param filous : le nouvel ami à ajouter
-     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans la liste)
+     * @param filous : le nouveau filou à ajouter
+     * @return true si le filou a été ajouté, false sinon (il est déjà présent dans la liste)
      */
     public boolean ajoutFilous(PersonnesEntity filous){
         if(!listFilous.contains(filous)){
@@ -284,9 +284,33 @@ public class PersonnesEntity implements Serializable {
         }
         else{
             return false;
-        }
-         
+        }   
    }
+    
+    /**
+     *  Ajoute un nouvel ami à la personne
+     * @param filous : le filou à supprimer
+     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans la liste)
+     */
+    public boolean suppressionFilous(PersonnesEntity filous){
+        if(listFilous.contains(filous)){
+            listFilous.remove((PersonnesEntity)filous);
+            return true;
+        }
+        else{
+            return false;
+        }   
+   }
+    
+    
+// Gestion de statuts ==========================================================
+    
+    public boolean ajoutStatut(StatutsEntity statut){
+        statuts.add(statut);
+        return true;
+    }
+    
+    
 // =============================================================================
     @Override
     public int hashCode() {
