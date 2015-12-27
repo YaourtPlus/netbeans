@@ -22,5 +22,8 @@
             </div>
             
         </div>
+            <div>
+                <a href="mur.htm">Retour au profil</a>
+            </div>
     </body>
 </html>
