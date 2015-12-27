@@ -7,6 +7,8 @@ package Service;
 
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import DAO.StatutsEntity;
+import java.util.Date;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +20,21 @@ import org.springframework.stereotype.Service;
 public class ProfilServiceImpl implements ProfilService {
 
     @Resource
-    PersonnesDAO personneDAO;
+    PersonnesDAO personnesDAO;
 
     @Override
     public PersonnesEntity getPersonne(int id) {
-        return personneDAO.find(id);
+        return personnesDAO.find(id);
     }
 
     
     @Override
     public String getFilous(int id){
-        PersonnesEntity user = personneDAO.find(id);
-        
+        PersonnesEntity user = getPersonne(id);
         String listAmis = "";
         for(PersonnesEntity p : user.getListFilous()){
             listAmis += "<div class=\"col-lg-offset-1 col-lg-10\">";
-            listAmis += p.getPrenom() + " " + p.getNom();
+            listAmis += p.getPrenom() + " " + p.getNom() + " <a href='suppression.htm?id=" + p.getId() + "' > Supprimer </a> ";
             listAmis += "</div>";
         }
         return listAmis;
@@ -42,6 +43,15 @@ public class ProfilServiceImpl implements ProfilService {
     
     @Override
     public boolean exists(String login) {
-        return personneDAO.findByLogin(login) != null;
+        return personnesDAO.findByLogin(login) != null;
+    }
+
+    @Override
+    public boolean ajoutStatut(int idUser, String statut) {
+        PersonnesEntity user = getPersonne(idUser);
+        StatutsEntity newStatut = new StatutsEntity(statut, new Date(), user);
+        
+        return personnesDAO.ajoutStatut(user, newStatut);
+        
     }
 }

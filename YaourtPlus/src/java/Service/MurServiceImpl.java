@@ -7,6 +7,7 @@ package Service;
 
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import DAO.StatutsEntity;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,16 @@ public class MurServiceImpl implements MurService{
     public String getStatuts(int id){
         PersonnesEntity user = personnesDAO.find(id);
         
-        return "";
+        // Pour le moment sur l'user seulement, à définir si affichage des statuts de l'utilisateur ou seulement de ses amis
+        
+        String statuts = "";
+        for(StatutsEntity s : user.getStatuts()){
+            statuts += "<div>";
+            statuts += s.getTexte();
+            statuts += "</div>";
+        }
+        
+        return statuts;
     }
     
     

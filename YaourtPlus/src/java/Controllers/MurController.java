@@ -35,50 +35,64 @@ public class MurController {
     @Autowired
     ConnexionService connexionService;
     
-
+    
     @RequestMapping(value = "mur", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView afficheMur(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 		
         ModelAndView mv;
-		
-		
-		HttpSession session = request.getSession(false); 
-		// Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
-		if(session == null){
-			mv = new ModelAndView("connexion");
-			mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-			return mv;
-		}
-		
-		String login = request.getParameter("login");
-		String password = request.getParameter("password");
-		
-		// Test d'existence de session
-		int idPersonne = (int) session.getAttribute("idUtilisateur");
-		if(idPersonne != -1){
-			mv  = new ModelAndView("mur");
-			String nomPersonne = profilService.getPersonne(idPersonne).getNom();
-                        String listFilous = profilService.getFilous(idPersonne);
-			String mur = "";
-                        mv.addObject("listeAmi", listFilous);
-			mv.addObject("nomPersonne", nomPersonne);
-			mv.addObject("murMessage", mur);
-		}
-		else{	
-			mv = new ModelAndView("connexion");
-			mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
-		}
+
+        HttpSession session = request.getSession(false); 
+        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+        if(session == null){
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        // Test d'existence de session
+        int idPersonne = (int) session.getAttribute("idUtilisateur");
+        if(idPersonne != -1){
+                mv  = new ModelAndView("mur");
+                String nomPersonne = profilService.getPersonne(idPersonne).getNom();
+                String listFilous = profilService.getFilous(idPersonne);
+                String statut = murService.getStatuts(idPersonne);
+                mv.addObject("listeAmi", listFilous);
+                mv.addObject("nomPersonne", nomPersonne);
+                mv.addObject("listStatuts", statut);
+        }
+        else{	
+                mv = new ModelAndView("connexion");
+                mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
+        }
 		
         return mv;
     }
     
     
-    
     @RequestMapping(value = "ajoutStatut", method = RequestMethod.POST)
     public ModelAndView ajoutStatut(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return new ModelAndView();
+        
+        ModelAndView mv;
+        
+        HttpSession session = request.getSession(false); 
+        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+        if(session == null){
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+        
+        int idPersonne = (int) session.getAttribute("idUtilisateur");
+        String statut = request.getParameter("statut");
+        
+        profilService.ajoutStatut(idPersonne, statut);
+        
+        mv = this.afficheMur(request, response);
+        return mv;
     }   
-   
 }

@@ -15,4 +15,5 @@ public interface ProfilService {
 	public PersonnesEntity getPersonne(int id);
         public String getFilous(int id);
 	public boolean exists(String login);
+        public boolean ajoutStatut(int idUser, String statut);
 }
