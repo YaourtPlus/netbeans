@@ -55,7 +55,7 @@ public class StatutsDAOImpl implements StatutsDAO {
 	@Transactional(readOnly = true)
 	@Override
 	public StatutsEntity find(int id) {
-		return em.find(StatutsEntity.class, id);
+            return em.find(StatutsEntity.class, id);
 	}
 
 	@Transactional(readOnly = true)

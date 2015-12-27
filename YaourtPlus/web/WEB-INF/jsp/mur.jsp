@@ -18,5 +18,16 @@
         <p>
             ${murMessage}
         </p>
+        <form Method="POST" action="ajoutStatut.htm">
+        <textarea rows="5" cols="150" 
+            placeholder="Ajouter un ptit statut" onfocus="this.placeholder='' " onblur="this.placeholder='Ajouter un ptit statut'">
+        </textarea>
+        <div id="connectButton">
+            <input type="submit" value="Publier" name="submit" />
+        </div>
+        </form>
+        <p>
+            ${listStatus}
+        </p>
     </body>
 </html>

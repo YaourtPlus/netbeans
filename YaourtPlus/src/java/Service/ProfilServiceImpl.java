@@ -26,7 +26,20 @@ public class ProfilServiceImpl implements ProfilService {
     }
 
     
-
+    @Override
+    public String getFilous(int id){
+        PersonnesEntity user = personneDAO.find(id);
+        
+        String listAmis = "";
+        for(PersonnesEntity p : user.getListFilous()){
+            listAmis += "<div class=\"col-lg-offset-1 col-lg-10\">";
+            listAmis += p.getPrenom() + " " + p.getNom();
+            listAmis += "</div>";
+        }
+        return listAmis;
+    }
+    
+    
     @Override
     public boolean exists(String login) {
         return personneDAO.findByLogin(login) != null;

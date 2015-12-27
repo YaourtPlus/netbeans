@@ -37,7 +37,7 @@ public class MurController {
     
 
     @RequestMapping(value = "mur", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView handleRequestInternal(HttpServletRequest request,
+    public ModelAndView afficheMur(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 		
         ModelAndView mv;
@@ -59,7 +59,9 @@ public class MurController {
 		if(idPersonne != -1){
 			mv  = new ModelAndView("mur");
 			String nomPersonne = profilService.getPersonne(idPersonne).getNom();
+                        String listFilous = profilService.getFilous(idPersonne);
 			String mur = "";
+                        mv.addObject("listeAmi", listFilous);
 			mv.addObject("nomPersonne", nomPersonne);
 			mv.addObject("murMessage", mur);
 		}
@@ -70,4 +72,13 @@ public class MurController {
 		
         return mv;
     }
+    
+    
+    
+    @RequestMapping(value = "ajoutStatut", method = RequestMethod.POST)
+    public ModelAndView ajoutStatut(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return new ModelAndView();
+    }   
+   
 }

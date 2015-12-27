@@ -11,4 +11,5 @@ package Service;
  */
 public interface MurService {
     
+    public String getStatuts(int id);
 }

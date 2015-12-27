@@ -13,5 +13,6 @@ import DAO.PersonnesEntity;
  */
 public interface ProfilService {
 	public PersonnesEntity getPersonne(int id);
+        public String getFilous(int id);
 	public boolean exists(String login);
 }

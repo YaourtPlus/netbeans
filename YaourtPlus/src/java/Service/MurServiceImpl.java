@@ -5,6 +5,9 @@
  */
 package Service;
 
+import DAO.PersonnesDAO;
+import DAO.PersonnesEntity;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,8 +17,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class MurServiceImpl implements MurService{
 
+    @Resource
+    PersonnesDAO personnesDAO;
+    
     public MurServiceImpl() {
     
     }
+    
+    @Override
+    public String getStatuts(int id){
+        PersonnesEntity user = personnesDAO.find(id);
+        
+        return "";
+    }
+    
     
 }
