@@ -15,6 +15,7 @@
     </head>
     <body>
         <div class="jumbotron" style="text-align:center">Bienvenue sur le premier réseau social allégé!</div>
+        <p> ${ajoutFilous}</p>
         <div class="container">
             <div class="row">
                 ${listFilous}

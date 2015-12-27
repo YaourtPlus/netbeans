@@ -53,6 +53,7 @@ public class FilousController {
         return mv;
     }
 
+    
     @RequestMapping(value = "ajout", method = RequestMethod.GET)
     public ModelAndView ajoutAmi(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -70,12 +71,9 @@ public class FilousController {
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
         int idFilous = Integer.parseInt(request.getParameter("id"));
         filousService.ajoutFilous(idUtilisateur, idFilous);  
-            mv = new ModelAndView("filous");
-            mv.addObject("listFilous", profilService.getPersonne(idUtilisateur).toString());
-        //}
-        /*else{
-            mv = new ModelAndView("redirect:/error.htm");
-        }*/
+        
+        mv = this.listPersonnes(request, response);
+        mv.addObject("ajoutFilous", "Filou ajouté");
         return mv;
     }
 }
