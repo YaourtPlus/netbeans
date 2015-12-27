@@ -20,8 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 /**
  *
  * @author tbenoist
@@ -71,12 +69,16 @@ public class StatutsEntity implements Serializable {
 		this.texte ="";
 		this.date = null;
 		this.auteur = null;
+                this.nbLeger = 0;
+                this.nbLourd = 0;
 	}
 
 	public StatutsEntity(String texte, Date date, PersonnesEntity auteur) {
 		this.texte = texte;
 		this.date = date;
 		this.auteur = auteur;
+                this.nbLeger = 0;
+                this.nbLourd = 0;
 	}
 
 // Accesseurs ==================================================================	
@@ -136,8 +138,8 @@ public class StatutsEntity implements Serializable {
 
 	public void setListeFichiers(List<FichiersEntity> listeFichiers) {
 		this.listeFichiers = listeFichiers;
-	}
-	
+        }
+        
 // =============================================================================
 
 	@Override
@@ -165,30 +167,12 @@ public class StatutsEntity implements Serializable {
 		if (!Objects.equals(this.id, other.id)) {
 			return false;
 		}
-		if (!Objects.equals(this.texte, other.texte)) {
-			return false;
-		}
-		if (!Objects.equals(this.date, other.date)) {
-			return false;
-		}
-		if (!Objects.equals(this.nbLeger, other.nbLeger)) {
-			return false;
-		}
-		if (!Objects.equals(this.nbLourd, other.nbLourd)) {
-			return false;
-		}
-		if (!Objects.equals(this.auteur, other.auteur)) {
-			return false;
-		}
-		if (!Objects.equals(this.listeFichiers, other.listeFichiers)) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date=" + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd + ", auteur=" + auteur + ", listeFichiers=" + listeFichiers + '}';
+		return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date=" + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd + ", auteur=" + auteur + '}';
 	}
 
 	
