@@ -31,15 +31,18 @@ public class FilousServiceImpl implements FilousService {
 		String affichagePersonnes = "";
 		List<PersonnesEntity> filous = personnesDAO.findAll();
 		
-		filous.remove(personnesDAO.find(idUtilisateur));
+                PersonnesEntity user = personnesDAO.find(idUtilisateur);
+                filous.remove((PersonnesEntity)user);		
 		
-		
+                
 		for(PersonnesEntity p : filous){
-			affichagePersonnes += "<div class=\"col-lg-offset-1 col-lg-10\">";
-			affichagePersonnes += p.getPrenom() + " " + p.getNom() + " et id = " + p.getId();
-                        affichagePersonnes += "</div>";
+                    if(!user.getListFilous().contains(personnesDAO.find(p.getId()))){
+                        affichagePersonnes += "<div class=\"col-lg-offset-1 col-lg-10\">";
+			affichagePersonnes += p.getPrenom() + " " + p.getNom();
                         affichagePersonnes += " <a href='ajout.htm?id=" + p.getId() + "' > Ajouter </a> ";
-		}
+                        affichagePersonnes += "</div>";
+                    }
+                }
 		return affichagePersonnes;
 	}
         
