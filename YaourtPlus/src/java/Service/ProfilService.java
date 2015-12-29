@@ -16,4 +16,5 @@ public interface ProfilService {
         public String getFilous(int id);
 	public boolean exists(String login);
         public boolean ajoutStatut(int idUser, String statut);
+        public String getNotifications(int idUtilisateur);
 }

@@ -61,28 +61,28 @@ public class PersonnesEntity implements Serializable {
 
 // Relations ONE TO ONE
     // Imc associé à la personne
-	// Relation unidirectionnelle
+    // Relation unidirectionnelle
     @JoinColumn(name = "IMCId")
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private IMCEntity imc;
 
 // Relations ONE TO MANY	
     // Liste des notifications émises par une personne
     @OneToMany(mappedBy = "notifieur", fetch = FetchType.EAGER)
-    private List<NotificationsEntity> notificationsEmises = new ArrayList();
+    private List<NotificationsEntity> notificationsEmises = new ArrayList<>();
 
     // Liste des statuts émis par une personne
     @OneToMany(mappedBy = "auteur", fetch = FetchType.EAGER)
-    private List<StatutsEntity> statuts = new ArrayList();
+    private List<StatutsEntity> statuts = new ArrayList<>();
 
     // Liste des messages émis par une personne
     @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
-    private List<MessagesEntity> messagesEmis = new ArrayList();
+    private List<MessagesEntity> messagesEmis = new ArrayList<>();
 
 // Relations MANY TO ONE
 // Relations MANY TO MANY
     // Liste des amis de la personne
-	// Problème de fetch eager quelque part dans la liste filous
+    // Problème de fetch eager quelque part dans la liste filous
     @JoinTable(
             name = "Personnes_Personnes",
             joinColumns = @JoinColumn(name = "FilousId"),
@@ -90,31 +90,26 @@ public class PersonnesEntity implements Serializable {
     )
     @ManyToMany(fetch = FetchType.EAGER)
     private List<PersonnesEntity> listFilous = new ArrayList<>();
-	
+
     // Liste des personnes dont il est ami
     @ManyToMany(mappedBy = "listFilous", fetch = FetchType.EAGER)
     private List<PersonnesEntity> listFilousDe = new ArrayList<>();
 
-    // Liste des notifications reçu par la personne
+    // Liste des messages reçues par la personne
     @JoinTable(
             name = "Personnes_Messages",
             joinColumns = @JoinColumn(name = "MessageId"),
             inverseJoinColumns = @JoinColumn(name = "DestinataireId")
     )
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<NotificationsEntity> messagesRecus = new ArrayList();
+    private List<MessagesEntity> messagesRecus = new ArrayList<>();
 
-    // Liste des messages recu par la personne
-    @JoinTable(
-            name = "Personnes_Notifications",
-            joinColumns = @JoinColumn(name = "NotificationsId"),
-            inverseJoinColumns = @JoinColumn(name = "DestinataireId")
-    )
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<MessagesEntity> notificationRecues = new ArrayList();
+    // Liste des notifications reçues par la personne
+    
+    @ManyToMany(mappedBy = "listeDestinataires", fetch = FetchType.EAGER)
+    private List<NotificationsEntity> notificationRecues = new ArrayList<>();
 
 // Constructeur=================================================================
-
     public PersonnesEntity() {
         this.nom = "";
         this.prenom = "";
@@ -122,8 +117,7 @@ public class PersonnesEntity implements Serializable {
         this.login = "";
         this.password = "";
     }
-    
-    
+
     public PersonnesEntity(String nom, String prenom, Integer age, String mail, String login, String password) {
         this.nom = nom;
         this.prenom = prenom;
@@ -190,11 +184,11 @@ public class PersonnesEntity implements Serializable {
         return listFilous;
     }
 
-    public List<NotificationsEntity> getMessagesRecus() {
+    public List<MessagesEntity> getMessagesRecus() {
         return messagesRecus;
     }
 
-    public List<MessagesEntity> getNotificationRecues() {
+    public List<NotificationsEntity> getNotificationRecues() {
         return notificationRecues;
     }
 
@@ -259,11 +253,11 @@ public class PersonnesEntity implements Serializable {
         this.listFilous = listFilous;
     }
 
-    public void setMessagesRecus(List<NotificationsEntity> messagesRecus) {
+    public void setMessagesRecus(List<MessagesEntity> messagesRecus) {
         this.messagesRecus = messagesRecus;
     }
 
-    public void setNotificationRecues(List<MessagesEntity> notificationRecues) {
+    public void setNotificationRecues(List<NotificationsEntity> notificationRecues) {
         this.notificationRecues = notificationRecues;
     }
 
@@ -273,44 +267,78 @@ public class PersonnesEntity implements Serializable {
 
 // Gestion de filous ===========================================================
     /**
-     *  Ajoute un nouvel ami à la personne
+     * Ajoute un nouvel ami à la personne
+     *
      * @param filous : le nouveau filou à ajouter
-     * @return true si le filou a été ajouté, false sinon (il est déjà présent dans la liste)
+     * @return true si le filou a été ajouté, false sinon (il est déjà présent
+     * dans la liste)
      */
-    public boolean ajoutFilous(PersonnesEntity filous){
-        if(!listFilous.contains(filous)){
+    public boolean ajoutFilous(PersonnesEntity filous) {
+        if (!listFilous.contains(filous)) {
             listFilous.add(filous);
             return true;
-        }
-        else{
+        } else {
             return false;
-        }   
-   }
-    
-    /**
-     *  Ajoute un nouvel ami à la personne
-     * @param filous : le filou à supprimer
-     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans la liste)
-     */
-    public boolean suppressionFilous(PersonnesEntity filous){
-        if(listFilous.contains(filous)){
-            listFilous.remove((PersonnesEntity)filous);
-            return true;
         }
-        else{
-            return false;
-        }   
-   }
-    
-    
-// Gestion de statuts ==========================================================
-    
-    public boolean ajoutStatut(StatutsEntity statut){
-        statuts.add(statut);
-        return true;
     }
-    
-    
+
+    public boolean ajoutFilousDe(PersonnesEntity filous) {
+        if (!listFilousDe.contains(filous)) {
+            listFilousDe.add(filous);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Ajoute un nouvel ami à la personne
+     *
+     * @param filous : le filou à supprimer
+     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans
+     * la liste)
+     */
+    public boolean suppressionFilous(PersonnesEntity filous) {
+        if (listFilous.contains(filous)) {
+            listFilous.remove((PersonnesEntity) filous);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean suppressionFilousDe(PersonnesEntity filous) {
+        if (listFilousDe.contains(filous)) {
+            listFilousDe.remove((PersonnesEntity) filous);
+            return true;
+        } else {
+            return false;
+        }
+    }
+// Gestion de statuts ==========================================================
+
+    public boolean ajoutStatut(StatutsEntity statut) {
+        return statuts.add(statut);
+    }
+
+// Gestion de statuts ==========================================================
+    /**
+     * Ajout de reception de notification
+     * @param notification Notification reçu
+     * @return true si la notification a bien été ajoutée, false sinon
+     */
+    public boolean ajoutNotificationsRecu(NotificationsEntity notification) {
+        return notificationRecues.add(notification);
+    }
+
+    /**
+     * Ajout d'envoi de notification
+     * @param notification Notification envoyée
+     * @return true si la notification a bien été ajoutée, false sinon
+     */
+    public boolean ajoutNotificationEmise(NotificationsEntity notification){
+        return notificationsEmises.add(notification);
+    }
 // =============================================================================
     @Override
     public int hashCode() {
@@ -343,16 +371,14 @@ public class PersonnesEntity implements Serializable {
         return true;
     }
 
-    public String afficheAmi()
-    {
-        String s ="";
-        for(PersonnesEntity p : listFilous)
-        {
-            s += "{" + p.getNom() + " " + p.getPrenom() + "}"; 
+    public String afficheAmi() {
+        String s = "";
+        for (PersonnesEntity p : listFilous) {
+            s += "{" + p.getNom() + " " + p.getPrenom() + "}";
         }
         return s;
     }
-    
+
     @Override
     public String toString() {
         return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc + " " + afficheAmi() + '}';

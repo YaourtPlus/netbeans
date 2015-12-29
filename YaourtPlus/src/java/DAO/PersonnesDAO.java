@@ -20,6 +20,7 @@ public interface PersonnesDAO {
         public boolean suppressionFilous(PersonnesEntity p1, PersonnesEntity p2);
         
         public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s);
+        public boolean ajoutNotif(PersonnesEntity notifieur, PersonnesEntity destinataire,NotificationsEntity notif);
         
         public PersonnesEntity find(int id);
         public PersonnesEntity find(String login, String password);

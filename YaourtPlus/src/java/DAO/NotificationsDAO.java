@@ -13,12 +13,20 @@ import java.util.List;
  * @author tbenoist
  */
 public interface NotificationsDAO {
-		public void save(NotificationsEntity n);
-		public void update(NotificationsEntity n);
-		public void delete(NotificationsEntity n);
-		public NotificationsEntity find(int id);
-		public List<NotificationsEntity> findAll();
-		public List<NotificationsEntity> findByNotifieur(int notifieurId);
-		public List<NotificationsEntity> findByDate(Date date);
-		public List<NotificationsEntity> findByDestinataire(int destinataireId);
+
+    public void save(NotificationsEntity n);
+
+    public void update(NotificationsEntity n);
+
+    public void delete(NotificationsEntity n);
+
+    public NotificationsEntity find(int id);
+
+    public List<NotificationsEntity> findAll();
+
+    public List<NotificationsEntity> findByNotifieur(int notifieurId);
+
+    public List<NotificationsEntity> findByDate(Date date);
+
+    public List<NotificationsEntity> findByDestinataire(int destinataireId);
 }

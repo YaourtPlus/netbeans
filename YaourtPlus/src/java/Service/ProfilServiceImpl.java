@@ -5,8 +5,10 @@
  */
 package Service;
 
+import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import DAO.StatutsDAO;
 import DAO.StatutsEntity;
 import java.util.Date;
 import javax.annotation.Resource;
@@ -22,25 +24,27 @@ public class ProfilServiceImpl implements ProfilService {
     @Resource
     PersonnesDAO personnesDAO;
 
+    @Resource
+    StatutsDAO statutDAO;
+
     @Override
     public PersonnesEntity getPersonne(int id) {
         return personnesDAO.find(id);
     }
 
-    
     @Override
-    public String getFilous(int id){
+    public String getFilous(int id) {
         PersonnesEntity user = getPersonne(id);
-        String listAmis = "";
-        for(PersonnesEntity p : user.getListFilous()){
-            listAmis += "<div class=\"col-lg-offset-1 col-lg-10\">";
+        String listAmis = "<ul class=\"list-unstyled\">";
+        for (PersonnesEntity p : user.getListFilous()) {
+            listAmis += "<li>";
             listAmis += p.getPrenom() + " " + p.getNom() + " <a href='suppression.htm?id=" + p.getId() + "' > Supprimer </a> ";
-            listAmis += "</div>";
+            listAmis += "</li>";
         }
+        listAmis += "</ul>";
         return listAmis;
     }
-    
-    
+
     @Override
     public boolean exists(String login) {
         return personnesDAO.findByLogin(login) != null;
@@ -48,10 +52,30 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public boolean ajoutStatut(int idUser, String statut) {
+        if (statut.length() == 0) {
+            return false;
+        }
         PersonnesEntity user = getPersonne(idUser);
         StatutsEntity newStatut = new StatutsEntity(statut, new Date(), user);
-        
+        statutDAO.save(newStatut);
         return personnesDAO.ajoutStatut(user, newStatut);
-        
+
+    }
+
+    @Override
+    public String getNotifications(int idUtilisateur) {
+        PersonnesEntity user = getPersonne(idUtilisateur);
+
+        String afficheNotifications = "<p> Vous avez reçu " + user.getNotificationRecues().size() + " notifications </p>";
+        afficheNotifications += "<p> Vous avez émis " + user.getNotificationsEmises().size() + " notifications </p>";
+        for (NotificationsEntity n : user.getNotificationRecues()) {
+            afficheNotifications += "<div class=\"col-lg-offset-1 col-lg-10\">";
+            afficheNotifications += "Type de la notification : " + n.getType();
+            // Utiliser toString
+            afficheNotifications += n.afficheFilous();
+            afficheNotifications += "</div>";
+        }
+
+        return afficheNotifications;
     }
 }
