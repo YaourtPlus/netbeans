@@ -28,16 +28,20 @@ public class MurServiceImpl implements MurService{
     @Override
     public String getStatuts(int id){
         PersonnesEntity user = personnesDAO.find(id);
-        
-        // Pour le moment sur l'user seulement, à définir si affichage des statuts de l'utilisateur ou seulement de ses amis
+
         
         String statuts = "";
-        for(StatutsEntity s : user.getStatuts()){
-            statuts += "<div>";
-            statuts += s.getTexte();
-            statuts += "</div>";
+        for(PersonnesEntity p : user.getListFilous()){
+            for(StatutsEntity s : p.getStatuts()){
+                statuts += "<div class=\"statuts\">";
+                statuts += p.getPrenom() + " " + p.getNom(); 
+                // Gestion des léger + lourd
+                statuts += "<div class=\"statuts-texte\">";
+                statuts += s.getTexte();
+                statuts += "</div>";
+                statuts += "</div>";
+            }
         }
-        
         return statuts;
     }
     
