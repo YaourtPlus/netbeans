@@ -18,9 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InscriptionServiceImpl implements InscriptionService {
-    @Resource 
+
+    @Resource
     PersonnesDAO pdao;
-    
+
     public InscriptionServiceImpl() {
 
     }
@@ -28,10 +29,10 @@ public class InscriptionServiceImpl implements InscriptionService {
     @Override
     public void add(String nom, String prenom, String login, String password, String mail, Integer age) {
         // Création de la date d'inscription
-		Date dateInscription = new Date();
+        Date dateInscription = new Date();
         PersonnesEntity newPers = new PersonnesEntity(nom, prenom, age, mail, login, password);
-		newPers.setDateInscription(dateInscription);
-		newPers.setImc(new IMCEntity());
-		pdao.save(newPers);
+        newPers.setDateInscription(dateInscription);
+        newPers.setImc(new IMCEntity());
+        pdao.save(newPers);
     }
 }

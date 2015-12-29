@@ -16,23 +16,23 @@ import org.springframework.stereotype.Service;
  * @author tbenoist
  */
 @Service
-public class ConnexionServiceImpl implements ConnexionService{
-	@Resource 
+public class ConnexionServiceImpl implements ConnexionService {
+
+    @Resource
     PersonnesDAO pdao;
 
-	@Override
-	public int connexion(String login, String password) {
-		PersonnesEntity p = pdao.find(login, password);
-		if(p == null){
-			return -1;
-		}
-		else{
+    @Override
+    public int connexion(String login, String password) {
+        PersonnesEntity p = pdao.find(login, password);
+        if (p == null) {
+            return -1;
+        } else {
 			// On a récupéré une personne candidate à la connexion.
-			// On l'autorise et on met à jour sa date de Connexion
-			Date dConnexion = new Date();
-			p.setDateConnexion(dConnexion);
-			pdao.update(p);
-			return p.getId();
-		}
-	}
+            // On l'autorise et on met à jour sa date de Connexion
+            Date dConnexion = new Date();
+            p.setDateConnexion(dConnexion);
+            pdao.update(p);
+            return p.getId();
+        }
+    }
 }
