@@ -42,7 +42,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Transactional
     @Override
     public void update(PersonnesEntity p) {
-        p = em.merge(p);
+        em.merge(p);
     }
 
     @Transactional
