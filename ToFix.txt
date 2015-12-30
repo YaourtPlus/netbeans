@@ -1,3 +1,5 @@
 - Gestion du retour en arrière sur les pages (Ajout de filous par exemple)
 - Gestion de l'existence de la session (actuellement, duplication de code cf : https://openclassrooms.com/courses/creez-votre-application-web-avec-java-ee/le-filtre-creez-un-espace-membre)
 - Gestion de l'accès aux pages (lié au problème précédent)
+- Possibilité de faire qu'un seul léger / lourd (pour l'instant possible d'en faire plusieurs)
+- Gestion des fichiers
