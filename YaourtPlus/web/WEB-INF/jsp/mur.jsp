@@ -11,30 +11,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="bootstrap/bootstrap-3.3.6-dist/css/bootstrap.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="tuto.css" type="text/css" media="screen" />
-        <title>JSP Page</title>
+        <title>Mon Mur</title>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top container-fluid">
-            <div class="container-fluid">
-                <ul class="nav navbar-nav">
-                    <li class="active"> 
-                        <a href="mur.htm">Mon mur</a>
-                    </li>
-                    <li> 
-                         <a href="filous.htm"> Ptits Filous</a>
-                    </li>
-                    <li> 
-                         <a href="notifications.htm"> Notifications </a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-right"> 
-                        <a href="deconnexion.htm">Déconnexion</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
+        <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
+        
         <header class="page-header container-fluid">
             <h1>${nomPersonne}</h1>
         </header>
@@ -45,18 +26,27 @@
                 </div>
                 <div class="col-lg-6">   
                     <form Method="POST" action="ajoutStatut.htm">
-                    <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
-                        placeholder="Ajouter un ptit statut" onfocus="this.placeholder='' " onblur="this.placeholder='Ajouter un ptit statut'"></textarea>
-                    <div id="connectButton">
-                        <input type="submit" value="Publier" name="submit" />
-                    </div>
+                        <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
+                                  placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
+                        <div id="connectButton">
+                            <input type="submit" value="Publier" name="submit" />
+                        </div>
                     </form>
                     <div>
-                       ${listStatuts}
+                        ${listStatuts}
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <p>Messages</p>
+                    <form Method="POST" action="messages.htm">
+                        <textarea rows="2" cols="150" name='statut' id='message' class="form-control"
+                                  placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
+                        <div id="connectButton">
+                            <input type="submit" value="Envoyer" name="submit" />
+                        </div>
+                    </form>
+                    <div>
+                        ${listMessages}
+                    </div>
                 </div>
             </div>
         </div>
