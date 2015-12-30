@@ -66,16 +66,16 @@ public class ProfilServiceImpl implements ProfilService {
     public String getNotifications(int idUtilisateur) {
         PersonnesEntity user = getPersonne(idUtilisateur);
 
-        String afficheNotifications = "<p> Vous avez reçu " + user.getNotificationRecues().size() + " notifications </p>";
-        afficheNotifications += "<p> Vous avez émis " + user.getNotificationsEmises().size() + " notifications </p>";
+        String afficheNotifications = "";
         for (NotificationsEntity n : user.getNotificationRecues()) {
             afficheNotifications += "<div class=\"col-lg-offset-1 col-lg-10\">";
-            afficheNotifications += "Type de la notification : " + n.getType();
             // Utiliser toString
-            afficheNotifications += n.afficheFilous();
+            afficheNotifications += n.toString();
             afficheNotifications += "</div>";
         }
-
+        
+        user.resetNotif();
+        
         return afficheNotifications;
     }
 }

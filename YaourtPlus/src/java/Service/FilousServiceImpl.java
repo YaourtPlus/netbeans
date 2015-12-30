@@ -9,6 +9,7 @@ import DAO.NotificationsDAO;
 import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import Enumerations.TypeNotifications;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -55,13 +56,14 @@ public class FilousServiceImpl implements FilousService {
         PersonnesEntity utilisateur = personnesDAO.find(idUtilisateur);
         PersonnesEntity nouveauFilous = personnesDAO.find(idNouveauFilous);
 
-        NotificationsEntity notif = new NotificationsEntity(new Date(), "notifFilous");
+        NotificationsEntity notif = new NotificationsEntity(new Date(), TypeNotifications.notifFilou.getId());
         
         notif.setNotifieur(utilisateur);
         
         notificationsDAO.save(notif);
         
         personnesDAO.ajoutNotif(utilisateur, nouveauFilous, notif);
+        nouveauFilous.addNotif();
         
         return personnesDAO.ajoutFilous(utilisateur, nouveauFilous);
     }

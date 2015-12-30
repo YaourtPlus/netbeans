@@ -41,8 +41,10 @@ public class NotificationsController {
 
         mv = new ModelAndView("notifications");
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        //int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
         mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
-
+        //mv.addObject("nbNotif", nbNotif == 0 ? "" : nbNotif);
+        
         return mv;
     }
 }

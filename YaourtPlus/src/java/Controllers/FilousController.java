@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,8 +47,9 @@ public class FilousController {
 
         mv = new ModelAndView("filous");
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+       // int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
         mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
-
+        //mv.addObject("nbNotif", nbNotif == 0 ? "" : nbNotif);
         return mv;
     }
 
