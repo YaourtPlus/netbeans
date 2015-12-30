@@ -22,6 +22,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  *
@@ -59,6 +60,10 @@ public class PersonnesEntity implements Serializable {
     @Column
     private Date dateConnexion;
 
+    // Quantité de notifications non lues
+    @Column
+    private Integer notifNonLues;
+    
 // Relations ONE TO ONE
     // Imc associé à la personne
     // Relation unidirectionnelle
@@ -105,10 +110,16 @@ public class PersonnesEntity implements Serializable {
     private List<MessagesEntity> messagesRecus = new ArrayList<>();
 
     // Liste des notifications reçues par la personne
-    
     @ManyToMany(mappedBy = "listeDestinataires", fetch = FetchType.EAGER)
     private List<NotificationsEntity> notificationRecues = new ArrayList<>();
 
+    // TO FIX nouvelles tables
+    // Liste des statuts Léger par la personne
+    private List<StatutsEntity> legerStatuts = new ArrayList<>();
+    
+    // Liste des statuts Lourd par la personne
+    private List<StatutsEntity> lourdStatuts = new ArrayList<>();
+    
 // Constructeur=================================================================
     public PersonnesEntity() {
         this.nom = "";
@@ -116,6 +127,7 @@ public class PersonnesEntity implements Serializable {
         this.mail = "";
         this.login = "";
         this.password = "";
+        this.notifNonLues = 0;
     }
 
     public PersonnesEntity(String nom, String prenom, Integer age, String mail, String login, String password) {
@@ -125,6 +137,7 @@ public class PersonnesEntity implements Serializable {
         this.mail = mail;
         this.login = login;
         this.password = password;
+        this.notifNonLues = 0;
     }
 
 // Accesseurs ==================================================================
@@ -144,6 +157,15 @@ public class PersonnesEntity implements Serializable {
         return age;
     }
 
+    public int getNotifNonLues() {
+        if(notifNonLues == null){
+            return 0;
+        }
+        else{
+            return notifNonLues;
+        }
+    }
+            
     public String getMail() {
         return mail;
     }
@@ -151,7 +173,7 @@ public class PersonnesEntity implements Serializable {
     public String getLogin() {
         return login;
     }
-
+    
     public String getPassword() {
         return password;
     }
@@ -265,6 +287,24 @@ public class PersonnesEntity implements Serializable {
         this.listFilousDe = listFilousDe;
     }
 
+    public void setNotifNonLues(int notifNonLues){
+        this.notifNonLues = notifNonLues;
+    }
+// Gestion du nombre de notifications non lues =================================
+    
+    public void addNotif(){
+        if(notifNonLues != null){
+            notifNonLues++;
+        }
+        else{
+            notifNonLues = 1;
+        }
+    }
+    
+    public void resetNotif(){
+        notifNonLues = 0;
+    }
+    
 // Gestion de filous ===========================================================
     /**
      * Ajoute un nouvel ami à la personne
