@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Enumerations.TypeNotifications;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,8 +37,8 @@ public class NotificationsEntity implements Serializable {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false, length = 32)
-    private String type;
+    @Column(nullable = false) 
+    private Integer type; //Id stocké dans la base de donnée
 
 // Relations ONE TO ONE
 // Relations ONE TO MANY
@@ -65,9 +66,9 @@ public class NotificationsEntity implements Serializable {
         return date;
     }
 
-    public String getType() {
-        return type;
-    }
+    public TypeNotifications getTypeNotification() {
+        return TypeNotifications.getType(this.type);
+   }
 
     public PersonnesEntity getNotifieur() {
         return notifieur;
@@ -75,11 +76,11 @@ public class NotificationsEntity implements Serializable {
 
     public NotificationsEntity() {
         this.date = new Date();
-        this.type = "emptyNotification";
+        this.id = 0;
         this.notifieur = null;
     }
 
-    public NotificationsEntity(Date date, String type) {
+    public NotificationsEntity(Date date, Integer type) {
         this.date = date;
         this.type = type;
         this.notifieur = null;
@@ -94,8 +95,13 @@ public class NotificationsEntity implements Serializable {
         this.date = date;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(TypeNotifications type) {
+        if(type == null){
+            this.type = null;
+        }
+        else{
+            this.type = type.getId();
+        }
     }
 
     public void setNotifieur(PersonnesEntity notifieur) {
@@ -143,7 +149,24 @@ public class NotificationsEntity implements Serializable {
     // Redéfinir le toString en fonction d'une énum de types?
     @Override
     public String toString() {
-        return "NotificationsEntity{" + "id=" + id + ", date=" + date + ", type=" + type + ", notifieur=" + notifieur + '}';
+        String result = notifieur.getPrenom() + " " + notifieur.getNom();
+        switch (TypeNotifications.getType(type)){
+            case emptyNotification : // EmptyNotifications
+                result = "";
+                break;
+            case notifFilou :
+                result += " vous a ajouté en tant que Filou.";
+                break;
+            case notifMessage :
+                result += " vous a envoyé un message.";
+                break;
+            case notifStatut :
+                result += " vous a mentionné dans un statut";
+                break;
+            default:
+                break;
+        };
+        return result;
     }
 
 }
