@@ -12,4 +12,8 @@ package Service;
 public interface MurService {
     
     public String getStatuts(int id);
+
+    public void addLeger(int idStatut);
+    
+    public void addLourd(int idStatut);
 }

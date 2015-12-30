@@ -139,6 +139,27 @@ public class StatutsEntity implements Serializable {
         this.listeFichiers = listeFichiers;
     }
 
+// Gestion rapide nbLéger / nbLourd ============================================
+    
+    public void addLeger(){
+        nbLeger++;
+    }
+    
+    public void addLourd(){
+        nbLourd++;
+    }
+    
+    public void delLeger(){
+        if(nbLeger > 0){
+            nbLeger--;
+        }
+    }
+    
+    public void delLour(){
+        if(nbLourd > 0){
+            nbLourd--;
+        }
+    }
 // =============================================================================
     @Override
     public int hashCode() {
