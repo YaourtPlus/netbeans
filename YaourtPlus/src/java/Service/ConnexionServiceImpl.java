@@ -27,7 +27,7 @@ public class ConnexionServiceImpl implements ConnexionService {
         if (p == null) {
             return -1;
         } else {
-			// On a récupéré une personne candidate à la connexion.
+            // On a récupéré une personne candidate à la connexion.
             // On l'autorise et on met à jour sa date de Connexion
             Date dConnexion = new Date();
             p.setDateConnexion(dConnexion);
