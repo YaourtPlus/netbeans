@@ -34,11 +34,15 @@ public class NotificationsEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    // Date de la notification
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false) 
-    private Integer type; //Id stocké dans la base de donnée
+    // Type de la notification
+    // Id de la valeur de l'énum de la notification
+    // => Stocker énum trop compliquer
+    @Column(nullable = false)
+    private Integer type;
 
 // Relations ONE TO ONE
 // Relations ONE TO MANY
@@ -47,6 +51,7 @@ public class NotificationsEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "notifieurId")
     private PersonnesEntity notifieur;
+
 // Relations MANY TO MANY
     // Liste des personnes liées a la notification
     @JoinTable(
@@ -58,14 +63,12 @@ public class NotificationsEntity implements Serializable {
     List<PersonnesEntity> listeDestinataires = new ArrayList<>();
 
 // Constructeurs ===============================================================
-    
     public NotificationsEntity() {
         this.date = new Date();
         this.type = 0;
         this.notifieur = null;
     }
 
-    
     public NotificationsEntity(Date date, Integer type) {
         this.date = date;
         this.type = type;
@@ -83,7 +86,7 @@ public class NotificationsEntity implements Serializable {
 
     public TypeNotifications getTypeNotification() {
         return TypeNotifications.getType(this.type);
-   }
+    }
 
     public PersonnesEntity getNotifieur() {
         return notifieur;
@@ -99,10 +102,9 @@ public class NotificationsEntity implements Serializable {
     }
 
     public void setType(TypeNotifications type) {
-        if(type == null){
+        if (type == null) {
             this.type = null;
-        }
-        else{
+        } else {
             this.type = type.getId();
         }
     }
@@ -110,19 +112,12 @@ public class NotificationsEntity implements Serializable {
     public void setNotifieur(PersonnesEntity notifieur) {
         this.notifieur = notifieur;
     }
-    
+
 // Gestion des destinataires ===================================================
-    
     public boolean ajoutDestinataire(PersonnesEntity destinataire) {
         return this.listeDestinataires.add(destinataire);
     }
-// Affichage notification ======================================================
-    
-    public String afficheFilous(){
-        String result = this.notifieur.getPrenom() + " " + this.notifieur.getNom();
-        return  result + " vous a ajouté à sa liste de Filous.";
-    }
-    
+
 // =============================================================================
     @Override
     public int hashCode() {
@@ -149,21 +144,20 @@ public class NotificationsEntity implements Serializable {
         return true;
     }
 
-    // Redéfinir le toString en fonction d'une énum de types?
     @Override
     public String toString() {
         String result = notifieur.getPrenom() + " " + notifieur.getNom();
-        switch (TypeNotifications.getType(type)){
-            case emptyNotification : // EmptyNotifications
+        switch (TypeNotifications.getType(type)) {
+            case emptyNotification:
                 result = "";
                 break;
-            case notifFilou :
+            case notifFilou:
                 result += " vous a ajouté en tant que Filou.";
                 break;
-            case notifMessage :
+            case notifMessage:
                 result += " vous a envoyé un message.";
                 break;
-            case notifStatut :
+            case notifStatut:
                 result += " vous a mentionné dans un statut";
                 break;
             default:

@@ -33,15 +33,11 @@ public class MessagesEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    // Texte du message
     @Column(length = 1024, nullable = false)
     private String texte;
 
-    @Column(length = 64)
-    private String image;
-
-    @Column(length = 64)
-    private String video;
-
+    // Date d'envoi du message
     @Column(nullable = true)
     private Date date;
 
@@ -72,14 +68,6 @@ public class MessagesEntity implements Serializable {
         return texte;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public String getVideo() {
-        return video;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -101,14 +89,6 @@ public class MessagesEntity implements Serializable {
         this.texte = texte;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
-    }
-
     public void setDate(Date date) {
         this.date = date;
     }
@@ -127,11 +107,8 @@ public class MessagesEntity implements Serializable {
         int hash = 3;
         hash = 53 * hash + Objects.hashCode(this.id);
         hash = 53 * hash + Objects.hashCode(this.texte);
-        hash = 53 * hash + Objects.hashCode(this.image);
-        hash = 53 * hash + Objects.hashCode(this.video);
         hash = 53 * hash + Objects.hashCode(this.date);
         hash = 53 * hash + Objects.hashCode(this.emetteur);
-        hash = 53 * hash + Objects.hashCode(this.listeFichiers);
         return hash;
     }
 
@@ -150,19 +127,10 @@ public class MessagesEntity implements Serializable {
         if (!Objects.equals(this.texte, other.texte)) {
             return false;
         }
-        if (!Objects.equals(this.image, other.image)) {
-            return false;
-        }
-        if (!Objects.equals(this.video, other.video)) {
-            return false;
-        }
         if (!Objects.equals(this.date, other.date)) {
             return false;
         }
         if (!Objects.equals(this.emetteur, other.emetteur)) {
-            return false;
-        }
-        if (!Objects.equals(this.listeFichiers, other.listeFichiers)) {
             return false;
         }
         return true;
@@ -170,7 +138,8 @@ public class MessagesEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MessagesEntity{" + "id=" + id + ", texte=" + texte + ", image=" + image + ", video=" + video + ", date=" + date + ", emetteur=" + emetteur + ", listeFichiers=" + listeFichiers + '}';
+        return "MessagesEntity{" + "id=" + id + ", texte=" + texte 
+                +  ", date=" + date + ", emetteur=" + emetteur + '}';
     }
 
 }

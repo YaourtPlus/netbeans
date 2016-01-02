@@ -10,7 +10,11 @@ package Service;
  * @author tbenoist
  */
 public interface FilousService {
-	public String getFilous(int idUtilisateur);
-        public boolean ajoutFilous(int idUtilisateur, int nouveauFilous);
-        public boolean suppressionFilous(int idUtilisateur, int filou);
+
+    public String getFilous(int idUtilisateur);
+
+    public boolean ajoutFilous(int idUtilisateur, int nouveauFilous);
+
+    public boolean suppressionFilous(int idUtilisateur, int filou);
+
 }

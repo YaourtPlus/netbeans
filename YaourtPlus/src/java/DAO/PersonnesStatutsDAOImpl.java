@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
 
+    // Communication avec la BD
     @PersistenceContext(unitName = "Yaourt_PU")
     private EntityManager em;
 
@@ -28,6 +29,7 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         return em;
     }
 
+// Ecriture ====================================================================
     public void setEm(EntityManager em) {
         this.em = em;
     }
@@ -52,28 +54,49 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         em.remove(ps);
     }
 
+    /**
+     * Annule une action de l'utilisateur
+     * Passe le type d'action à noAction
+     * @param p la oersonne effectuant l'action,
+     * @param s le statut sur lequel l'action effectue l'action
+     * @return null, noAction, leger, lourd
+     */
     @Transactional
     @Override
     public TypeActions removeAction(PersonnesEntity p, StatutsEntity s) {
+        // Récupération de la liste des PersonnesStatutsEntity associée 
+        // au statut.
+        // s ou p, peu importe puisque ce sont les même listes
         List<PersonnesStatutsEntity> setPS = s.getStatutsActeurs();
+        
         TypeActions typeAction = null;
+        
+        // Parcours de la liste
         for (PersonnesStatutsEntity ps : setPS) {
+            // Recherche de l'instance comprenant p et s
             if (ps.getPersonne().equals(p) && ps.getStatut().equals(s)) {
+                // Récupération de la dernière action effectuée sur le statut
                 typeAction = ps.getTypeAction();
+                // Ecrasement de l'action
                 ps.setTypeAction(TypeActions.noAction);
+                
+                // Mise à jour de la BD
                 em.merge(ps);
                 break;
             }
         }
+        // Mise à jour des listes
         s.setStatutsActeurs(setPS);
         p.setStatutsActeurs(setPS);
         
+        // Mise à jour de la BD
         em.merge(s);
         em.merge(p);
         
         return typeAction;
     }
 
+// Lecture =====================================================================
     @Transactional(readOnly = true)
     @Override
     public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s){

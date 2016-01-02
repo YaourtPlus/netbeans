@@ -31,71 +31,102 @@ public class FilousController {
     @Autowired
     ProfilService profilService;
 
-    @RequestMapping(value = "filous", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView listPersonnes(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ModelAndView mv;
-
-        HttpSession session = request.getSession(false);
-
-        if (session == null) {
-            mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-            return mv;
-        }
-
-        mv = new ModelAndView("filous");
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-       // int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
-        mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
-        //mv.addObject("nbNotif", nbNotif == 0 ? "" : nbNotif);
-        return mv;
-    }
-
+// Gestion des requêtes GET ====================================================
     
+    // Ajout d'un filou
     @RequestMapping(value = "ajout", method = RequestMethod.GET)
-    public ModelAndView ajoutAmi(HttpServletRequest request,
+    public ModelAndView ajoutFilous(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
+        // Récupération de la session
         HttpSession session = request.getSession(false);
 
+        // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
-        
+
+        // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        int idFilous = Integer.parseInt(request.getParameter("id"));
-        filousService.ajoutFilous(idUtilisateur, idFilous);  
         
+        // Récupération de l'id du Filou à ajouter
+        int idFilous = Integer.parseInt(request.getParameter("id"));
+        
+        // Ajout du filous
+        filousService.ajoutFilous(idUtilisateur, idFilous);
+
+        // Récupération de la liste des autres filous
         mv = this.listPersonnes(request, response);
         mv.addObject("ajoutFilous", "Filou ajouté");
+ 
         return mv;
     }
-    
-    
+
+    // Suppression d'un filou
     @RequestMapping(value = "suppression", method = RequestMethod.GET)
     public ModelAndView suppresssionFilous(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
+        // Récupération de la session
         HttpSession session = request.getSession(false);
 
+        // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
-        
+
+        // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        
+        // Récupération de l'id du Filou à supprimer
         int idFilou = Integer.parseInt(request.getParameter("id"));
-        filousService.suppressionFilous(idUtilisateur, idFilou);  
-     
+        
+        // Suppression du Filou
+        filousService.suppressionFilous(idUtilisateur, idFilou);
+
+        // Affichage du mur
         return new ModelAndView("redirect:/mur.htm");
     }
+    
+// Gestion des méthodes POST ===================================================
+    
+// Gestion des méthodes mixtes==================================================
+
+    // Affichage de tout les filous
+    @RequestMapping(value = "filous", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView listPersonnes(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        // Création du modelAndView pour afficher les Filous
+        mv = new ModelAndView("filous");
+        
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        
+        // Affichage de la liste des filous
+        mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
+        
+        return mv;
+    }
+
 }

@@ -10,6 +10,6 @@ package Service;
  * @author tbenoist
  */
 public interface ConnexionService {
-	// Retourne l'idée de la personne où -1 si elle n'a pas trouvé la personne
-	public int connexion(String login, String password);
+
+    public int connexion(String login, String password);
 }

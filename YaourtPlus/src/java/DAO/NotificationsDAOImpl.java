@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class NotificationsDAOImpl implements NotificationsDAO {
 
+    // Communication avec la BD
     @PersistenceContext(unitName = "Yaourt_PU")
     private EntityManager em;
 
@@ -43,7 +44,7 @@ public class NotificationsDAOImpl implements NotificationsDAO {
     @Transactional
     @Override
     public void update(NotificationsEntity n) {
-        n = em.merge(n);
+        em.merge(n);
     }
 
     @Transactional
@@ -52,7 +53,7 @@ public class NotificationsDAOImpl implements NotificationsDAO {
         n = em.merge(n);
         em.remove(n);
     }
-    
+
 // Lecture =====================================================================
     @Transactional(readOnly = true)
     @Override
@@ -67,18 +68,34 @@ public class NotificationsDAOImpl implements NotificationsDAO {
         return q.getResultList();
     }
 
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * @param notifieurId
+     * @return
+     */
     @Transactional(readOnly = true)
     @Override
     public List<NotificationsEntity> findByNotifieur(int notifieurId) {
         return null;
     }
 
+    /**
+     * NOT YET IMPLEMENTED
+     * @param date
+     * @return
+     */
     @Transactional(readOnly = true)
     @Override
     public List<NotificationsEntity> findByDate(Date date) {
         return null;
     }
 
+    /**
+     * NOT YET IMPLEMENTED
+     * @param destinataireId
+     * @return 
+     */
     @Transactional(readOnly = true)
     @Override
     public List<NotificationsEntity> findByDestinataire(int destinataireId) {

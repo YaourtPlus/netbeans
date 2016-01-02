@@ -25,12 +25,15 @@ public class IMCEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    // Valeur de l'IMC
     @Column(nullable = false, precision = 5, scale = 3)
     private double valeur;
 
+    // Quantité de Lourd que la personne a donné
     @Column(nullable = false)
     private int QteLourd;
 
+    // Quantité de Léger que la personne a donné
     @Column(nullable = false)
     private int QteLeger;
 
@@ -38,18 +41,17 @@ public class IMCEntity implements Serializable {
 // Relations ONE TO MANY
 // Relations MANY TO ONE	
 // Relations MANY TO MANY
-	
 // Constructeur ================================================================
     public IMCEntity() {
-		this.QteLeger = 0;
-		this.QteLourd = 0;
-		this.valeur = 25;
+        this.QteLeger = 0;
+        this.QteLourd = 0;
+        this.valeur = 25;
     }
 
 // Accesseurs ==================================================================
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
     public double getValeur() {
         return valeur;
@@ -62,8 +64,6 @@ public class IMCEntity implements Serializable {
     public int getQteLeger() {
         return QteLeger;
     }
-
-    
 
 // Mutateurs ===================================================================
     public void setId(Integer id) {
@@ -82,13 +82,13 @@ public class IMCEntity implements Serializable {
         this.QteLeger = QteLeger;
     }
 
-
 // =============================================================================
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + (int) (Double.doubleToLongBits(this.valeur) ^ (Double.doubleToLongBits(this.valeur) >>> 32));
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.valeur) 
+                ^ (Double.doubleToLongBits(this.valeur) >>> 32));
         hash = 53 * hash + this.QteLourd;
         hash = 53 * hash + this.QteLeger;
         return hash;
@@ -106,7 +106,8 @@ public class IMCEntity implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.valeur) != Double.doubleToLongBits(other.valeur)) {
+        if (Double.doubleToLongBits(this.valeur) 
+                != Double.doubleToLongBits(other.valeur)) {
             return false;
         }
         if (this.QteLourd != other.QteLourd) {
@@ -120,7 +121,8 @@ public class IMCEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "IMCEntity{" + "id=" + id + ", valeur=" + valeur + ", QteLourd=" + QteLourd + ", QteLeger=" + QteLeger + '}';
+        return "IMCEntity{" + "id=" + id + ", valeur=" + valeur + ", QteLourd=" 
+                + QteLourd + ", QteLeger=" + QteLeger + '}';
     }
 
 }

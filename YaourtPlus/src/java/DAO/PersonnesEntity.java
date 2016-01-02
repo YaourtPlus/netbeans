@@ -59,10 +59,12 @@ public class PersonnesEntity implements Serializable {
     @Column(nullable = true)
     private Date dateInscription;
 
+    // Date de dernière connexion
     @Column
     private Date dateConnexion;
 
     // Quantité de notifications non lues
+    // Integer => permet de stocker null dans la BD
     @Column
     private Integer notifNonLues;
 
@@ -298,6 +300,7 @@ public class PersonnesEntity implements Serializable {
     }
 
 // Gestion du nombre de notifications non lues =================================
+    // Incrémentation des notifications
     public void addNotif() {
         if (notifNonLues != null) {
             notifNonLues++;
@@ -306,6 +309,7 @@ public class PersonnesEntity implements Serializable {
         }
     }
 
+    // Remise à zéro du nomre de notification
     public void resetNotif() {
         notifNonLues = 0;
     }
@@ -319,7 +323,7 @@ public class PersonnesEntity implements Serializable {
      * dans la liste)
      */
     public boolean ajoutFilous(PersonnesEntity filous) {
-        if (!listFilous.contains(filous)) {
+        if (!listFilous.contains(filous)) { // Gestion des doublons
             listFilous.add(filous);
             return true;
         } else {
@@ -327,8 +331,14 @@ public class PersonnesEntity implements Serializable {
         }
     }
 
+    /**
+     * Ajoute une personne ayant la personne courante en ami
+     *
+     * @param filous : la personne qui à ajouté
+     * @return true si la personne courante à été ajoutée
+     */
     public boolean ajoutFilousDe(PersonnesEntity filous) {
-        if (!listFilousDe.contains(filous)) {
+        if (!listFilousDe.contains(filous)) { // Gestion des doublons
             listFilousDe.add(filous);
             return true;
         } else {
@@ -337,14 +347,14 @@ public class PersonnesEntity implements Serializable {
     }
 
     /**
-     * Ajoute un nouvel ami à la personne
+     * Supprime un ami de la personne
      *
      * @param filous : le filou à supprimer
-     * @return true si l'ami a été ajouté, false sinon (il est déjà présent dans
-     * la liste)
+     * @return true si l'ami a été supprimé, false sinon (il est déjà présent
+     * dans la liste)
      */
     public boolean suppressionFilous(PersonnesEntity filous) {
-        if (listFilous.contains(filous)) {
+        if (listFilous.contains(filous)) { // ,p, existence
             listFilous.remove((PersonnesEntity) filous);
             return true;
         } else {
@@ -352,8 +362,14 @@ public class PersonnesEntity implements Serializable {
         }
     }
 
+    /**
+     * Supprime une personne ayant supprimée la personne courante de ses amis
+     *
+     * @param filous personne ayant supprimé la personne courante
+     * @return true si la personne a été supprimée, false sinon (non existence)
+     */
     public boolean suppressionFilousDe(PersonnesEntity filous) {
-        if (listFilousDe.contains(filous)) {
+        if (listFilousDe.contains(filous)) { // non existence
             listFilousDe.remove((PersonnesEntity) filous);
             return true;
         } else {
@@ -362,25 +378,51 @@ public class PersonnesEntity implements Serializable {
     }
 // Gestion de statuts ==========================================================
 
+    /**
+     * Ajoute un statut dans la liste des statuts postés
+     *
+     * @param s le nouveau statut
+     * @return true si le statut est ajouté
+     */
     public boolean ajoutStatut(StatutsEntity s) {
         return statuts.add(s);
     }
 
+    /**
+     * Ajoute une PersonnesStatutsEntity à la liste des statuts sur lesquels
+     * l'utilisateur a effectué une action
+     *
+     * @param ps l'instance correspondant à l'action de l'utilisateur
+     * @return true si l'instance à été ajoutée, false sinon (doublon)
+     */
     public boolean addPersonnesStatuts(PersonnesStatutsEntity ps) {
-        if (statutsActeurs.contains(ps)) {
+        if (statutsActeurs.contains(ps)) { // Gestion des doublons
             return false;
         }
         return statutsActeurs.add(ps);
 
     }
 
+    /**
+     * Supprime une PersonnesStatutsEntity de la liste des statuts sur lesquels
+     * l'utilisateur a effectué une action
+     *
+     * @param ps l'instance à supprimer
+     * @return true si l'instance à été supprimée, false sinon (non existence)
+     */
     public boolean removePersonnesStatuts(PersonnesStatutsEntity ps) {
-        if (!statutsActeurs.contains(ps)) {
+        if (!statutsActeurs.contains(ps)) { // non existence
             return false;
         }
         return statutsActeurs.remove(ps);
     }
 
+    /**
+     * Retourne l'action qu'a fait l'utilisateur sur un statut en particulier
+     *
+     * @param s le statut dont on veut connaitre l'action
+     * @return noAction, leger, lourd
+     */
     public TypeActions getAction(StatutsEntity s) {
         for (PersonnesStatutsEntity ps : statutsActeurs) {
             if (ps.getStatut().equals(s)) {
@@ -393,7 +435,6 @@ public class PersonnesEntity implements Serializable {
 
     /**
      * Ajout de reception de notification
-     *
      * @param notification Notification reçu
      * @return true si la notification a bien été ajoutée, false sinon
      */
@@ -403,7 +444,6 @@ public class PersonnesEntity implements Serializable {
 
     /**
      * Ajout d'envoi de notification
-     *
      * @param notification Notification envoyée
      * @return true si la notification a bien été ajoutée, false sinon
      */
@@ -445,6 +485,10 @@ public class PersonnesEntity implements Serializable {
         return true;
     }
 
+    /**
+     *  Affichage des amis de la personne courante
+     * @return les noms et prénoms des amis
+     */
     public String afficheAmi() {
         String s = "";
         for (PersonnesEntity p : listFilous) {
@@ -455,7 +499,9 @@ public class PersonnesEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc + " " + afficheAmi() + '}';
+        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" 
+                + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc 
+                + " " + afficheAmi() + '}';
     }
 
 }

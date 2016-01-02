@@ -13,13 +13,19 @@ import java.util.List;
  * @author Thomas
  */
 public interface PersonnesStatutsDAO {
-    
-		public void save(PersonnesStatutsEntity ps);
-		public void update(PersonnesStatutsEntity ps);
-		public void delete(PersonnesStatutsEntity ps);
-                        
-                public TypeActions removeAction(PersonnesEntity p, StatutsEntity s);
-                
-                public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s);
-		public List<PersonnesStatutsEntity> findAll();
+
+// Transaction de base =========================================================
+    public void save(PersonnesStatutsEntity ps);
+
+    public void update(PersonnesStatutsEntity ps);
+
+    public void delete(PersonnesStatutsEntity ps);
+// Transaction custom ==========================================================
+
+    public TypeActions removeAction(PersonnesEntity p, StatutsEntity s);
+// Transaction read-only =======================================================
+
+    public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s);
+
+    public List<PersonnesStatutsEntity> findAll();
 }

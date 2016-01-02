@@ -19,11 +19,18 @@ import org.springframework.stereotype.Service;
 public class ConnexionServiceImpl implements ConnexionService {
 
     @Resource
-    PersonnesDAO pdao;
+    PersonnesDAO personneDAO;
 
+    /**
+     * Vérifie si le login et le password existent dans la base de données
+     * @param login le login de la personne essayant de se connecter
+     * @param password le password de la personne essayant de se connecter
+     * @return -1 si le login et le password n'existenet pas, 
+     * l'id de la personne sinon
+     */
     @Override
     public int connexion(String login, String password) {
-        PersonnesEntity p = pdao.find(login, password);
+        PersonnesEntity p = personneDAO.find(login, password);
         if (p == null) {
             return -1;
         } else {
@@ -31,7 +38,7 @@ public class ConnexionServiceImpl implements ConnexionService {
             // On l'autorise et on met à jour sa date de Connexion
             Date dConnexion = new Date();
             p.setDateConnexion(dConnexion);
-            pdao.update(p);
+            personneDAO.update(p);
             return p.getId();
         }
     }

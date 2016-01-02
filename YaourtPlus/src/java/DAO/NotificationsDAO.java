@@ -14,11 +14,14 @@ import java.util.List;
  */
 public interface NotificationsDAO {
 
+// Transaction de base =========================================================
     public void save(NotificationsEntity n);
 
     public void update(NotificationsEntity n);
 
     public void delete(NotificationsEntity n);
+// Transaction custom ==========================================================
+// Transaction read-only =======================================================
 
     public NotificationsEntity find(int id);
 

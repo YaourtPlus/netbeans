@@ -20,67 +20,86 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class MessagesDAOImpl implements MessagesDAO {
 
-	@PersistenceContext(unitName = "Yaourt_PU")
-	private EntityManager em;
+    // Communication avec la BD
+    @PersistenceContext(unitName = "Yaourt_PU")
+    private EntityManager em;
 
-	public EntityManager getEm() {
-		return em;
-	}
+    public EntityManager getEm() {
+        return em;
+    }
 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 
 // Ecriture ====================================================================
-	@Transactional
-	@Override
-	public void save(MessagesEntity m) {
-		m = em.merge(m);
-		em.persist(m);
-	}
+    @Transactional
+    @Override
+    public void save(MessagesEntity m) {
+        m = em.merge(m);
+        em.persist(m);
+    }
 
-	@Transactional
-	@Override
-	public void update(MessagesEntity m) {
-		m = em.merge(m);
-	}
+    @Transactional
+    @Override
+    public void update(MessagesEntity m) {
+        em.merge(m);
+    }
 
-	@Transactional
-	@Override
-	public void delete(MessagesEntity m) {
-		m = em.merge(m);
-		em.remove(m);
-	}
+    @Transactional
+    @Override
+    public void delete(MessagesEntity m) {
+        m = em.merge(m);
+        em.remove(m);
+    }
 
 // Lecture =====================================================================
-	@Transactional(readOnly = true)
-	@Override
-	public MessagesEntity find(int id) {
-		return em.find(MessagesEntity.class, id);
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public MessagesEntity find(int id) {
+        return em.find(MessagesEntity.class, id);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<MessagesEntity> findAll() {
-		Query q = em.createQuery("SELECT m FROM MessagesEntity m");
-		return q.getResultList();
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public List<MessagesEntity> findAll() {
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m");
+        return q.getResultList();
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<MessagesEntity> findByAuteur(int auteurId) {
-		return null;
-	}
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * @param auteurId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<MessagesEntity> findByAuteur(int auteurId) {
+        return null;
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<MessagesEntity> findByDate(Date date) {
-		return null;
-	}
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * @param date
+     * @return
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<MessagesEntity> findByDate(Date date) {
+        return null;
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<MessagesEntity> findByDestinataire(int destinataireId) {
-		return null;
-	}
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * @param destinataireId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<MessagesEntity> findByDestinataire(int destinataireId) {
+        return null;
+    }
 }

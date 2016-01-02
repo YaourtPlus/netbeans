@@ -23,124 +23,122 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 public class FichiersEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	@Id
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    private Integer id;
 
-	@Column(length=32, nullable=false)
-	private String type;
+    // Type du fichier => Enum?
+    @Column(length = 32, nullable = false)
+    private String type;
 
-	@Column(length=64 , nullable=false)
-	private String contenu;
-	
-	// Problème de nom
-	@ManyToMany(mappedBy="listeFichiers", fetch = FetchType.EAGER)
-	List<StatutsEntity> listeStatuts = new ArrayList<>();
-	
-	@ManyToMany(mappedBy="listeFichiers", fetch = FetchType.EAGER)
-	List<MessagesEntity> listeMessages = new ArrayList<>();
+    // Path du fichier sur le serveur
+    @Column(length = 64, nullable = false)
+    private String contenu;
+
+// Relations ONE TO ONE
+// Relations ONE TO MANY
+// Relations MANY TO ONE	
+// Relations MANY TO MANY
+    // Liste des statuts auxquels est associé le fichier
+    @ManyToMany(mappedBy = "listeFichiers", fetch = FetchType.EAGER)
+    List<StatutsEntity> listeStatuts = new ArrayList<>();
+
+    // Liste des messages auxquels est associé le fichier
+    @ManyToMany(mappedBy = "listeFichiers", fetch = FetchType.EAGER)
+    List<MessagesEntity> listeMessages = new ArrayList<>();
+    
 // Constructeurs ===============================================================
 
-	public FichiersEntity() {
-		this.type = "txt";
-		this.contenu = "";
-	}
+    public FichiersEntity() {
+        this.type = "txt";
+        this.contenu = "";
+    }
 
-	public FichiersEntity(String type, String contenu) {
-		this.type = type;
-		this.contenu = contenu;
-	}
+    public FichiersEntity(String type, String contenu) {
+        this.type = type;
+        this.contenu = contenu;
+    }
 
 // Accesseurs ==================================================================
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getContenu() {
-		return contenu;
-	}
+    public String getContenu() {
+        return contenu;
+    }
 
-	public List<StatutsEntity> getListeStatuts() {
-		return listeStatuts;
-	}
+    public List<StatutsEntity> getListeStatuts() {
+        return listeStatuts;
+    }
 
-	public List<MessagesEntity> getListeMessages() {
-		return listeMessages;
-	}
+    public List<MessagesEntity> getListeMessages() {
+        return listeMessages;
+    }
 
 // Mutateurs ===================================================================
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setContenu(String contenu) {
-		this.contenu = contenu;
-	}
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
 
-	public void setListeStatuts(List<StatutsEntity> listeStatuts) {
-		this.listeStatuts = listeStatuts;
-	}
+    public void setListeStatuts(List<StatutsEntity> listeStatuts) {
+        this.listeStatuts = listeStatuts;
+    }
 
-	public void setListeMessages(List<MessagesEntity> listeMessages) {
-		this.listeMessages = listeMessages;
-	}
+    public void setListeMessages(List<MessagesEntity> listeMessages) {
+        this.listeMessages = listeMessages;
+    }
 
 // =============================================================================
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.type);
+        hash = 47 * hash + Objects.hashCode(this.contenu);
+        return hash;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 5;
-		hash = 47 * hash + Objects.hashCode(this.id);
-		hash = 47 * hash + Objects.hashCode(this.type);
-		hash = 47 * hash + Objects.hashCode(this.contenu);
-		hash = 47 * hash + Objects.hashCode(this.listeStatuts);
-		hash = 47 * hash + Objects.hashCode(this.listeMessages);
-		return hash;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FichiersEntity other = (FichiersEntity) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        if (!Objects.equals(this.contenu, other.contenu)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final FichiersEntity other = (FichiersEntity) obj;
-		if (!Objects.equals(this.id, other.id)) {
-			return false;
-		}
-		if (!Objects.equals(this.type, other.type)) {
-			return false;
-		}
-		if (!Objects.equals(this.contenu, other.contenu)) {
-			return false;
-		}
-		if (!Objects.equals(this.listeStatuts, other.listeStatuts)) {
-			return false;
-		}
-		if (!Objects.equals(this.listeMessages, other.listeMessages)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public String toString() {
+        return "FichiersEntity{" + "id=" + id + ", type=" + type 
+                + ", contenu=" + contenu + '}';
+    }
 
-	@Override
-	public String toString() {
-		return "FichiersEntity{" + "id=" + id + ", type=" + type + ", contenu=" + contenu + ", listeStatuts=" + listeStatuts + ", listeMessages=" + listeMessages + '}';
-	}
-
-
-
-	
 }

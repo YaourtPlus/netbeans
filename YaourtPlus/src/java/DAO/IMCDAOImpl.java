@@ -19,50 +19,51 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class IMCDAOImpl implements IMCDAO {
 
-	@PersistenceContext(unitName = "Yaourt_PU")
-	private EntityManager em;
+    // Communication avec la BD
+    @PersistenceContext(unitName = "Yaourt_PU")
+    private EntityManager em;
 
-	public EntityManager getEm() {
-		return em;
-	}
+    public EntityManager getEm() {
+        return em;
+    }
 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 
 // Ecriture ====================================================================
-	@Transactional
-	@Override
-	public void save(IMCEntity i) {
-		i = em.merge(i);
-		em.persist(i);
-	}
+    @Transactional
+    @Override
+    public void save(IMCEntity i) {
+        i = em.merge(i);
+        em.persist(i);
+    }
 
-	@Transactional
-	@Override
-	public void update(IMCEntity i) {
-		i = em.merge(i);
-	}
+    @Transactional
+    @Override
+    public void update(IMCEntity i) {
+        em.merge(i);
+    }
 
-	@Transactional
-	@Override
-	public void delete(IMCEntity i) {
-		i = em.merge(i);
-		em.remove(i);
-	}
+    @Transactional
+    @Override
+    public void delete(IMCEntity i) {
+        i = em.merge(i);
+        em.remove(i);
+    }
 
 // Lecture =====================================================================
-	@Transactional
-	@Override
-	public IMCEntity find(int id) {
-		return em.find(IMCEntity.class, id);
-	}
+    @Transactional
+    @Override
+    public IMCEntity find(int id) {
+        return em.find(IMCEntity.class, id);
+    }
 
-	@Transactional
-	@Override
-	public List<IMCEntity> findAll() {
-		Query q = em.createQuery("SELECT i FROM IMCEntity i");
-		return q.getResultList();
-	}
+    @Transactional
+    @Override
+    public List<IMCEntity> findAll() {
+        Query q = em.createQuery("SELECT i FROM IMCEntity i");
+        return q.getResultList();
+    }
 
 }

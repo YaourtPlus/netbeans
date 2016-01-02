@@ -33,10 +33,12 @@ public class PersonnesStatutsEntity implements Serializable {
 
     /**
      * Type action peut prendre 3 valeurs selon l'action qu'aura fait
-     * l'utilisateur sur le statut 0 pour indiquer que l'utilisateur a annuler
-     * un Léger ou un T'es lourd 1 pour indiquer que l'utilisateur a mis un
-     * Léger 2 pour indiquer que l'utilisateur a mis un T'es lourd
-     */
+     * l'utilisateur sur le statut :
+     * 0 pour indiquer que l'utilisateur a annuler un Léger ou un T'es lourd 
+     * 1 pour indiquer que l'utilisateur a mis un Léger 
+     * 2 pour indiquer que l'utilisateur a mis un T'es lourd
+     * Palie la gestion compliqué des Enum custom dans la BD
+    */
     @Column(nullable = false)
     private Integer typeAction;
 
@@ -47,7 +49,8 @@ public class PersonnesStatutsEntity implements Serializable {
         this.statut = null;
     }
 
-    public PersonnesStatutsEntity(PersonnesEntity personne, StatutsEntity statut, int action) {
+    public PersonnesStatutsEntity(PersonnesEntity personne, 
+            StatutsEntity statut, int action) {
         this.personne = personne;
         this.statut = statut;
         this.typeAction = action;
@@ -109,6 +112,12 @@ public class PersonnesStatutsEntity implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonnesStatutsEntity{" + "personne=" + personne + ", statut=" 
+                + statut + ", typeAction=" + typeAction + '}';
     }
 
 }

@@ -12,23 +12,36 @@ import java.util.List;
  * @author tbenoist
  */
 public interface PersonnesDAO {
-        public void save(PersonnesEntity p);
-        public void update(PersonnesEntity p);
-        public void delete(PersonnesEntity p);
-        
-        public boolean ajoutFilous(PersonnesEntity p1, PersonnesEntity p2);
-        public boolean suppressionFilous(PersonnesEntity p1, PersonnesEntity p2);
-        
-        public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s);
-        public boolean ajoutNotif(PersonnesEntity notifieur, PersonnesEntity destinataire,NotificationsEntity notif);
-        
-        public PersonnesEntity find(int id);
-        public PersonnesEntity find(String login, String password);
-        public PersonnesEntity findByLogin(String login);
-        public List<PersonnesEntity> findAll();
-        public List<PersonnesEntity> findByNom(String nom);
-        public List<PersonnesEntity> findByPrenom(String prenom);
-        public List<PersonnesEntity> findByMail(String mail);
-       //public List<PersonnesEntity> findFilous(int id);
-		
+
+// Transaction de base =========================================================
+    public void save(PersonnesEntity p);
+
+    public void update(PersonnesEntity p);
+
+    public void delete(PersonnesEntity p);
+// Transaction custom ==========================================================
+
+    public boolean ajoutFilous(PersonnesEntity p1, PersonnesEntity p2);
+
+    public boolean suppressionFilous(PersonnesEntity p1, PersonnesEntity p2);
+
+    public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s);
+
+    public boolean ajoutNotif(PersonnesEntity notifieur, PersonnesEntity destinataire, NotificationsEntity notif);
+// Transaction read-only =======================================================
+
+    public PersonnesEntity find(int id);
+
+    public PersonnesEntity find(String login, String password);
+
+    public PersonnesEntity findByLogin(String login);
+
+    public List<PersonnesEntity> findAll();
+
+    public List<PersonnesEntity> findByNom(String nom);
+
+    public List<PersonnesEntity> findByPrenom(String prenom);
+
+    public List<PersonnesEntity> findByMail(String mail);
+
 }

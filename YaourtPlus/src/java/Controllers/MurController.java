@@ -36,135 +36,178 @@ public class MurController {
     @Autowired
     ConnexionService connexionService;
 
-    @RequestMapping(value = "mur", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView afficheMur(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ModelAndView mv;
-
-        HttpSession session = request.getSession(false);
-        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
-        if (session == null) {
-            mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-            return mv;
-        }
-
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-
-        // Test d'existence de session
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        if (idUtilisateur != -1) {
-            mv = new ModelAndView("mur");
-            String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
-            String listFilous = profilService.getFilous(idUtilisateur);
-            String statut = murService.getStatuts(idUtilisateur);
-            // int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
-            // mv.addObject("nbNotif", nbNotif == 0 ? "" : nbNotif);
-            mv.addObject("listeAmi", listFilous);
-            mv.addObject("nomPersonne", nomPersonne);
-            mv.addObject("listStatuts", statut);
-        } else {
-            mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
-        }
-
-        return mv;
-    }
-
-    @RequestMapping(value = "ajoutStatut", method = RequestMethod.POST)
-    public ModelAndView ajoutStatut(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ModelAndView mv;
-
-        HttpSession session = request.getSession(false);
-        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
-        if (session == null) {
-            mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-            return mv;
-        }
-
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        String statut = request.getParameter("statut");
-
-        profilService.ajoutStatut(idUtilisateur, statut);
-
-        mv = this.afficheMur(request, response);
-        return mv;
-    }
-
-    /*
-     * /!\ Ajouter gestion d'un seul léget / un seul lourd /!\
-     */
+// Gestion des requêtes GET ====================================================
+    // Ajout d'un léger
     @RequestMapping(value = "leger", method = RequestMethod.GET)
     public ModelAndView legerStatut(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
+        // Récupération de la session
         HttpSession session = request.getSession(false);
-        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+
+        // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
 
+        // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        // Récupération de l'id du statut sur lequel l'action est effectuée
         int idStatut = Integer.parseInt(request.getParameter("id"));
 
+        // Gestion de l'ajout de léger
         murService.addLeger(idStatut, idUtilisateur);
 
+        // Affichage du mur
         mv = this.afficheMur(request, response);
         return mv;
     }
 
+    // Ajout d'un lourd
     @RequestMapping(value = "lourd", method = RequestMethod.GET)
     public ModelAndView lourdStatut(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
+        // Récupération de la session
         HttpSession session = request.getSession(false);
-        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+
+        // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
 
+        // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        // Récupération de l'id du statut sur lequel l'action est effectuée
         int idStatut = Integer.parseInt(request.getParameter("id"));
 
+        // Gestion de l'ajout de lourd
         murService.addLourd(idStatut, idUtilisateur);
 
+        // Affichage du mur
         mv = this.afficheMur(request, response);
         return mv;
     }
 
+    // Suppression d'un léger/lourd
     @RequestMapping(value = "removeAction", method = RequestMethod.GET)
     public ModelAndView removeAction(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
+        // Récupération de la session
         HttpSession session = request.getSession(false);
-        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+
+        // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
 
+        // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        // Récupération de l'id du statut sur lequel l'action est effectuée
         int idStatut = Integer.parseInt(request.getParameter("id"));
 
+        // Gestion de la suppression de l'action
         murService.removeAction(idStatut, idUtilisateur);
-        
+
+        // Affichage du mur
         mv = this.afficheMur(request, response);
         return mv;
     }
+
+// Gestion des méthodes POST ===================================================
+    // Ajout d'un statut
+    @RequestMapping(value = "ajoutStatut", method = RequestMethod.POST)
+    public ModelAndView ajoutStatut(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        // Récupération du texte du statut posté
+        String statut = request.getParameter("statut");
+
+        // Ajout du statut
+        profilService.ajoutStatut(idUtilisateur, statut);
+
+        // Affichage du mur
+        mv = this.afficheMur(request, response);
+        return mv;
+    }
+
+// Gestion des méthodes mixtes==================================================
+    // Affichage du mur
+    @RequestMapping(value = "mur", method = {RequestMethod.POST, 
+                                                RequestMethod.GET})
+    public ModelAndView afficheMur(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        // Récupération de l'id de l'utilisateur
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        // Création du modelAndView mur pour l'affichage
+        mv = new ModelAndView("mur");
+
+        // Création de l'affichage
+        // Récupération du nom de l'utilisauter
+        String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
+
+        // Récupération des Filous de la personne
+        String listFilous = profilService.getFilous(idUtilisateur);
+
+        // Récupération des statuts des Filous
+        String statut = murService.getStatuts(idUtilisateur);
+
+        // Affichage des différentes données récupérées précédemment
+        mv.addObject("listeAmi", listFilous);
+        mv.addObject("nomPersonne", nomPersonne);
+        mv.addObject("listStatuts", statut);
+        
+        return mv;
+    }
+
 }

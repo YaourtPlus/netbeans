@@ -22,17 +22,20 @@ public class InscriptionServiceImpl implements InscriptionService {
     @Resource
     PersonnesDAO pdao;
 
-    public InscriptionServiceImpl() {
-
-    }
-
     @Override
-    public void add(String nom, String prenom, String login, String password, String mail, Integer age) {
+    public void add(String nom, String prenom, String login, String password, 
+            String mail, Integer age) {
         // Création de la date d'inscription
         Date dateInscription = new Date();
+        
+        // Création de la personne à ajouter
         PersonnesEntity newPers = new PersonnesEntity(nom, prenom, age, mail, login, password);
         newPers.setDateInscription(dateInscription);
+        
+        // Création d'un IMC
         newPers.setImc(new IMCEntity());
+        
+        // Sauvegarde dans la BD
         pdao.save(newPers);
     }
 }

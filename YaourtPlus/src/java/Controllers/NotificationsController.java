@@ -21,30 +21,42 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class NotificationsController {
-        
+
     @Autowired
     ProfilService profilService;
+
+// Gestion des requêtes GET ====================================================
     
+    // Liste des notifications
     @RequestMapping(value = "notifications", method = RequestMethod.GET)
     public ModelAndView listNotifications(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
+        // Récupération de la session
         HttpSession session = request.getSession(false);
 
+        // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
 
+        // Création du modelAndView notifications pour l'affichage
         mv = new ModelAndView("notifications");
+
+        // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        //int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
-        mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
-        //mv.addObject("nbNotif", nbNotif == 0 ? "" : nbNotif);
         
+        // Affichage des notifications de l'utilisateur
+        mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
+       
         return mv;
     }
+// Gestion des méthodes POST ===================================================
+
+// Gestion des méthodes mixtes==================================================
 }

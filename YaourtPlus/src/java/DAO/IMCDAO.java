@@ -12,9 +12,18 @@ import java.util.List;
  * @author tbenoist
  */
 public interface IMCDAO {
-		public void save(IMCEntity i);
-		public void update(IMCEntity i);
-		public void delete(IMCEntity i);
-		public IMCEntity find(int id);
-		public List<IMCEntity> findAll(); 
+
+// Transaction de base =========================================================
+    public void save(IMCEntity i);
+
+    public void update(IMCEntity i);
+
+    public void delete(IMCEntity i);
+
+// Transaction custom ==========================================================
+// Transaction read-only =======================================================
+    public IMCEntity find(int id);
+
+    public List<IMCEntity> findAll();
+
 }

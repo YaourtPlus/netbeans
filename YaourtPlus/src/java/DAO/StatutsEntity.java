@@ -51,11 +51,10 @@ public class StatutsEntity implements Serializable {
 
 // Relations ONE TO ONE
 // Relations ONE TO MANY
-    
     // Liste des acteurs sur le statut (notamment pour notification)
     @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
     private List<PersonnesStatutsEntity> statutsActeurs = new ArrayList<>();
-    
+
 // Relations MANY TO ONE
     // Auteur du statut
     @ManyToOne
@@ -71,7 +70,6 @@ public class StatutsEntity implements Serializable {
     )
     @ManyToMany(fetch = FetchType.EAGER)
     private List<FichiersEntity> listeFichiers = new ArrayList<>();
-
 
 // Constructeur ================================================================
     public StatutsEntity() {
@@ -155,22 +153,34 @@ public class StatutsEntity implements Serializable {
     public void setStatutsActeurs(List<PersonnesStatutsEntity> statutsActeurs) {
         this.statutsActeurs = statutsActeurs;
     }
-    
+
 // Gestion rapide nbLéger / nbLourd ============================================
+    /**
+     * Incrémentation du nombre de léger du statut
+     */
     public void addLeger() {
         nbLeger++;
     }
 
+    /**
+     * Incrémentation du nombre de lourd du statut
+     */
     public void addLourd() {
         nbLourd++;
     }
 
+    /**
+     * Décrémentation du nombre de léger du statut
+     */
     public void delLeger() {
         if (nbLeger > 0) {
             nbLeger--;
         }
     }
 
+    /**
+     * Décrémentation du nombre de lourd du statut
+     */
     public void delLourd() {
         if (nbLourd > 0) {
             nbLourd--;
@@ -178,16 +188,27 @@ public class StatutsEntity implements Serializable {
     }
 
 // Gestion action sur le statut ================================================
-    public boolean addPersonnesStatuts(PersonnesStatutsEntity ps){
-        if(statutsActeurs.contains(ps)){
+    /**
+     * Ajout d'une instance de PersonnesStatutsEntity
+     * @param ps instance à ajouter
+     * @return true si l'ajout est effectuée correctement, false sinon (doublon)
+     */
+    public boolean addPersonnesStatuts(PersonnesStatutsEntity ps) {
+        if (statutsActeurs.contains(ps)) { // Gestion des doublons
             return false;
         }
         return statutsActeurs.add(ps);
-        
+
     }
-    
-    public boolean removePersonnesStatuts(PersonnesStatutsEntity ps){
-        if(!statutsActeurs.contains(ps)){
+
+    /**
+     * Suppression d'une instance de PersonnesStatutsEntity
+     * @param ps l'instance à supprimer
+     * @return true si la suppression est effectuée correctement, false sinon 
+     * (non existence)
+     */
+    public boolean removePersonnesStatuts(PersonnesStatutsEntity ps) {
+        if (!statutsActeurs.contains(ps)) { // Gestion de non existence
             return false;
         }
         return statutsActeurs.remove(ps);
@@ -224,7 +245,9 @@ public class StatutsEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date=" + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd + ", auteur=" + auteur + '}';
+        return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date=" 
+                + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd 
+                + ", auteur=" + auteur + '}';
     }
 
 }
