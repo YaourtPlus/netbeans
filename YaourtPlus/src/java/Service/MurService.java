@@ -5,15 +5,19 @@
  */
 package Service;
 
+import Enumerations.TypeActions;
+
 /**
  *
  * @author Olivier
  */
 public interface MurService {
-    
+
     public String getStatuts(int id);
 
     public void addLeger(int idStatut, int idUser);
-    
+
     public void addLourd(int idStatut, int idUser);
+
+    public void removeAction(int idStatut, int idUser);
 }

@@ -5,7 +5,9 @@
  */
 package DAO;
 
+import Enumerations.TypeActions;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -41,7 +43,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Transactional
     @Override
     public void update(StatutsEntity s) {
-        s = em.merge(s);
+        em.merge(s);
     }
 
     @Transactional
@@ -75,41 +77,63 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void addLeger(StatutsEntity s, PersonnesEntity p) {
         s.addLeger();
-        s.ajoutActeur(p);
-        p.ajoutAction(s);
 
-        em.merge(s);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1);
+
+        if (s.addPersonnesStatuts(ps) && p.addPersonnesStatuts(ps)) {
+            em.persist(ps);
+        } else {
+            setAction(p, s, TypeActions.leger);
+        }
+// Simplification de merge avec setAction possible ?
         em.merge(p);
+        em.merge(s);
     }
 
     @Transactional
     @Override
     public void removeLeger(StatutsEntity s, PersonnesEntity p) {
         s.delLeger();
-        s.suppressionActeur(p);
-        p.suppressionAction(s);
-
         em.merge(s);
-        em.merge(p);
     }
 
     @Transactional
     @Override
     public void addLourd(StatutsEntity s, PersonnesEntity p) {
         s.addLourd();
-        s.ajoutActeur(p);
-        p.ajoutAction(s);
 
-        em.merge(s);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2);
+        
+        if (s.addPersonnesStatuts(ps) && p.addPersonnesStatuts(ps)) {
+            em.persist(ps);
+        } else {
+            setAction(p, s, TypeActions.lourd);
+        }
+        
         em.merge(p);
+        em.merge(s);
     }
 
     @Transactional
     @Override
     public void removeLourd(StatutsEntity s, PersonnesEntity p) {
         s.delLourd();
-        s.suppressionActeur(p);
-        p.suppressionAction(s);
+        em.merge(s);
+    }
+
+    @Transactional
+    public void setAction(PersonnesEntity p, StatutsEntity s, TypeActions action) {
+        List<PersonnesStatutsEntity> setPS = s.getStatutsActeurs();
+        for (PersonnesStatutsEntity ps : setPS) {
+            if (ps.getPersonne().equals(p) && ps.getStatut().equals(s)) {
+                ps.setTypeAction(TypeActions.leger);
+                em.merge(ps);
+                break;
+            }
+        }
+
+        s.setStatutsActeurs(setPS);
+        p.setStatutsActeurs(setPS);
 
         em.merge(s);
         em.merge(p);
