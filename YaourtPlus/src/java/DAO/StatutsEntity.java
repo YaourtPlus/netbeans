@@ -8,8 +8,10 @@ package DAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -48,6 +51,11 @@ public class StatutsEntity implements Serializable {
 
 // Relations ONE TO ONE
 // Relations ONE TO MANY
+    
+    // Liste des acteurs sur le statut (notamment pour notification)
+    @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
+    private List<PersonnesStatutsEntity> statutsActeurs = new ArrayList<>();
+    
 // Relations MANY TO ONE
     // Auteur du statut
     @ManyToOne
@@ -62,11 +70,8 @@ public class StatutsEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "StatutsID")
     )
     @ManyToMany(fetch = FetchType.EAGER)
-    List<FichiersEntity> listeFichiers = new ArrayList<>();
+    private List<FichiersEntity> listeFichiers = new ArrayList<>();
 
-    // Liste des acteurs sur le statut (notamment pour notification)
-    @ManyToMany(mappedBy = "actionsStatut", fetch = FetchType.EAGER)
-    List<PersonnesEntity> listeActeurs = new ArrayList<>();
 
 // Constructeur ================================================================
     public StatutsEntity() {
@@ -77,7 +82,7 @@ public class StatutsEntity implements Serializable {
         this.nbLourd = 0;
     }
 
-    public StatutsEntity(String texte, Date date, PersonnesEntity auteur) {
+    public StatutsEntity(String texte, Date date) {
         this.texte = texte;
         this.date = date;
         this.auteur = auteur;
@@ -114,8 +119,8 @@ public class StatutsEntity implements Serializable {
         return listeFichiers;
     }
 
-    public List<PersonnesEntity> getListeActeurs() {
-        return listeActeurs;
+    public List<PersonnesStatutsEntity> getStatutsActeurs() {
+        return statutsActeurs;
     }
 // Mutateurs ===================================================================
 
@@ -147,8 +152,8 @@ public class StatutsEntity implements Serializable {
         this.listeFichiers = listeFichiers;
     }
 
-    public void setListeActeurs(List<PersonnesEntity> listeActeurs) {
-        this.listeActeurs = listeActeurs;
+    public void setStatutsActeurs(List<PersonnesStatutsEntity> statutsActeurs) {
+        this.statutsActeurs = statutsActeurs;
     }
     
 // Gestion rapide nbLéger / nbLourd ============================================
@@ -171,25 +176,21 @@ public class StatutsEntity implements Serializable {
             nbLourd--;
         }
     }
-    
-// Gestion des acteurs =========================================================
-    
-    public boolean ajoutActeur(PersonnesEntity p){
-        if(!listeActeurs.contains(p)){
-            return listeActeurs.add(p);
-        }
-        else{
+
+// Gestion action sur le statut ================================================
+    public boolean addPersonnesStatuts(PersonnesStatutsEntity ps){
+        if(statutsActeurs.contains(ps)){
             return false;
         }
+        return statutsActeurs.add(ps);
+        
     }
     
-    public boolean suppressionActeur(PersonnesEntity p){
-        if(listeActeurs.contains(p)){
-            return listeActeurs.remove(p);
-        }
-        else{
+    public boolean removePersonnesStatuts(PersonnesStatutsEntity ps){
+        if(!statutsActeurs.contains(ps)){
             return false;
         }
+        return statutsActeurs.remove(ps);
     }
 // =============================================================================
 
