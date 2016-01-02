@@ -63,8 +63,12 @@ public class StatutsEntity implements Serializable {
     )
     @ManyToMany(fetch = FetchType.EAGER)
     List<FichiersEntity> listeFichiers = new ArrayList<>();
-// Constructeur ================================================================
 
+    // Liste des acteurs sur le statut (notamment pour notification)
+    @ManyToMany(mappedBy = "actionsStatut", fetch = FetchType.EAGER)
+    List<PersonnesEntity> listeActeurs = new ArrayList<>();
+
+// Constructeur ================================================================
     public StatutsEntity() {
         this.texte = "";
         this.date = null;
@@ -110,7 +114,11 @@ public class StatutsEntity implements Serializable {
         return listeFichiers;
     }
 
+    public List<PersonnesEntity> getListeActeurs() {
+        return listeActeurs;
+    }
 // Mutateurs ===================================================================
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -139,28 +147,52 @@ public class StatutsEntity implements Serializable {
         this.listeFichiers = listeFichiers;
     }
 
-// Gestion rapide nbLéger / nbLourd ============================================
+    public void setListeActeurs(List<PersonnesEntity> listeActeurs) {
+        this.listeActeurs = listeActeurs;
+    }
     
-    public void addLeger(){
+// Gestion rapide nbLéger / nbLourd ============================================
+    public void addLeger() {
         nbLeger++;
     }
-    
-    public void addLourd(){
+
+    public void addLourd() {
         nbLourd++;
     }
-    
-    public void delLeger(){
-        if(nbLeger > 0){
+
+    public void delLeger() {
+        if (nbLeger > 0) {
             nbLeger--;
         }
     }
-    
-    public void delLour(){
-        if(nbLourd > 0){
+
+    public void delLourd() {
+        if (nbLourd > 0) {
             nbLourd--;
         }
     }
+    
+// Gestion des acteurs =========================================================
+    
+    public boolean ajoutActeur(PersonnesEntity p){
+        if(!listeActeurs.contains(p)){
+            return listeActeurs.add(p);
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public boolean suppressionActeur(PersonnesEntity p){
+        if(listeActeurs.contains(p)){
+            return listeActeurs.remove(p);
+        }
+        else{
+            return false;
+        }
+    }
 // =============================================================================
+
     @Override
     public int hashCode() {
         int hash = 5;

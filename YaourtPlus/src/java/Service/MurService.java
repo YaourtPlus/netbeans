@@ -13,7 +13,7 @@ public interface MurService {
     
     public String getStatuts(int id);
 
-    public void addLeger(int idStatut);
+    public void addLeger(int idStatut, int idUser);
     
-    public void addLourd(int idStatut);
+    public void addLourd(int idStatut, int idUser);
 }

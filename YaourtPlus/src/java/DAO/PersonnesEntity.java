@@ -63,7 +63,7 @@ public class PersonnesEntity implements Serializable {
     // Quantité de notifications non lues
     @Column
     private Integer notifNonLues;
-    
+
 // Relations ONE TO ONE
     // Imc associé à la personne
     // Relation unidirectionnelle
@@ -113,13 +113,15 @@ public class PersonnesEntity implements Serializable {
     @ManyToMany(mappedBy = "listeDestinataires", fetch = FetchType.EAGER)
     private List<NotificationsEntity> notificationRecues = new ArrayList<>();
 
-    // TO FIX nouvelles tables
-    // Liste des statuts Léger par la personne
-    private List<StatutsEntity> legerStatuts = new ArrayList<>();
-    
-    // Liste des statuts Lourd par la personne
-    private List<StatutsEntity> lourdStatuts = new ArrayList<>();
-    
+    // Liste des statuts sur lesquel l'utilisateur est intervenu
+    @JoinTable(
+            name = "Personnes_Statuts",
+            joinColumns = @JoinColumn(name = "StatutId"),
+            inverseJoinColumns = @JoinColumn(name = "ActeurId")
+    )
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<StatutsEntity> actionsStatut = new ArrayList<>();
+
 // Constructeur=================================================================
     public PersonnesEntity() {
         this.nom = "";
@@ -158,14 +160,13 @@ public class PersonnesEntity implements Serializable {
     }
 
     public int getNotifNonLues() {
-        if(notifNonLues == null){
+        if (notifNonLues == null) {
             return 0;
-        }
-        else{
+        } else {
             return notifNonLues;
         }
     }
-            
+
     public String getMail() {
         return mail;
     }
@@ -173,7 +174,7 @@ public class PersonnesEntity implements Serializable {
     public String getLogin() {
         return login;
     }
-    
+
     public String getPassword() {
         return password;
     }
@@ -218,7 +219,11 @@ public class PersonnesEntity implements Serializable {
         return listFilousDe;
     }
 
+    public List<StatutsEntity> getActionSstatut() {
+        return actionsStatut;
+    }
 // Mutateurs ===================================================================
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -287,24 +292,27 @@ public class PersonnesEntity implements Serializable {
         this.listFilousDe = listFilousDe;
     }
 
-    public void setNotifNonLues(int notifNonLues){
+    public void setNotifNonLues(int notifNonLues) {
         this.notifNonLues = notifNonLues;
     }
+
+    public void setActionsStatuts(List<StatutsEntity> actionsStatuts) {
+        this.actionsStatut = actionsStatuts;
+    }
+
 // Gestion du nombre de notifications non lues =================================
-    
-    public void addNotif(){
-        if(notifNonLues != null){
+    public void addNotif() {
+        if (notifNonLues != null) {
             notifNonLues++;
-        }
-        else{
+        } else {
             notifNonLues = 1;
         }
     }
-    
-    public void resetNotif(){
+
+    public void resetNotif() {
         notifNonLues = 0;
     }
-    
+
 // Gestion de filous ===========================================================
     /**
      * Ajoute un nouvel ami à la personne
@@ -357,13 +365,30 @@ public class PersonnesEntity implements Serializable {
     }
 // Gestion de statuts ==========================================================
 
-    public boolean ajoutStatut(StatutsEntity statut) {
-        return statuts.add(statut);
+    public boolean ajoutStatut(StatutsEntity s) {
+        return statuts.add(s);
     }
 
+    public boolean ajoutAction(StatutsEntity s) {
+        if (!actionsStatut.contains(s)) {
+            return actionsStatut.add(s);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean suppressionAction(StatutsEntity s) {
+        if (actionsStatut.contains(s)) {
+            return actionsStatut.remove(s);
+        } else {
+            return false;
+        }
+    }
 // Gestion de statuts ==========================================================
+
     /**
      * Ajout de reception de notification
+     *
      * @param notification Notification reçu
      * @return true si la notification a bien été ajoutée, false sinon
      */
@@ -373,13 +398,15 @@ public class PersonnesEntity implements Serializable {
 
     /**
      * Ajout d'envoi de notification
+     *
      * @param notification Notification envoyée
      * @return true si la notification a bien été ajoutée, false sinon
      */
-    public boolean ajoutNotificationEmise(NotificationsEntity notification){
+    public boolean ajoutNotificationEmise(NotificationsEntity notification) {
         return notificationsEmises.add(notification);
     }
 // =============================================================================
+
     @Override
     public int hashCode() {
         int hash = 7;

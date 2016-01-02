@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class MurServiceImpl implements MurService{
 
     @Resource
-    PersonnesDAO personnesDAO;
+    PersonnesDAO personneDAO;
     
     @Resource
     StatutsDAO statutDAO;
@@ -31,7 +31,7 @@ public class MurServiceImpl implements MurService{
     
     @Override
     public String getStatuts(int id){
-        PersonnesEntity user = personnesDAO.find(id);
+        PersonnesEntity user = personneDAO.find(id);
 
         
         String statuts = "";
@@ -43,12 +43,13 @@ public class MurServiceImpl implements MurService{
                 statuts += "<div class=\"statuts-texte\">";
                 statuts += s.getTexte();
                 statuts += "<br/>";
-                int nb = s.getNbLeger();
-                statuts += "<a href='leger.htm?id=" + s.getId() + "'> Léger !" + getQuantity(nb) + "</a>"; // Gestion de l'IMC
-                nb = s.getNbLourd();
-                statuts += "<a href='lourd.htm?id=" + s.getId() + "'> T'es lourd !" + getQuantity(nb) + "</a>"; // Gestion de l'IMC
-                statuts += "</div>";
-               
+                if(!user.getActionSstatut().contains(s)){
+                    int nb = s.getNbLeger();
+                    statuts += "<a href='leger.htm?id=" + s.getId() + "'> Léger !" + getQuantity(nb) + "</a>"; // Gestion de l'IMC
+                    nb = s.getNbLourd();
+                    statuts += "<a href='lourd.htm?id=" + s.getId() + "'> T'es lourd !" + getQuantity(nb) + "</a>"; // Gestion de l'IMC
+                    statuts += "</div>";
+                }
                 statuts += "</div>";
             }
         }
@@ -60,21 +61,19 @@ public class MurServiceImpl implements MurService{
     }
 
     @Override
-    public void addLeger(int idStatut) {
+    public void addLeger(int idStatut, int idUser) {
         StatutsEntity statut = statutDAO.find(idStatut);
+        PersonnesEntity user = personneDAO.find(idUser);
         
-        statut.addLeger();
-        
-        statutDAO.update(statut);
+        statutDAO.addLeger(statut, user);
     }
     
     @Override
-    public void addLourd(int idStatut) {
+    public void addLourd(int idStatut, int idUser) {
         StatutsEntity statut = statutDAO.find(idStatut);
+        PersonnesEntity user = personneDAO.find(idUser);
         
-        statut.addLourd();
-        
-        statutDAO.update(statut);
+        statutDAO.addLourd(statut, user);
     }
     
 }

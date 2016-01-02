@@ -19,55 +19,99 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class StatutsDAOImpl implements StatutsDAO {
 
-	@PersistenceContext(unitName = "Yaourt_PU")
-	private EntityManager em;
+    @PersistenceContext(unitName = "Yaourt_PU")
+    private EntityManager em;
 
-	public EntityManager getEm() {
-		return em;
-	}
+    public EntityManager getEm() {
+        return em;
+    }
 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 
 // Ecriture ====================================================================
-	@Transactional
-	@Override
-	public void save(StatutsEntity s) {
-		s = em.merge(s);
-		em.persist(s);
-	}
+    @Transactional
+    @Override
+    public void save(StatutsEntity s) {
+        s = em.merge(s);
+        em.persist(s);
+    }
 
-	@Transactional
-	@Override
-	public void update(StatutsEntity s) {
-		s = em.merge(s);
-	}
+    @Transactional
+    @Override
+    public void update(StatutsEntity s) {
+        s = em.merge(s);
+    }
 
-	@Transactional
-	@Override
-	public void delete(StatutsEntity s) {
-		s = em.merge(s);
-		em.remove(s);
-	}
+    @Transactional
+    @Override
+    public void delete(StatutsEntity s) {
+        s = em.merge(s);
+        em.remove(s);
+    }
 
 // Lecture =====================================================================
-	@Transactional(readOnly = true)
-	@Override
-	public StatutsEntity find(int id) {
-            return em.find(StatutsEntity.class, id);
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public StatutsEntity find(int id) {
+        return em.find(StatutsEntity.class, id);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<StatutsEntity> findAll() {
-		Query q = em.createQuery("SELECT s FROM StatutsEntity s");
-		return q.getResultList();
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public List<StatutsEntity> findAll() {
+        Query q = em.createQuery("SELECT s FROM StatutsEntity s");
+        return q.getResultList();
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<StatutsEntity> findByAuteur(int auteurId) {
-		return null;
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public List<StatutsEntity> findByAuteur(int auteurId) {
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public void addLeger(StatutsEntity s, PersonnesEntity p) {
+        s.addLeger();
+        s.ajoutActeur(p);
+        p.ajoutAction(s);
+
+        em.merge(s);
+        em.merge(p);
+    }
+
+    @Transactional
+    @Override
+    public void removeLeger(StatutsEntity s, PersonnesEntity p) {
+        s.delLeger();
+        s.suppressionActeur(p);
+        p.suppressionAction(s);
+
+        em.merge(s);
+        em.merge(p);
+    }
+
+    @Transactional
+    @Override
+    public void addLourd(StatutsEntity s, PersonnesEntity p) {
+        s.addLourd();
+        s.ajoutActeur(p);
+        p.ajoutAction(s);
+
+        em.merge(s);
+        em.merge(p);
+    }
+
+    @Transactional
+    @Override
+    public void removeLourd(StatutsEntity s, PersonnesEntity p) {
+        s.delLourd();
+        s.suppressionActeur(p);
+        p.suppressionAction(s);
+
+        em.merge(s);
+        em.merge(p);
+    }
 }

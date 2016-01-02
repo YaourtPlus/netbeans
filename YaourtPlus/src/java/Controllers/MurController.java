@@ -116,7 +116,7 @@ public class MurController {
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
         int idStatut = Integer.parseInt(request.getParameter("id"));
         
-        murService.addLeger(idStatut);
+        murService.addLeger(idStatut, idUtilisateur);
         
         mv = this.afficheMur(request, response);
         return mv;
@@ -140,7 +140,7 @@ public class MurController {
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
         int idStatut = Integer.parseInt(request.getParameter("id"));
         
-        murService.addLourd(idStatut);
+        murService.addLourd(idStatut, idUtilisateur);
         
         mv = this.afficheMur(request, response);
         return mv;
