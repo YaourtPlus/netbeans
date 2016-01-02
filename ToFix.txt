@@ -2,3 +2,4 @@
 - Gestion de l'existence de la session (actuellement, duplication de code cf : https://openclassrooms.com/courses/creez-votre-application-web-avec-java-ee/le-filtre-creez-un-espace-membre)
 - Gestion de l'accès aux pages (lié au problème précédent)
 - Gestion des fichiers
+- Avec l'ajout de la table PersonnesStatutsEntity, toujours besoin de la liste statuts?
