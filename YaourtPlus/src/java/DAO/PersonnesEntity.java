@@ -5,11 +5,14 @@
  */
 package DAO;
 
+import Enumerations.TypeActions;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +25,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 /**
  *
@@ -84,6 +86,10 @@ public class PersonnesEntity implements Serializable {
     @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
     private List<MessagesEntity> messagesEmis = new ArrayList<>();
 
+    // Liste des statuts sur lesquel l'utilisateur est intervenu
+    @OneToMany(mappedBy = "personne", fetch = FetchType.EAGER)
+    private List<PersonnesStatutsEntity> statutsActeurs = new ArrayList<>();
+
 // Relations MANY TO ONE
 // Relations MANY TO MANY
     // Liste des amis de la personne
@@ -112,15 +118,6 @@ public class PersonnesEntity implements Serializable {
     // Liste des notifications reçues par la personne
     @ManyToMany(mappedBy = "listeDestinataires", fetch = FetchType.EAGER)
     private List<NotificationsEntity> notificationRecues = new ArrayList<>();
-
-    // Liste des statuts sur lesquel l'utilisateur est intervenu
-    @JoinTable(
-            name = "Personnes_Statuts",
-            joinColumns = @JoinColumn(name = "StatutId"),
-            inverseJoinColumns = @JoinColumn(name = "ActeurId")
-    )
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<StatutsEntity> actionsStatut = new ArrayList<>();
 
 // Constructeur=================================================================
     public PersonnesEntity() {
@@ -219,8 +216,8 @@ public class PersonnesEntity implements Serializable {
         return listFilousDe;
     }
 
-    public List<StatutsEntity> getActionSstatut() {
-        return actionsStatut;
+    public List<PersonnesStatutsEntity> getStatutActeurs() {
+        return statutsActeurs;
     }
 // Mutateurs ===================================================================
 
@@ -296,8 +293,8 @@ public class PersonnesEntity implements Serializable {
         this.notifNonLues = notifNonLues;
     }
 
-    public void setActionsStatuts(List<StatutsEntity> actionsStatuts) {
-        this.actionsStatut = actionsStatuts;
+    public void setStatutsActeurs(List<PersonnesStatutsEntity> statutsActeurs) {
+        this.statutsActeurs = statutsActeurs;
     }
 
 // Gestion du nombre de notifications non lues =================================
@@ -369,22 +366,30 @@ public class PersonnesEntity implements Serializable {
         return statuts.add(s);
     }
 
-    public boolean ajoutAction(StatutsEntity s) {
-        if (!actionsStatut.contains(s)) {
-            return actionsStatut.add(s);
-        } else {
+    public boolean addPersonnesStatuts(PersonnesStatutsEntity ps) {
+        if (statutsActeurs.contains(ps)) {
             return false;
         }
+        return statutsActeurs.add(ps);
+
     }
 
-    public boolean suppressionAction(StatutsEntity s) {
-        if (actionsStatut.contains(s)) {
-            return actionsStatut.remove(s);
-        } else {
+    public boolean removePersonnesStatuts(PersonnesStatutsEntity ps) {
+        if (!statutsActeurs.contains(ps)) {
             return false;
         }
+        return statutsActeurs.remove(ps);
     }
-// Gestion de statuts ==========================================================
+
+    public TypeActions getAction(StatutsEntity s) {
+        for (PersonnesStatutsEntity ps : statutsActeurs) {
+            if (ps.getStatut().equals(s)) {
+                return ps.getTypeAction();
+            }
+        }
+        return TypeActions.noAction;
+    }
+// Gestion des notifications ===================================================
 
     /**
      * Ajout de reception de notification
@@ -413,7 +418,9 @@ public class PersonnesEntity implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.id);
         hash = 47 * hash + Objects.hashCode(this.nom);
         hash = 47 * hash + Objects.hashCode(this.prenom);
-        hash = 47 * hash + this.age;
+        if (this.age != null) {
+            hash = 47 * hash + this.age;
+        }
         hash = 47 * hash + Objects.hashCode(this.mail);
         hash = 47 * hash + Objects.hashCode(this.login);
         hash = 47 * hash + Objects.hashCode(this.password);
