@@ -57,29 +57,26 @@ public class CompteController {
         String password = request.getParameter("password");
         String mail = request.getParameter("mail");
         String age = request.getParameter("ddn");
-        
-        if(login.isEmpty() || password.isEmpty() || mail.isEmpty() || nom.isEmpty() || prenom.isEmpty())
-        {
+
+        if (login.isEmpty() || password.isEmpty() || mail.isEmpty() || nom.isEmpty() || prenom.isEmpty()) {
             mv = new ModelAndView("inscription");
             result = "Veuillez renseigner tous les champs...";
             mv.addObject("inscriptionMessage", result);
             return mv;
         }
-        
+
         Integer ageInscription = null;
-        if (age != null &&   age.length() != 0) {
-            
+        if (age != null && age.length() != 0) {
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
-        // A faire : Vérification des paramètres.
-        GregorianCalendar gcBirth = new GregorianCalendar(Integer.parseInt(age.split("/")[2]), Integer.parseInt(age.split("/")[1]) - 1, Integer.parseInt(age.split("/")[0]));
-        GregorianCalendar now = new GregorianCalendar();
-        long diff = now.getTimeInMillis() - gcBirth.getTimeInMillis();
+            // A faire : Vérification des paramètres.
+            GregorianCalendar gcBirth = new GregorianCalendar(Integer.parseInt(age.split("/")[2]), Integer.parseInt(age.split("/")[1]) - 1, Integer.parseInt(age.split("/")[0]));
+            GregorianCalendar now = new GregorianCalendar();
+            long diff = now.getTimeInMillis() - gcBirth.getTimeInMillis();
 
-        ageInscription = now.get(Calendar.YEAR) - gcBirth.get(Calendar.YEAR);
+            ageInscription = now.get(Calendar.YEAR) - gcBirth.get(Calendar.YEAR);
         }
-        
-        
 
         if (profilService.exists(login)) {
             mv = new ModelAndView("inscription");
@@ -97,7 +94,7 @@ public class CompteController {
 
     // Gestion de la connexion
     @RequestMapping(value = "connexion", method = RequestMethod.POST)
-    public ModelAndView connection(HttpServletRequest request,
+    public ModelAndView connexion(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ModelAndView mv;
         String login = request.getParameter("login");
@@ -107,12 +104,12 @@ public class CompteController {
         HttpSession session = request.getSession(true);
 
         if (session != null) {
-
             session.setAttribute("idUtilisateur", connexionService.connexion(login, password));
             int idPersonne = (int) session.getAttribute("idUtilisateur");
             if (idPersonne != -1) {
                 mv = new ModelAndView("redirect:/mur.htm");
             } else {
+                session.invalidate();
                 mv = new ModelAndView("connexion");
                 mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
             }
@@ -123,7 +120,6 @@ public class CompteController {
         return mv;
     }
 
-    
     // Gestion de la connexion
     @RequestMapping(value = "deconnexion", method = RequestMethod.GET)
     public ModelAndView deconnexion(HttpServletRequest request,
