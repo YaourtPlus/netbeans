@@ -79,13 +79,11 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Transactional
     @Override
     public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s) {
-        // Sens d'ajout?
         boolean add = p.ajoutStatut(s);
         s.setAuteur(p);
-
         if (add) {
-            em.merge(p);
             em.merge(s);
+            em.merge(p);
         }
         return add;
     }
@@ -93,7 +91,6 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Transactional
     @Override
     public boolean ajoutNotif(PersonnesEntity notifieur, PersonnesEntity destinataire, NotificationsEntity notif) {
-        
         notif.ajoutDestinataire(destinataire);
         
         boolean added = notifieur.ajoutNotificationEmise(notif);

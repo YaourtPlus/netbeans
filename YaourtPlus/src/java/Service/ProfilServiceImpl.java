@@ -56,7 +56,7 @@ public class ProfilServiceImpl implements ProfilService {
             return false;
         }
         PersonnesEntity user = getPersonne(idUser);
-        StatutsEntity newStatut = new StatutsEntity(statut, new Date(), user);
+        StatutsEntity newStatut = new StatutsEntity(statut, new Date());
         statutDAO.save(newStatut);
         return personnesDAO.ajoutStatut(user, newStatut);
 
