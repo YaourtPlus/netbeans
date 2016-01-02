@@ -57,6 +57,21 @@ public class NotificationsEntity implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     List<PersonnesEntity> listeDestinataires = new ArrayList<>();
 
+// Constructeurs ===============================================================
+    
+    public NotificationsEntity() {
+        this.date = new Date();
+        this.type = 0;
+        this.notifieur = null;
+    }
+
+    
+    public NotificationsEntity(Date date, Integer type) {
+        this.date = date;
+        this.type = type;
+        this.notifieur = null;
+    }
+
 // Accesseurs ==================================================================
     public Integer getId() {
         return id;
@@ -72,18 +87,6 @@ public class NotificationsEntity implements Serializable {
 
     public PersonnesEntity getNotifieur() {
         return notifieur;
-    }
-
-    public NotificationsEntity() {
-        this.date = new Date();
-        this.id = 0;
-        this.notifieur = null;
-    }
-
-    public NotificationsEntity(Date date, Integer type) {
-        this.date = date;
-        this.type = type;
-        this.notifieur = null;
     }
 
 // Mutateurs ===================================================================
