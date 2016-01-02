@@ -1,5 +1,6 @@
 package Controllers;
 
+import Enumerations.TypeActions;
 import Service.ConnexionService;
 import Service.MurService;
 import Service.ProfilService;
@@ -59,7 +60,7 @@ public class MurController {
             String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
             String listFilous = profilService.getFilous(idUtilisateur);
             String statut = murService.getStatuts(idUtilisateur);
-               // int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
+            // int nbNotif = profilService.getPersonne(idUtilisateur).getNotifNonLues();
             // mv.addObject("nbNotif", nbNotif == 0 ? "" : nbNotif);
             mv.addObject("listeAmi", listFilous);
             mv.addObject("nomPersonne", nomPersonne);
@@ -95,12 +96,11 @@ public class MurController {
         return mv;
     }
 
-    
     /*
-    * /!\ Ajouter gestion d'un seul léget / un seul lourd /!\
-    */
+     * /!\ Ajouter gestion d'un seul léget / un seul lourd /!\
+     */
     @RequestMapping(value = "leger", method = RequestMethod.GET)
-    public ModelAndView legerStatut (HttpServletRequest request,
+    public ModelAndView legerStatut(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
@@ -115,16 +115,15 @@ public class MurController {
 
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
         int idStatut = Integer.parseInt(request.getParameter("id"));
-        
+
         murService.addLeger(idStatut, idUtilisateur);
-        
+
         mv = this.afficheMur(request, response);
         return mv;
     }
-    
-    
+
     @RequestMapping(value = "lourd", method = RequestMethod.GET)
-    public ModelAndView lourdStatut (HttpServletRequest request,
+    public ModelAndView lourdStatut(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
@@ -139,8 +138,31 @@ public class MurController {
 
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
         int idStatut = Integer.parseInt(request.getParameter("id"));
-        
+
         murService.addLourd(idStatut, idUtilisateur);
+
+        mv = this.afficheMur(request, response);
+        return mv;
+    }
+
+    @RequestMapping(value = "removeAction", method = RequestMethod.GET)
+    public ModelAndView removeAction(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        HttpSession session = request.getSession(false);
+        // Si la session n'existe pas, c'est qu'on ne vient pas du controller ConnexionController et qu'on a essayé d'accéder à la page sans être connecté
+        if (session == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        int idStatut = Integer.parseInt(request.getParameter("id"));
+
+        murService.removeAction(idStatut, idUtilisateur);
         
         mv = this.afficheMur(request, response);
         return mv;
