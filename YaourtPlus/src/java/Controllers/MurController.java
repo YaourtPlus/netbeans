@@ -50,23 +50,24 @@ public class MurController {
         // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", 
+            mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        } else {
+            // Récupération de l'id de l'utilisateur courant
+            int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+            // Récupération de l'id du statut sur lequel l'action est effectuée
+            int idStatut = Integer.parseInt(request.getParameter("id"));
+
+            // Gestion de l'ajout de léger
+            murService.addLeger(idStatut, idUtilisateur);
+
+            // Affichage du mur
+            mv = this.afficheMur(request, response);
             return mv;
         }
 
-        // Récupération de l'id de l'utilisateur courant
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-
-        // Récupération de l'id du statut sur lequel l'action est effectuée
-        int idStatut = Integer.parseInt(request.getParameter("id"));
-
-        // Gestion de l'ajout de léger
-        murService.addLeger(idStatut, idUtilisateur);
-
-        // Affichage du mur
-        mv = this.afficheMur(request, response);
-        return mv;
     }
 
     // Ajout d'un lourd
@@ -82,7 +83,7 @@ public class MurController {
         // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", 
+            mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
@@ -114,7 +115,7 @@ public class MurController {
         // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", 
+            mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
@@ -147,7 +148,7 @@ public class MurController {
         // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", 
+            mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
@@ -168,8 +169,8 @@ public class MurController {
 
 // Gestion des méthodes mixtes==================================================
     // Affichage du mur
-    @RequestMapping(value = "mur", method = {RequestMethod.POST, 
-                                                RequestMethod.GET})
+    @RequestMapping(value = "mur", method = {RequestMethod.POST,
+        RequestMethod.GET})
     public ModelAndView afficheMur(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -181,12 +182,13 @@ public class MurController {
         // Accès sans être connecté
         if (session == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", 
+            mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
-
-        // Récupération de l'id de l'utilisateur
+        else
+        {
+             // Récupération de l'id de l'utilisateur
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
         // Création du modelAndView mur pour l'affichage
@@ -206,8 +208,11 @@ public class MurController {
         mv.addObject("listeAmi", listFilous);
         mv.addObject("nomPersonne", nomPersonne);
         mv.addObject("listStatuts", statut);
-        
+
         return mv;
+        }
+
+       
     }
 
 }

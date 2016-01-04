@@ -161,6 +161,7 @@ public class CompteController {
         } else { // Session non crée
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            session.invalidate();
         }
         return mv;
     }

@@ -134,7 +134,6 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     public boolean ajoutNotif(PersonnesEntity notifieur,
             PersonnesEntity destinataire, NotificationsEntity notif) {
         //Mise à jour de la notification
-        notif.ajoutDestinataire(destinataire);
 
         // Mise à jour des personnes
         boolean added = notifieur.ajoutNotificationEmise(notif);
@@ -147,7 +146,6 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         if (added) {
             em.merge(notifieur);
             em.merge(destinataire);
-            em.merge(notif);
         }
 
         return added;
