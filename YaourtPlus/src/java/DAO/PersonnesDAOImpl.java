@@ -33,6 +33,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 	}
 
 // Ecriture ====================================================================
+
 	@Transactional
 	@Override
 	public void save(PersonnesEntity p) {
