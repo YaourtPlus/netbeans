@@ -79,10 +79,10 @@ public class FilousServiceImpl implements FilousService {
         NotificationsEntity notif = new NotificationsEntity(new Date(),
                 TypeNotifications.notifFilou.getId());
         notif.setNotifieur(utilisateur);
-
+		
         // Création de la notification dans la BD
         notificationsDAO.save(notif);
-
+		
         // Ajout de la notification au nouveau filou
         personnesDAO.ajoutNotif(utilisateur, nouveauFilous, notif);
 
