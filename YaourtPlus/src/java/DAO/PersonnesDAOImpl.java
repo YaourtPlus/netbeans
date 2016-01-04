@@ -173,7 +173,17 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 		}
 		return p;
 	}
-
+	
+	@Transactional(readOnly = true)
+	@Override
+	public PersonnesEntity findFilous(int id) {
+		Query q = em.createQuery("SELECT P FROM PersonnesEntity P JOIN FETCH P.listFilous pl "
+				+ "WHERE P.id = ?");
+		q.setParameter(1, id);
+		return (PersonnesEntity)q.getSingleResult();
+	}
+	
+	
 	@Transactional(readOnly = true)
 	@Override
 	public PersonnesEntity findByLogin(String login) {

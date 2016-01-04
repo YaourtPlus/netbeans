@@ -35,6 +35,9 @@ public interface PersonnesDAO {
     public PersonnesEntity find(String login, String password);
 
     public PersonnesEntity findByLogin(String login);
+	
+	// A utiliser et passer en fetch.lazy partout
+    public PersonnesEntity findFilous(int id);
 
     public List<PersonnesEntity> findAll();
 

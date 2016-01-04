@@ -42,7 +42,7 @@ public class MurServiceImpl implements MurService {
         PersonnesEntity user = personneDAO.find(id);
 
         String statuts = "";
-        // Parcours des filous de l'utilisateur
+		// Parcours des filous de l'utilisateur
         for (PersonnesEntity p : user.getListFilous()) {
             // Parcours des statuts des filous
             // /!\ Récupération des statuts dans DAO selon la date /!\
