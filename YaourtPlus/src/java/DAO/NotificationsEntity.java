@@ -157,11 +157,15 @@ public class NotificationsEntity implements Serializable {
             case notifMessage:
                 result += " vous a envoyé un message.";
                 break;
-            case notifStatut:
-                result += " vous a mentionné dans un statut";
+            case notifLeger:
+                result += " a allégé votre statut";
                 break;
-            default:
+			case notifLourd:
+				result += " a allourdi votre statut";
                 break;
+			case notifCommentaire:
+				result += " a commenté votre statut";
+				break;
         };
         return result;
     }
