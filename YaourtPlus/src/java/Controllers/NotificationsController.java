@@ -26,7 +26,6 @@ public class NotificationsController {
     ProfilService profilService;
 
 // Gestion des requêtes GET ====================================================
-    
     // Liste des notifications
     @RequestMapping(value = "notifications", method = RequestMethod.GET)
     public ModelAndView listNotifications(HttpServletRequest request,
@@ -38,9 +37,9 @@ public class NotificationsController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", 
+            mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
@@ -50,10 +49,10 @@ public class NotificationsController {
 
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        
+
         // Affichage des notifications de l'utilisateur
         mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
-       
+
         return mv;
     }
 // Gestion des méthodes POST ===================================================

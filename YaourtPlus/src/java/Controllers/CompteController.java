@@ -56,10 +56,11 @@ public class CompteController {
 
         if (session != null) {
             session.invalidate();
-            mv.addObject("inscriptionMessage", "Deconnexion réussie");
+            mv.addObject("inscriptionMessage", "Déconnexion réussie");
         } else {
             // Ne doit pas arriver
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
         }
         return mv;
     }
@@ -95,25 +96,25 @@ public class CompteController {
             mv.addObject("inscriptionMessage", result);
             return mv;
         }
-        
+
         // Calcul de l'age de la personne
         Integer ageInscription = null;
         if (age != null && age.length() != 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-            
+
             // A faire : Vérification des paramètres.
             GregorianCalendar gcBirth = new GregorianCalendar(
-                    Integer.parseInt(age.split("/")[2]), 
+                    Integer.parseInt(age.split("/")[2]),
                     Integer.parseInt(age.split("/")[1]) - 1,
                     Integer.parseInt(age.split("/")[0]));
-            
+
             GregorianCalendar now = new GregorianCalendar();
-            
+
             long diff = now.getTimeInMillis() - gcBirth.getTimeInMillis();
-            
+
             ageInscription = now.get(Calendar.YEAR) - gcBirth.get(Calendar.YEAR);
         }
-        
+
         // Gestion des doublons
         if (profilService.exists(login)) {
             mv = new ModelAndView("inscription");
@@ -133,9 +134,9 @@ public class CompteController {
     @RequestMapping(value = "connexion", method = RequestMethod.POST)
     public ModelAndView connexion(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ModelAndView mv;
-        
+
         // Récupération des données
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -143,12 +144,16 @@ public class CompteController {
         // Création de la session
         HttpSession session = request.getSession(true);
 
-        if (session != null) {
+        if (session == null ) { // Session non créée
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage", 
+                    "Veuillez vous connecter pour accéder à cette page");
+        } else {
             // Attribution de l'id de l'utilisateur qui sera utilisé par 
             // le reste de l'application
-            session.setAttribute("idUtilisateur", 
+            session.setAttribute("idUtilisateur",
                     connexionService.connexion(login, password));
-            
+
             int idPersonne = (int) session.getAttribute("idUtilisateur");
             // Vérification de la connexion
             if (idPersonne != -1) { // Connexion réussie
@@ -156,19 +161,12 @@ public class CompteController {
             } else { // Connexion refusée
                 session.invalidate();
                 mv = new ModelAndView("connexion");
-                mv.addObject("inscriptionMessage", "Login ou mot de passe incorrect");
+                mv.addObject("inscriptionMessage", 
+                        "Login ou mot de passe incorrect");
             }
-        } else { // Session non crée
-            mv = new ModelAndView("connexion");
-            mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-            session.invalidate();
         }
         return mv;
     }
 
 // Gestion des méthodes mixtes==================================================
 }
-
-// Gestion des requêtes GET ====================================================
-// Gestion des méthodes POST ===================================================
-// Gestion des méthodes mixtes==================================================
