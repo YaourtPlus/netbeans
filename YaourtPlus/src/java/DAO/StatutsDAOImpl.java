@@ -65,7 +65,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLeger();
 
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -107,7 +107,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLourd();
 
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour

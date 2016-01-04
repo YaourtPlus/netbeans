@@ -44,7 +44,7 @@ public class FilousServiceImpl implements FilousService {
         // On enlève l'utilisateur de la liste précédente pour ne pas qu'il 
         // puisse s'ajouter
         PersonnesEntity user = personnesDAO.find(idUtilisateur);
-        filous.remove((PersonnesEntity) user);
+        filous.remove(user);
 
         // Parcours de la liste
         for (PersonnesEntity p : filous) {
