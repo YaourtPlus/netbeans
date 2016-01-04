@@ -1,11 +1,8 @@
 package Controllers;
 
-import Enumerations.TypeActions;
 import Service.ConnexionService;
 import Service.MurService;
 import Service.ProfilService;
-import java.util.Date;
-import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -48,7 +45,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -81,7 +78,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -113,7 +110,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -146,7 +143,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -180,39 +177,36 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
-        }
-        else
-        {
-             // Récupération de l'id de l'utilisateur
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        } else {
+            // Récupération de l'id de l'utilisateur
+            int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
-        // Création du modelAndView mur pour l'affichage
-        mv = new ModelAndView("mur");
+            // Création du modelAndView mur pour l'affichage
+            mv = new ModelAndView("mur");
 
-        // Création de l'affichage
-        // Récupération du nom de l'utilisauter
-        String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
+			// Création de l'affichage
+            // Récupération du nom de l'utilisauter
+            String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
 
-        // Récupération des Filous de la personne
-        String listFilous = profilService.getFilous(idUtilisateur);
+            // Récupération des Filous de la personne
+            String listFilous = profilService.getFilous(idUtilisateur);
 
-        // Récupération des statuts des Filous
-        String statut = murService.getStatuts(idUtilisateur);
+            // Récupération des statuts des Filous
+            String statut = murService.getStatuts(idUtilisateur);
 
-        // Affichage des différentes données récupérées précédemment
-        mv.addObject("listeAmi", listFilous);
-        mv.addObject("nomPersonne", nomPersonne);
-        mv.addObject("listStatuts", statut);
+            // Affichage des différentes données récupérées précédemment
+            mv.addObject("listeAmi", listFilous);
+            mv.addObject("nomPersonne", nomPersonne);
+            mv.addObject("listStatuts", statut);
 
-        return mv;
+            return mv;
         }
 
-       
     }
 
 }
