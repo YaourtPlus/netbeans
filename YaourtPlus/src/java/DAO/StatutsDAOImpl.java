@@ -35,9 +35,10 @@ public class StatutsDAOImpl implements StatutsDAO {
 // Ecriture ====================================================================
     @Transactional
     @Override
-    public void save(StatutsEntity s) {
+    public int save(StatutsEntity s) {
         s = em.merge(s);
         em.persist(s);
+        return s.getId();
     }
 
     @Transactional
@@ -176,6 +177,18 @@ public class StatutsDAOImpl implements StatutsDAO {
     
 // Lecture =====================================================================
 
+    @Override
+    public void addFichier(StatutsEntity se, FichiersEntity fe) {
+        se.addFichierStatuts(fe);
+        fe.addStatutsFichier(se);
+
+        se = em.merge(se);
+        em.merge(fe);
+
+    }
+
+
+// Lecture =====================================================================
     @Transactional(readOnly = true)
     @Override
     public StatutsEntity find(int id) {

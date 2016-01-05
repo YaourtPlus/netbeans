@@ -11,7 +11,7 @@ package Service;
  */
 public interface MurService {
 
-    public boolean ajoutStatut(int idUtilisateur, String statut);
+    public int ajoutStatut(int idUtilisateur, String statut);
     
     public boolean ajoutCommentaire(int idUtilisateur, int idStatut, String commentaire);
 

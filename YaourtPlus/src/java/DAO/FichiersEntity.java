@@ -38,6 +38,9 @@ public class FichiersEntity implements Serializable {
     @Column(length = 64, nullable = false)
     private String contenu;
 
+    @Column(length = 256, nullable = false)
+    private String nom;
+
 // Relations ONE TO ONE
 // Relations ONE TO MANY
 // Relations MANY TO ONE	
@@ -49,17 +52,18 @@ public class FichiersEntity implements Serializable {
     // Liste des messages auxquels est associé le fichier
     @ManyToMany(mappedBy = "listeFichiers", fetch = FetchType.EAGER)
     List<MessagesEntity> listeMessages = new ArrayList<>();
-    
-// Constructeurs ===============================================================
 
+// Constructeurs ===============================================================
     public FichiersEntity() {
         this.type = "txt";
         this.contenu = "";
+        this.nom = "";
     }
 
-    public FichiersEntity(String type, String contenu) {
+    public FichiersEntity(String type, String contenu, String nom) {
         this.type = type;
         this.contenu = contenu;
+        this.nom = nom;
     }
 
 // Accesseurs ==================================================================
@@ -73,6 +77,10 @@ public class FichiersEntity implements Serializable {
 
     public String getContenu() {
         return contenu;
+    }
+
+    public String getNom() {
+        return nom;
     }
 
     public List<StatutsEntity> getListeStatuts() {
@@ -96,6 +104,10 @@ public class FichiersEntity implements Serializable {
         this.contenu = contenu;
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
     public void setListeStatuts(List<StatutsEntity> listeStatuts) {
         this.listeStatuts = listeStatuts;
     }
@@ -104,6 +116,19 @@ public class FichiersEntity implements Serializable {
         this.listeMessages = listeMessages;
     }
 
+    
+    public boolean addStatutsFichier(StatutsEntity se)
+    {
+        return this.listeStatuts.add(se);
+    }
+    
+    public boolean removeStatutsFichier(StatutsEntity se)
+    {
+        return this.listeStatuts.remove(se);
+    }
+    
+    
+    
 // =============================================================================
     @Override
     public int hashCode() {
@@ -111,6 +136,7 @@ public class FichiersEntity implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.id);
         hash = 47 * hash + Objects.hashCode(this.type);
         hash = 47 * hash + Objects.hashCode(this.contenu);
+        hash = 47 * hash + Objects.hashCode(this.nom);
         return hash;
     }
 
@@ -132,13 +158,17 @@ public class FichiersEntity implements Serializable {
         if (!Objects.equals(this.contenu, other.contenu)) {
             return false;
         }
+
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "FichiersEntity{" + "id=" + id + ", type=" + type 
-                + ", contenu=" + contenu + '}';
+        return "FichiersEntity{" + "id=" + id + ", type=" + type
+                + ", contenu=" + contenu + ", nom = " + nom + '}';
     }
 
 }

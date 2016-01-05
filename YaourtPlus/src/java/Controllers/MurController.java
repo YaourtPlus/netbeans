@@ -1,6 +1,8 @@
 package Controllers;
 
 import Service.ConnexionService;
+import Service.FichierService;
+import Service.FichierServiceImpl;
 import Service.MurService;
 import Service.NotificationsService;
 import Service.ProfilService;
@@ -9,6 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,13 +39,16 @@ public class MurController {
 
     @Autowired
     ConnexionService connexionService;
+    
+    @Autowired
+    ServletContext servletContext;
 
     @Autowired
     StatutsService statutsService;
 
     @Autowired
-    ServletContext servletContext;
-
+    FichierService fichierService;
+    
 // Gestion des requêtes GET ====================================================
     // Ajout d'un léger
     @RequestMapping(value = "{path}/leger", method = RequestMethod.GET)
@@ -195,7 +201,7 @@ public class MurController {
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
-
+        Part p = request.getPart("file");
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
@@ -203,8 +209,12 @@ public class MurController {
         String statut = request.getParameter("statut");
 
         // Ajout du statut
-        murService.ajoutStatut(idUtilisateur, statut);
-
+        
+        int idStatut = murService.ajoutStatut(idUtilisateur, statut);
+        
+        if(p.getSize() != 0){
+            fichierService.ajoutFichier(p, idStatut);
+        }
         // Affichage du mur
         mv = this.afficheMur(request, response);
         return mv;

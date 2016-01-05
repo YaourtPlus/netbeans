@@ -7,7 +7,6 @@ package Service;
 
 import DAO.CommentairesDAO;
 import DAO.CommentairesEntity;
-import DAO.NotificationsDAO;
 import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
@@ -53,9 +52,9 @@ public class MurServiceImpl implements MurService {
      * vide)
      */
     @Override
-    public boolean ajoutStatut(int idUtilisateur, String statut) {
+    public int ajoutStatut(int idUtilisateur, String statut) {
         if (statut.length() == 0) { // Gestion d'un statut vide
-            return false;
+            return 0;
         }
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
@@ -65,10 +64,11 @@ public class MurServiceImpl implements MurService {
         // Mise à jour de l'auteur du statut
         newStatut.setAuteur(user);
         // Ajout dans la BD
-        statutDAO.save(newStatut);
+        int id = statutDAO.save(newStatut);
 
         // Ajout du statut
-        return personneDAO.ajoutStatut(user, newStatut);
+        personneDAO.ajoutStatut(user, newStatut);
+        return id;
     }
 
     /**

@@ -20,5 +20,4 @@ public interface ProfilService {
     public boolean exists(String login);
 
     public String getNotifications(int idUtilisateur);
-
 }

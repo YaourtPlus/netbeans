@@ -35,6 +35,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 // Ecriture ====================================================================
     @Transactional
     @Override
+
     public void save(PersonnesEntity p) {
         p = em.merge(p);
         em.persist(p);
@@ -150,6 +151,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 // Lecture =====================================================================
     @Transactional(readOnly = true)
     @Override
+
     public PersonnesEntity find(int id) {
         return em.find(PersonnesEntity.class, id);
     }
