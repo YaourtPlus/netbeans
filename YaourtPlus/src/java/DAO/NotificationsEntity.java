@@ -158,14 +158,16 @@ public class NotificationsEntity implements Serializable {
                 result += " vous a envoyé un message.";
                 break;
             case notifLeger:
-                result += " a allégé votre statut";
+                result += " a allégé votre statut.";
                 break;
-			case notifLourd:
-				result += " a allourdi votre statut";
+            case notifLourd:
+                result += " a allourdi votre statut.";
                 break;
-			case notifCommentaire:
-				result += " a commenté votre statut";
-				break;
+            case notifCommentaire:
+                result += " a commenté votre statut";
+                break;
+            default:
+                break;
         };
         return result;
     }

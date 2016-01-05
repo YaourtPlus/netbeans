@@ -13,11 +13,11 @@ public enum TypeNotifications {
 
     emptyNotification(0), // Default notification type
     notifFilou(1), // Notification d'ajout de Filous
-    notifMessage(2), // Notification de reception de message
-	notifLeger(3), // Notification léger sur statut
-	notifLourd(4), // Notification lourd sur statut
-	notifCommentaire(5); // Notification commentaire sur statut
-	
+    notifMessage(2), // Notification de reception de 
+    notifLeger(3), // Notification de léger sur un statut
+    notifLourd(4), // Notification de lourd sur un statut
+    notifCommentaire(5); // Notifications de commentaire sur un statut
+    
     // Id stocké dans la BD
     private final int id;
 

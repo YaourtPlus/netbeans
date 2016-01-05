@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class FilousServiceImpl implements FilousService {
 
     @Resource
-    PersonnesDAO personnesDAO;
+    PersonnesDAO personneDAO;
 
     @Resource
     NotificationsDAO notificationsDAO;
@@ -39,17 +39,17 @@ public class FilousServiceImpl implements FilousService {
         String affichagePersonnes = "";
 
         // Récupération des personnes inscrites dans la BD
-        List<PersonnesEntity> filous = personnesDAO.findAll();
+        List<PersonnesEntity> filous = personneDAO.findAll();
 
         // On enlève l'utilisateur de la liste précédente pour ne pas qu'il 
         // puisse s'ajouter
-        PersonnesEntity user = personnesDAO.find(idUtilisateur);
-        filous.remove(user);
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        filous.remove((PersonnesEntity) user);
 
         // Parcours de la liste
         for (PersonnesEntity p : filous) {
             // Filtre des personnes que l'utilisateur a déjà en ami
-            if (!user.getListFilous().contains(personnesDAO.find(p.getId()))) {
+            if (!user.getListFilous().contains(personneDAO.find(p.getId()))) {
                 // Mise en forme des donnése
                 affichagePersonnes += "<div class=\"col-lg-offset-1 "
                         + "col-lg-10\">";
@@ -72,8 +72,8 @@ public class FilousServiceImpl implements FilousService {
     @Override
     public boolean ajoutFilous(int idUtilisateur, int idNouveauFilous) {
         // Récupération des personnes
-        PersonnesEntity utilisateur = personnesDAO.find(idUtilisateur);
-        PersonnesEntity nouveauFilous = personnesDAO.find(idNouveauFilous);
+        PersonnesEntity utilisateur = personneDAO.find(idUtilisateur);
+        PersonnesEntity nouveauFilous = personneDAO.find(idNouveauFilous);
 
         // Création d'une notification d'ajout en amis
         NotificationsEntity notif = new NotificationsEntity(new Date(),
@@ -84,10 +84,10 @@ public class FilousServiceImpl implements FilousService {
         notificationsDAO.save(notif);
 		
         // Ajout de la notification au nouveau filou
-        personnesDAO.ajoutNotif(utilisateur, nouveauFilous, notif);
+        personneDAO.ajoutNotif(utilisateur, nouveauFilous, notif);
 
         // Ajout du filou
-        return personnesDAO.ajoutFilous(utilisateur, nouveauFilous);
+        return personneDAO.ajoutFilous(utilisateur, nouveauFilous);
     }
 
     /**
@@ -100,10 +100,10 @@ public class FilousServiceImpl implements FilousService {
     @Override
     public boolean suppressionFilous(int idUtilisateur, int idFilou) {
         // Récupération des personnes
-        PersonnesEntity utilisateur = personnesDAO.find(idUtilisateur);
-        PersonnesEntity nouveauFilous = personnesDAO.find(idFilou);
+        PersonnesEntity utilisateur = personneDAO.find(idUtilisateur);
+        PersonnesEntity nouveauFilous = personneDAO.find(idFilou);
 
         // Suppression du filou
-        return personnesDAO.suppressionFilous(utilisateur, nouveauFilous);
+        return personneDAO.suppressionFilous(utilisateur, nouveauFilous);
     }
 }
