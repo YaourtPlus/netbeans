@@ -53,11 +53,11 @@ public class MurServiceImpl implements MurService {
         for (PersonnesEntity p : user.getListFilous()) {
             // Parcours des statuts des filous
             // /!\ Récupération des statuts dans DAO selon la date /!\
-            for (StatutsEntity s : p.getStatuts()) {
+            for (StatutsEntity s : p.getStatuts()){//new Date())) {
                 // Mise en forme des statuts
-                statuts += "<div class=\"statuts\">";
+                statuts += "<div class=\"statuts\">"; // Conteneur du statut
                 statuts += p.getPrenom() + " " + p.getNom();
-                statuts += "<div class=\"statuts-texte\">";
+                statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
                 statuts += s.getTexte();
                 statuts += "<br/>";
 
@@ -85,9 +85,31 @@ public class MurServiceImpl implements MurService {
                     default:
                         break;
                 } // Fin switch
-                statuts += link; // Gestion de l'IMC
+                statuts += link;
+                
                 statuts += "</div>";
                 statuts += "</div>";
+                // Création du commentaire de statut
+                statuts += "<form Method='POST' action='ajoutCommentaire.htm?id=" + s.getId() + "'> "
+                        + "<textarea rows='3' cols='75' name='commentaire' "
+                        + "id='commentaire' class='form-control pull-left' "
+                        + "placeholder='Ajouter un commentaire' "
+                        + "onfocus='this.placeholder = ''' "
+                        + "onblur='this.placeholder = 'Ajouter un ptit statut''>"
+                        + "</textarea> "
+                        + "<div id='connectButton'> "
+                        + "<input type='submit' value='Publier' name='submit'/> "
+                        + "</div> "
+                        + "</form>";
+                    statuts += "NB COMMENTAIRE : " + s.getCommentaires().size();
+                for (StatutsEntity com : s.getCommentaires()) {
+                    statuts += "<div class=\"statuts\">"; // Conteneur du commentaire
+                    statuts += com.getAuteur().getPrenom() + " " + com.getAuteur().getNom();
+                    statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du commentaire
+                    statuts += com.getTexte();
+                    statuts += "</div>";
+                    statuts += "</div>";
+                }
             } // Fin parcours statuts
         } // Fin parcours filous
         return statuts;

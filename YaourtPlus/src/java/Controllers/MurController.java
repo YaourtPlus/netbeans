@@ -189,7 +189,7 @@ public class MurController {
             // Création du modelAndView mur pour l'affichage
             mv = new ModelAndView("mur");
 
-			// Création de l'affichage
+            // Création de l'affichage
             // Récupération du nom de l'utilisauter
             String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
 
@@ -208,5 +208,39 @@ public class MurController {
         }
 
     }
+
+// Gestion des commentaires ====================================================
+    @RequestMapping(value = "ajoutCommentaire", method = RequestMethod.POST)
+    public ModelAndView ajoutCommentaire(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage",
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        // Récupération de l'id du statut sur lequel on commente
+        int idStatut = Integer.parseInt(request.getParameter("id"));
+
+        // Récupération du texte du statut posté
+        String commentaire = request.getParameter("commentaire");
+        // Ajout du statut
+        profilService.ajoutCommentaire(idUtilisateur, idStatut, commentaire);
+
+        // Affichage du mur
+        mv = this.afficheMur(request, response);
+        return mv;
+    }
+
 
 }
