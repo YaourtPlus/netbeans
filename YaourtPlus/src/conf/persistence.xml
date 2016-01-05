@@ -9,6 +9,7 @@
     <class>DAO.NotificationsEntity</class>
     <class>DAO.StatutsEntity</class>
     <class>DAO.PersonnesStatutsEntity</class>
+    <class>DAO.CommentairesEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
