@@ -5,12 +5,16 @@
  */
 package Service;
 
+import DAO.NotificationsDAO;
+import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.PersonnesStatutsDAO;
 import DAO.StatutsDAO;
 import DAO.StatutsEntity;
 import Enumerations.TypeActions;
+import Enumerations.TypeNotifications;
+import java.util.Date;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +33,9 @@ public class MurServiceImpl implements MurService {
 
     @Resource
     PersonnesStatutsDAO personneStatutDAO;
+    
+    @Resource
+    NotificationsDAO notificationDAO;
 
     /**
      * Récupération des statuts des filous pour affichage
@@ -109,6 +116,17 @@ public class MurServiceImpl implements MurService {
 
         // Ajout du léger sur le statut et l'utilisateur
         statutDAO.addLeger(statut, user);
+        
+        NotificationsEntity notifLeger = new NotificationsEntity(new Date(), 
+                TypeNotifications.notifLeger.getId());
+        notifLeger.setNotifieur(user);
+		
+        // Création de la notification dans la BD
+        notificationDAO.save(notifLeger);
+		
+        // Ajout de la notification au nouveau filou
+        personneDAO.ajoutNotif(user, statut.getAuteur(), notifLeger);
+        
     }
 
     /**
@@ -124,6 +142,16 @@ public class MurServiceImpl implements MurService {
 
         // Ajout du Lour sur le statut et l'utilisateur
         statutDAO.addLourd(statut, user);
+        
+        NotificationsEntity notifLourd = new NotificationsEntity(new Date(), 
+                TypeNotifications.notifLourd.getId());
+        notifLourd.setNotifieur(user);
+		
+        // Création de la notification dans la BD
+        notificationDAO.save(notifLourd);
+		
+        // Ajout de la notification au nouveau filou
+        personneDAO.ajoutNotif(user, statut.getAuteur(), notifLourd);
     }
 
     /**
