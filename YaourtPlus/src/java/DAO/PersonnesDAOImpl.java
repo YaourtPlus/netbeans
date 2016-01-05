@@ -107,7 +107,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 	 */
 	@Transactional
 	@Override
-	public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s) {
+	public StatutsEntity ajoutStatut(PersonnesEntity p, StatutsEntity s) {
 		// Ajout du statut dans la liste des statuts émis par l'utilisateur
 		boolean add = p.ajoutStatut(s);
 		// Mise à jour de l'auteur du statut
@@ -115,10 +115,10 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 
 		// Mise à jour de la BD
 		if (add) {
-			em.merge(s);
-			em.merge(p);
+			s = em.merge(s);
+			p = em.merge(p);
 		}
-		return add;
+		return s;
 	}
 
 	/**

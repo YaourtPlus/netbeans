@@ -213,6 +213,20 @@ public class StatutsEntity implements Serializable {
         }
         return statutsActeurs.remove(ps);
     }
+    
+    public boolean addFichierStatuts(FichiersEntity fe) {
+        
+        return listeFichiers.add(fe);
+
+    }
+    
+    public boolean removeFichiersStatuts(FichiersEntity fe) {
+        if (!listeFichiers.contains(fe)) { // Gestion de non existence
+            return false;
+        }
+        return listeFichiers.remove(fe);
+    }
+    
 // =============================================================================
 
     @Override

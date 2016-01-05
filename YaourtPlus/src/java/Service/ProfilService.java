@@ -21,6 +21,6 @@ public interface ProfilService {
 
     public String getNotifications(int idUtilisateur);
 
-    public boolean ajoutStatut(int idUser, String statut);
+    public int ajoutStatut(int idUser, String statut);
 
 }

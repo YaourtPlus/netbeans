@@ -12,6 +12,7 @@ import DAO.StatutsDAO;
 import DAO.StatutsEntity;
 import java.util.Date;
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,6 +27,9 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Resource
     StatutsDAO statutDAO;
+    
+    @Autowired
+    FichierService fichierService;
 
     @Override
     public PersonnesEntity getPersonne(int id) {
@@ -78,20 +82,22 @@ public class ProfilServiceImpl implements ProfilService {
      * vide)
      */
     @Override
-    public boolean ajoutStatut(int idUser, String statut) {
+    public int ajoutStatut(int idUser, String statut) {
         if (statut.length() == 0) { // Gestion d'un statut vide
-            return false;
+            return 0;
         }
         // Récupération de l'utilisateur
         PersonnesEntity user = getPersonne(idUser);
 
         // Création du statut
         StatutsEntity newStatut = new StatutsEntity(statut, new Date());
+        
         // Ajout dans la BD
         statutDAO.save(newStatut);
 
         // Ajout du statut
-        return personnesDAO.ajoutStatut(user, newStatut);
+         return personnesDAO.ajoutStatut(user, newStatut).getId();
+         
     }
 
     /**

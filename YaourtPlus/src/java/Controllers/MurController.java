@@ -2,17 +2,29 @@ package Controllers;
 
 import Enumerations.TypeActions;
 import Service.ConnexionService;
+import Service.FichierService;
+import Service.FichierServiceImpl;
 import Service.MurService;
 import Service.ProfilService;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.Calendar;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import javax.servlet.jsp.PageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /*
@@ -35,6 +47,9 @@ public class MurController {
 
     @Autowired
     ConnexionService connexionService;
+    
+    @Autowired
+    ServletContext servletContext;
 
 // Gestion des requêtes GET ====================================================
     // Ajout d'un léger
@@ -152,7 +167,7 @@ public class MurController {
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         }
-
+        Part p = request.getPart("file");
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
@@ -160,8 +175,10 @@ public class MurController {
         String statut = request.getParameter("statut");
 
         // Ajout du statut
-        profilService.ajoutStatut(idUtilisateur, statut);
+        int idStatut = profilService.ajoutStatut(idUtilisateur, statut);
 
+        FichierService fs = new FichierServiceImpl();
+        fs.ajoutFichier(p, idStatut, servletContext);
         // Affichage du mur
         mv = this.afficheMur(request, response);
         return mv;
@@ -185,34 +202,31 @@ public class MurController {
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
-        }
-        else
-        {
-             // Récupération de l'id de l'utilisateur
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        } else {
+            // Récupération de l'id de l'utilisateur
+            int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
-        // Création du modelAndView mur pour l'affichage
-        mv = new ModelAndView("mur");
+            // Création du modelAndView mur pour l'affichage
+            mv = new ModelAndView("mur");
 
-        // Création de l'affichage
-        // Récupération du nom de l'utilisauter
-        String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
+            // Création de l'affichage
+            // Récupération du nom de l'utilisauter
+            String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
 
-        // Récupération des Filous de la personne
-        String listFilous = profilService.getFilous(idUtilisateur);
+            // Récupération des Filous de la personne
+            String listFilous = profilService.getFilous(idUtilisateur);
 
-        // Récupération des statuts des Filous
-        String statut = murService.getStatuts(idUtilisateur);
+            // Récupération des statuts des Filous
+            String statut = murService.getStatuts(idUtilisateur);
 
-        // Affichage des différentes données récupérées précédemment
-        mv.addObject("listeAmi", listFilous);
-        mv.addObject("nomPersonne", nomPersonne);
-        mv.addObject("listStatuts", statut);
+            // Affichage des différentes données récupérées précédemment
+            mv.addObject("listeAmi", listFilous);
+            mv.addObject("nomPersonne", nomPersonne);
+            mv.addObject("listStatuts", statut);
 
-        return mv;
+            return mv;
         }
 
-       
     }
 
 }

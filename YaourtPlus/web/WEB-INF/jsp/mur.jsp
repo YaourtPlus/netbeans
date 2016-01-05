@@ -25,10 +25,11 @@
                     <div> ${listeAmi} </div>
                 </div>
                 <div class="col-lg-6">   
-                    <form Method="POST" action="ajoutStatut.htm">
+                    <form Method="POST" action="ajoutStatut.htm" enctype="multipart/form-data">
                         <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
                                   placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
                         <div id="connectButton">
+                            <input type="file" name="file"/>
                             <input type="submit" value="Publier" name="submit" />
                         </div>
                     </form>

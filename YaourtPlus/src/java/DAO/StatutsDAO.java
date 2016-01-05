@@ -16,7 +16,7 @@ public interface StatutsDAO {
 
 // Transaction de base =========================================================
 
-    public void save(StatutsEntity s);
+    public int save(StatutsEntity s);
 
     public void update(StatutsEntity s);
 
@@ -30,6 +30,8 @@ public interface StatutsDAO {
     public void removeLeger(StatutsEntity s, PersonnesEntity p);
 
     public void removeLourd(StatutsEntity s, PersonnesEntity p);
+    
+    public void addFichier(StatutsEntity se, FichiersEntity fe);
 // Transaction read-only =======================================================
 
     public StatutsEntity find(int id);
