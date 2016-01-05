@@ -6,20 +6,25 @@
         <ul class="nav navbar-nav">
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "mur.jsp")}' />
             <li class="${active ? 'active' : 'none'}">
-                <a href="mur.htm">Mon mur</a>
+                <a href="${pageContext.servletContext.contextPath}/mur.htm">Mon mur</a>
             </li>
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "filous.jsp")}' /> 
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="filous.htm"> Ptits Filous</a>
+                <a href="${pageContext.servletContext.contextPath}/filous.htm"> Ptits Filous</a>
             </li>
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "notifications.jsp")}' />
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="notifications.htm"> Notifications ${nbNotif}</a>
+                <a href="${pageContext.servletContext.contextPath}/notifications.htm"> Notifications ${nbNotif}</a>
+            </li>
+            <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "statuts.jsp")}' />
+            <li class="${active ? 'active' : 'none'}"> 
+                <a href="${pageContext.servletContext.contextPath}/statuts.htm"> Mes statuts ${nbNotif}</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class="navbar-right"> 
-                <a href="deconnexion.htm">Déconnexion</a>
+                <a href="${pageContext.servletContext.contextPath}/deconnexion.htm">Déconnexion</a>
             </li>
         </ul> 
+    </div>
 </nav>

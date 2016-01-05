@@ -16,8 +16,8 @@ and open the template in the editor.
         <title>Inscription légère</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="bootstrap/bootstrap-3.3.6-dist/css/bootstrap.css" type="text/css" media="screen" />
-        <link rel="stylesheet" href="tuto.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/bootstrap-3.3.6-dist/css/bootstrap.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/tuto.css" type="text/css" media="screen" />
     </head>
     <body>
         <div class="jumbotron" style="text-align:center">Bienvenue sur le premier réseau social allégé!</div>

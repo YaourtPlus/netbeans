@@ -6,18 +6,17 @@
 package Service;
 
 import DAO.PersonnesEntity;
+import DAO.StatutsEntity;
 
 /**
  *
  * @author tbenoist
  */
-public interface ProfilService {
+public interface StatutsService {
 
-    public PersonnesEntity getPersonne(int idUtilisateur);
-    
-    public String getFilous(int idUtilisateur);
+    public String getStatuts(int idUtilisateur);
 
-    public boolean exists(String login);
+    public String getUtilisateurStatuts(int idUtilisateur);
 
-    public String getNotifications(int idUtilisateur);
+    public String statutToString(StatutsEntity s, PersonnesEntity user, String path);
 }

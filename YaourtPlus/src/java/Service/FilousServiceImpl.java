@@ -13,6 +13,8 @@ import Enumerations.TypeNotifications;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +24,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class FilousServiceImpl implements FilousService {
 
+    @Autowired
+    ServletContext servletContext;
+    
     @Resource
     PersonnesDAO personneDAO;
 
@@ -54,7 +59,7 @@ public class FilousServiceImpl implements FilousService {
                 affichagePersonnes += "<div class=\"col-lg-offset-1 "
                         + "col-lg-10\">";
                 affichagePersonnes += p.getPrenom() + " " + p.getNom();
-                affichagePersonnes += " <a href='ajout.htm?id=" + p.getId()
+                affichagePersonnes += " <a href='" + servletContext.getContextPath() + "/ajout.htm?id=" + p.getId()
                         + "' > Ajouter </a> ";
                 affichagePersonnes += "</div>";
             }

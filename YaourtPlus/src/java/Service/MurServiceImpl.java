@@ -5,7 +5,8 @@
  */
 package Service;
 
-import DAO.NotificationsDAO;
+import DAO.CommentairesDAO;
+import DAO.CommentairesEntity;
 import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
@@ -16,6 +17,7 @@ import Enumerations.TypeActions;
 import Enumerations.TypeNotifications;
 import java.util.Date;
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +26,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MurServiceImpl implements MurService {
+
+    @Autowired
+    NotificationsService notificationService;
 
     @Resource
     PersonnesDAO personneDAO;
@@ -34,95 +39,73 @@ public class MurServiceImpl implements MurService {
     @Resource
     PersonnesStatutsDAO personneStatutDAO;
 
+
     @Resource
-    NotificationsDAO notificationDAO;
+    CommentairesDAO commentaireDAO;
 
     /**
-     * Récupération des statuts des filous pour affichage
+     * Ajout d'un statut par l'utilisateur
      *
-     * @param id id de l'utilisateur
-     * @return Un string contenant les différents statuts
+     * @param idUtilisateur id de l'utilisateur
+     * @param statut texte du statut à ajouter
+     * @return true si l'ajout est effectué correctement, false sinon (statut
+     * vide)
      */
     @Override
-    public String getStatuts(int id) {
+    public int ajoutStatut(int idUtilisateur, String statut) {
+        if (statut.length() == 0) { // Gestion d'un statut vide
+            return 0;
+        }
         // Récupération de l'utilisateur
-        PersonnesEntity user = personneDAO.find(id);
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
 
-        String statuts = "";
-        // Parcours des filous de l'utilisateur
-        for (PersonnesEntity p : user.getListFilous()) {
-            // Parcours des statuts des filous
-            // /!\ Récupération des statuts dans DAO selon la date /!\
-            for (StatutsEntity s : p.getStatuts()){//new Date())) {
-                // Mise en forme des statuts
-                statuts += "<div class=\"statuts\">"; // Conteneur du statut
-                statuts += p.getPrenom() + " " + p.getNom();
-                statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
-                statuts += s.getTexte();
-                statuts += "<br/>";
+        // Création du statut
+        StatutsEntity newStatut = new StatutsEntity(statut, new Date());
+        // Mise à jour de l'auteur du statut
+        newStatut.setAuteur(user);
+        // Ajout dans la BD
+        int id = statutDAO.save(newStatut);
 
-                // Récupération de l'action de l'utilisateur sur le statut
-                TypeActions action = user.getAction(s);
-                String link = "";
-                // Gestion de l'action
-                switch (action) {
-                    case noAction: // Possibilité de Leger ou Lourd
-                        int nb = s.getNbLeger();
-                        link = "<a href='leger.htm?id=" + s.getId() + "'>"
-                                + getQuantity(nb) + " Léger !</a>";
-                        nb = s.getNbLourd();
-                        link += "<a href='lourd.htm?id=" + s.getId() + "'>"
-                                + getQuantity(nb) + " T'es lourd !</a>";
-                        break;
-                    case leger: // Possiblité d'annulation de léger
-                        link = "<a href='removeAction.htm?id=" + s.getId()
-                                + "'> Vous avez allégé le statut. </a>";
-                        break;
-                    case lourd: // Possiblité d'annulation de lourd
-                        link = "<a href='removeAction.htm?id=" + s.getId()
-                                + "'> Vous avez allourdi le statut. </a>";
-                        break;
-                    default:
-                        break;
-                } // Fin switch
-                statuts += link;
-                
-                statuts += "</div>";
-                statuts += "</div>";
-                // Création du commentaire de statut
-                statuts += "<form Method='POST' action='ajoutCommentaire.htm?id=" + s.getId() + "'> "
-                        + "<textarea rows='3' cols='75' name='commentaire' "
-                        + "id='commentaire' class='form-control pull-left' "
-                        + "placeholder='Ajouter un commentaire' "
-                        + "onfocus='this.placeholder = ''' "
-                        + "onblur='this.placeholder = 'Ajouter un ptit statut''>"
-                        + "</textarea> "
-                        + "<div id='connectButton'> "
-                        + "<input type='submit' value='Publier' name='submit'/> "
-                        + "</div> "
-                        + "</form>";
-                    statuts += "NB COMMENTAIRE : " + s.getCommentaires().size();
-                for (StatutsEntity com : s.getCommentaires()) {
-                    statuts += "<div class=\"statuts\">"; // Conteneur du commentaire
-                    statuts += com.getAuteur().getPrenom() + " " + com.getAuteur().getNom();
-                    statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du commentaire
-                    statuts += com.getTexte();
-                    statuts += "</div>";
-                    statuts += "</div>";
-                }
-            } // Fin parcours statuts
-        } // Fin parcours filous
-        return statuts;
+        // Ajout du statut
+        personneDAO.ajoutStatut(user, newStatut);
+        return id;
     }
 
     /**
-     * Mise en forme de la quantité de léger / lourd d'un statut
+     * Ajout d'un commentaire à un statut
      *
-     * @param nb quantité de léger / lourd
-     * @return un string vide ou la quantité de léger / lourd
+     * @param idUtilisateur id de l'utilisateur
+     * @param idStatut id du statut auquel on ajoute un commentaire
+     * @param commentaire le texte du commentaire à ajouter
+     * @return true si l'ajout est effectué correctement, false sinon
+     * (commentaire vide)
      */
-    private String getQuantity(int nb) {
-        return nb > 0 ? " " + Integer.toString(nb) : "";
+    @Override
+    public boolean ajoutCommentaire(int idUtilisateur, int idStatut, String commentaire) {
+        if (commentaire.length() == 0) {
+            return false;
+        }
+
+        // Récupération du statut
+        StatutsEntity statut = statutDAO.find(idStatut);
+
+        // Récupération de l'utilisateur
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        PersonnesEntity auteur = statut.getAuteur();
+        /* Création du commentaire
+         Un commentaire n'est rien d'autre qu'un statut en réponse à un autre statut
+         */
+        CommentairesEntity newCommentaire = new CommentairesEntity(commentaire, new Date());
+        newCommentaire.setAuteur(user);
+        // Ajout du statut commenté
+        newCommentaire.setStatut(statut);
+        
+        commentaireDAO.save(newCommentaire);
+        
+        // Création de la notification dans la BD
+        notificationService.createNotification(TypeNotifications.notifCommentaire, user, auteur, statut);
+        
+        return commentaireDAO.ajoutCommentaire(statut, newCommentaire);
     }
 
     /**
@@ -136,7 +119,7 @@ public class MurServiceImpl implements MurService {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUser);
-
+        PersonnesEntity auteur = statut.getAuteur();
         // Ajout du léger sur le statut et l'utilisateur
         statutDAO.addLeger(statut, user);
 
@@ -145,10 +128,10 @@ public class MurServiceImpl implements MurService {
         notifLeger.setNotifieur(user);
 
         // Création de la notification dans la BD
-        notificationDAO.save(notifLeger);
-
+        notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut);
+        
         // Ajout de la notification au nouveau filou
-        personneDAO.ajoutNotif(user, statut.getAuteur(), notifLeger);
+        personneDAO.ajoutNotif(user, auteur, notifLeger);
 
     }
 
@@ -163,6 +146,7 @@ public class MurServiceImpl implements MurService {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUser);
+        PersonnesEntity auteur = statut.getAuteur();
 
         // Ajout du Lourd sur le statut et l'utilisateur
         statutDAO.addLourd(statut, user);
@@ -172,7 +156,7 @@ public class MurServiceImpl implements MurService {
         notifLourd.setNotifieur(user);
 
         // Création de la notification dans la BD
-        notificationDAO.save(notifLourd);
+        notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut);
 
         // Ajout de la notification au nouveau filou
         personneDAO.ajoutNotif(user, statut.getAuteur(), notifLourd);

@@ -5,8 +5,6 @@
  */
 package Service;
 
-import DAO.StatutsEntity;
-import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
 /**
@@ -14,5 +12,5 @@ import javax.servlet.http.Part;
  * @author Olivier
  */
 public interface FichierService {
-    public boolean ajoutFichier(Part p, int statutsId, ServletContext sc);
+    public boolean ajoutFichier(Part p, int statutsId);
 }

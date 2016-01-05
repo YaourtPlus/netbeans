@@ -5,7 +5,9 @@
  */
 package Service;
 
-import DAO.*;
+import DAO.FichiersDAO;
+import DAO.FichiersEntity;
+import DAO.StatutsDAO;
 import DAO.StatutsEntity;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,13 +29,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class FichierServiceImpl implements FichierService {
 
+    @Autowired
+    ServletContext servletContext;
+
     @Resource
-    StatutsDAO statutsDao;
-    
+    StatutsDAO statutsDAO;
+
+    @Resource
+    FichiersDAO fichierDAO;
+
     @Override
-    public boolean ajoutFichier(Part p, int statutsId, ServletContext sc) {
+    public boolean ajoutFichier(Part p, int statutsId) {
         
-        StatutsEntity se = statutsDao.find(statutsId);
+        StatutsEntity se = statutsDAO.find(statutsId);
         String nouveauNom = hashNomFichier(se.getAuteur().getLogin() + p.getSubmittedFileName());
         String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
@@ -43,13 +52,10 @@ public class FichierServiceImpl implements FichierService {
             }
         }
         FichiersEntity fe = new FichiersEntity(ext, "empty", nouveauNom);
-        FichiersDAO fdao = new FichiersDAOImpl();
-        fdao.save(fe);
+        fichierDAO.save(fe);
 
-        StatutsDAO sdao = new StatutsDAOImpl();
-        sdao.addFichier(se, fe);
-        
-        
+        statutsDAO.addFichier(se, fe);
+
         return false;
     }
 

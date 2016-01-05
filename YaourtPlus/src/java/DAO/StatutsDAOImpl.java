@@ -174,6 +174,8 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
         em.merge(p);
     }
+    
+// Lecture =====================================================================
 
     @Override
     public void addFichier(StatutsEntity se, FichiersEntity fe) {
@@ -185,23 +187,6 @@ public class StatutsDAOImpl implements StatutsDAO {
 
     }
 
-    @Transactional
-    @Override
-    public boolean ajoutCommentaire(StatutsEntity s, StatutsEntity c) {
-        // Ajout du statut commenté
-        c.setStatut(s);
-
-        // Ajout du commentaire au statut
-        boolean add = s.addCommentaire(c);
-
-        // Mise à jour dans la BD
-        if (add) {
-            em.merge(c);
-            em.merge(s);
-        }
-
-        return add;
-    }
 
 // Lecture =====================================================================
     @Transactional(readOnly = true)

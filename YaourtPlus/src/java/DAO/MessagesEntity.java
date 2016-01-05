@@ -41,7 +41,7 @@ public class MessagesEntity implements Serializable {
     @Column(nullable = true)
     private Date date;
 
-// Relations ONE TO ONE
+// Relations ONE TO ONE    
 // Relations ONE TO MANY
 // Relations MANY TO ONE
     // Auteur du message

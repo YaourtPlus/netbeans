@@ -5,15 +5,14 @@
  */
 package Service;
 
+import DAO.CommentairesDAO;
 import DAO.NotificationsDAO;
 import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.StatutsDAO;
-import DAO.StatutsEntity;
-import Enumerations.TypeNotifications;
-import java.util.Date;
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +23,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProfilServiceImpl implements ProfilService {
 
+    @Autowired
+    ServletContext servletContext;
+
     @Resource
     PersonnesDAO personneDAO;
 
     @Resource
     StatutsDAO statutDAO;
     
-    @Autowired
-    FichierService fichierService;
+   /* @Autowired
+    FichierService fichierService;*/
     
     @Resource
     NotificationsDAO notificationDAO;
@@ -59,7 +61,7 @@ public class ProfilServiceImpl implements ProfilService {
         for (PersonnesEntity p : user.getListFilous()) {
             listAmis += "<li>";
             listAmis += p.getPrenom() + " " + p.getNom()
-                    + " <a href='suppression.htm?id=" + p.getId()
+                    + " <a href='" + servletContext.getContextPath() + "/suppression.htm?id=" + p.getId()
                     + "' > Supprimer </a> ";
             listAmis += "</li>";
         }
@@ -79,6 +81,8 @@ public class ProfilServiceImpl implements ProfilService {
     }
 
     /**
+<<<<<<< HEAD
+=======
      * Ajout d'un statut par l'utilisateur
      *
      * @param idUtilisateur id de l'utilisateur
@@ -86,7 +90,7 @@ public class ProfilServiceImpl implements ProfilService {
      * @return true si l'ajout est effectué correctement, false sinon (statut
      * vide)
      */
-    @Override
+   /* @Override
     public int ajoutStatut(int idUtilisateur, String statut) {
 
         if (statut.length() == 0) { // Gestion d'un statut vide
@@ -104,8 +108,8 @@ public class ProfilServiceImpl implements ProfilService {
         // Ajout du statut
          return personneDAO.ajoutStatut(user, newStatut).getId();
          
-    }
-
+    }*/
+    
     /**
      * Ajout d'un commentaire à un statut
      *
@@ -115,7 +119,7 @@ public class ProfilServiceImpl implements ProfilService {
      * @return true si l'ajout est effectué correctement, false sinon
      * (commentaire vide)
      */
-    @Override
+    /*@Override
     public boolean ajoutCommentaire(int idUtilisateur, int idStatut, String commentaire) {
         if (commentaire.length() == 0) {
             return false;
@@ -129,7 +133,7 @@ public class ProfilServiceImpl implements ProfilService {
         /* Création du commentaire
          Un commentaire n'est rien d'autre qu'un statut en réponse à un autre statut
          */
-        StatutsEntity newCommentaire = new StatutsEntity(commentaire, new Date());
+       /* StatutsEntity newCommentaire = new StatutsEntity(commentaire, new Date());
         newCommentaire.setAuteur(user);
         statutDAO.save(newCommentaire);
         
@@ -144,7 +148,7 @@ public class ProfilServiceImpl implements ProfilService {
         personneDAO.ajoutNotif(user, statut.getAuteur(), notifCom);
         
         return statutDAO.ajoutCommentaire(statut, newCommentaire);
-    }
+    }*/
 
     /**
      * Récupération de la liste des notification d'un utilisateur
@@ -162,12 +166,22 @@ public class ProfilServiceImpl implements ProfilService {
         // Parcours de la liste de notification reçues par l'utilisateur
         for (NotificationsEntity n : user.getNotificationRecues()) {
             afficheNotifications += "<div class=\"col-lg-offset-1 col-lg-10\">";
-            afficheNotifications += n.toString();
+            afficheNotifications += n.toString() + " " + getUrl(n);
             afficheNotifications += "</div>";
         }
         // Remise à 0 des notifications non lues
         user.resetNotif();
 
         return afficheNotifications;
+    }
+
+    public String getUrl(NotificationsEntity n) {
+        String url = "";
+        if (n.getMessage() != null) {
+            url = "<a href='" + servletContext.getContextPath() + "/vueNotif.htm?idObject=" + n.getMessage().getId() + "'> ici </a>";
+        } else if (n.getStatut() != null) {
+            url = "<a href='" + servletContext.getContextPath() + "/vueNotif.htm?idObject=" + n.getStatut().getId() + "'> ici </a>";
+        }
+        return url;
     }
 }
