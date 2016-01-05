@@ -198,6 +198,24 @@ public class PersonnesEntity implements Serializable {
         return statuts;
     }
 
+    /**
+     * Récupère les statuts qui ont été postés pendant une certaine période
+     * La période est une durée de 2 semaines à partir d'aujourd'hui
+     * @param today la date actuelle
+     * @return la liste des statuts postés pendant la période définie
+     */
+    public List<StatutsEntity> getStatuts(Date today) {
+        ArrayList<StatutsEntity> list = new ArrayList<>();
+        for(StatutsEntity s : statuts){
+            // 1210000000 => 2 semaines en millisecondes
+            // Test de la date à laquelle a été posté le statut
+            if(s.getDate().before(new Date(today.getTime()- 1210000000))){
+                list.add(s);
+            }
+        }
+        return list;
+    }
+
     public List<MessagesEntity> getMessagesEmis() {
         return messagesEmis;
     }
@@ -435,6 +453,7 @@ public class PersonnesEntity implements Serializable {
 
     /**
      * Ajout de reception de notification
+     *
      * @param notification Notification reçu
      * @return true si la notification a bien été ajoutée, false sinon
      */
@@ -444,6 +463,7 @@ public class PersonnesEntity implements Serializable {
 
     /**
      * Ajout d'envoi de notification
+     *
      * @param notification Notification envoyée
      * @return true si la notification a bien été ajoutée, false sinon
      */
@@ -486,7 +506,8 @@ public class PersonnesEntity implements Serializable {
     }
 
     /**
-     *  Affichage des amis de la personne courante
+     * Affichage des amis de la personne courante
+     *
      * @return les noms et prénoms des amis
      */
     public String afficheAmi() {
@@ -499,8 +520,8 @@ public class PersonnesEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom=" 
-                + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc 
+        return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom="
+                + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc
                 + " " + afficheAmi() + '}';
     }
 
