@@ -5,10 +5,95 @@
  */
 package Service;
 
+import DAO.CommentairesEntity;
+import DAO.MessagesDAO;
+import DAO.MessagesEntity;
+import DAO.NotificationsDAO;
+import DAO.NotificationsEntity;
+import DAO.PersonnesDAO;
+import DAO.PersonnesEntity;
+import DAO.StatutsDAO;
+import DAO.StatutsEntity;
+import Enumerations.TypeNotifications;
+import java.util.Date;
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author tbenoist
  */
-public class NotificationsServiceImpl {
+@Service
+public class NotificationsServiceImpl implements NotificationsService {
+
+    @Autowired
+    ServletContext servletContext;
+
+    @Resource
+    NotificationsDAO notificationDAO;
+
+    @Resource
+    PersonnesDAO personneDAO;
     
+    @Resource
+    StatutsDAO statutDAO;
+    
+    @Resource
+    MessagesDAO messageDAO;
+
+
+    @Autowired
+    StatutsService statutService;
+
+    @Override
+    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, Object o) {
+        boolean add = false;
+        if (!notifieur.equals(destinataire)) {
+            NotificationsEntity notif = new NotificationsEntity(new Date(),
+                    TypeNotifications.notifCommentaire.getId());
+            notif.setNotifieur(notifieur);
+            notif.ajoutDestinataire(destinataire);
+            switch (typeNotif) {
+                case notifCommentaire:
+                case notifLeger:
+                case notifLourd:
+                    notif.setStatut((StatutsEntity) o);
+                    break;
+                case notifMessage:
+                    notif.setMessage((MessagesEntity) o);
+                    break;
+                default:
+                    break;
+            } // End switch
+            // Création de la notification dans la BD
+            notificationDAO.save(notif);
+            // Ajout de la notification a l'auteur du statut
+            add = personneDAO.ajoutNotif(notifieur, destinataire, notif);
+        }
+        return add;
+    }
+
+    @Override
+    public String afficheData(int idUtilisateur, int idObject) {
+        // Récupération de l'utilisateur
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+
+        StatutsEntity s = statutDAO.find(idObject);
+        MessagesEntity m = null;
+        if(s == null){
+            m = messageDAO.find(idObject);
+        }
+        
+        String result = "";
+        if (m != null) {
+            result += m.getTexte();
+        } else if (s != null) {
+            result = "Statut ";
+            result += statutService.statutToString(s, user, "vueNotif");
+        }
+        return result;
+    }
+
 }

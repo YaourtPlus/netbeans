@@ -29,7 +29,6 @@ public interface StatutsDAO {
 
     public void removeLourd(StatutsEntity s, PersonnesEntity p);
 
-    public boolean ajoutCommentaire(StatutsEntity s, StatutsEntity c);
 // Transaction read-only =======================================================
 
     public StatutsEntity find(int id);

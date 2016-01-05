@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import Service.NotificationsService;
 import Service.ProfilService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,9 @@ public class NotificationsController {
 
     @Autowired
     ProfilService profilService;
+    
+    @Autowired
+    NotificationsService notificationService;
 
 // Gestion des requêtes GET ====================================================
     // Liste des notifications
@@ -52,6 +56,38 @@ public class NotificationsController {
 
         // Affichage des notifications de l'utilisateur
         mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
+
+        return mv;
+    }
+    
+    @RequestMapping(value = "vueNotif", method = RequestMethod.GET)
+    public ModelAndView vueNotif(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage",
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        // Création du modelAndView notifications pour l'affichage
+        mv = new ModelAndView("vueNotif");
+
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        int idObject = Integer.parseInt(request.getParameter("idObject"));
+        
+        
+        // Affichage des notifications de l'utilisateur
+        mv.addObject("data", notificationService.afficheData(idUtilisateur, idObject));
 
         return mv;
     }

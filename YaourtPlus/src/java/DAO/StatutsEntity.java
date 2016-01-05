@@ -8,10 +8,8 @@ package DAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,18 +53,15 @@ public class StatutsEntity implements Serializable {
     @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
     private List<PersonnesStatutsEntity> statutsActeurs = new ArrayList<>();
 
+    // Liste des commentaires du statuts
     @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
-    private List<StatutsEntity> commentaires = new ArrayList<>();
-
+    private List<CommentairesEntity> commentaires = new ArrayList<>();
+    
 // Relations MANY TO ONE
     // Auteur du statut
     @ManyToOne
     @JoinColumn(name = "auteurId")
     private PersonnesEntity auteur;
-
-    @ManyToOne
-    @JoinColumn(name = "statutID")
-    private StatutsEntity statut;
 
 // Relations MANY TO MANY
     // Liste des fichiers liés au statut
@@ -127,12 +122,8 @@ public class StatutsEntity implements Serializable {
         return statutsActeurs;
     }
 
-    public List<StatutsEntity> getCommentaires() {
+    public List<CommentairesEntity> getCommentaires() {
         return commentaires;
-    }
-
-    public StatutsEntity getStatut() {
-        return statut;
     }
 
 // Mutateurs ===================================================================
@@ -168,13 +159,10 @@ public class StatutsEntity implements Serializable {
         this.statutsActeurs = statutsActeurs;
     }
 
-    public void setCommentaires(List<StatutsEntity> commentaires) {
+    public void setCommentaires(List<CommentairesEntity> commentaires) {
         this.commentaires = commentaires;
     }
 
-    public void setStatut(StatutsEntity statut) {
-        this.statut = statut;
-    }
 
 // Gestion rapide nbLéger / nbLourd ============================================
     /**
@@ -216,7 +204,7 @@ public class StatutsEntity implements Serializable {
      * @param commentaire instance à ajouter
      * @return true si l'ajout est effectuée correctement, false sinon (doublon)
      */
-    public boolean addCommentaire(StatutsEntity commentaire) {
+    public boolean addCommentaire(CommentairesEntity commentaire) {
         if (commentaires.contains(commentaire)) { // Gestion des doublons
             return false;
         }
@@ -231,7 +219,7 @@ public class StatutsEntity implements Serializable {
      * @return true si la suppression est effectuée correctement, false sinon
      * (non existence)
      */
-    public boolean removeCommentaire(StatutsEntity commentaire) {
+    public boolean removeCommentaire(CommentairesEntity commentaire) {
         if (!commentaires.contains(commentaire)) { // Gestion des doublons
             return false;
         }

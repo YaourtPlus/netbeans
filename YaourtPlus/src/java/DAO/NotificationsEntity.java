@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -28,7 +30,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class NotificationsEntity implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,8 +45,21 @@ public class NotificationsEntity implements Serializable {
     // => Stocker énum trop compliquer
     @Column(nullable = false)
     private Integer type;
-
+    
+    
 // Relations ONE TO ONE
+    /* La notification ne possède qu'un seul des deux objets */
+    
+    // Le statut que peut référencer la notification
+    @JoinColumn(name = "statutID")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private StatutsEntity statut;
+    
+    // Le message que peut référencer la notification
+    @JoinColumn(name = "messageID")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private MessagesEntity message;
+    
 // Relations ONE TO MANY
 // Relations MANY TO ONE
     // Auteur de la notification
@@ -67,12 +82,16 @@ public class NotificationsEntity implements Serializable {
         this.date = new Date();
         this.type = 0;
         this.notifieur = null;
+        this.statut = null;
+        this.message = null;
     }
 
     public NotificationsEntity(Date date, Integer type) {
         this.date = date;
         this.type = type;
         this.notifieur = null;
+        this.statut = null;
+        this.message = null;
     }
 
 // Accesseurs ==================================================================
@@ -90,6 +109,22 @@ public class NotificationsEntity implements Serializable {
 
     public PersonnesEntity getNotifieur() {
         return notifieur;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public StatutsEntity getStatut() {
+        return statut;
+    }
+
+    public MessagesEntity getMessage() {
+        return message;
+    }
+
+    public List<PersonnesEntity> getListeDestinataires() {
+        return listeDestinataires;
     }
 
 // Mutateurs ===================================================================
@@ -113,6 +148,24 @@ public class NotificationsEntity implements Serializable {
         this.notifieur = notifieur;
     }
 
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public void setStatut(StatutsEntity statut) {
+        this.statut = statut;
+    }
+
+    public void setMessage(MessagesEntity message) {
+        this.message = message;
+    }
+
+    public void setListeDestinataires(List<PersonnesEntity> listeDestinataires) {
+        this.listeDestinataires = listeDestinataires;
+    }
+
+    
+    
 // Gestion des destinataires ===================================================
     public boolean ajoutDestinataire(PersonnesEntity destinataire) {
         return this.listeDestinataires.add(destinataire);
@@ -164,7 +217,7 @@ public class NotificationsEntity implements Serializable {
                 result += " a allourdi votre statut.";
                 break;
             case notifCommentaire:
-                result += " a commenté votre statut";
+                result += " a commenté votre statut.";
                 break;
             default:
                 break;

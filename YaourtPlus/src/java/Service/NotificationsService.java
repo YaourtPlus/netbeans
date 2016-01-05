@@ -5,10 +5,16 @@
  */
 package Service;
 
+import DAO.PersonnesEntity;
+import Enumerations.TypeNotifications;
+
 /**
  *
  * @author tbenoist
  */
 public interface NotificationsService {
     
+    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, Object o);
+
+    public String afficheData(int idUtilisateur, int idNotif);
 }

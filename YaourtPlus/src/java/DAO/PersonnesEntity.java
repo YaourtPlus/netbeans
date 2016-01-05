@@ -209,7 +209,7 @@ public class PersonnesEntity implements Serializable {
         for(StatutsEntity s : statuts){
             // 1210000000 => 2 semaines en millisecondes
             // Test de la date à laquelle a été posté le statut
-            if(s.getDate().before(new Date(today.getTime()- 1210000000))){
+            if(s.getDate().after(new Date(today.getTime()- 1210000000))){
                 list.add(s);
             }
         }
