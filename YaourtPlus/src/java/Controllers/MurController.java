@@ -40,6 +40,9 @@ public class MurController {
     
     @Autowired
     ServletContext servletContext;
+    
+    @Autowired
+    FichierService fichierService;
 
 // Gestion des requêtes GET ====================================================
     // Ajout d'un léger
@@ -167,8 +170,7 @@ public class MurController {
         // Ajout du statut
         int idStatut = profilService.ajoutStatut(idUtilisateur, statut);
 
-        FichierService fs = new FichierServiceImpl();
-        fs.ajoutFichier(p, idStatut, servletContext);
+        fichierService.ajoutFichier(p, idStatut, servletContext);
         // Affichage du mur
         mv = this.afficheMur(request, response);
         return mv;

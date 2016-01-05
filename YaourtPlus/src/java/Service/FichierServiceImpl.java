@@ -34,7 +34,7 @@ public class FichierServiceImpl implements FichierService {
         
         StatutsEntity se = statutsDao.find(statutsId);
         String nouveauNom = hashNomFichier(se.getAuteur().getLogin() + p.getSubmittedFileName());
-        String[] split = p.getSubmittedFileName().split(".");
+        String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
 
         for (FichiersEntity fe : se.getListeFichiers()) {
