@@ -32,7 +32,6 @@ public class FilousController {
     ProfilService profilService;
 
 // Gestion des requêtes GET ====================================================
-    
     // Ajout d'un filou
     @RequestMapping(value = "ajout", method = RequestMethod.GET)
     public ModelAndView ajoutFilous(HttpServletRequest request,
@@ -44,7 +43,7 @@ public class FilousController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
             return mv;
@@ -52,17 +51,17 @@ public class FilousController {
 
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        
+
         // Récupération de l'id du Filou à ajouter
         int idFilous = Integer.parseInt(request.getParameter("id"));
-        
+
         // Ajout du filous
         filousService.ajoutFilous(idUtilisateur, idFilous);
 
         // Récupération de la liste des autres filous
         mv = this.listPersonnes(request, response);
         mv.addObject("ajoutFilous", "Filou ajouté");
- 
+
         return mv;
     }
 
@@ -77,7 +76,7 @@ public class FilousController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
             return mv;
@@ -85,21 +84,19 @@ public class FilousController {
 
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        
+
         // Récupération de l'id du Filou à supprimer
         int idFilou = Integer.parseInt(request.getParameter("id"));
-        
+
         // Suppression du Filou
         filousService.suppressionFilous(idUtilisateur, idFilou);
 
         // Affichage du mur
         return new ModelAndView("redirect:/mur.htm");
     }
-    
-// Gestion des méthodes POST ===================================================
-    
-// Gestion des méthodes mixtes==================================================
 
+// Gestion des méthodes POST ===================================================
+// Gestion des méthodes mixtes==================================================
     // Affichage de tout les filous
     @RequestMapping(value = "filous", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView listPersonnes(HttpServletRequest request,
@@ -111,22 +108,20 @@ public class FilousController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-            return mv;
+      
+        } else {
+            // Création du modelAndView pour afficher les Filous
+            mv = new ModelAndView("filous");
+            // Récupération de l'id de l'utilisateur courant
+            int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+            // Affichage de la liste des filous
+            mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
         }
-
-        // Création du modelAndView pour afficher les Filous
-        mv = new ModelAndView("filous");
-        
-        // Récupération de l'id de l'utilisateur courant
-        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-        
-        // Affichage de la liste des filous
-        mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
-        
         return mv;
+
     }
 
 }

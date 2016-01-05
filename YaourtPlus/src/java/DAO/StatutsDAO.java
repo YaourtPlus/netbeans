@@ -13,9 +13,7 @@ import java.util.List;
  */
 public interface StatutsDAO {
 
-
 // Transaction de base =========================================================
-
     public int save(StatutsEntity s);
 
     public void update(StatutsEntity s);
@@ -30,8 +28,10 @@ public interface StatutsDAO {
     public void removeLeger(StatutsEntity s, PersonnesEntity p);
 
     public void removeLourd(StatutsEntity s, PersonnesEntity p);
-    
+
     public void addFichier(StatutsEntity se, FichiersEntity fe);
+
+    public boolean ajoutCommentaire(StatutsEntity s, StatutsEntity c);
 // Transaction read-only =======================================================
 
     public StatutsEntity find(int id);

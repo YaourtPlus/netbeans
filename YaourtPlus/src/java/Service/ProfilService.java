@@ -13,14 +13,16 @@ import DAO.PersonnesEntity;
  */
 public interface ProfilService {
 
-    public PersonnesEntity getPersonne(int id);
-
-    public String getFilous(int id);
+    public PersonnesEntity getPersonne(int idUtilisateur);
+    
+    public String getFilous(int idUtilisateur);
 
     public boolean exists(String login);
 
     public String getNotifications(int idUtilisateur);
 
     public int ajoutStatut(int idUser, String statut);
+
+    public boolean ajoutCommentaire(int idUtilisateur, int idStatut, String commentaire);
 
 }

@@ -1,30 +1,20 @@
 package Controllers;
 
-import Enumerations.TypeActions;
 import Service.ConnexionService;
 import Service.FichierService;
 import Service.FichierServiceImpl;
 import Service.MurService;
 import Service.ProfilService;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.Calendar;
 import javax.servlet.ServletContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.servlet.jsp.PageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /*
@@ -63,7 +53,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -96,7 +86,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -128,7 +118,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -161,7 +151,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -197,7 +187,7 @@ public class MurController {
         HttpSession session = request.getSession(false);
 
         // Accès sans être connecté
-        if (session == null) {
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
@@ -228,5 +218,39 @@ public class MurController {
         }
 
     }
+
+// Gestion des commentaires ====================================================
+    @RequestMapping(value = "ajoutCommentaire", method = RequestMethod.POST)
+    public ModelAndView ajoutCommentaire(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage",
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        // Récupération de l'id du statut sur lequel on commente
+        int idStatut = Integer.parseInt(request.getParameter("id"));
+
+        // Récupération du texte du statut posté
+        String commentaire = request.getParameter("commentaire");
+        // Ajout du statut
+        profilService.ajoutCommentaire(idUtilisateur, idStatut, commentaire);
+
+        // Affichage du mur
+        mv = this.afficheMur(request, response);
+        return mv;
+    }
+
 
 }

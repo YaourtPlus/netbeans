@@ -55,11 +55,18 @@ public class StatutsEntity implements Serializable {
     @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
     private List<PersonnesStatutsEntity> statutsActeurs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
+    private List<StatutsEntity> commentaires = new ArrayList<>();
+
 // Relations MANY TO ONE
     // Auteur du statut
     @ManyToOne
     @JoinColumn(name = "auteurId")
     private PersonnesEntity auteur;
+
+    @ManyToOne
+    @JoinColumn(name = "statutID")
+    private StatutsEntity statut;
 
 // Relations MANY TO MANY
     // Liste des fichiers liés au statut
@@ -83,7 +90,6 @@ public class StatutsEntity implements Serializable {
     public StatutsEntity(String texte, Date date) {
         this.texte = texte;
         this.date = date;
-        this.auteur = auteur;
         this.nbLeger = 0;
         this.nbLourd = 0;
     }
@@ -120,8 +126,16 @@ public class StatutsEntity implements Serializable {
     public List<PersonnesStatutsEntity> getStatutsActeurs() {
         return statutsActeurs;
     }
-// Mutateurs ===================================================================
 
+    public List<StatutsEntity> getCommentaires() {
+        return commentaires;
+    }
+
+    public StatutsEntity getStatut() {
+        return statut;
+    }
+
+// Mutateurs ===================================================================
     public void setId(Integer id) {
         this.id = id;
     }
@@ -152,6 +166,14 @@ public class StatutsEntity implements Serializable {
 
     public void setStatutsActeurs(List<PersonnesStatutsEntity> statutsActeurs) {
         this.statutsActeurs = statutsActeurs;
+    }
+
+    public void setCommentaires(List<StatutsEntity> commentaires) {
+        this.commentaires = commentaires;
+    }
+
+    public void setStatut(StatutsEntity statut) {
+        this.statut = statut;
     }
 
 // Gestion rapide nbLéger / nbLourd ============================================
@@ -186,10 +208,40 @@ public class StatutsEntity implements Serializable {
             nbLourd--;
         }
     }
+// Gestion des commentaire =====================================================
+
+    /**
+     * Ajout d'une instance de PersonnesStatutsEntity
+     *
+     * @param commentaire instance à ajouter
+     * @return true si l'ajout est effectuée correctement, false sinon (doublon)
+     */
+    public boolean addCommentaire(StatutsEntity commentaire) {
+        if (commentaires.contains(commentaire)) { // Gestion des doublons
+            return false;
+        }
+        return commentaires.add(commentaire);
+
+    }
+
+    /**
+     * Suppression d'une instance de PersonnesStatutsEntity
+     *
+     * @param commentaire l'instance à supprimer
+     * @return true si la suppression est effectuée correctement, false sinon
+     * (non existence)
+     */
+    public boolean removeCommentaire(StatutsEntity commentaire) {
+        if (!commentaires.contains(commentaire)) { // Gestion des doublons
+            return false;
+        }
+        return commentaires.remove(commentaire);
+    }
 
 // Gestion action sur le statut ================================================
     /**
      * Ajout d'une instance de PersonnesStatutsEntity
+     *
      * @param ps instance à ajouter
      * @return true si l'ajout est effectuée correctement, false sinon (doublon)
      */
@@ -203,8 +255,9 @@ public class StatutsEntity implements Serializable {
 
     /**
      * Suppression d'une instance de PersonnesStatutsEntity
+     *
      * @param ps l'instance à supprimer
-     * @return true si la suppression est effectuée correctement, false sinon 
+     * @return true si la suppression est effectuée correctement, false sinon
      * (non existence)
      */
     public boolean removePersonnesStatuts(PersonnesStatutsEntity ps) {
@@ -259,8 +312,8 @@ public class StatutsEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date=" 
-                + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd 
+        return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date="
+                + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd
                 + ", auteur=" + auteur + '}';
     }
 

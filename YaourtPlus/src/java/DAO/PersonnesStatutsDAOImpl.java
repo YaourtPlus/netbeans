@@ -85,6 +85,7 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
                 break;
             }
         }
+		
         // Mise à jour des listes
         s.setStatutsActeurs(setPS);
         p.setStatutsActeurs(setPS);
@@ -100,7 +101,7 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
     @Transactional(readOnly = true)
     @Override
     public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s){
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 0);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 0, false);
         return em.find(PersonnesStatutsEntity.class, ps);
     }
 

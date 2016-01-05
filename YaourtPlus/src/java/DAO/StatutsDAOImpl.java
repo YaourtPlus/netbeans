@@ -56,6 +56,7 @@ public class StatutsDAOImpl implements StatutsDAO {
 
     /**
      * Ajout d'un léger au statut
+     *
      * @param s Statut auquel le léger est ajouté
      * @param p Personne ajoutant le léger
      */
@@ -66,7 +67,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLeger();
 
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -75,7 +76,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         } else {
             setAction(p, s, TypeActions.leger);
         }
-        
+
         // Update de la BD
         // Simplification de merge avec setAction possible ?
         em.merge(p);
@@ -84,9 +85,10 @@ public class StatutsDAOImpl implements StatutsDAO {
 
     /**
      * Suppression d'un léger au statut
+     *
      * @param s Statut duquel le léger est supprimé
-     * @param p Personne supprimant le léger
-     * Suppression de l'action par l'utilisateur à définir ?
+     * @param p Personne supprimant le léger Suppression de l'action par
+     * l'utilisateur à définir ?
      */
     @Transactional
     @Override
@@ -95,9 +97,9 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
     }
 
-   
     /**
      * Ajout d'un lourd au statut
+     *
      * @param s Statut auquel le lourd est ajouté
      * @param p Personne ajoutant le lourd
      */
@@ -108,7 +110,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLourd();
 
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -123,12 +125,13 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(p);
         em.merge(s);
     }
-    
+
     /**
      * Suppression d'un lourd au statut
+     *
      * @param s Statut duquel le lourd est supprimé
-     * @param p Personne supprimant le lourd
-     * Suppression de l'action par l'utilisateur à définir ?
+     * @param p Personne supprimant le lourd Suppression de l'action par
+     * l'utilisateur à définir ?
      */
     @Transactional
     @Override
@@ -139,6 +142,7 @@ public class StatutsDAOImpl implements StatutsDAO {
 
     /**
      * Mise à jour de l'action de l'utilisateur sur le statut
+     *
      * @param p Personne effectuant l'action sur le statut
      * @param s Statut sur lequel l'action est effectuée
      * @param action Action effectuée sur le statut
@@ -149,7 +153,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         // au statut.
         // s ou p, peu importe puisque ce sont les même listes
         List<PersonnesStatutsEntity> setPS = s.getStatutsActeurs();
-        
+
         // Parcours de la liste
         for (PersonnesStatutsEntity ps : setPS) {
             // Recherche de l'instance comprenant p et s
@@ -170,19 +174,36 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
         em.merge(p);
     }
-    
+
     @Override
     public void addFichier(StatutsEntity se, FichiersEntity fe) {
         se.addFichierStatuts(fe);
         fe.addStatutsFichier(se);
-        
+
         se = em.merge(se);
         em.merge(fe);
-        
+
+    }
+
+    @Transactional
+    @Override
+    public boolean ajoutCommentaire(StatutsEntity s, StatutsEntity c) {
+        // Ajout du statut commenté
+        c.setStatut(s);
+
+        // Ajout du commentaire au statut
+        boolean add = s.addCommentaire(c);
+
+        // Mise à jour dans la BD
+        if (add) {
+            em.merge(c);
+            em.merge(s);
+        }
+
+        return add;
     }
 
 // Lecture =====================================================================
-
     @Transactional(readOnly = true)
     @Override
     public StatutsEntity find(int id) {
@@ -198,8 +219,9 @@ public class StatutsDAOImpl implements StatutsDAO {
 
     /**
      * NOT YET IMPLEMENTED
+     *
      * @param auteurId
-     * @return 
+     * @return
      */
     @Transactional(readOnly = true)
     @Override
@@ -207,5 +229,4 @@ public class StatutsDAOImpl implements StatutsDAO {
         return null;
     }
 
-    
 }
