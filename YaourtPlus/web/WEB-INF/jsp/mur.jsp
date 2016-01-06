@@ -38,7 +38,10 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <form Method="POST" action="messages.htm">
+                    <form Method="POST" action="ajoutMessage.htm">
+                        <select name="destinataireMessage" id="destinataireMessage">
+                            ${selectUserList}
+                        </select>
                         <textarea rows="2" cols="150" name='statut' id='message' class="form-control"
                                   placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
                         <div id="connectButton">

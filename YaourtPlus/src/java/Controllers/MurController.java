@@ -229,11 +229,13 @@ public class MurController {
             String statut = statutsService.getStatuts(idUtilisateur);
             
             String messages = messagesService.getMessages(idUtilisateur);
+            String selectUserList = profilService.getSelectUserList(idUtilisateur);
 
             // Affichage des différentes données récupérées précédemment
             mv.addObject("listeAmi", listFilous);
             mv.addObject("nomPersonne", nomPersonne);
             mv.addObject("listStatuts", statut);
+            mv.addObject("selectUserList", selectUserList);
             mv.addObject("user", Integer.toString(idUtilisateur));
             mv.addObject("idPersonne", idUtilisateur);
 
@@ -353,7 +355,7 @@ public class MurController {
         mv = getRedirect(path, idDest, -1);
         return mv;
     }
-
+    
     // Gestion de la redirection des pages
 
     private ModelAndView getRedirect(String path, int idPersonne, int idStatut) {

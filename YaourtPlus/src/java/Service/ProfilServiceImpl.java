@@ -14,6 +14,7 @@ import DAO.StatutsDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -122,5 +123,18 @@ public class ProfilServiceImpl implements ProfilService {
             url = "<a href='" + servletContext.getContextPath() + "/vueNotif.htm?idObject=" + n.getStatut().getId() + "'> ici </a>";
         }
         return url;
+    }
+
+    @Override
+    public String getSelectUserList(int idUtilisateur) {
+        List<PersonnesEntity> filous = personneDAO.findFilous(idUtilisateur);
+        String result = "";
+
+        for (PersonnesEntity p : filous) {
+            result += "<option id='"+p.getId()+"'>";
+            result += p.getPrenom() + " " + p.getNom();
+            result += "</option>";
+        }
+        return result;
     }
 }
