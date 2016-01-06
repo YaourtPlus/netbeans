@@ -227,12 +227,16 @@ public class MurController {
 
             // Récupération des statuts des Filous
             String statut = statutsService.getStatuts(idUtilisateur);
+            
+            String messages = messagesService.getMessages(idUtilisateur);
+            String selectUserList = profilService.getSelectUserList(idUtilisateur);
 
             //String messages = messagesService.getMessages(idUtilisateur);
             // Affichage des différentes données récupérées précédemment
             mv.addObject("listeAmi", listFilous);
             mv.addObject("nomPersonne", nomPersonne);
             mv.addObject("listStatuts", statut);
+            mv.addObject("selectUserList", selectUserList);
             mv.addObject("user", Integer.toString(idUtilisateur));
             mv.addObject("idPersonne", idUtilisateur);
 
@@ -344,14 +348,15 @@ public class MurController {
 
         // Récupération du texte du statut posté
         String message = request.getParameter("message");
-        String listFilous = profilService.getFilous();
+        //String listFilous = profilService.getFilous();
         // Ajout du statut
         messagesService.getMessages(idUtilisateur);
         
         mv = new ModelAndView("messages");
         mv.addObject("");
-// Affichage du mur
-        return;
+        
+        // Affichage de la page
+        return null;
     }
 
     //Gestion des messages
@@ -386,7 +391,7 @@ public class MurController {
         mv = getRedirect(path, idDest, -1);
         return mv;
     }
-
+    
     // Gestion de la redirection des pages
     private ModelAndView getRedirect(String path, int idPersonne, int idStatut) {
         switch (path) {
