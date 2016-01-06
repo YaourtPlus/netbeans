@@ -27,6 +27,9 @@ public class StatutsDAOImpl implements StatutsDAO {
 
     @Resource
     private PersonnesStatutsDAO personnesStatutsDAO;
+    
+    @Resource 
+    private IMCDAO imcDAO;
 
     public EntityManager getEm() {
         return em;
@@ -71,7 +74,9 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLeger();
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false);
-
+        imcDAO.removeIMC(s.getAuteur(), p);
+        
+        
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
         if (s.addPersonnesStatuts(ps) && p.addPersonnesStatuts(ps)) {
@@ -96,6 +101,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void removeLeger(StatutsEntity s, PersonnesEntity p) {
         s.delLeger();
+        imcDAO.addIMC(s.getAuteur(), p);
         em.merge(s);
     }
 
@@ -113,6 +119,8 @@ public class StatutsDAOImpl implements StatutsDAO {
 
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false);
+        imcDAO.addIMC(s.getAuteur(), p);
+        
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -139,6 +147,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void removeLourd(StatutsEntity s, PersonnesEntity p) {
         s.delLourd();
+        imcDAO.removeIMC(s.getAuteur(), p);
         em.merge(s);
     }
 

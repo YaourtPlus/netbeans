@@ -162,10 +162,12 @@ public class MurServiceImpl implements MurService {
         PersonnesEntity user = personneDAO.find(idUser);
         PersonnesEntity auteur = statut.getAuteur();
 
-        statutDAO.addLeger(statut, user);
+        if (!user.equals(auteur)) {
+            statutDAO.addLeger(statut, user);
 
-        // Création de la notification dans la BD
-        notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut);
+            // Création de la notification dans la BD
+            notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut);
+        }
     }
 
     /**
@@ -182,10 +184,13 @@ public class MurServiceImpl implements MurService {
         PersonnesEntity auteur = statut.getAuteur();
 
         // Ajout du léger sur le statut et l'utilisateur
-        statutDAO.addLourd(statut, user);
+        if (!auteur.equals(user)) {
+            statutDAO.addLourd(statut, user);
 
-        // Création de la notification dans la BD
-        notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut);
+            // Création de la notification dans la BD
+            notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut);
+        }
+
     }
 
     /**
@@ -202,16 +207,19 @@ public class MurServiceImpl implements MurService {
 
         // Récuoération du type d'action effectuée par l'utilisateur
         TypeActions action = personneStatutDAO.removeAction(user, statut);
-        switch (action) {
-            case leger:
-                statutDAO.removeLeger(statut, user);
-                break;
-            case lourd:
-                statutDAO.removeLourd(statut, user);
-                break;
-            default:
-                break;
-        } // Fin switch
+        if (!statut.getAuteur().equals(user)) {
+            switch (action) {
+                case leger:
+                    statutDAO.removeLeger(statut, user);
+                    break;
+                case lourd:
+                    statutDAO.removeLourd(statut, user);
+                    break;
+                default:
+                    break;
+            } // Fin switch
+        }
+
     }
 
 }

@@ -65,5 +65,22 @@ public class IMCDAOImpl implements IMCDAO {
         Query q = em.createQuery("SELECT i FROM IMCEntity i");
         return q.getResultList();
     }
+// Custom ======================================================================
+    @Override
+    public void addIMC(PersonnesEntity auteur, PersonnesEntity allegeur) {
+        IMCEntity imcAuteurStatut = auteur.getImc();
+        IMCEntity imcAuteurLeger = allegeur.getImc();
+
+        imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()+(1/imcAuteurLeger.getValeur()));
+        imcAuteurStatut = em.merge(imcAuteurStatut);
+    }
+
+    @Override
+    public void removeIMC(PersonnesEntity auteur, PersonnesEntity allourdeur) {
+        IMCEntity imcAuteurStatut = auteur.getImc();
+        IMCEntity imcAuteurLeger = allourdeur.getImc();
+
+        imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()-(1/imcAuteurLeger.getValeur()));
+        imcAuteurStatut = em.merge(imcAuteurStatut);}
 
 }
