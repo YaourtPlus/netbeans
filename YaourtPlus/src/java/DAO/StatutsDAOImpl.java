@@ -238,13 +238,17 @@ public class StatutsDAOImpl implements StatutsDAO {
     }
 
 // Lecture =====================================================================
+    @Transactional
     @Override
     public void addFichier(StatutsEntity se, FichiersEntity fe) {
-        se.addFichierStatuts(fe);
-        fe.addStatutsFichier(se);
 
+        fe = em.merge(fe);
+        em.persist(fe);
+
+        fe.addStatutsFichier(se);
+        se.addFichierStatuts(fe);
         se = em.merge(se);
-        em.merge(fe);
+        fe = em.merge(fe);
 
     }
 

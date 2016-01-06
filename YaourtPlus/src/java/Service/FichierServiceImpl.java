@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
@@ -40,22 +42,27 @@ public class FichierServiceImpl implements FichierService {
 
     @Override
     public boolean ajoutFichier(Part p, int statutsId) {
-        
+
         StatutsEntity se = statutsDAO.find(statutsId);
         String nouveauNom = hashNomFichier(se.getAuteur().getLogin() + p.getSubmittedFileName());
         String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
+        nouveauNom += "." + ext;
 
         for (FichiersEntity fe : se.getListeFichiers()) {
             if (fe.getNom().equals(nouveauNom)) {
                 return false;
             }
         }
+        try {
+            ajoutFichierInterne(p, nouveauNom);
+        } catch (IOException ex) {
+            Logger.getLogger(FichierServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         FichiersEntity fe = new FichiersEntity(ext, "emptyy", nouveauNom);
-        fichierDAO.save(fe);
+        
 
         statutsDAO.addFichier(se, fe);
-
         return true;
     }
 
@@ -82,7 +89,7 @@ public class FichierServiceImpl implements FichierService {
         return hashString.toString();
     }
 
-    private boolean ajoutFichierInterne(Part p, String nom, ServletContext servletContext) throws IOException {
+    private boolean ajoutFichierInterne(Part p, String nom) throws IOException {
         String s = "";
         if (!"".equals(p.getSubmittedFileName())) {
             s += "bonjour";
