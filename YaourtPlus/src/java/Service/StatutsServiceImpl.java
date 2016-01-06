@@ -64,23 +64,23 @@ public class StatutsServiceImpl implements StatutsService {
 
         String statuts = "";
         // Parcours des filous de l'utilisateur
-        List<StatutsEntity> lse = new ArrayList<>();
+        List<StatutsEntity> statutsFilous = new ArrayList<>();
+        
         for (PersonnesEntity p : user.getListFilous()) {
             // Parcours des statuts des filous
             // /!\ Récupération des statuts dans DAO selon la date /!\
             for (StatutsEntity s : p.getStatuts(Calendar.getInstance().getTime())){
-                lse.add(s);
-                //statuts += statutToString(s, user, "mur");
+                statutsFilous.add(s);
             } // Fin parcours statuts
         } // Fin parcours filous
-        Collections.sort(lse, new Comparator<StatutsEntity>() {
+        Collections.sort(statutsFilous, new Comparator<StatutsEntity>() {
 
             @Override
             public int compare(StatutsEntity o1, StatutsEntity o2) {
                 return o2.getNbLeger().compareTo(o1.getNbLeger());
             }
         });
-        for(StatutsEntity s : lse)
+        for(StatutsEntity s : statutsFilous)
         {
             statuts+= statutToString(s, user, "mur");
         }
@@ -88,24 +88,58 @@ public class StatutsServiceImpl implements StatutsService {
     }
 
     /**
-     * Récupération des statuts d'une personne pour l'affichage
+     * Récupération des statuts émis par une personne pour l'affichage
+     *
      * @param idUtilisateur l'id de l'utilisateur courant
      * @param idPersonne l'id de la personne dont on veut les statuts
      * @return un string formant les statuts
      */
     @Override
-    public String getPersonneStatuts(int idUtilisateur, int idPersonne) {
+    public String getPersonneStatutsEmis(int idUtilisateur, int idPersonne) {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
         PersonnesEntity personne = personneDAO.find(idPersonne);
 
         String statuts = "";
-        for (StatutsEntity s : personne.getStatuts()) {
-            statuts += statutToString(s, user, "statut");
+        for (StatutsEntity s : personne.getStatutsEmis()) {
+            if(s.getDestinataire().equals(user)){
+                statuts += statutToString(s, user, "statut");
+            }
         }
         return statuts;
     }
 
+    /**
+     * Récupération des statuts postés sur le mur d'une personne pour
+     * l'affichage
+     *
+     * @param idUtilisateur l'id de l'utilisateur courant
+     * @param idPersonne l'id de la personne dont on veut les statuts
+     * @return un string formant les statuts
+     */
+    @Override
+    public String getPersonneStatutsRecu(int idUtilisateur, int idPersonne) {
+        // Récupération de l'utilisateur
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        PersonnesEntity personne = personneDAO.find(idPersonne);
+
+        String statuts = "";
+        for (StatutsEntity s : personne.getStatutsRecu()) {
+            if (!s.getAuteur().equals(personne)) {
+                statuts += statutToString(s, user, "statut");
+            }
+        }
+        return statuts;
+    }
+
+    /**
+     * Met en forme un statut
+     *
+     * @param s le statut à mettre en forme
+     * @param user l'utilisateur pour qui sera rendu le statut
+     * @param path l'endroit ou se trouve la page
+     * @return le statut mis en forme.
+     */
     @Override
     public String statutToString(StatutsEntity s, PersonnesEntity user, String path) {
 
@@ -125,7 +159,12 @@ public class StatutsServiceImpl implements StatutsService {
 
         // Récupération de l'action de l'utilisateur sur le statut
         TypeActions action = user.getAction(s);
-        int idAuteur = s.getAuteur().getId();
+        int idDestinataire;
+        if (s.getDestinataire() == null) { // Si le destinataire est à null, c'est que c'est un statut que l'utilisateur à posté
+            idDestinataire = s.getAuteur().getId();
+        } else {
+            idDestinataire = s.getDestinataire().getId();
+        }
         String link = "";
         String leger = " Léger";
         if(s.getNbLeger()> 1) leger += "s";
@@ -133,18 +172,18 @@ public class StatutsServiceImpl implements StatutsService {
         switch (action) {
             case noAction: // Possibilité de Leger ou Lourd
                 int nb = s.getNbLeger();
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
+                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire + "'>"
                         + getQuantity(nb) + leger +" !</a>";
                 nb = s.getNbLourd();
-                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/lourd.htm?id=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
+                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/lourd.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire + "'>"
                         + getQuantity(nb) + " T'es lourd !</a>";
                 break;
             case leger: // Possiblité d'annulation de léger
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idAuteur
+                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire
                         + "'> Vous avez allégé le statut("+s.getNbLeger() +leger+"). </a>";
                 break;
             case lourd: // Possiblité d'annulation de lourd
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idAuteur
+                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire
                         + "'> Vous avez allourdi le statut("+s.getNbLeger() +leger+"). </a>";
                 break;
             default:
@@ -162,7 +201,7 @@ public class StatutsServiceImpl implements StatutsService {
             statuts += "</div>";
         }
         // Création du commentaire de statut
-        statuts += "<form Method='POST' action='" + servletContext.getContextPath() + "/" + path + "/ajoutCommentaire.htm?idStatut=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
+        statuts += "<form Method='POST' action='" + servletContext.getContextPath() + "/" + path + "/ajoutCommentaire.htm?idStatut=" + s.getId() + "&idPersonne=" + idDestinataire + "'>"
                 + "<textarea rows='3' cols='75' name='commentaire' "
                 + "id='commentaire' class='form-control pull-left' "
                 + "placeholder='Ajouter un commentaire' "

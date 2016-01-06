@@ -82,7 +82,11 @@ public class PersonnesEntity implements Serializable {
 
     // Liste des statuts émis par une personne
     @OneToMany(mappedBy = "auteur", fetch = FetchType.EAGER)
-    private List<StatutsEntity> statuts = new ArrayList<>();
+    private List<StatutsEntity> statutsEmis = new ArrayList<>();
+
+    // Liste des statuts dont la personne est le destinataire
+    @OneToMany(mappedBy = "destinataire", fetch = FetchType.EAGER)
+    private List<StatutsEntity> statutsRecu = new ArrayList<>();
 
     // Liste des messages émis par une personne
     @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
@@ -194,22 +198,28 @@ public class PersonnesEntity implements Serializable {
         return notificationsEmises;
     }
 
-    public List<StatutsEntity> getStatuts() {
-        return statuts;
+    public List<StatutsEntity> getStatutsEmis() {
+        return statutsEmis;
     }
 
     /**
-     * Récupère les statuts qui ont été postés pendant une certaine période
-     * La période est une durée de 2 semaines à partir d'aujourd'hui
+     * Récupère les statuts qui ont été postés pendant une certaine période La
+     * période est une durée de 2 semaines à partir d'aujourd'hui
+     *
      * @param today la date actuelle
      * @return la liste des statuts postés pendant la période définie
      */
     public List<StatutsEntity> getStatuts(Date today) {
         ArrayList<StatutsEntity> list = new ArrayList<>();
-        for(StatutsEntity s : statuts){
+        for (StatutsEntity s : statutsEmis) {
             // 1210000000 => 2 semaines en millisecondes
             // Test de la date à laquelle a été posté le statut
-            if(s.getDate().after(new Date(today.getTime()- 1210000000))){
+            if (s.getDate().after(new Date(today.getTime() - 1210000000))) {
+                list.add(s);
+            }
+        }
+        for (StatutsEntity s : statutsRecu) {
+            if (s.getDate().after(new Date(today.getTime() - 1210000000))) {
                 list.add(s);
             }
         }
@@ -239,8 +249,12 @@ public class PersonnesEntity implements Serializable {
     public List<PersonnesStatutsEntity> getStatutActeurs() {
         return statutsActeurs;
     }
-// Mutateurs ===================================================================
 
+    public List<StatutsEntity> getStatutsRecu() {
+        return statutsRecu;
+    }
+
+// Mutateurs ===================================================================
     public void setId(Integer id) {
         this.id = id;
     }
@@ -285,8 +299,8 @@ public class PersonnesEntity implements Serializable {
         this.notificationsEmises = notificationsEmises;
     }
 
-    public void setStatuts(List<StatutsEntity> statuts) {
-        this.statuts = statuts;
+    public void setStatutsEmis(List<StatutsEntity> statuts) {
+        this.statutsEmis = statuts;
     }
 
     public void setMessagesEmis(List<MessagesEntity> messagesEmis) {
@@ -315,6 +329,10 @@ public class PersonnesEntity implements Serializable {
 
     public void setStatutsActeurs(List<PersonnesStatutsEntity> statutsActeurs) {
         this.statutsActeurs = statutsActeurs;
+    }
+
+    public void setStatutsRecu(List<StatutsEntity> statutsRecu) {
+        this.statutsRecu = statutsRecu;
     }
 
 // Gestion du nombre de notifications non lues =================================
@@ -402,8 +420,18 @@ public class PersonnesEntity implements Serializable {
      * @param s le nouveau statut
      * @return true si le statut est ajouté
      */
-    public boolean ajoutStatut(StatutsEntity s) {
-        return statuts.add(s);
+    public boolean ajoutStatutEmis(StatutsEntity s) {
+        return statutsEmis.add(s);
+    }
+
+    /**
+     * Ajoute un statut dans la liste des statuts postés
+     *
+     * @param s le nouveau statut
+     * @return true si le statut est ajouté
+     */
+    public boolean ajoutStatutRecu(StatutsEntity s) {
+        return statutsRecu.add(s);
     }
 
     /**

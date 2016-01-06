@@ -43,8 +43,18 @@ public class PersonnesStatutsEntity implements Serializable {
     @Column(nullable = false)
     private Integer typeAction;
 
+    /**
+     * Indique si l'utilisateur à commenté
+     */
     @Column
     private boolean commentaire;
+    
+    /**
+     * Indique si l'utilisateur à posté
+     */
+    @Column
+    private boolean post;
+
 
 // Constructeur ================================================================
     public PersonnesStatutsEntity() {
@@ -52,14 +62,16 @@ public class PersonnesStatutsEntity implements Serializable {
         this.typeAction = 0;
         this.statut = null;
         this.commentaire = false;
+        this.post = false;
     }
 
     public PersonnesStatutsEntity(PersonnesEntity personne,
-            StatutsEntity statut, int action, boolean commentaire) {
+            StatutsEntity statut, int action, boolean commentaire, boolean post) {
         this.personne = personne;
         this.statut = statut;
         this.typeAction = action;
         this.commentaire = commentaire;
+        this.post = post;
     }
 
 // Getters =====================================================================
@@ -77,6 +89,10 @@ public class PersonnesStatutsEntity implements Serializable {
 
     public boolean getCommentaire() {
         return commentaire;
+    }
+
+    public boolean getPost() {
+        return post;
     }
 
 // Setters =====================================================================
@@ -100,13 +116,17 @@ public class PersonnesStatutsEntity implements Serializable {
         this.commentaire = commentaire;
     }
 
+    public void setPost(boolean post) {
+        this.post = post;
+    }
+
 // =============================================================================
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.personne);
-        hash = 71 * hash + Objects.hashCode(this.statut);
         hash = 71 * hash + Objects.hashCode(this.typeAction);
+        hash = 71 * hash + Objects.hashCode(this.commentaire);
+        hash = 71 * hash + Objects.hashCode(this.post);
         return hash;
     }
 

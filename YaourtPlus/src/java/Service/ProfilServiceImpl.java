@@ -102,7 +102,7 @@ public class ProfilServiceImpl implements ProfilService {
         for (NotificationsEntity n : user.getNotificationRecues()) {
             afficheNotifications += "<div class=\"col-lg-offset-1 col-lg-10\">";
             SimpleDateFormat notifDate = new SimpleDateFormat("dd,MM,yyyy 'a' HH:mm:ss ");
-            String date = "Prout";
+            String date;
             date = notifDate.format(n.getDate());
             afficheNotifications += n.toString() + " " + getUrl(n);
             afficheNotifications += "<br/>" + date;

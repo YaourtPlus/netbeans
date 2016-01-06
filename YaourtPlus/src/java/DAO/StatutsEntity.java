@@ -63,6 +63,11 @@ public class StatutsEntity implements Serializable {
     @JoinColumn(name = "auteurId")
     private PersonnesEntity auteur;
 
+    // Destinataire du statut
+    @ManyToOne
+    @JoinColumn(name = "destinataireId")
+    private PersonnesEntity destinataire;
+    
 // Relations MANY TO MANY
     // Liste des fichiers liés au statut
     @JoinTable(
@@ -126,6 +131,10 @@ public class StatutsEntity implements Serializable {
         return commentaires;
     }
 
+    public PersonnesEntity getDestinataire() {
+        return destinataire;
+    }
+
 // Mutateurs ===================================================================
     public void setId(Integer id) {
         this.id = id;
@@ -161,6 +170,10 @@ public class StatutsEntity implements Serializable {
 
     public void setCommentaires(List<CommentairesEntity> commentaires) {
         this.commentaires = commentaires;
+    }
+
+    public void setDestinataire(PersonnesEntity destinataire) {
+        this.destinataire = destinataire;
     }
 
 
@@ -255,6 +268,8 @@ public class StatutsEntity implements Serializable {
         return statutsActeurs.remove(ps);
     }
     
+// Gestion Fichiers sur le statut ==============================================
+    
     public boolean addFichierStatuts(FichiersEntity fe) {
         
         return listeFichiers.add(fe);
@@ -278,8 +293,6 @@ public class StatutsEntity implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.date);
         hash = 97 * hash + Objects.hashCode(this.nbLeger);
         hash = 97 * hash + Objects.hashCode(this.nbLourd);
-        hash = 97 * hash + Objects.hashCode(this.auteur);
-        hash = 97 * hash + Objects.hashCode(this.listeFichiers);
         return hash;
     }
 
@@ -302,7 +315,7 @@ public class StatutsEntity implements Serializable {
     public String toString() {
         return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date="
                 + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd
-                + ", auteur=" + auteur + '}';
+                +  '}';
     }
 
 }

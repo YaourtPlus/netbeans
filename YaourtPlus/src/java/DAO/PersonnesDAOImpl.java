@@ -99,7 +99,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     }
 
     /**
-     * Ajout d'un statut par l'utilisateur
+     * Ajout d'un statut émis par l'utilisateur
      *
      * @param p Utilisateur
      * @param s Statut à ajouter
@@ -107,9 +107,9 @@ public class PersonnesDAOImpl implements PersonnesDAO {
      */
     @Transactional
     @Override
-    public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s) {
+    public boolean ajoutStatutEmis(PersonnesEntity p, StatutsEntity s) {
         // Ajout du statut dans la liste des statuts émis par l'utilisateur
-        boolean add = p.ajoutStatut(s);
+        boolean add = p.ajoutStatutEmis(s);
 
         // Mise à jour de la BD
         if (add) {
@@ -118,6 +118,27 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return add;
     }
 
+    /**
+     * Ajout d'un statut posté sur le mur de la personne
+     *
+     * @param p Utilisateur
+     * @param s Statut à ajouter
+     * @return true si l'ajout s'est effectué correctement
+     */
+    @Transactional
+    @Override
+    public boolean ajoutStatutRecu(PersonnesEntity p, StatutsEntity s) {
+        // Ajout du statut dans la liste des statuts émis par l'utilisateur
+        boolean add = p.ajoutStatutEmis(s);
+
+        // Mise à jour de la BD
+        if (add) {
+            em.merge(p);
+        }
+        return add;
+    }
+
+    
     /**
      * Ajout d'une notification
      *

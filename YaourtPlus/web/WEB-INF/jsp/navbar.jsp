@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<nav class="navbar navbar-inverse navbar-static-top container-fluid">
+<nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "mur.jsp")}' />
@@ -22,7 +21,7 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class="navbar-right"> 
+            <li class=""> 
                 <a href="${pageContext.servletContext.contextPath}/deconnexion.htm">Déconnexion</a>
             </li>
         </ul> 

@@ -25,7 +25,9 @@ public interface PersonnesDAO {
 
     public boolean suppressionFilous(PersonnesEntity p1, PersonnesEntity p2);
 
-    public boolean ajoutStatut(PersonnesEntity p, StatutsEntity s);
+    public boolean ajoutStatutEmis(PersonnesEntity p, StatutsEntity s);
+    
+    public boolean ajoutStatutRecu(PersonnesEntity p, StatutsEntity s);
 
     public boolean ajoutNotif(PersonnesEntity notifieur, PersonnesEntity destinataire, NotificationsEntity notif);
 // Transaction read-only =======================================================
