@@ -228,7 +228,7 @@ public class MurController {
             // Récupération des statuts des Filous
             String statut = statutsService.getStatuts(idUtilisateur);
             
-            String messages = messagesService.getMessages(idUtilisateur);
+            //String messages = messagesService.getMessages(idUtilisateur);
             String selectUserList = profilService.getSelectUserList(idUtilisateur);
 
             //String messages = messagesService.getMessages(idUtilisateur);
@@ -325,7 +325,7 @@ public class MurController {
     }
 
     //Gestion des messages
-    @RequestMapping(value = "{path}/message", method = RequestMethod.POST)
+    @RequestMapping(value = "{path}/message", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView afficheMessage(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String path) throws Exception {
 
@@ -344,19 +344,24 @@ public class MurController {
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
+        // Récupération de l'id du destinataire
         int idDest = Integer.parseInt(request.getParameter("destinataireMessage"));
 
+        
         // Récupération du texte du statut posté
         String message = request.getParameter("message");
         //String listFilous = profilService.getFilous();
         // Ajout du statut
         messagesService.getMessages(idUtilisateur);
         
+        
         mv = new ModelAndView("messages");
-        mv.addObject("");
+        mv.addObject("listFilous", profilService.getSelectUserList(idUtilisateur));
+        mv.addObject("filou", profilService.getFilous(idDest));
+        //mv.addObject("listMessages", messagesService.getMessages(idDest));
         
         // Affichage de la page
-        return null;
+        return mv;
     }
 
     //Gestion des messages
