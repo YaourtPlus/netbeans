@@ -17,7 +17,7 @@ public enum TypeNotifications {
     notifLeger(3), // Notification de léger sur un statut
     notifLourd(4), // Notification de lourd sur un statut
     notifCommentaire(5), // Notifications de commentaire sur un statut
-    notifStatut(6); // Notifications de commentaire sur un statut
+    notifStatut(6); // Notifications de post de statut sur un mur
     
     // Id stocké dans la BD
     private final int id;

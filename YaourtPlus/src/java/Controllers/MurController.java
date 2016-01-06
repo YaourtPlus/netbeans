@@ -173,7 +173,14 @@ public class MurController {
         String statut = request.getParameter("statut");
 
         // Ajout du statut
-        int idStatut = murService.ajoutStatut(idUtilisateur, statut);
+        
+        int idStatut;
+        if(idPersonne == idUtilisateur){
+            idStatut = murService.ajoutStatut(idUtilisateur, statut);
+        }
+        else{
+            idStatut = murService.posterStatut(idUtilisateur, idPersonne, statut);
+        }
 
         if (p.getSize() != 0) {
             fichierService.ajoutFichier(p, idStatut);
@@ -250,9 +257,9 @@ public class MurController {
         } else {
 
             // Récupération de l'id de l'utilisateur
-            //int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-            int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
             int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+            
+            int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
 
             // Création du modelAndView mur pour l'affichage
             mv = new ModelAndView("statuts");
@@ -261,12 +268,16 @@ public class MurController {
             // Récupération du nom de l'utilisateur
             String nomPersonne = profilService.getPersonne(idPersonne).getNom();
 
-            String statuts = statutsService.getPersonneStatuts(idUtilisateur, idPersonne);
+            String statutsEmis = statutsService.getPersonneStatutsEmis(idUtilisateur, idPersonne);
+            String statutsRecu = statutsService.getPersonneStatutsRecu(idUtilisateur, idPersonne);
 
             // Affichage des différentes données récupérées précédemment
             mv.addObject("nomPersonne", nomPersonne);
-            mv.addObject("listStatuts", statuts);
-            mv.addObject("idPersonne", idUtilisateur);
+            mv.addObject("listStatutsEmis", statutsEmis);
+            mv.addObject("sizeStatutsEmis", statutsEmis.length());
+            mv.addObject("listStatutsRecu", statutsRecu);
+            mv.addObject("sizeStatutsRecu", statutsRecu.length());
+            mv.addObject("idPersonne", idUtilisateur);;
             mv.addObject("idProprietaire", idPersonne);
 
             return mv;

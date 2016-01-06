@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>    
     <head>
@@ -18,22 +19,30 @@
         <div>
             ${nomPersonne}
         </div>
-        
-        <div class="row">
-            <div class="col-lg-offset-3 col-lg-6">
-                <form Method="POST" action="${pageContext.request.contextPath}/statut/ajoutStatut.htm?idPersonne=${idProprietaire}" enctype="multipart/form-data">
-                    <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
-                              placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
-                    <div id="connectButton">
-                        <input type="file" name="file"/>
-                        <input type="submit" value="Publier" name="submit" />
-                    </div>
-                </form>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-offset-2 col-lg-6">
+                    <form Method="POST" action="${pageContext.request.contextPath}/statut/ajoutStatut.htm?idPersonne=${idProprietaire}" enctype="multipart/form-data">
+                        <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
+                                  placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
+                        <div id="connectButton">
+                            <input type="file" name="file"/>
+                            <input type="submit" value="Publier" name="submit" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        
-        <div class="container-fluid">
-            ${listStatuts}
-        </div>
+        <c:if test="${sizeStatutsEmis > 0}">
+            <div class="col-lg-6">
+                ${listStatutsEmis}
+            </div>
+        </c:if>
+        <c:if test="${sizeStatutsRecu > 0}">
+            <div class="col-lg-6">
+                ${listStatutsRecu}
+            </div>
+        </c:if>
+
     </body>
 </html>

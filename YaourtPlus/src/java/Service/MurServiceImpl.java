@@ -62,11 +62,13 @@ public class MurServiceImpl implements MurService {
         StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
         // Mise à jour de l'auteur du statut
         newStatut.setAuteur(user);
+        newStatut.setDestinataire(user);
         // Ajout dans la BD
         int id = statutDAO.save(newStatut);
 
         // Ajout du statut
-        personneDAO.ajoutStatut(user, newStatut);
+        personneDAO.ajoutStatutEmis(user, newStatut);
+        personneDAO.ajoutStatutRecu(user, newStatut);
         return id;
     }
 
@@ -87,23 +89,28 @@ public class MurServiceImpl implements MurService {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
         PersonnesEntity destinataire = personneDAO.find(idPersonne);
-
+        
         // Création du statut
         StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
         // Mise à jour de l'auteur du statut
         newStatut.setAuteur(user);
+        newStatut.setDestinataire(destinataire);
         // Ajout dans la BD
-        int id = statutDAO.save(newStatut);
+        int idStatut = statutDAO.save(newStatut);
 
-        // Ajout du statut au destinataire
-        personneDAO.ajoutStatut(destinataire, newStatut);
+        // Ajout du statut posté à l'utilisateur
+        personneDAO.ajoutStatutEmis(user, newStatut);
+        
+        // Ajout du statut posté au destinataire
+        personneDAO.ajoutStatutRecu(destinataire, newStatut);
 
+        // Création d'une action sur le statut par l'utilisateur (post du statut)
+        personneStatutDAO.addPost(idStatut, user);
+        
         // Création d'une notification auprès du destinataire
         notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, statut);
-
-        // Ajout de l'action de l'utilisateur sur le statut
-        personneStatutDAO.save(null);
-        return id;
+        
+        return idStatut;
     }
 
     /**

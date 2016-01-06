@@ -22,12 +22,14 @@ public interface PersonnesStatutsDAO {
     public void delete(PersonnesStatutsEntity ps);
 // Transaction custom ==========================================================
 
+    public void addPost(int idStatut, PersonnesEntity p);
+
     public TypeActions removeAction(PersonnesEntity p, StatutsEntity s);
 // Transaction read-only =======================================================
 
     public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s);
 
     public List<PersonnesStatutsEntity> findAll();
-    
+
     public boolean exist(PersonnesEntity p, StatutsEntity s);
 }

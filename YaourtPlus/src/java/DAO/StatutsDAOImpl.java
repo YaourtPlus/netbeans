@@ -70,7 +70,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         // Ajout du léger au statut
         s.addLeger();
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -112,7 +112,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLourd();
 
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -152,7 +152,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void addCommentaire(StatutsEntity s, PersonnesEntity p) {
         // Création d'une action entre la personne et le statut
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 0, true);
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 0, true, false);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
