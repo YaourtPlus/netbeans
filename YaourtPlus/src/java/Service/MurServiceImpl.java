@@ -7,15 +7,15 @@ package Service;
 
 import DAO.CommentairesDAO;
 import DAO.CommentairesEntity;
-import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.PersonnesStatutsDAO;
+import DAO.PersonnesStatutsEntity;
 import DAO.StatutsDAO;
 import DAO.StatutsEntity;
 import Enumerations.TypeActions;
 import Enumerations.TypeNotifications;
-import java.util.Date;
+import java.util.Calendar;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,6 @@ public class MurServiceImpl implements MurService {
     @Resource
     PersonnesStatutsDAO personneStatutDAO;
 
-
     @Resource
     CommentairesDAO commentaireDAO;
 
@@ -60,7 +59,7 @@ public class MurServiceImpl implements MurService {
         PersonnesEntity user = personneDAO.find(idUtilisateur);
 
         // Création du statut
-        StatutsEntity newStatut = new StatutsEntity(statut, new Date());
+        StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
         // Mise à jour de l'auteur du statut
         newStatut.setAuteur(user);
         // Ajout dans la BD
@@ -68,6 +67,42 @@ public class MurServiceImpl implements MurService {
 
         // Ajout du statut
         personneDAO.ajoutStatut(user, newStatut);
+        return id;
+    }
+
+    /**
+     * Ajout d'un statut par l'utilisateur sur le mur de la personne p
+     *
+     * @param idUtilisateur id de l'utilisateur
+     * @param idPersonne id de la personne détentrice du mur
+     * @param statut texte du statut à ajouter
+     * @return true si l'ajout est effectué correctement, false sinon (statut
+     * vide)
+     */
+    @Override
+    public int posterStatut(int idUtilisateur, int idPersonne, String statut) {
+        if (statut.length() == 0) { // Gestion d'un statut vide
+            return 0;
+        }
+        // Récupération de l'utilisateur
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        PersonnesEntity destinataire = personneDAO.find(idPersonne);
+
+        // Création du statut
+        StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
+        // Mise à jour de l'auteur du statut
+        newStatut.setAuteur(user);
+        // Ajout dans la BD
+        int id = statutDAO.save(newStatut);
+
+        // Ajout du statut au destinataire
+        personneDAO.ajoutStatut(destinataire, newStatut);
+
+        // Création d'une notification auprès du destinataire
+        notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, statut);
+
+        // Ajout de l'action de l'utilisateur sur le statut
+        personneStatutDAO.save(null);
         return id;
     }
 
@@ -91,20 +126,26 @@ public class MurServiceImpl implements MurService {
 
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-        PersonnesEntity auteur = statut.getAuteur();
         /* Création du commentaire
          Un commentaire n'est rien d'autre qu'un statut en réponse à un autre statut
          */
-        CommentairesEntity newCommentaire = new CommentairesEntity(commentaire, new Date());
+        CommentairesEntity newCommentaire = new CommentairesEntity(commentaire, Calendar.getInstance().getTime());
         newCommentaire.setAuteur(user);
         // Ajout du statut commenté
         newCommentaire.setStatut(statut);
-        
+
         commentaireDAO.save(newCommentaire);
-        
-        // Création de la notification dans la BD
-        notificationService.createNotification(TypeNotifications.notifCommentaire, user, auteur, statut);
-        
+
+        // Préparation de la notifications des personnes ayant commenté le statut
+        for (PersonnesStatutsEntity ps : statut.getStatutsActeurs()) {
+            if (ps.getPersonne().equals(user)) {
+                break;
+            }
+            // Création de la notification de l'auteur du statut dans la BD
+            notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut);
+        }
+        statutDAO.addCommentaire(statut, user);
+
         return commentaireDAO.ajoutCommentaire(statut, newCommentaire);
     }
 
@@ -120,19 +161,11 @@ public class MurServiceImpl implements MurService {
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUser);
         PersonnesEntity auteur = statut.getAuteur();
-        // Ajout du léger sur le statut et l'utilisateur
-        statutDAO.addLeger(statut, user);
 
-        NotificationsEntity notifLeger = new NotificationsEntity(new Date(),
-                TypeNotifications.notifLeger.getId());
-        notifLeger.setNotifieur(user);
+        statutDAO.addLeger(statut, user);
 
         // Création de la notification dans la BD
         notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut);
-        
-        // Ajout de la notification au nouveau filou
-        personneDAO.ajoutNotif(user, auteur, notifLeger);
-
     }
 
     /**
@@ -148,18 +181,11 @@ public class MurServiceImpl implements MurService {
         PersonnesEntity user = personneDAO.find(idUser);
         PersonnesEntity auteur = statut.getAuteur();
 
-        // Ajout du Lourd sur le statut et l'utilisateur
+        // Ajout du léger sur le statut et l'utilisateur
         statutDAO.addLourd(statut, user);
-
-        NotificationsEntity notifLourd = new NotificationsEntity(new Date(),
-                TypeNotifications.notifLourd.getId());
-        notifLourd.setNotifieur(user);
 
         // Création de la notification dans la BD
         notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut);
-
-        // Ajout de la notification au nouveau filou
-        personneDAO.ajoutNotif(user, statut.getAuteur(), notifLourd);
     }
 
     /**

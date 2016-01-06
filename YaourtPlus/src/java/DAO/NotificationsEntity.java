@@ -8,6 +8,7 @@ package DAO;
 import Enumerations.TypeNotifications;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -79,7 +80,7 @@ public class NotificationsEntity implements Serializable {
 
 // Constructeurs ===============================================================
     public NotificationsEntity() {
-        this.date = new Date();
+        this.date = Calendar.getInstance().getTime();
         this.type = 0;
         this.notifieur = null;
         this.statut = null;
@@ -211,13 +212,16 @@ public class NotificationsEntity implements Serializable {
                 result += " vous a envoyé un message.";
                 break;
             case notifLeger:
-                result += " a allégé votre statut.";
+                result += " a allégé un statut.";
                 break;
             case notifLourd:
-                result += " a allourdi votre statut.";
+                result += " a allourdi un statut.";
                 break;
             case notifCommentaire:
-                result += " a commenté votre statut.";
+                result += " a commenté un statut.";
+                break;
+            case notifStatut:
+                result += " a posté un statut.";
                 break;
             default:
                 break;

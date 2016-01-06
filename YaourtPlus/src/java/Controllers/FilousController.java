@@ -111,7 +111,7 @@ public class FilousController {
         if (session == null || session.getAttribute("idUtilisateur") == null) {
             mv = new ModelAndView("connexion");
             mv.addObject("inscriptionMessage", "Veuillez vous connecter pour accéder à cette page");
-      
+
         } else {
             // Création du modelAndView pour afficher les Filous
             mv = new ModelAndView("filous");
@@ -119,6 +119,7 @@ public class FilousController {
             int idUtilisateur = (int) session.getAttribute("idUtilisateur");
             // Affichage de la liste des filous
             mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
+            mv.addObject("idPersonne", idUtilisateur);
         }
         return mv;
 

@@ -18,7 +18,7 @@
             </li>
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "statuts.jsp")}' />
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="${pageContext.servletContext.contextPath}/statuts.htm"> Mes statuts ${nbNotif}</a>
+                <a href="${pageContext.servletContext.contextPath}/statuts.htm?idPersonne=${idPersonne}"> Mes statuts ${nbNotif}</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

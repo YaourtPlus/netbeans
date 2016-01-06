@@ -39,7 +39,7 @@ public class MurController {
 
     @Autowired
     ConnexionService connexionService;
-    
+
     @Autowired
     ServletContext servletContext;
 
@@ -48,7 +48,7 @@ public class MurController {
 
     @Autowired
     FichierService fichierService;
-    
+
 // Gestion des requêtes GET ====================================================
     // Ajout d'un léger
     @RequestMapping(value = "{path}/leger", method = RequestMethod.GET)
@@ -66,31 +66,19 @@ public class MurController {
             mv.addObject("inscriptionMessage",
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
-        } else {
-            // Récupération de l'id de l'utilisateur courant
-            int idUtilisateur = (int) session.getAttribute("idUtilisateur");
-
-            // Récupération de l'id du statut sur lequel l'action est effectuée
-            int idStatut = Integer.parseInt(request.getParameter("id"));
-
-            // Gestion de l'ajout de léger
-            murService.addLeger(idStatut, idUtilisateur);
-
-            switch (path) {
-                case "statut":
-                    mv = this.afficheStatuts(request, response);
-                    break;
-                case "vueNotif":
-                    mv = new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
-                    break;
-                case "mur":
-                default:
-                    mv = this.afficheMur(request, response);
-                    break;
-            }
-            return mv;
         }
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
 
+        // Récupération de l'id du statut sur lequel l'action est effectuée
+        int idStatut = Integer.parseInt(request.getParameter("id"));
+
+        // Gestion de l'ajout de léger
+        murService.addLeger(idStatut, idUtilisateur);
+
+        mv = getRedirect(path, idPersonne, idStatut);
+        return mv;
     }
 
     // Ajout d'un lourd
@@ -113,6 +101,7 @@ public class MurController {
 
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
 
         // Récupération de l'id du statut sur lequel l'action est effectuée
         int idStatut = Integer.parseInt(request.getParameter("id"));
@@ -120,19 +109,7 @@ public class MurController {
         // Gestion de l'ajout de lourd
         murService.addLourd(idStatut, idUtilisateur);
 
-        switch (path) {
-            case "statut":
-                mv = this.afficheStatuts(request, response);
-                break;
-            case "vueNotif":
-                mv = new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
-                break;
-            case "mur":
-            default:
-                mv = this.afficheMur(request, response);
-                break;
-        }
-
+        mv = getRedirect(path, idPersonne, idStatut);
         return mv;
     }
 
@@ -156,38 +133,23 @@ public class MurController {
 
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
 
         // Récupération de l'id du statut sur lequel l'action est effectuée
         int idStatut = Integer.parseInt(request.getParameter("id"));
 
         // Gestion de la suppression de l'action
         murService.removeAction(idStatut, idUtilisateur);
-        switch (path) {
-            case "statut":
-                mv = this.afficheStatuts(request, response);
-                break;
-            case "vueNotif":
-                mv = new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
-                break;
-            case "mur":
-            default:
-                mv = this.afficheMur(request, response);
-                break;
-        }
-        /*if (path.equals("statut")) {
-         mv = this.afficheStatuts(request, response);
-         } else {
-         // Affichage du mur
-         mv = this.afficheMur(request, response);
-         } */
+
+        mv = getRedirect(path, idPersonne, idStatut);
         return mv;
     }
 
 // Gestion des méthodes POST ===================================================
     // Ajout d'un statut
-    @RequestMapping(value = "ajoutStatut", method = RequestMethod.POST)
+    @RequestMapping(value = "{path}/ajoutStatut", method = RequestMethod.POST)
     public ModelAndView ajoutStatut(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+            HttpServletResponse response, @PathVariable String path) throws Exception {
 
         ModelAndView mv;
 
@@ -204,19 +166,21 @@ public class MurController {
         Part p = request.getPart("file");
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        
+        int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
 
         // Récupération du texte du statut posté
         String statut = request.getParameter("statut");
 
         // Ajout du statut
-        
         int idStatut = murService.ajoutStatut(idUtilisateur, statut);
-        
-        if(p.getSize() != 0){
+
+        if (p.getSize() != 0) {
             fichierService.ajoutFichier(p, idStatut);
         }
         // Affichage du mur
-        mv = this.afficheMur(request, response);
+
+        mv = getRedirect(path, idPersonne, idStatut);
         return mv;
     }
 
@@ -260,6 +224,7 @@ public class MurController {
             mv.addObject("nomPersonne", nomPersonne);
             mv.addObject("listStatuts", statut);
             mv.addObject("user", Integer.toString(idUtilisateur));
+            mv.addObject("idPersonne", idUtilisateur);
 
             return mv;
         }
@@ -283,21 +248,26 @@ public class MurController {
                     "Veuillez vous connecter pour accéder à cette page");
             return mv;
         } else {
+
             // Récupération de l'id de l'utilisateur
+            //int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+            int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
             int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
             // Création du modelAndView mur pour l'affichage
             mv = new ModelAndView("statuts");
 
             // Création de l'affichage
-            // Récupération du nom de l'utilisauter
-            String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
+            // Récupération du nom de l'utilisateur
+            String nomPersonne = profilService.getPersonne(idPersonne).getNom();
 
-            String statuts = statutsService.getUtilisateurStatuts(idUtilisateur);
+            String statuts = statutsService.getPersonneStatuts(idUtilisateur, idPersonne);
 
             // Affichage des différentes données récupérées précédemment
             mv.addObject("nomPersonne", nomPersonne);
             mv.addObject("listStatuts", statuts);
+            mv.addObject("idPersonne", idUtilisateur);
+            mv.addObject("idProprietaire", idPersonne);
 
             return mv;
         }
@@ -324,6 +294,7 @@ public class MurController {
 
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
         // Récupération de l'id du statut sur lequel on commente
         int idStatut = Integer.parseInt(request.getParameter("idStatut"));
 
@@ -331,19 +302,21 @@ public class MurController {
         String commentaire = request.getParameter("commentaire");
         // Ajout du statut
         murService.ajoutCommentaire(idUtilisateur, idStatut, commentaire);
+        mv = getRedirect(path, idPersonne, idStatut);
+        return mv;
+    }
+
+    // Gestion de la redirection des pages
+    private ModelAndView getRedirect(String path, int idPersonne, int idStatut) {
         switch (path) {
             case "statut":
-                mv = this.afficheStatuts(request, response);
-                break;
+                return new ModelAndView("redirect:/statuts.htm?idPersonne=" + idPersonne);
             case "vueNotif":
-                mv = new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
-                break;
+                return new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
             case "mur":
             default:
-                mv = this.afficheMur(request, response);
-                break;
+                return new ModelAndView("redirect:/mur.htm");
         }
-        return mv;
     }
 
 }

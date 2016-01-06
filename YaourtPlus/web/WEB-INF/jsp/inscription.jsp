@@ -47,5 +47,8 @@ and open the template in the editor.
                 <input type="submit" value="s'inscrire" />
             </form>
         </div>
+        <div>
+            <a href="connexion.htm"> Retour à la page d'accueil </a>
+        </div>
     </body>
 </html>

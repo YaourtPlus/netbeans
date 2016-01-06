@@ -18,6 +18,20 @@
         <div>
             ${nomPersonne}
         </div>
+        
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-6">
+                <form Method="POST" action="${pageContext.request.contextPath}/statut/ajoutStatut.htm?idPersonne=${idProprietaire}" enctype="multipart/form-data">
+                    <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
+                              placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
+                    <div id="connectButton">
+                        <input type="file" name="file"/>
+                        <input type="submit" value="Publier" name="submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        
         <div class="container-fluid">
             ${listStatuts}
         </div>

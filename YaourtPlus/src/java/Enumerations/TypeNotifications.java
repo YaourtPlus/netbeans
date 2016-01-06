@@ -16,7 +16,8 @@ public enum TypeNotifications {
     notifMessage(2), // Notification de reception de 
     notifLeger(3), // Notification de léger sur un statut
     notifLourd(4), // Notification de lourd sur un statut
-    notifCommentaire(5); // Notifications de commentaire sur un statut
+    notifCommentaire(5), // Notifications de commentaire sur un statut
+    notifStatut(6); // Notifications de commentaire sur un statut
     
     // Id stocké dans la BD
     private final int id;

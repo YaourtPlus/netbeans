@@ -30,7 +30,9 @@ public interface StatutsDAO {
     public void removeLourd(StatutsEntity s, PersonnesEntity p);
 
     public void addFichier(StatutsEntity se, FichiersEntity fe);
-// Transaction read-only =======================================================
+
+    public void addCommentaire(StatutsEntity s, PersonnesEntity p);
+        // Transaction read-only =======================================================
 
     public StatutsEntity find(int id);
 

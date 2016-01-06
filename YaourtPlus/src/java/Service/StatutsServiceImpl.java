@@ -10,6 +10,7 @@ import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.StatutsEntity;
 import Enumerations.TypeActions;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -55,137 +56,32 @@ public class StatutsServiceImpl implements StatutsService {
         for (PersonnesEntity p : user.getListFilous()) {
             // Parcours des statuts des filous
             // /!\ Récupération des statuts dans DAO selon la date /!\
-            for (StatutsEntity s : p.getStatuts(new Date())) {//new Date())) {
+            for (StatutsEntity s : p.getStatuts(Calendar.getInstance().getTime())){
                 statuts += statutToString(s, user, "mur");
-                // Mise en forme des statuts
-                /*statuts += "<div class=\"statuts\">"; // Conteneur du statut
-                statuts += p.getPrenom() + " " + p.getNom();
-                statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
-                statuts += s.getTexte();
-                statuts += "<br/>";
-
-                // Récupération de l'action de l'utilisateur sur le statut
-                TypeActions action = user.getAction(s);
-                String link = "";
-                // Gestion de l'action
-                switch (action) {
-                    case noAction: // Possibilité de Leger ou Lourd
-                        int nb = s.getNbLeger();
-                        link = "<a href='" + servletContext.getContextPath() + "/mur/leger.htm?id=" + s.getId() + "'>"
-                                + getQuantity(nb) + " Léger !</a>";
-                        nb = s.getNbLourd();
-                        link += "<a href='" + servletContext.getContextPath() + "/mur/lourd.htm?id=" + s.getId() + "'>"
-                                + getQuantity(nb) + " T'es lourd !</a>";
-                        break;
-                    case leger: // Possiblité d'annulation de léger
-                        link = "<a href='" + servletContext.getContextPath() + "/mur/removeAction.htm?id=" + s.getId()
-                                + "'> Vous avez allégé le statut. </a>";
-                        break;
-                    case lourd: // Possiblité d'annulation de lourd
-                        link = "<a href='" + servletContext.getContextPath() + "/mur/removeAction.htm?id=" + s.getId()
-                                + "'> Vous avez allourdi le statut. </a>";
-                        break;
-                    default:
-                        break;
-                } // Fin switch
-                statuts += link;
-
-                statuts += "</div>";
-                statuts += "</div>";
-                for (CommentairesEntity com : s.getCommentaires()) {
-                    statuts += "<div class=\"statuts\">"; // Conteneur du commentaire
-                    statuts += com.getAuteur().getPrenom() + " " + com.getAuteur().getNom();
-                    statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du commentaire
-                    statuts += com.getTexte();
-                    statuts += "</div>";
-                    statuts += "</div>";
-                }
-                // Création du commentaire de statut
-                statuts += "<form Method='POST' action='" + servletContext.getContextPath() + "/mur/ajoutCommentaire.htm?idStatut=" + s.getId() + "> "
-                        + "<textarea rows='3' cols='75' name='commentaire' "
-                        + "id='commentaire' class='form-control pull-left' "
-                        + "placeholder='Ajouter un commentaire' "
-                        + "onfocus='this.placeholder = ''' "
-                        + "onblur='this.placeholder = 'Ajouter un ptit statut''>"
-                        + "</textarea> "
-                        + "<div id='connectButton'> "
-                        + "<input type='submit' value='Publier' name='submit'/> "
-                        + "</div> "
-                        + "</form>";
-*/
             } // Fin parcours statuts
         } // Fin parcours filous
         return statuts;
     }
 
+    /**
+     * Récupération des statuts d'une personne pour l'affichage
+     * @param idUtilisateur l'id de l'utilisateur courant
+     * @param idPersonne l'id de la personne dont on veut les statuts
+     * @return un string formant les statuts
+     */
     @Override
-    public String getUtilisateurStatuts(int idUtilisateur) {
+    public String getPersonneStatuts(int idUtilisateur, int idPersonne) {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
+        PersonnesEntity personne = personneDAO.find(idPersonne);
 
         String statuts = "";
-        for (StatutsEntity s : user.getStatuts()) {
+        for (StatutsEntity s : personne.getStatuts()) {
             statuts += statutToString(s, user, "statut");
-            /*         statuts += "<div class=\"statuts\">"; // Conteneur du statut
-             statuts += user.getPrenom() + " " + user.getNom();
-             statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
-             statuts += s.getTexte();
-             statuts += "<br/>";
-
-             // Récupération de l'action de l'utilisateur sur le statut
-             TypeActions action = user.getAction(s);
-             String link = "";
-             // Gestion de l'action
-             switch (action) {
-             case noAction: // Possibilité de Leger ou Lourd
-             int nb = s.getNbLeger();
-             link = "<a href='" + servletContext.getContextPath() + "/statut/leger.htm?id=" + s.getId() + "'>"
-             + getQuantity(nb) + " Léger !</a>";
-             nb = s.getNbLourd();
-             link += "<a href='" + servletContext.getContextPath() + "/statut/lourd.htm?id=" + s.getId() + "'>"
-             + getQuantity(nb) + " T'es lourd !</a>";
-             break;
-             case leger: // Possiblité d'annulation de léger
-             link = "<a href='" + servletContext.getContextPath() + "/statut/removeAction.htm?id=" + s.getId()
-             + "'> Vous avez allégé le statut. </a>";
-             break;
-             case lourd: // Possiblité d'annulation de lourd
-             link = "<a href='" + servletContext.getContextPath() + "/statut/removeAction.htm?id=" + s.getId()
-             + "'> Vous avez allourdi le statut. </a>";
-             break;
-             default:
-             break;
-             } // Fin switch
-             statuts += link;
-             statuts += "</div>";
-             statuts += "</div>";
-             for (CommentairesEntity c : s.getCommentaires()) {
-             statuts += "<div class=\"commentaires\">"; // Conteneur du commentaire 
-             statuts += c.getAuteur().getPrenom() + " " + c.getAuteur().getNom();
-             statuts += "<div class=\"commentaire-texte\">"; // Conteneur du texte du commentaire
-             statuts += c.getTexte();
-             statuts += "</div>";
-             statuts += "</div>";
-             }
-             // Création du commentaire de statut
-             statuts += "<form Method='POST' action='" + servletContext.getContextPath() + "/statut/ajoutCommentaire.htm?idStatut=" + s.getId() + "'>"
-             + "<textarea rows='3' cols='75' name='commentaire' "
-             + "id='commentaire' class='form-control pull-left' "
-             + "placeholder='Ajouter un commentaire' "
-             + "onfocus='this.placeholder = ''' "
-             + "onblur='this.placeholder = 'Ajouter un ptit statut''>"
-             + "</textarea> "
-             + "<div id='connectButton'> "
-             + "<input type='submit' value='Publier' name='submit'/> "
-             + "</div> "
-             + "</form>";*/
-             }
-
-            return statuts;
         }
-    
-    
-    
+        return statuts;
+    }
+
     @Override
     public String statutToString(StatutsEntity s, PersonnesEntity user, String path) {
 
@@ -197,23 +93,24 @@ public class StatutsServiceImpl implements StatutsService {
 
         // Récupération de l'action de l'utilisateur sur le statut
         TypeActions action = user.getAction(s);
+        int idAuteur = s.getAuteur().getId();
         String link = "";
         // Gestion de l'action
         switch (action) {
             case noAction: // Possibilité de Leger ou Lourd
                 int nb = s.getNbLeger();
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "'>"
+                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
                         + getQuantity(nb) + " Léger !</a>";
                 nb = s.getNbLourd();
-                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/lourd.htm?id=" + s.getId() + "'>"
+                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/lourd.htm?id=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
                         + getQuantity(nb) + " T'es lourd !</a>";
                 break;
             case leger: // Possiblité d'annulation de léger
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId()
+                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idAuteur
                         + "'> Vous avez allégé le statut. </a>";
                 break;
             case lourd: // Possiblité d'annulation de lourd
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId()
+                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idAuteur
                         + "'> Vous avez allourdi le statut. </a>";
                 break;
             default:
@@ -231,7 +128,7 @@ public class StatutsServiceImpl implements StatutsService {
             statuts += "</div>";
         }
         // Création du commentaire de statut
-        statuts += "<form Method='POST' action='" + servletContext.getContextPath() + "/" + path + "/ajoutCommentaire.htm?idStatut=" + s.getId() + "'>"
+        statuts += "<form Method='POST' action='" + servletContext.getContextPath() + "/" + path + "/ajoutCommentaire.htm?idStatut=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
                 + "<textarea rows='3' cols='75' name='commentaire' "
                 + "id='commentaire' class='form-control pull-left' "
                 + "placeholder='Ajouter un commentaire' "
@@ -245,6 +142,5 @@ public class StatutsServiceImpl implements StatutsService {
 
         return statuts;
     }
-    
- 
+
 }

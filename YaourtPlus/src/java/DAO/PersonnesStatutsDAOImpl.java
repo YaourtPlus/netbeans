@@ -55,8 +55,8 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
     }
 
     /**
-     * Annule une action de l'utilisateur
-     * Passe le type d'action à noAction
+     * Annule une action de l'utilisateur Passe le type d'action à noAction
+     *
      * @param p la oersonne effectuant l'action,
      * @param s le statut sur lequel l'action effectue l'action
      * @return null, noAction, leger, lourd
@@ -68,9 +68,9 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         // au statut.
         // s ou p, peu importe puisque ce sont les même listes
         List<PersonnesStatutsEntity> setPS = s.getStatutsActeurs();
-        
+
         TypeActions typeAction = null;
-        
+
         // Parcours de la liste
         for (PersonnesStatutsEntity ps : setPS) {
             // Recherche de l'instance comprenant p et s
@@ -79,30 +79,31 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
                 typeAction = ps.getTypeAction();
                 // Ecrasement de l'action
                 ps.setTypeAction(TypeActions.noAction);
-                
                 // Mise à jour de la BD
                 em.merge(ps);
                 break;
             }
         }
-		
+
         // Mise à jour des listes
         s.setStatutsActeurs(setPS);
         p.setStatutsActeurs(setPS);
-        
+
         // Mise à jour de la BD
         em.merge(s);
         em.merge(p);
-        
+
         return typeAction;
     }
 
 // Lecture =====================================================================
     @Transactional(readOnly = true)
     @Override
-    public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s){
-        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 0, false);
-        return em.find(PersonnesStatutsEntity.class, ps);
+    public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s) {
+        Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = ? AND ps.statut.id = ?");
+        q.setParameter(1, p.getId());
+        q.setParameter(2, s.getId());
+        return (PersonnesStatutsEntity) q.getSingleResult();
     }
 
     @Transactional(readOnly = true)
@@ -110,6 +111,15 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
     public List<PersonnesStatutsEntity> findAll() {
         Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps");
         return q.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean exist(PersonnesEntity p, StatutsEntity s) {
+        Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = ? AND ps.statut.id = ?");
+        q.setParameter(1, p.getId());
+        q.setParameter(2, s.getId());
+        return q.getSingleResult() != null;
     }
 
 }
