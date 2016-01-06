@@ -17,7 +17,12 @@
             </li>
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "statuts.jsp")}' />
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="${pageContext.servletContext.contextPath}/statuts.htm?idPersonne=${idPersonne}"> Mes statuts ${nbNotif}</a>
+                <a href="${pageContext.servletContext.contextPath}/statuts.htm?idPersonne=${idPersonne}"> Mes statuts</a>
+            </li>
+            
+            <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "statuts.jsp")}' />
+            <li class="${active ? 'active' : 'none'}"> 
+                <a href="${pageContext.servletContext.contextPath}/messages.htm?idPersonne=${idPersonne}"> Messages</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

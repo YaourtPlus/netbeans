@@ -197,7 +197,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         Query q = em.createQuery("SELECT pl FROM PersonnesEntity P JOIN P.listFilous pl "
                 + "WHERE P.id = ?");
         q.setParameter(1, id);
-        return (List<PersonnesEntity>) q.getResultList();
+        return ((PersonnesEntity) q.getSingleResult()).getListFilous();
     }
 
     @Transactional(readOnly = true)

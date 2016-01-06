@@ -74,7 +74,8 @@ public class ProfilServiceImpl implements ProfilService {
         listAmis += "</ul>";
         return listAmis;
     }
-
+    
+    
     /**
      * Test d'existence d'un login
      *

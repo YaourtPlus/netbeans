@@ -99,7 +99,6 @@ public class PersonnesEntity implements Serializable {
 // Relations MANY TO ONE
 // Relations MANY TO MANY
     // Liste des amis de la personne
-    // Problème de fetch eager quelque part dans la liste filous
     @JoinTable(
             name = "Personnes_Personnes",
             joinColumns = @JoinColumn(name = "FilousId"),

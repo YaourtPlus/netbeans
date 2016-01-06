@@ -38,10 +38,14 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
+<<<<<<< HEAD
+                    <form Method="POST" action="ajoutMessages.htm">
+=======
                     <form Method="POST" action="ajoutMessage.htm">
                         <select name="destinataireMessage" id="destinataireMessage">
                             ${selectUserList}
                         </select>
+>>>>>>> fa18d477d129ab1db9eed531d772c67ea7094f07
                         <textarea rows="2" cols="150" name='statut' id='message' class="form-control"
                                   placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
                         <div id="connectButton">
