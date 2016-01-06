@@ -120,7 +120,6 @@ public class FichierServiceImpl implements FichierService {
     
     public String afficherFichier(FichiersEntity fichierEntity)
     {
-        String separator = System.getProperty("file.separator");
         String reponse = servletContext.getContextPath()+"/"+"files"+"/"+fichierEntity.getNom();
         return "<a href=\""+reponse+"\">"+fichierEntity.getContenu()+"</a>";
     }
