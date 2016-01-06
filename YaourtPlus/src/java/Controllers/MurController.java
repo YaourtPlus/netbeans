@@ -227,9 +227,8 @@ public class MurController {
 
             // Récupération des statuts des Filous
             String statut = statutsService.getStatuts(idUtilisateur);
-            
-            String messages = messagesService.getMessages(idUtilisateur);
 
+            //String messages = messagesService.getMessages(idUtilisateur);
             // Affichage des différentes données récupérées précédemment
             mv.addObject("listeAmi", listFilous);
             mv.addObject("nomPersonne", nomPersonne);
@@ -320,9 +319,43 @@ public class MurController {
         mv = getRedirect(path, idPersonne, idStatut);
         return mv;
     }
-    
+
     //Gestion des messages
     @RequestMapping(value = "{path}/message", method = RequestMethod.POST)
+    public ModelAndView afficheMessage(HttpServletRequest request,
+            HttpServletResponse response, @PathVariable String path) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage",
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+
+        int idDest = Integer.parseInt(request.getParameter("destinataireMessage"));
+
+        // Récupération du texte du statut posté
+        String message = request.getParameter("message");
+        String listFilous = profilService.getFilous();
+        // Ajout du statut
+        messagesService.getMessages(idUtilisateur);
+        
+        mv = new ModelAndView("messages");
+        mv.addObject("");
+// Affichage du mur
+        return;
+    }
+
+    //Gestion des messages
+    @RequestMapping(value = "{path}/ajoutMessage", method = RequestMethod.POST)
     public ModelAndView ajoutMessage(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String path) throws Exception {
 
@@ -355,13 +388,14 @@ public class MurController {
     }
 
     // Gestion de la redirection des pages
-
     private ModelAndView getRedirect(String path, int idPersonne, int idStatut) {
         switch (path) {
             case "statut":
                 return new ModelAndView("redirect:/statuts.htm?idPersonne=" + idPersonne);
             case "vueNotif":
                 return new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
+            case "messages":
+                return new ModelAndView("redirect:/messages.htm?idPersonne=" + idPersonne);
             case "mur":
             default:
                 return new ModelAndView("redirect:/mur.htm");
