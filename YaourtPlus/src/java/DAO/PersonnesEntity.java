@@ -212,11 +212,6 @@ public class PersonnesEntity implements Serializable {
                 list.add(s);
             }
         }
-        for (StatutsEntity s : statutsRecu) {
-            if (s.getDate().after(new Date(today.getTime() - 1210000000))) {
-                list.add(s);
-            }
-        }
         return list;
     }
 

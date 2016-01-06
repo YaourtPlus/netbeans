@@ -57,6 +57,7 @@ public class NotificationsController {
         // Affichage des notifications de l'utilisateur
         mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
         mv.addObject("idPersonne", idUtilisateur);
+            mv.addObject("idDestinataire", -1);
 
         return mv;
     }

@@ -100,5 +100,8 @@ public class MessagesDAOImpl implements MessagesDAO {
     @Transactional(readOnly = true)
     @Override
     public List<MessagesEntity> findByDestinataire(int destinataireId) {
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.destinataire.id <> ?");
+        q.setParameter(1, destinataireId);
+        return q.getResultList();
     }
 }

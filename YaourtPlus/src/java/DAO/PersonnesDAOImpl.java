@@ -217,7 +217,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Transactional(readOnly = true)
     @Override
     public List<PersonnesEntity> findFilous(int id) {
-        Query q = em.createQuery("SELECT P FROM PersonnesEntity P JOIN FETCH P.listFilous pl "
+        Query q = em.createQuery("SELECT pl FROM PersonnesEntity P JOIN P.listFilous pl "
                 + "WHERE P.id = ?");
         q.setParameter(1, id);
         return ((PersonnesEntity) q.getSingleResult()).getListFilous();

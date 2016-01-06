@@ -227,10 +227,9 @@ public class MurController {
 
             // Récupération des statuts des Filous
             String statut = statutsService.getStatuts(idUtilisateur);
-            
+
             //String messages = messagesService.getMessages(idUtilisateur);
             String selectUserList = profilService.getSelectUserList(idUtilisateur);
-
             //String messages = messagesService.getMessages(idUtilisateur);
             // Affichage des différentes données récupérées précédemment
             mv.addObject("listeAmi", listFilous);
@@ -239,6 +238,7 @@ public class MurController {
             mv.addObject("selectUserList", selectUserList);
             mv.addObject("user", Integer.toString(idUtilisateur));
             mv.addObject("idPersonne", idUtilisateur);
+            mv.addObject("idDestinataire", -1);
 
             return mv;
         }
@@ -286,6 +286,7 @@ public class MurController {
             mv.addObject("sizeStatutsRecu", statutsRecu.length());
             mv.addObject("idPersonne", idUtilisateur);;
             mv.addObject("idProprietaire", idPersonne);
+            mv.addObject("idDestinataire", -1);
 
             return mv;
         }
@@ -347,17 +348,19 @@ public class MurController {
         // Récupération de l'id du destinataire
         int idDest = Integer.parseInt(request.getParameter("idDestinataire"));
 
-        
         // Récupération du texte du statut posté
         String message = request.getParameter("message");
         //String listFilous = profilService.getFilous();
-        
-        
+
         mv = new ModelAndView("messages");
+        mv.addObject("idPersonne", idUtilisateur);
         mv.addObject("listFilous", profilService.getSelectUserList(idUtilisateur));
-        mv.addObject("filou", profilService.getFilous(idDest));
-        mv.addObject("listMessages", messagesService.getMessages(idDest));
-        
+        mv.addObject("idDestinataire", -1);
+        if (idDest != -1) {
+            mv.addObject("filou", profilService.getFilous(idDest));
+            mv.addObject("listMessages", messagesService.getMessages(idDest));
+        }
+
         // Affichage de la page
         return mv;
     }
@@ -394,7 +397,7 @@ public class MurController {
         mv = getRedirect(path, idDest, -1);
         return mv;
     }
-    
+
     // Gestion de la redirection des pages
     private ModelAndView getRedirect(String path, int idPersonne, int idStatut) {
         switch (path) {

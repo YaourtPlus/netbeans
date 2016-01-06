@@ -38,11 +38,21 @@
                 ${listStatutsEmis}
             </div>
         </c:if>
+
         <c:if test="${sizeStatutsRecu > 0}">
-            <div class="col-lg-6">
-                ${listStatutsRecu}
-            </div>
+            <c:choose>
+                <c:when test="${sizeStatutsEmis > 0}">
+                    <div class="col-lg-6">
+                        ${listStatutsRecu}
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-offset-6 col-lg-6">
+                        ${listStatutsRecu}
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </c:if>
 
-    </body>
+</body>
 </html>

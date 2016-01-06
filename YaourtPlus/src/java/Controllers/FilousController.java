@@ -120,6 +120,7 @@ public class FilousController {
             // Affichage de la liste des filous
             mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
             mv.addObject("idPersonne", idUtilisateur);
+            mv.addObject("idDestinataire", -1);
         }
         return mv;
 
