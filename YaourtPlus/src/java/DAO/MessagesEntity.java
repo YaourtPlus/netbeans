@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -42,13 +43,16 @@ public class MessagesEntity implements Serializable {
     private Date date;
 
 // Relations ONE TO ONE    
-// Relations ONE TO MANY
-// Relations MANY TO ONE
-    // Auteur du message
-    @ManyToOne
+// Auteur du message
+    @OneToOne
     @JoinColumn(name = "auteurMessage")
     private PersonnesEntity emetteur;
 
+    @OneToOne
+    @JoinColumn(name="destinataireMessage")
+    private PersonnesEntity destinataire;
+// Relations ONE TO MANY
+// Relations MANY TO ONE
 // Relations MANY TO MANY
     // Liste des fichiers liés au message
     @JoinTable(
@@ -58,8 +62,22 @@ public class MessagesEntity implements Serializable {
     )
     @ManyToMany(fetch = FetchType.EAGER)
     List<FichiersEntity> listeFichiers = new ArrayList<>();
-// Accesseurs ==================================================================			
+    
+    
+    
+    
+    
+    
+// Constructeurs ===============================================================
 
+    public MessagesEntity(String texte, Date date, PersonnesEntity emetteur, PersonnesEntity destinataire) {
+        this.texte = texte;
+        this.date = date;
+        this.emetteur = emetteur;
+        this.destinataire = destinataire;
+    }
+
+// Accesseurs ==================================================================
     public Integer getId() {
         return id;
     }
@@ -75,6 +93,12 @@ public class MessagesEntity implements Serializable {
     public PersonnesEntity getEmetteur() {
         return emetteur;
     }
+
+    public PersonnesEntity getDestinataire() {
+        return destinataire;
+    }
+    
+    
 
     public List<FichiersEntity> getListeFichiers() {
         return listeFichiers;
@@ -97,6 +121,12 @@ public class MessagesEntity implements Serializable {
         this.emetteur = emetteur;
     }
 
+    public void setDestinataire(PersonnesEntity destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    
+    
     public void setListeFichiers(List<FichiersEntity> listeFichiers) {
         this.listeFichiers = listeFichiers;
     }
@@ -109,6 +139,8 @@ public class MessagesEntity implements Serializable {
         hash = 53 * hash + Objects.hashCode(this.texte);
         hash = 53 * hash + Objects.hashCode(this.date);
         hash = 53 * hash + Objects.hashCode(this.emetteur);
+        hash = 53 * hash + Objects.hashCode(this.destinataire);
+        
         return hash;
     }
 
@@ -133,13 +165,16 @@ public class MessagesEntity implements Serializable {
         if (!Objects.equals(this.emetteur, other.emetteur)) {
             return false;
         }
+        if (!Objects.equals(this.destinataire, other.destinataire)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "MessagesEntity{" + "id=" + id + ", texte=" + texte 
-                +  ", date=" + date + ", emetteur=" + emetteur + '}';
+        return "MessagesEntity{" + "id=" + id + ", texte=" + texte
+                + ", date=" + date + ", emetteur=" + emetteur +", destinataire = "+ destinataire +'}';
     }
 
 }

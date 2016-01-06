@@ -46,9 +46,11 @@
                         </div>
                     </form>
                     <div>
+                        <hr />
                         ${listMessages}
                     </div>
                 </div>
+                   
             </div>
         </div>
     </body>

@@ -2,3 +2,4 @@
 /YaourtPlus/build/
 /YaourtPlus/dist/
 /YaourtPlus/src/conf/persistence.xml
+/YaourtPlus/web/files/*

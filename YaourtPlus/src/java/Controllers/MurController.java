@@ -318,5 +318,38 @@ public class MurController {
                 return new ModelAndView("redirect:/mur.htm");
         }
     }
+    //Gestion des messages
+    @RequestMapping(value = "{path}/message", method = RequestMethod.POST)
+    public ModelAndView ajoutMessage(HttpServletRequest request,
+            HttpServletResponse response, @PathVariable String path) throws Exception {
+
+        ModelAndView mv;
+
+        // Récupération de la session
+        HttpSession session = request.getSession(false);
+
+        // Accès sans être connecté
+        if (session == null || session.getAttribute("idUtilisateur") == null) {
+            mv = new ModelAndView("connexion");
+            mv.addObject("inscriptionMessage",
+                    "Veuillez vous connecter pour accéder à cette page");
+            return mv;
+        }
+        // Récupération de l'id de l'utilisateur courant
+        int idUtilisateur = (int) session.getAttribute("idUtilisateur");
+        
+        int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
+
+        // Récupération du texte du statut posté
+        String message = request.getParameter("message");
+
+        // Ajout du statut
+        //int idStatut = murService.ajoutStatut(idUtilisateur, statut);
+
+        // Affichage du mur
+
+        //mv = getRedirect(path, idPersonne, idStatut);
+        return null;
+    }
 
 }
