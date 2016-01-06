@@ -38,7 +38,10 @@ public class MessageServiceImpl implements MessageService {
 
         messagesDAO.save(newMessagesEntity);
 
+        personnesDAO.ajoutMessageEnvoi(sender, newMessagesEntity);
+        personnesDAO.ajoutMessageRecu(dest, newMessagesEntity);
     }
+    
 
     @Override
     public String getMessages(int idUser) {

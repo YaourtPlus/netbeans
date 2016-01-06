@@ -26,10 +26,14 @@ public interface PersonnesDAO {
     public boolean suppressionFilous(PersonnesEntity p1, PersonnesEntity p2);
 
     public boolean ajoutStatutEmis(PersonnesEntity p, StatutsEntity s);
-    
+
     public boolean ajoutStatutRecu(PersonnesEntity p, StatutsEntity s);
 
     public boolean ajoutNotif(PersonnesEntity notifieur, PersonnesEntity destinataire, NotificationsEntity notif);
+
+    public boolean ajoutMessageEnvoi(PersonnesEntity sender, MessagesEntity newMessagesEntity);
+
+    public boolean ajoutMessageRecu(PersonnesEntity dest, MessagesEntity newMessagesEntity);
 // Transaction read-only =======================================================
 
     public PersonnesEntity find(int id);
@@ -37,7 +41,7 @@ public interface PersonnesDAO {
     public PersonnesEntity find(String login, String password);
 
     public PersonnesEntity findByLogin(String login);
-	
+
     public List<PersonnesEntity> findFilous(int id);
 
     public List<PersonnesEntity> findAll();

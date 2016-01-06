@@ -92,6 +92,10 @@ public class PersonnesEntity implements Serializable {
     @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
     private List<MessagesEntity> messagesEmis = new ArrayList<>();
 
+    // Liste des messages reçues par la personne
+    @OneToMany(mappedBy = "destinataire", fetch = FetchType.EAGER)
+    private List<MessagesEntity> messagesRecus = new ArrayList<>();
+
     // Liste des statuts sur lesquel l'utilisateur est intervenu
     @OneToMany(mappedBy = "personne", fetch = FetchType.EAGER)
     private List<PersonnesStatutsEntity> statutsActeurs = new ArrayList<>();
@@ -110,15 +114,6 @@ public class PersonnesEntity implements Serializable {
     // Liste des personnes dont il est ami
     @ManyToMany(mappedBy = "listFilous", fetch = FetchType.EAGER)
     private List<PersonnesEntity> listFilousDe = new ArrayList<>();
-
-    // Liste des messages reçues par la personne
-    @JoinTable(
-            name = "Personnes_Messages",
-            joinColumns = @JoinColumn(name = "MessageId"),
-            inverseJoinColumns = @JoinColumn(name = "DestinataireId")
-    )
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<MessagesEntity> messagesRecus = new ArrayList<>();
 
     // Liste des notifications reçues par la personne
     @ManyToMany(mappedBy = "listeDestinataires", fetch = FetchType.EAGER)
@@ -497,9 +492,30 @@ public class PersonnesEntity implements Serializable {
     public boolean ajoutNotificationEmise(NotificationsEntity notification) {
         return notificationsEmises.add(notification);
     }
-// =============================================================================
 
+// Gestion des messages ========================================================
+    
+    /**
+     * Ajoute des messages que l'utilisateur a émis
+     * @param m le message émis par l'utilisateur
+     * @return true si le message est ajouté
+     */
+    public boolean ajoutMessagesEmis(MessagesEntity m) {
+        return messagesEmis.add(m);
+    }
+    
+    /**
+     * Ajoute des messages que l'utlilisateur a reçu
+     * @param m le message reçu par l'utilisateur
+     * @return true si le message est ajouté
+     */
+    public boolean ajoutMessagesRecu(MessagesEntity m) {
+        return messagesRecus.add(m);
+    }
+
+// =============================================================================
     @Override
+
     public int hashCode() {
         int hash = 7;
         hash = 47 * hash + Objects.hashCode(this.id);

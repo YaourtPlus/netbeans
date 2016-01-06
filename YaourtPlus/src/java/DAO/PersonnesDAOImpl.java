@@ -138,7 +138,6 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return add;
     }
 
-    
     /**
      * Ajout d'une notification
      *
@@ -169,7 +168,31 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return added;
     }
 
+    @Transactional
+    @Override
+    public boolean ajoutMessageEnvoi(PersonnesEntity sender, MessagesEntity newMessagesEntity) {
+        boolean add = sender.ajoutMessagesEmis(newMessagesEntity);
+
+        if (add) {
+            em.merge(sender);
+        }
+
+        return add;
+    }
+
+    @Transactional
+    @Override
+    public boolean ajoutMessageRecu(PersonnesEntity dest, MessagesEntity newMessagesEntity) {
+        boolean add = dest.ajoutMessagesRecu(newMessagesEntity);
+
+        if (add) {
+            em.merge(dest);
+        }
+
+        return add;
+    }
 // Lecture =====================================================================
+
     @Transactional(readOnly = true)
     @Override
 

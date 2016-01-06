@@ -100,6 +100,5 @@ public class MessagesDAOImpl implements MessagesDAO {
     @Transactional(readOnly = true)
     @Override
     public List<MessagesEntity> findByDestinataire(int destinataireId) {
-        return null;
     }
 }

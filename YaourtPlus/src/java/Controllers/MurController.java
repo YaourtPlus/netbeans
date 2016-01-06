@@ -325,9 +325,9 @@ public class MurController {
     }
 
     //Gestion des messages
-    @RequestMapping(value = "{path}/message", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "message", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView afficheMessage(HttpServletRequest request,
-            HttpServletResponse response, @PathVariable String path) throws Exception {
+            HttpServletResponse response) throws Exception {
 
         ModelAndView mv;
 
@@ -345,20 +345,18 @@ public class MurController {
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
         // Récupération de l'id du destinataire
-        int idDest = Integer.parseInt(request.getParameter("destinataireMessage"));
+        int idDest = Integer.parseInt(request.getParameter("idDestinataire"));
 
         
         // Récupération du texte du statut posté
         String message = request.getParameter("message");
         //String listFilous = profilService.getFilous();
-        // Ajout du statut
-        messagesService.getMessages(idUtilisateur);
         
         
         mv = new ModelAndView("messages");
         mv.addObject("listFilous", profilService.getSelectUserList(idUtilisateur));
         mv.addObject("filou", profilService.getFilous(idDest));
-        //mv.addObject("listMessages", messagesService.getMessages(idDest));
+        mv.addObject("listMessages", messagesService.getMessages(idDest));
         
         // Affichage de la page
         return mv;
@@ -405,7 +403,7 @@ public class MurController {
             case "vueNotif":
                 return new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
             case "messages":
-                return new ModelAndView("redirect:/messages.htm?idPersonne=" + idPersonne);
+                return new ModelAndView("redirect:/messages.htm?idDestinataire=" + idPersonne);
             case "mur":
             default:
                 return new ModelAndView("redirect:/mur.htm");

@@ -20,7 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -43,15 +43,15 @@ public class MessagesEntity implements Serializable {
     private Date date;
 
 // Relations ONE TO ONE    
-// Auteur du message
-    @OneToOne
+// Relations ONE TO MANY
+    // Auteur du message
+    @ManyToOne
     @JoinColumn(name = "auteurMessage")
     private PersonnesEntity emetteur;
 
-    @OneToOne
-    @JoinColumn(name="destinataireMessage")
+    @ManyToOne
+    @JoinColumn(name = "destinataireMessage")
     private PersonnesEntity destinataire;
-// Relations ONE TO MANY
 // Relations MANY TO ONE
 // Relations MANY TO MANY
     // Liste des fichiers liés au message
@@ -62,8 +62,12 @@ public class MessagesEntity implements Serializable {
     )
     @ManyToMany(fetch = FetchType.EAGER)
     List<FichiersEntity> listeFichiers = new ArrayList<>();
-    
+
 // Constructeurs ===============================================================
+    public MessagesEntity() {
+        this.texte = "";
+        this.date = new Date();
+    }
 
     public MessagesEntity(String texte, Date date) {
         this.texte = texte;
@@ -127,7 +131,7 @@ public class MessagesEntity implements Serializable {
         hash = 53 * hash + Objects.hashCode(this.id);
         hash = 53 * hash + Objects.hashCode(this.texte);
         hash = 53 * hash + Objects.hashCode(this.date);
-        
+
         return hash;
     }
 
