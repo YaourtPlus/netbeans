@@ -6,6 +6,7 @@
 package Service;
 
 import DAO.CommentairesEntity;
+import DAO.FichiersDAO;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.StatutsEntity;
@@ -29,6 +30,12 @@ public class StatutsServiceImpl implements StatutsService {
 
     @Autowired
     ServletContext servletContext;
+    
+    @Resource
+    FichiersDAO fichierDAO;
+    
+    @Autowired
+    FichierService fichierService;
 
     /**
      * Mise en forme de la quantité de léger / lourd d'un statut
@@ -90,6 +97,14 @@ public class StatutsServiceImpl implements StatutsService {
         statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
         statuts += s.getTexte();
         statuts += "<br/>";
+        if(s.getListeFichiers().size() > 0)
+        {
+            statuts += fichierService.afficherFichier(s.getListeFichiers().get(0));
+            statuts += "<br />";
+        }
+        
+        
+        
 
         // Récupération de l'action de l'utilisateur sur le statut
         TypeActions action = user.getAction(s);

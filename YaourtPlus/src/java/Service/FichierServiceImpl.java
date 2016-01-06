@@ -95,7 +95,7 @@ public class FichierServiceImpl implements FichierService {
             s += "bonjour";
             String separator = System.getProperty("file.separator");
             File f = new File(servletContext.getRealPath("/WEB-INF/files") + separator);
-            File fdef = new File(f.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath() + separator + "web" + separator + "WEB-INF" + separator + "files" + separator + nom);
+            File fdef = new File(f.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath() + separator + "web" + separator + "files" + separator + nom);
 
             fdef.delete();
             fdef.createNewFile();
@@ -116,6 +116,13 @@ public class FichierServiceImpl implements FichierService {
             return true;
         }
         return false;
+    }
+    
+    public String afficherFichier(FichiersEntity fichierEntity)
+    {
+        String separator = System.getProperty("file.separator");
+        String reponse = servletContext.getContextPath()+"/"+"files"+"/"+fichierEntity.getNom();
+        return "<a href=\""+reponse+"\"> lien</a>";
     }
 
 }
