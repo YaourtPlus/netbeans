@@ -51,12 +51,12 @@ public class FichierServiceImpl implements FichierService {
                 return false;
             }
         }
-        FichiersEntity fe = new FichiersEntity(ext, "empty", nouveauNom);
+        FichiersEntity fe = new FichiersEntity(ext, "emptyy", nouveauNom);
         fichierDAO.save(fe);
 
         statutsDAO.addFichier(se, fe);
 
-        return false;
+        return true;
     }
 
     private static String hashNomFichier(String nomFichier) {
