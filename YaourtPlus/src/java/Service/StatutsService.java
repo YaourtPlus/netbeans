@@ -16,7 +16,7 @@ public interface StatutsService {
 
     public String getStatuts(int idUtilisateur);
 
-    public String getUtilisateurStatuts(int idUtilisateur);
+    public String getPersonneStatuts(int idUtilisateur, int idPersonne);
 
     public String statutToString(StatutsEntity s, PersonnesEntity user, String path);
 }

@@ -10,6 +10,7 @@ import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import Enumerations.TypeNotifications;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -81,7 +82,7 @@ public class FilousServiceImpl implements FilousService {
         PersonnesEntity nouveauFilous = personneDAO.find(idNouveauFilous);
 
         // Création d'une notification d'ajout en amis
-        NotificationsEntity notif = new NotificationsEntity(new Date(),
+        NotificationsEntity notif = new NotificationsEntity(Calendar.getInstance().getTime(),
                 TypeNotifications.notifFilou.getId());
         notif.setNotifieur(utilisateur);
 		

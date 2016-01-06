@@ -7,6 +7,7 @@ package DAO;
 
 import Enumerations.TypeActions;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,6 +24,9 @@ public class StatutsDAOImpl implements StatutsDAO {
     // Communication avec la 
     @PersistenceContext(unitName = "Yaourt_PU")
     private EntityManager em;
+
+    @Resource
+    private PersonnesStatutsDAO personnesStatutsDAO;
 
     public EntityManager getEm() {
         return em;
@@ -65,7 +69,6 @@ public class StatutsDAOImpl implements StatutsDAO {
     public void addLeger(StatutsEntity s, PersonnesEntity p) {
         // Ajout du léger au statut
         s.addLeger();
-
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false);
 
@@ -78,7 +81,6 @@ public class StatutsDAOImpl implements StatutsDAO {
         }
 
         // Update de la BD
-        // Simplification de merge avec setAction possible ?
         em.merge(p);
         em.merge(s);
     }
@@ -141,7 +143,33 @@ public class StatutsDAOImpl implements StatutsDAO {
     }
 
     /**
-     * Mise à jour de l'action de l'utilisateur sur le statut
+     * Ajout d'un léger au statut
+     *
+     * @param s Statut auquel le léger est ajouté
+     * @param p Personne ajoutant le léger
+     */
+    @Transactional
+    @Override
+    public void addCommentaire(StatutsEntity s, PersonnesEntity p) {
+        // Création d'une action entre la personne et le statut
+        PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 0, true);
+
+        // Si non existence d'une action, on sauvegarde, sinon on met juste à 
+        // jour
+        if (s.addPersonnesStatuts(ps) && p.addPersonnesStatuts(ps)) {
+            em.persist(ps);
+        } else {
+            setCom(s, p);
+        }
+        // Update de la BD
+        // Simplification de merge avec setAction possible ?
+        em.merge(p);
+        em.merge(s);
+    }
+
+    /**
+     * Mise à jour de l'action de l'utilisateur sur le statut Modification des
+     * TypeActions (léger, lourd, ou noAction)
      *
      * @param p Personne effectuant l'action sur le statut
      * @param s Statut sur lequel l'action est effectuée
@@ -151,7 +179,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     public void setAction(PersonnesEntity p, StatutsEntity s, TypeActions action) {
         // Récupération de la liste des PersonnesStatutsEntity associée 
         // au statut.
-        // s ou p, peu importe puisque ce sont les même listes
+        // s ou p, peu importe puisque ce sont les mêmes listes
         List<PersonnesStatutsEntity> setPS = s.getStatutsActeurs();
 
         // Parcours de la liste
@@ -174,9 +202,42 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
         em.merge(p);
     }
-    
-// Lecture =====================================================================
 
+    /**
+     * Mise à jour de l'action de l'utilisateur sur le statut Modification du
+     * commentaire de l'utilisateur
+     *
+     * @param p Personne effectuant l'action sur le statut
+     * @param s Statut sur lequel l'action est effectuée
+     */
+    private void setCom(StatutsEntity s, PersonnesEntity p) {
+        // Récupération de la liste des PersonnesStatutsEntity associée 
+        // au statut.
+        // s ou p, peu importe puisque ce sont les mêmes listes
+        List<PersonnesStatutsEntity> setPS = s.getStatutsActeurs();
+
+        // Parcours de la liste
+        for (PersonnesStatutsEntity ps : setPS) {
+            // Recherche de l'instance comprenant p et s
+            if (ps.getPersonne().equals(p) && ps.getStatut().equals(s)) {
+                // Mise à jour de l'action
+                ps.setCommentaire(true);
+                // Mise à jour dans la BD
+                em.merge(ps);
+                break;
+            }
+        }
+
+        // Mise à jour des listes
+        s.setStatutsActeurs(setPS);
+        p.setStatutsActeurs(setPS);
+
+        // Mise à jour de la BD
+        em.merge(s);
+        em.merge(p);
+    }
+
+// Lecture =====================================================================
     @Override
     public void addFichier(StatutsEntity se, FichiersEntity fe) {
         se.addFichierStatuts(fe);
@@ -186,7 +247,6 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(fe);
 
     }
-
 
 // Lecture =====================================================================
     @Transactional(readOnly = true)

@@ -11,7 +11,8 @@ and open the template in the editor.
 body {
   padding-top: 10px;
 }
-[class*="col-"], footer, .statuts {
+
+[class*="col-"], footer, .statuts, .post{
   background-color: lightblue;
   border: 1px solid black;
   border-radius: 4px;

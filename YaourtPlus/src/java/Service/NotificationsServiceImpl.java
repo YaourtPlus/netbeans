@@ -15,6 +15,7 @@ import DAO.PersonnesEntity;
 import DAO.StatutsDAO;
 import DAO.StatutsEntity;
 import Enumerations.TypeNotifications;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -51,8 +52,8 @@ public class NotificationsServiceImpl implements NotificationsService {
     public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, Object o) {
         boolean add = false;
         if (!notifieur.equals(destinataire)) {
-            NotificationsEntity notif = new NotificationsEntity(new Date(),
-                    TypeNotifications.notifCommentaire.getId());
+            NotificationsEntity notif = new NotificationsEntity(Calendar.getInstance().getTime(),
+                    typeNotif.getId());
             notif.setNotifieur(notifieur);
             notif.ajoutDestinataire(destinataire);
             switch (typeNotif) {

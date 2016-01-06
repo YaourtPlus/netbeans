@@ -13,6 +13,8 @@ public interface MurService {
 
     public int ajoutStatut(int idUtilisateur, String statut);
     
+    public int posterStatut(int idUtilisateur, int idPersonne, String statut);
+    
     public boolean ajoutCommentaire(int idUtilisateur, int idStatut, String commentaire);
 
     public void addLeger(int idStatut, int idUser);

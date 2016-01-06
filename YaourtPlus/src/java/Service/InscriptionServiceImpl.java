@@ -8,6 +8,7 @@ package Service;
 import DAO.IMCEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class InscriptionServiceImpl implements InscriptionService {
     public void add(String nom, String prenom, String login, String password, 
             String mail, Integer age) {
         // Création de la date d'inscription
-        Date dateInscription = new Date();
+        Date dateInscription = Calendar.getInstance().getTime();
         
         // Création de la personne à ajouter
         PersonnesEntity newPers = new PersonnesEntity(nom, prenom, age, mail, login, password);

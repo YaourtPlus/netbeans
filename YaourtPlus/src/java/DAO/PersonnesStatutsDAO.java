@@ -28,4 +28,6 @@ public interface PersonnesStatutsDAO {
     public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s);
 
     public List<PersonnesStatutsEntity> findAll();
+    
+    public boolean exist(PersonnesEntity p, StatutsEntity s);
 }
