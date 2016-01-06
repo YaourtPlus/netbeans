@@ -63,18 +63,11 @@ public class MessagesEntity implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     List<FichiersEntity> listeFichiers = new ArrayList<>();
     
-    
-    
-    
-    
-    
 // Constructeurs ===============================================================
 
-    public MessagesEntity(String texte, Date date, PersonnesEntity emetteur, PersonnesEntity destinataire) {
+    public MessagesEntity(String texte, Date date) {
         this.texte = texte;
         this.date = date;
-        this.emetteur = emetteur;
-        this.destinataire = destinataire;
     }
 
 // Accesseurs ==================================================================
@@ -97,8 +90,6 @@ public class MessagesEntity implements Serializable {
     public PersonnesEntity getDestinataire() {
         return destinataire;
     }
-    
-    
 
     public List<FichiersEntity> getListeFichiers() {
         return listeFichiers;
@@ -125,8 +116,6 @@ public class MessagesEntity implements Serializable {
         this.destinataire = destinataire;
     }
 
-    
-    
     public void setListeFichiers(List<FichiersEntity> listeFichiers) {
         this.listeFichiers = listeFichiers;
     }
@@ -138,8 +127,6 @@ public class MessagesEntity implements Serializable {
         hash = 53 * hash + Objects.hashCode(this.id);
         hash = 53 * hash + Objects.hashCode(this.texte);
         hash = 53 * hash + Objects.hashCode(this.date);
-        hash = 53 * hash + Objects.hashCode(this.emetteur);
-        hash = 53 * hash + Objects.hashCode(this.destinataire);
         
         return hash;
     }
@@ -156,25 +143,13 @@ public class MessagesEntity implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.texte, other.texte)) {
-            return false;
-        }
-        if (!Objects.equals(this.date, other.date)) {
-            return false;
-        }
-        if (!Objects.equals(this.emetteur, other.emetteur)) {
-            return false;
-        }
-        if (!Objects.equals(this.destinataire, other.destinataire)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
         return "MessagesEntity{" + "id=" + id + ", texte=" + texte
-                + ", date=" + date + ", emetteur=" + emetteur +", destinataire = "+ destinataire +'}';
+                + ", date=" + date + '}';
     }
 
 }

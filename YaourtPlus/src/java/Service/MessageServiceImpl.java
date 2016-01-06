@@ -32,27 +32,29 @@ public class MessageServiceImpl implements MessageService {
         PersonnesEntity sender = personnesDAO.find(idUser);
         PersonnesEntity dest = personnesDAO.find(idDestinataire);
 
-        MessagesEntity messagesEntity = new MessagesEntity(message, Calendar.getInstance().getTime(), sender, dest);
+        MessagesEntity newMessagesEntity = new MessagesEntity(message, Calendar.getInstance().getTime());
+        newMessagesEntity.setEmetteur(sender);
+        newMessagesEntity.setDestinataire(dest);
 
-        messagesDAO.save(messagesEntity);
+        messagesDAO.save(newMessagesEntity);
 
     }
 
     @Override
     public String getMessages(int idUser) {
         List<MessagesEntity> messages = messagesDAO.findByDestinataire(idUser);
-        String message="";
+        String message = "";
         for (MessagesEntity me : messages) {
-            message += "<div class=\"statuts\">"; // Conteneur du statut
+            message += "<div class=\"message\">"; // Conteneur du statut
             message += me.getEmetteur().getPrenom() + " " + me.getEmetteur().getNom();
-            message += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
+            message += "<div class=\"message-texte\">"; // Conteneur du texte du statut
             message += me.getTexte();
             message += "<br/>";
 
             message += "</div>";
             message += "</div>";
         }
-return message;
+        return message;
     }
 
 }
