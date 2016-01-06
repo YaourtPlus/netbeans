@@ -59,7 +59,7 @@ public class FichierServiceImpl implements FichierService {
         } catch (IOException ex) {
             Logger.getLogger(FichierServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        FichiersEntity fe = new FichiersEntity(ext, "emptyy", nouveauNom);
+        FichiersEntity fe = new FichiersEntity(ext, p.getSubmittedFileName(), nouveauNom);
         
 
         statutsDAO.addFichier(se, fe);
@@ -122,7 +122,7 @@ public class FichierServiceImpl implements FichierService {
     {
         String separator = System.getProperty("file.separator");
         String reponse = servletContext.getContextPath()+"/"+"files"+"/"+fichierEntity.getNom();
-        return "<a href=\""+reponse+"\"> lien</a>";
+        return "<a href=\""+reponse+"\">"+fichierEntity.getContenu()+"</a>";
     }
 
 }
