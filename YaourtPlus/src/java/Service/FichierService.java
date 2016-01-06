@@ -5,6 +5,7 @@
  */
 package Service;
 
+import DAO.FichiersEntity;
 import javax.servlet.http.Part;
 
 /**
@@ -13,4 +14,5 @@ import javax.servlet.http.Part;
  */
 public interface FichierService {
     public boolean ajoutFichier(Part p, int statutsId);
+    public String afficherFichier(FichiersEntity fichierEntity);
 }

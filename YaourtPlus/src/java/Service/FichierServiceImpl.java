@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
@@ -40,23 +42,28 @@ public class FichierServiceImpl implements FichierService {
 
     @Override
     public boolean ajoutFichier(Part p, int statutsId) {
-        
+
         StatutsEntity se = statutsDAO.find(statutsId);
         String nouveauNom = hashNomFichier(se.getAuteur().getLogin() + p.getSubmittedFileName());
         String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
+        nouveauNom += "." + ext;
 
         for (FichiersEntity fe : se.getListeFichiers()) {
             if (fe.getNom().equals(nouveauNom)) {
                 return false;
             }
         }
-        FichiersEntity fe = new FichiersEntity(ext, "empty", nouveauNom);
-        fichierDAO.save(fe);
+        try {
+            ajoutFichierInterne(p, nouveauNom);
+        } catch (IOException ex) {
+            Logger.getLogger(FichierServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FichiersEntity fe = new FichiersEntity(ext, "emptyy", nouveauNom);
+        
 
         statutsDAO.addFichier(se, fe);
-
-        return false;
+        return true;
     }
 
     private static String hashNomFichier(String nomFichier) {
@@ -82,13 +89,13 @@ public class FichierServiceImpl implements FichierService {
         return hashString.toString();
     }
 
-    private boolean ajoutFichierInterne(Part p, String nom, ServletContext servletContext) throws IOException {
+    private boolean ajoutFichierInterne(Part p, String nom) throws IOException {
         String s = "";
         if (!"".equals(p.getSubmittedFileName())) {
             s += "bonjour";
             String separator = System.getProperty("file.separator");
             File f = new File(servletContext.getRealPath("/WEB-INF/files") + separator);
-            File fdef = new File(f.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath() + separator + "web" + separator + "WEB-INF" + separator + "files" + separator + nom);
+            File fdef = new File(f.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath() + separator + "web" + separator + "files" + separator + nom);
 
             fdef.delete();
             fdef.createNewFile();
@@ -109,6 +116,13 @@ public class FichierServiceImpl implements FichierService {
             return true;
         }
         return false;
+    }
+    
+    public String afficherFichier(FichiersEntity fichierEntity)
+    {
+        String separator = System.getProperty("file.separator");
+        String reponse = servletContext.getContextPath()+"/"+"files"+"/"+fichierEntity.getNom();
+        return "<a href=\""+reponse+"\"> lien</a>";
     }
 
 }

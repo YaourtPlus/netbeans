@@ -21,6 +21,9 @@ public interface IMCDAO {
     public void delete(IMCEntity i);
 
 // Transaction custom ==========================================================
+    
+    public void addIMC(PersonnesEntity auteur, PersonnesEntity allegeur);
+    public void removeIMC(PersonnesEntity auteur, PersonnesEntity allourdeur);
 // Transaction read-only =======================================================
     public IMCEntity find(int id);
 

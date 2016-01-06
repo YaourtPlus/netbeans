@@ -28,6 +28,9 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Resource
     private PersonnesStatutsDAO personnesStatutsDAO;
 
+    @Resource
+    private IMCDAO imcDAO;
+
     public EntityManager getEm() {
         return em;
     }
@@ -71,6 +74,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLeger();
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false, false);
+        imcDAO.removeIMC(s.getAuteur(), p);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -96,6 +100,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void removeLeger(StatutsEntity s, PersonnesEntity p) {
         s.delLeger();
+        imcDAO.addIMC(s.getAuteur(), p);
         em.merge(s);
     }
 
@@ -113,6 +118,7 @@ public class StatutsDAOImpl implements StatutsDAO {
 
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false, false);
+        imcDAO.addIMC(s.getAuteur(), p);
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -139,6 +145,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void removeLourd(StatutsEntity s, PersonnesEntity p) {
         s.delLourd();
+        imcDAO.removeIMC(s.getAuteur(), p);
         em.merge(s);
     }
 
@@ -238,13 +245,17 @@ public class StatutsDAOImpl implements StatutsDAO {
     }
 
 // Lecture =====================================================================
+    @Transactional
     @Override
     public void addFichier(StatutsEntity se, FichiersEntity fe) {
-        se.addFichierStatuts(fe);
-        fe.addStatutsFichier(se);
 
+        fe = em.merge(fe);
+        em.persist(fe);
+
+        fe.addStatutsFichier(se);
+        se.addFichierStatuts(fe);
         se = em.merge(se);
-        em.merge(fe);
+        fe = em.merge(fe);
 
     }
 

@@ -182,7 +182,7 @@ public class MurController {
             idStatut = murService.posterStatut(idUtilisateur, idPersonne, statut);
         }
 
-        if (p.getSize() != 0) {
+        if (p.getSize() != 0 || idStatut == 0) {
             fichierService.ajoutFichier(p, idStatut);
         }
         // Affichage du mur
