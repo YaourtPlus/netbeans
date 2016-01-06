@@ -42,13 +42,13 @@ public class MurController {
 
     @Autowired
     ServletContext servletContext;
-
-    @Autowired
-    StatutsService statutsService;
-
+    
     @Autowired
     FichierService fichierService;
 
+    @Autowired
+    StatutsService statutsService;
+    
 // Gestion des requêtes GET ====================================================
     // Ajout d'un léger
     @RequestMapping(value = "{path}/leger", method = RequestMethod.GET)
