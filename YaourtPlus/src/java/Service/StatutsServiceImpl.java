@@ -11,8 +11,12 @@ import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.StatutsEntity;
 import Enumerations.TypeActions;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +64,26 @@ public class StatutsServiceImpl implements StatutsService {
 
         String statuts = "";
         // Parcours des filous de l'utilisateur
+        List<StatutsEntity> lse = new ArrayList<>();
         for (PersonnesEntity p : user.getListFilous()) {
             // Parcours des statuts des filous
             // /!\ Récupération des statuts dans DAO selon la date /!\
             for (StatutsEntity s : p.getStatuts(Calendar.getInstance().getTime())){
-                statuts += statutToString(s, user, "mur");
+                lse.add(s);
+                //statuts += statutToString(s, user, "mur");
             } // Fin parcours statuts
         } // Fin parcours filous
+        Collections.sort(lse, new Comparator<StatutsEntity>() {
+
+            @Override
+            public int compare(StatutsEntity o1, StatutsEntity o2) {
+                return o2.getNbLeger().compareTo(o1.getNbLeger());
+            }
+        });
+        for(StatutsEntity s : lse)
+        {
+            statuts+= statutToString(s, user, "mur");
+        }
         return statuts;
     }
 
@@ -110,23 +127,25 @@ public class StatutsServiceImpl implements StatutsService {
         TypeActions action = user.getAction(s);
         int idAuteur = s.getAuteur().getId();
         String link = "";
+        String leger = " Léger";
+        if(s.getNbLeger()> 1) leger += "s";
         // Gestion de l'action
         switch (action) {
             case noAction: // Possibilité de Leger ou Lourd
                 int nb = s.getNbLeger();
                 link = "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
-                        + getQuantity(nb) + " Léger !</a>";
+                        + getQuantity(nb) + leger +" !</a>";
                 nb = s.getNbLourd();
                 link += "<a href='" + servletContext.getContextPath() + "/" + path + "/lourd.htm?id=" + s.getId() + "&idPersonne=" + idAuteur + "'>"
                         + getQuantity(nb) + " T'es lourd !</a>";
                 break;
             case leger: // Possiblité d'annulation de léger
                 link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idAuteur
-                        + "'> Vous avez allégé le statut. </a>";
+                        + "'> Vous avez allégé le statut("+s.getNbLeger() +leger+"). </a>";
                 break;
             case lourd: // Possiblité d'annulation de lourd
                 link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idAuteur
-                        + "'> Vous avez allourdi le statut. </a>";
+                        + "'> Vous avez allourdi le statut("+s.getNbLeger() +leger+"). </a>";
                 break;
             default:
                 break;
