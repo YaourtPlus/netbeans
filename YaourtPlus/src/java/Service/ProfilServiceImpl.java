@@ -127,7 +127,9 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public String getSelectUserList(int idUtilisateur) {
-        List<PersonnesEntity> filous = personneDAO.findFilous(idUtilisateur);
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        List<PersonnesEntity> filous = user.getListFilous();
+        
         String result = "";
 
         for (PersonnesEntity p : filous) {
