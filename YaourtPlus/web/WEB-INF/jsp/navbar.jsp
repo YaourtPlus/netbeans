@@ -5,7 +5,7 @@
         <ul class="nav navbar-nav">
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "mur.jsp")}' />
             <li class="${active ? 'active' : 'none'}">
-                <a href="${pageContext.servletContext.contextPath}/mur.htm">Mon mur</a>
+                <a href="${pageContext.servletContext.contextPath}/mur.htm">Accueil</a>
             </li>
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "filous.jsp")}' /> 
             <li class="${active ? 'active' : 'none'}"> 
@@ -17,12 +17,12 @@
             </li>
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "statuts.jsp")}' />
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="${pageContext.servletContext.contextPath}/statuts.htm?idPersonne=${idPersonne}"> Mes statuts</a>
+                <a href="${pageContext.servletContext.contextPath}/statuts.htm?idPersonne=${idPersonne}"> Mon mur </a>
             </li>
             
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "messages.jsp")}' />
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="${pageContext.servletContext.contextPath}/message.htm?idDestinataire=${idDestinataire}"> Messages</a>
+                <a href="${pageContext.servletContext.contextPath}/message.htm"> Messages</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

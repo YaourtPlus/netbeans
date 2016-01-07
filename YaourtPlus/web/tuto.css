@@ -9,15 +9,16 @@ and open the template in the editor.
 */
 
 body {
-  padding-top: 10px;
+    background-color: white;
+    padding-top: 10px;
 }
 
 [class*="col-"], footer, .statuts, .post{
-  background-color: lightblue;
-  border: 1px solid black;
-  border-radius: 4px;
-  line-height: 40px;
-  text-align: center;
+    background-color: lightblue;
+    border: 1px solid black;
+    border-radius: 4px;
+    line-height: 40px;
+    text-align: center;
 }
 
 label{
@@ -55,6 +56,36 @@ a.button {
     padding : 1px;
 }
 
-.statuts .statuts-texte {
+.statuts-texte, .vote{
     background-color : #fefefe;
+}
+
+.statut-left {
+    margin-left : 10%;
+}
+
+.statut-right {
+    margin-right : 10%;
+}
+
+.rowMessage{
+    border-bottom: 1px solid black;
+}
+
+.message{
+    text-align: left;
+    margin-left: 10%;
+}
+
+.messageText{
+    background-color: white;
+}
+
+.date{
+    text-align: right;
+}
+
+body .noDisplay{
+    background-color: white;
+    border : none;
 }

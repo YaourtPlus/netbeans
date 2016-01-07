@@ -121,9 +121,11 @@ public class MessagesDAOImpl implements MessagesDAO {
     @Transactional(readOnly = true)
     @Override
     public List<MessagesEntity> findByPersonne(int auteurId, int destinataireId) {
-        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.emetteur.id = ? AND m.destinataire.id = ?");
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where (m.emetteur.id = ? AND m.destinataire.id = ?) OR  (m.emetteur.id = ? AND m.destinataire.id = ?)");
         q.setParameter(1, auteurId);
         q.setParameter(2, destinataireId);
+        q.setParameter(3, destinataireId);
+        q.setParameter(4, auteurId);
         
         return q.getResultList();
     }

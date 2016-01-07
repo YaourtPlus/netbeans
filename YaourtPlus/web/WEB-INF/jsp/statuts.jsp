@@ -28,7 +28,7 @@
                                   placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
                         <div id="connectButton">
                             <input type="file" name="file"/>
-                            <input type="submit" value="Publier" name="submit" />
+                            <button type="submit" value="Publier" name="submit" class="btn btn-primary"/>Publier</button>
                         </div>
                     </form>
                 </div>
@@ -55,5 +55,5 @@
             </c:choose>
         </c:if>
 
-</body>
+    </body>
 </html>

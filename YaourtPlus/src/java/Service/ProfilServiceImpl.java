@@ -120,10 +120,8 @@ public class ProfilServiceImpl implements ProfilService {
 
     public String getUrl(NotificationsEntity n) {
         String url = "";
-        if (n.getMessage() != null) {
-            url = "<a href='" + servletContext.getContextPath() + "/vueNotif.htm?idObject=" + n.getMessage().getId() + "'> ici </a>";
-        } else if (n.getStatut() != null) {
-            url = "<a href='" + servletContext.getContextPath() + "/vueNotif.htm?idObject=" + n.getStatut().getId() + "'> ici </a>";
+        if (n.getMessage() != null || n.getStatut() != null) {
+            url = "<a href='" + servletContext.getContextPath() + "/vueNotif.htm?idNotif=" + n.getId() + "'> ici </a>";
         }
         return url;
     }

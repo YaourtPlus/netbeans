@@ -72,8 +72,9 @@ public class StatutsDAOImpl implements StatutsDAO {
         s.addLeger();
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 1, false, false);
-        imcDAO.removeIMC(s.getAuteur(), p);
-
+        if (!s.getAuteur().equals(p)) {
+            imcDAO.removeIMC(s.getAuteur(), p);
+        }
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
         if (s.addPersonnesStatuts(ps) && p.addPersonnesStatuts(ps)) {
@@ -98,7 +99,9 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void removeLeger(StatutsEntity s, PersonnesEntity p) {
         s.delLeger();
-        imcDAO.addIMC(s.getAuteur(), p);
+        if (!s.getAuteur().equals(p)) {
+            imcDAO.addIMC(s.getAuteur(), p);
+        }
         em.merge(s);
     }
 
@@ -116,7 +119,10 @@ public class StatutsDAOImpl implements StatutsDAO {
 
         // Création d'une action entre la personne et le statut
         PersonnesStatutsEntity ps = new PersonnesStatutsEntity(p, s, 2, false, false);
-        imcDAO.addIMC(s.getAuteur(), p);
+
+        if (!s.getAuteur().equals(p)) {
+            imcDAO.addIMC(s.getAuteur(), p);
+        }
 
         // Si non existence d'une action, on sauvegarde, sinon on met juste à 
         // jour
@@ -143,7 +149,9 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Override
     public void removeLourd(StatutsEntity s, PersonnesEntity p) {
         s.delLourd();
-        imcDAO.removeIMC(s.getAuteur(), p);
+        if (!s.getAuteur().equals(p)) {
+            imcDAO.removeIMC(s.getAuteur(), p);
+        }
         em.merge(s);
     }
 
@@ -207,8 +215,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
         em.merge(p);
     }
-    
-    
+
     /**
      * Mise à jour de l'action de l'utilisateur sur le statut Modification du
      * commentaire de l'utilisateur
@@ -265,10 +272,9 @@ public class StatutsDAOImpl implements StatutsDAO {
     public StatutsEntity find(int id) {
         Query q = em.createQuery("SELECT s FROM StatutsEntity s where s.id = ?");
         q.setParameter(1, id);
-        try{
-           return (StatutsEntity) q.getSingleResult();
-        }
-        catch(NoResultException e){
+        try {
+            return (StatutsEntity) q.getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
     }

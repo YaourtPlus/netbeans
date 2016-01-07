@@ -82,19 +82,17 @@ public class NotificationsServiceImpl implements NotificationsService {
     }
 
     @Override
-    public String afficheData(int idUtilisateur, int idObject) {
+    public String afficheData(int idUtilisateur, int idNotif) {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-
-        StatutsEntity s = statutDAO.find(idObject);
-        MessagesEntity m = null;
-        if (s == null) {
-            m = messageDAO.find(idObject);
-        }
+        NotificationsEntity notif = notificationDAO.find(idNotif);
 
         String result = "";
+        
+        MessagesEntity m = notif.getMessage();
+        StatutsEntity s = notif.getStatut();
         if (m != null) {
-            messageService.get();
+            result = messageService.getMessagesSinglePersonne(idUtilisateur, m.getEmetteur().getId());
         } else if (s != null) {
             result = "Statut ";
             result += statutService.statutToString(s, user, "vueNotif");

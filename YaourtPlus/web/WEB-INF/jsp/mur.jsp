@@ -37,28 +37,30 @@
                                   placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
                         <div id="connectButton">
                             <input type="file" name="file"/>
-                            <input type="submit" value="Publier" name="submit" />
+                            <button type="submit" value="Publier" name="submit" class="btn btn-primary"/>Publier</button>
                         </div>
                     </form>
                     <div>
                         ${listStatuts}
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <form Method="POST" action="${pageContext.request.contextPath}/mur/ajoutMessage.htm">
-                        <select name="idDestinataire" id="idDestinataire">
-                            ${selectUserList}
-                        </select>
-                        <textarea rows="2" cols="150" name='message' id='message' class="form-control"
-                                  placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
-                        <div id="connectButton">
-                            <input type="submit" value="Envoyer" name="submit" />
+                <c:if test="${not empty listeAmi}">
+                    <div class="col-lg-4">
+                        <form Method="POST" action="${pageContext.request.contextPath}/mur/ajoutMessage.htm">
+                            <select name="idDestinataire" id="idDestinataire" class="form-control">
+                                ${selectUserList}
+                            </select>
+                            <textarea rows="2" cols="150" name='message' id='message' class="form-control"
+                                      placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
+                            <div id="connectButton">
+                                <button type="submit" value="Envoyer" name="submit" class="btn btn-primary"/>Envoyer</button>
+                            </div>
+                        </form>
+                        <div>
+                            ${listMessages}
                         </div>
-                    </form>
-                    <div>
-                        ${listMessages}
                     </div>
-                </div>
+                </c:if>
 
             </div>
         </div>

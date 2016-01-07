@@ -10,9 +10,11 @@ package Service;
  * @author Olivier
  */
 public interface MessageService {
-    
+
     public void envoyerMessage(int idUser, int idDestinataire, String message);
-    
+
+    public String getMessagesSinglePersonne(int idUser, int idPersonne);
+
     public String getMessages(int idUser);
-    
+
 }

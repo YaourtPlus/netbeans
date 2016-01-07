@@ -16,38 +16,33 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
-        <div class="col-lg-2">
-            <select name="idDestinataire" id="idDestinataire">
-                ${listFilous}
-            </select>
-        </div>
+        <c:if test="${not empty listFilous}">
+            <div class="col-lg-2">
+                <form Method="POST" action="${pageContext.request.contextPath}/message.htm">
+                    <select name="idDestinataire" id="idDestinataire" class="form-control">
+                        ${listFilous}
+                    </select>
+                    <div id="connectButton">
+                        <button type="submit" value="Selectionner" name="submit" class="btn btn-primary"/>Selectionner</button>
+                    </div>
+                </form>
+            </div>
+        </c:if>
         <c:if test="${not empty filou}">
-            <div class="col-lg-offset-2 col-lg-6">
+            <div class="col-lg-8 noDisplay">
                 ${listMessages}
             </div>
         </c:if>
-        <c:choose>
-            <c:when test="${not empty filou}">
-                <div class="col-lg-2">
-                    <form Method="POST" action="messages.htm">
-                        <textarea rows="2" cols="150" name='statut' id='message' class="form-control"
-                                  placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
-                        <div id="connectButton">
-                            <input type="submit" value="Envoyer" name="submit" />
-                        </div>
-                    </form>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="col-lg-offset-8 col-lg-2">
-                    <form Method="POST" action="messages.htm">
-                        <textarea rows="2" cols="150" name='statut' id='message' class="form-control"
-                                  placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
-                        <div id="connectButton">
-                            <input type="submit" value="Envoyer" name="submit" />
-                        </div>
-                    </form>
-                </div>
-            </c:otherwise>
-        </c:choose>
+        <c:if test="${not empty filou}">
+            <div class="col-lg-2">
+                <form Method="POST" action="${pageContext.request.contextPath}/messages/ajoutMessage.htm">
+                    <input type="hidden" name="idDestinataire" value="${idDestinataire}">
+                    <textarea rows="2" cols="150" name='message' id='message' class="form-control"
+                              placeholder="Envoyer un message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Envoyer un message'"></textarea>
+                    <div id="connectButton">
+                        <button type="submit" value="Envoyer" name="submit" class="btn btn-primary"/>Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </c:if>
 </html>

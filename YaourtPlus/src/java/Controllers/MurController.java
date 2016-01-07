@@ -225,12 +225,10 @@ public class MurController {
             // Récupération des statuts des Filous
             String statut = statutsService.getStatuts(idUtilisateur);
 
-            //String messages = messagesService.getMessages(idUtilisateur);
             String selectUserList = profilService.getSelectUserList(idUtilisateur);
-            //String messages = messagesService.getMessages(idUtilisateur);
-            
+
             // Affichage des différentes données récupérées précédemment
-            if(listFilous != null){
+            if (listFilous != null) {
                 mv.addObject("listeAmi", listFilous);
             }
             mv.addObject("nomPersonne", nomPersonne);
@@ -346,21 +344,28 @@ public class MurController {
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
         // Récupération de l'id du destinataire
-        int idDest = Integer.parseInt(request.getParameter("idDestinataire"));
+        int idDest;
+        switch (request.getMethod()) {
+            case "POST":
+                idDest = Integer.parseInt(request.getParameter("idDestinataire"));
+                break;
+            case "GET":
+            default:
+                idDest = -1;
+                break;
+        }
+        /*       if(request.getParameter("idDestinataire").length() != 0){
+         int idDest = Integer.parseInt(request.getParameter("idDestinataire"));*/
 
-        // Récupération du texte du statut posté
-        String message = request.getParameter("message");
         //String listFilous = profilService.getFilous();
-
         mv = new ModelAndView("messages");
         mv.addObject("idPersonne", idUtilisateur);
         mv.addObject("listFilous", profilService.getSelectUserList(idUtilisateur));
-        mv.addObject("idDestinataire", -1);
         if (idDest != -1) {
-            mv.addObject("filou", profilService.getFilous(idDest));
-            mv.addObject("listMessages", messagesService.getMessages(idDest));
+            mv.addObject("filou", profilService.getFilous(idUtilisateur));
+            mv.addObject("listMessages", messagesService.getMessagesSinglePersonne(idUtilisateur, idDest));
         }
-
+        mv.addObject("idDestinataire", idDest);
         // Affichage de la page
         return mv;
     }

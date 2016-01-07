@@ -11,6 +11,7 @@ import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.StatutsEntity;
 import Enumerations.TypeActions;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,10 +35,10 @@ public class StatutsServiceImpl implements StatutsService {
 
     @Autowired
     ServletContext servletContext;
-    
+
     @Resource
     FichiersDAO fichierDAO;
-    
+
     @Autowired
     FichierService fichierService;
 
@@ -65,11 +66,11 @@ public class StatutsServiceImpl implements StatutsService {
         String statuts = "";
         // Parcours des filous de l'utilisateur
         List<StatutsEntity> statutsFilous = new ArrayList<>();
-        
+
         for (PersonnesEntity p : user.getListFilous()) {
             // Parcours des statuts des filous
             // /!\ Récupération des statuts dans DAO selon la date /!\
-            for (StatutsEntity s : p.getStatuts(Calendar.getInstance().getTime())){
+            for (StatutsEntity s : p.getStatuts(Calendar.getInstance().getTime())) {
                 statutsFilous.add(s);
             } // Fin parcours statuts
         } // Fin parcours filous
@@ -80,8 +81,7 @@ public class StatutsServiceImpl implements StatutsService {
                 return o2.getNbLeger().compareTo(o1.getNbLeger());
             }
         });
-        for(StatutsEntity s : statutsFilous)
-        {
+        for (StatutsEntity s : statutsFilous) {
             statuts += statutToString(s, user, "mur");
         }
         return statuts;
@@ -104,7 +104,7 @@ public class StatutsServiceImpl implements StatutsService {
         for (StatutsEntity s : personne.getStatutsEmis()) {
             // On recherche dans les statuts émis, les statuts dont 
             // l'utilisateur est le destinataire
-            if(s.getDestinataire().equals(user)){
+            if (s.getDestinataire().equals(user)) {
                 statuts += statutToString(s, user, "statut");
             }
         }
@@ -147,17 +147,34 @@ public class StatutsServiceImpl implements StatutsService {
     @Override
     public String statutToString(StatutsEntity s, PersonnesEntity user, String path) {
 
+        SimpleDateFormat statutDate = new SimpleDateFormat("dd,MM,yyyy 'a' HH:mm:ss ");
+        String date;
+        date = statutDate.format(s.getDate());
+
         String statuts = "<div class=\"statuts\">"; // Conteneur du statut
+
+        statuts += "<div class=\"row\">";
+
+        statuts += "<div class=\"pull-left statut-left\">";
         statuts += s.getAuteur().getPrenom() + " " + s.getAuteur().getNom();
+        statuts += "</div>";
+
+        statuts += "<div class=\"pull-right statut-right\">";
+        statuts += date;
+        statuts += "</div>";
+
+        statuts += "</div>";
+
         statuts += "<div class=\"statuts-texte\">"; // Conteneur du texte du statut
         statuts += s.getTexte();
-        statuts += "<br/>";
-        if(s.getListeFichiers().size() > 0)
-        {
+        statuts += "</div>";
+        statuts += "<div class=\"vote\">";
+
+        if (s.getListeFichiers().size() > 0) {
             statuts += fichierService.afficherFichier(s.getListeFichiers().get(0));
             statuts += "<br />";
         }
-        
+
         // Récupération de l'action de l'utilisateur sur le statut
         TypeActions action = user.getAction(s);
         int idDestinataire;
@@ -166,39 +183,59 @@ public class StatutsServiceImpl implements StatutsService {
         } else {
             idDestinataire = s.getDestinataire().getId();
         }
+
+        int nbLeger = s.getNbLeger();
+        int nbLourd = s.getNbLourd();
+
         String link = "";
         String leger = " Léger";
-        if(s.getNbLeger()> 1) leger += "s";
+        if (nbLeger > 1) {
+            leger += "s";
+        }
+        String lourd = " Lourd";
+        if (nbLourd > 1) {
+            lourd += "s";
+        }
+        statuts += "<div class=\"row\">";
+        statuts += Integer.toString(nbLeger) + leger + " ";
+
+        statuts += Integer.toString(nbLourd) + lourd;
+        statuts += "</div>";
         // Gestion de l'action
         switch (action) {
             case noAction: // Possibilité de Leger ou Lourd
-                int nb = s.getNbLeger();
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire + "'>"
-                        + getQuantity(nb) + leger +" !</a>";
-                nb = s.getNbLourd();
+                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/leger.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire + "'>"
+                        + "Léger!</a> ";
                 link += "<a href='" + servletContext.getContextPath() + "/" + path + "/lourd.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire + "'>"
-                        + getQuantity(nb) + " T'es lourd !</a>";
+                        + "T'es lourd!</a>";
                 break;
             case leger: // Possiblité d'annulation de léger
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire
-                        + "'> Vous avez allégé le statut("+s.getNbLeger() +leger+"). </a>";
+                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire
+                        + "'> Vous avez allégé le statut. </a>";
                 break;
             case lourd: // Possiblité d'annulation de lourd
-                link = "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire
-                        + "'> Vous avez allourdi le statut("+s.getNbLeger() +leger+"). </a>";
+                link += "<a href='" + servletContext.getContextPath() + "/" + path + "/removeAction.htm?id=" + s.getId() + "&idPersonne=" + idDestinataire
+                        + "'> Vous avez allourdi le statut </a>";
                 break;
             default:
                 break;
         } // Fin switch
+
         statuts += link;
         statuts += "</div>";
         statuts += "</div>";
         for (CommentairesEntity c : s.getCommentaires()) {
+            date = statutDate.format(c.getDate());
+
             statuts += "<div class=\"commentaires\">"; // Conteneur du commentaire 
             statuts += c.getAuteur().getPrenom() + " " + c.getAuteur().getNom();
             statuts += "<div class=\"commentaire-texte\">"; // Conteneur du texte du commentaire
             statuts += c.getTexte();
             statuts += "</div>";
+            statuts += "<div>";
+            statuts += date;
+            statuts += "</div>";
+
             statuts += "</div>";
         }
         // Création du commentaire de statut

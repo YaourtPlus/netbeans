@@ -11,6 +11,7 @@ import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import DAO.StatutsEntity;
 import Enumerations.TypeNotifications;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -83,27 +84,46 @@ public class MessageServiceImpl implements MessageService {
 
     /**
      * Récupère les messages envoyés par une personne à l'utilisateur
+     *
      * @param idUser l'id de l'utilisateur
      * @param idPersonne l'id de la personne qui a envoyé les messages
      * @return un string des messages formatés
      */
+    @Override
     public String getMessagesSinglePersonne(int idUser, int idPersonne) {
         List<MessagesEntity> messages = messagesDAO.findByPersonne(idPersonne, idUser);
         Collections.sort(messages, new Comparator<MessagesEntity>() {
-
             @Override
             public int compare(MessagesEntity o1, MessagesEntity o2) {
                 return o2.getDate().compareTo(o1.getDate());
             }
         });
+
+        Collections.reverse(messages);
+
         String message = "";
         for (MessagesEntity me : messages) {
-            message += "<div class=\"message\">"; // Conteneur du statut
-            message += me.getEmetteur().getPrenom() + " " + me.getEmetteur().getNom();
-            message += "<div class=\"message-texte\">"; // Conteneur du texte du statut
-            message += me.getTexte();
-            message += "<br/>";
 
+            SimpleDateFormat messageDate = new SimpleDateFormat("dd,MM,yyyy 'a' HH:mm:ss ");
+            String date;
+            date = messageDate.format(me.getDate());
+
+            message += "<div class=\"message col-lg-offset-1 col-lg-10 col-lg-offset-1\">"; // Conteneur du statut
+
+            message += "<div class=\"row rowMessage\">";
+            message += "<div class=\"message\">";
+            message += me.getEmetteur().getPrenom() + " " + me.getEmetteur().getNom();
+            message += "</div>";
+            message += "</div>";
+
+            message += "<div class=\"row rowMessage messageText\">";
+            message += "<div class=\"message\">"; // Conteneur du texte du statut
+            message += me.getTexte();
+            message += "</div>";
+            message += "</div>";
+
+            message += "<div class=\"row rowMessage\">";   
+            message += "<div class=\"date\">Envoyé le " + date + "</div>";
             message += "</div>";
             message += "</div>";
         }

@@ -25,7 +25,7 @@ public class NotificationsController {
 
     @Autowired
     ProfilService profilService;
-    
+
     @Autowired
     NotificationsService notificationService;
 
@@ -57,11 +57,11 @@ public class NotificationsController {
         // Affichage des notifications de l'utilisateur
         mv.addObject("listNotif", profilService.getNotifications(idUtilisateur));
         mv.addObject("idPersonne", idUtilisateur);
-            mv.addObject("idDestinataire", -1);
+        mv.addObject("idDestinataire", -1);
 
         return mv;
     }
-    
+
     @RequestMapping(value = "vueNotif", method = RequestMethod.GET)
     public ModelAndView vueNotif(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -85,11 +85,10 @@ public class NotificationsController {
         // Récupération de l'id de l'utilisateur courant
         int idUtilisateur = (int) session.getAttribute("idUtilisateur");
 
-        int idObject = Integer.parseInt(request.getParameter("idObject"));
-        
-        
+        int idNotif = Integer.parseInt(request.getParameter("idNotif"));
+
         // Affichage des notifications de l'utilisateur
-        mv.addObject("data", notificationService.afficheData(idUtilisateur, idObject));
+        mv.addObject("data", notificationService.afficheData(idUtilisateur, idNotif));
         mv.addObject("idPersonne", idUtilisateur);
 
         return mv;
