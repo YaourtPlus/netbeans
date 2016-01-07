@@ -22,7 +22,7 @@
             
             <c:set var="active" value='${fn:endsWith(pageContext.request.requestURI, "messages.jsp")}' />
             <li class="${active ? 'active' : 'none'}"> 
-                <a href="${pageContext.servletContext.contextPath}/message.htm"> Messages</a>
+                <a href="${pageContext.servletContext.contextPath}/message.htm?idDestinataire=${idDestinataire}"> Messages</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

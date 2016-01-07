@@ -33,6 +33,9 @@ public class FilousServiceImpl implements FilousService {
 
     @Resource
     NotificationsDAO notificationsDAO;
+    
+    @Autowired
+    NotificationsService notificationService;
 
     /**
      * Créé la liste des filous que l'utilisateur peut ajouter
@@ -82,15 +85,7 @@ public class FilousServiceImpl implements FilousService {
         PersonnesEntity nouveauFilous = personneDAO.find(idNouveauFilous);
 
         // Création d'une notification d'ajout en amis
-        NotificationsEntity notif = new NotificationsEntity(Calendar.getInstance().getTime(),
-                TypeNotifications.notifFilou.getId());
-        notif.setNotifieur(utilisateur);
-		
-        // Création de la notification dans la BD
-        notificationsDAO.save(notif);
-		
-        // Ajout de la notification au nouveau filou
-        personneDAO.ajoutNotif(utilisateur, nouveauFilous, notif);
+        notificationService.createNotification(TypeNotifications.notifFilou, utilisateur, nouveauFilous, -1);
 
         // Ajout du filou
         return personneDAO.ajoutFilous(utilisateur, nouveauFilous);

@@ -7,6 +7,7 @@ package Service;
 
 import DAO.PersonnesEntity;
 import DAO.StatutsEntity;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,8 @@ import DAO.StatutsEntity;
  */
 public interface StatutsService {
 
-    public String getStatuts(int idUtilisateur);
+    // public String getStatuts(int idUtilisateur);
+    public List<StatutsEntity> getStatuts(int idUtilisateur);
 
     public String getPersonneStatutsEmis(int idUtilisateur, int idPersonne);
 

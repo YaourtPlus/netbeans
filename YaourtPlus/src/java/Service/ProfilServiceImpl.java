@@ -58,7 +58,7 @@ public class ProfilServiceImpl implements ProfilService {
     public String getFilous(int idUtilisateur) {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-        if(user.getListFilous().isEmpty()){
+        if (user.getListFilous().isEmpty()) {
             return null;
         }
         // Création de la liste
@@ -76,8 +76,7 @@ public class ProfilServiceImpl implements ProfilService {
         listAmis += "</ul>";
         return listAmis;
     }
-    
-    
+
     /**
      * Test d'existence d'un login
      *
@@ -130,10 +129,10 @@ public class ProfilServiceImpl implements ProfilService {
     public String getSelectUserList(int idUtilisateur) {
         PersonnesEntity user = personneDAO.find(idUtilisateur);
         List<PersonnesEntity> filous = user.getListFilous();
-        
+
         String result = "";
         for (PersonnesEntity p : filous) {
-            result += "<option value='"+p.getId()+"'>";
+            result += "<option value='" + p.getId() + "'>";
             result += p.getPrenom() + " " + p.getNom();
             result += "</option>";
         }

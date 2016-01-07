@@ -43,23 +43,36 @@ public class StatutsServiceImpl implements StatutsService {
     FichierService fichierService;
 
     /**
-     * Mise en forme de la quantité de léger / lourd d'un statut
-     *
-     * @param nb quantité de léger / lourd
-     * @return un string vide ou la quantité de léger / lourd
-     */
-    private String getQuantity(int nb) {
-        return nb > 0 ? " " + Integer.toString(nb) : "";
-    }
-
-    /**
      * Récupération des statuts des filous pour affichage
      *
      * @param idUtilisateur id de l'utilisateur
      * @return Un string contenant les différents statuts
      */
     @Override
-    public String getStatuts(int idUtilisateur) {
+    public List<StatutsEntity> getStatuts(int idUtilisateur) {
+        // Récupération de l'utilisateur
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        
+        // Parcours des filous de l'utilisateur
+        List<StatutsEntity> statutsFilous = new ArrayList<>();
+
+        for (PersonnesEntity p : user.getListFilous()) {
+            // Parcours des statuts des filous
+            // /!\ Récupération des statuts dans DAO selon la date /!\
+            for (StatutsEntity s : p.getStatuts(Calendar.getInstance().getTime())) {
+                statutsFilous.add(s);
+            } // Fin parcours statuts
+        } // Fin parcours filous
+        statutsFilous.addAll(user.getStatutsEmis());
+        sortListe(statutsFilous);
+
+       /* for (StatutsEntity s : statutsFilous) {
+            statuts += statutToString(s, user, "mur");
+        }*/
+        return statutsFilous;
+    }
+    
+    /*public String getStatuts(int idUtilisateur) {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
 
@@ -74,18 +87,14 @@ public class StatutsServiceImpl implements StatutsService {
                 statutsFilous.add(s);
             } // Fin parcours statuts
         } // Fin parcours filous
-        Collections.sort(statutsFilous, new Comparator<StatutsEntity>() {
+        statutsFilous.addAll(user.getStatutsEmis());
+        sortListe(statutsFilous);
 
-            @Override
-            public int compare(StatutsEntity o1, StatutsEntity o2) {
-                return o2.getNbLeger().compareTo(o1.getNbLeger());
-            }
-        });
         for (StatutsEntity s : statutsFilous) {
             statuts += statutToString(s, user, "mur");
         }
         return statuts;
-    }
+    }*/
 
     /**
      * Récupération des statuts émis par une personne pour l'affichage
@@ -101,7 +110,9 @@ public class StatutsServiceImpl implements StatutsService {
         PersonnesEntity personne = personneDAO.find(idPersonne);
 
         String statuts = "";
-        for (StatutsEntity s : personne.getStatutsEmis()) {
+        List<StatutsEntity> list = personne.getStatutsEmis();
+        Collections.reverse(list);
+        for (StatutsEntity s : list) {
             // On recherche dans les statuts émis, les statuts dont 
             // l'utilisateur est le destinataire
             if (s.getDestinataire().equals(user)) {
@@ -126,7 +137,8 @@ public class StatutsServiceImpl implements StatutsService {
         PersonnesEntity personne = personneDAO.find(idPersonne);
 
         String statuts = "";
-        for (StatutsEntity s : personne.getStatutsRecu()) {
+
+        for (StatutsEntity s : sortListe(personne.getStatutsRecu())) {
             // On recherche les statuts dans les statuts reçu où 
             // l'auteur n'est pas le propriétaire du mur
             if (!s.getAuteur().equals(personne)) {
@@ -254,4 +266,46 @@ public class StatutsServiceImpl implements StatutsService {
         return statuts;
     }
 
+    /**
+     * Trie une liste de StatutsEntity en utilisant la méthode Compare de
+     * Collections
+     */
+    public List<StatutsEntity> sortListe(List<StatutsEntity> l) {
+        Collections.sort(l, new Comparator<StatutsEntity>() {
+            /**
+             * Compare le statut o1 avec le statut o2
+             *
+             * @param o1 un statut à comparer
+             * @param o2 un statut à comparer
+             * @return un entier représentant le résultat de la comparaison : -1
+             * si o1 est moins léger que o2 0 si ils sont égaux 1 si o1 est plus
+             * léger que o2 Si un statut est plus léger qu'un autre, il sera
+             * plus haut
+             */
+            @Override
+            public int compare(StatutsEntity o1, StatutsEntity o2) {
+                int o1Leger = o1.getNbLeger();
+                int o1Lourd = o1.getNbLourd();
+                int o2Leger = o2.getNbLeger();
+                int o2Lourd = o2.getNbLourd();
+
+                if (o1Leger - o1Lourd > o2Leger - o2Lourd) {
+                    return -1;
+                } else if (o1Leger - o1Lourd < o2Leger - o2Lourd) {
+                    return 1;
+                } else { // Egalité des différences
+                    if (o1Lourd == 0 && o2Lourd == 0) {
+                        return o1Leger >= o2Leger ? -1 : 1;
+                    } else if (o1Lourd == 0) { // o2Lourd != 0
+                        return -1;
+                    } else if (o2Lourd == 0) { // o1Lourd != 0
+                        return 1;
+                    } else { // o1Lourd et o2Leger != 0
+                        return (o1Leger / o1Lourd) >= (o2Leger / o2Lourd) ? -1 : 1;
+                    }
+                }
+            }
+        });
+        return l;
+    }
 }

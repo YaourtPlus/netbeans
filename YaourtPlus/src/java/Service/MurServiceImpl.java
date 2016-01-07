@@ -142,14 +142,14 @@ public class MurServiceImpl implements MurService {
         newCommentaire.setStatut(statut);
 
         commentaireDAO.save(newCommentaire);
-
+        // Création d'une notification à l'auteur du statut
+        notificationService.createNotification(TypeNotifications.notifCommentaire, user, statut.getDestinataire(), statut.getId());
         // Préparation de la notifications des personnes ayant commenté le statut
         for (PersonnesStatutsEntity ps : statut.getStatutsActeurs()) {
-            if (ps.getPersonne().equals(user)) {
-                break;
+            // Création de la notification aux gens qui ont agit sur le statut
+            if (ps.getStatut().equals(statut) && (ps.getCommentaire() || ps.getPost())) {
+                notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut.getId());
             }
-            // Création de la notification de l'auteur du statut dans la BD
-            notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut.getId());
         }
         statutDAO.addCommentaire(statut, user);
 
@@ -163,7 +163,8 @@ public class MurServiceImpl implements MurService {
      * @param idUser id de l'utilisateur
      */
     @Override
-    public void addLeger(int idStatut, int idUser) {
+    public void addLeger(int idStatut, int idUser
+    ) {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUser);
@@ -181,7 +182,8 @@ public class MurServiceImpl implements MurService {
      * @param idUser id de l'utilisateur
      */
     @Override
-    public void addLourd(int idStatut, int idUser) {
+    public void addLourd(int idStatut, int idUser
+    ) {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUser);
@@ -201,7 +203,8 @@ public class MurServiceImpl implements MurService {
      * @param idUser id de l'utilisateur
      */
     @Override
-    public void removeAction(int idStatut, int idUser) {
+    public void removeAction(int idStatut, int idUser
+    ) {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUser);

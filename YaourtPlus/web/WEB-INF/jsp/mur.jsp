@@ -41,7 +41,105 @@
                         </div>
                     </form>
                     <div>
-                        ${listStatuts}
+                        <c:forEach items="${listStatuts}" var="statut" >
+                            <div class="statuts">
+                                <div class="row">
+                                    <div class="pull-left statut-left">
+                                        ${statut.auteur.prenom} ${statut.auteur.nom}
+                                    </div>
+
+                                    <div class="pull-right statut-right">
+                                        ${statut.date}
+                                    </div>
+
+                                </div>
+
+                                <div class="statuts-texte">
+                                    ${statut.texte}
+                                </div>
+                                <div class="vote">
+                                    <c:forEach items="${statut.listeFichiers}" var="fichier" >
+                                        <a href="${pageContext.request.contextPath}/files/${fichier.nom}"> ${fichier.contenu} </a>
+                                    </c:forEach>
+
+
+                                    <c:choose>
+                                        <c:when test="${empty statut.destinataire}">
+                                            <c:set var="idDestinataire" value="${statut.auteur.id}"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:set var="idDestinataire" value="${statut.destinataire.id}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <div class=row>
+                                        <c:choose>
+                                            <c:when test="${statut.nbLeger > 1}">
+                                                ${statut.nbLeger} legers
+                                            </c:when>
+                                            <c:when test="${statut.nbLeger <= 1}">
+                                                ${statut.nbLeger} leger
+                                            </c:when>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${statut.nbLourd > 1}">
+                                                ${statut.nbLourd} lourds
+                                            </c:when>
+                                            <c:when test="${statut.nbLourd <= 1}">
+                                                ${statut.nbLourd} lourds
+                                            </c:when>
+                                            <c:otherwise>
+
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+
+
+                                    <c:forEach items="${statut.statutsActeurs}" var="ps" >
+                                        <c:if test="${ps.personne.id == idPersonne && ps.statut.id == statut.id}">
+                                            <c:choose>
+                                                <c:when test="${ps.typeAction.id == 0}">
+                                                    <a href='${pageContext.request.contextPath}/path/leger.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Léger! </a>
+                                                    <a href='${pageContext.request.contextPath}/path/lourd.htm?id=${statut.id}&idPersonne=${idDestinataire}'> T'es lourd!</a>
+                                                </c:when>
+                                                <c:when test="${ps.typeAction.id == 1}">
+                                                    <a href='${pageContext.request.contextPath}/path/removeAction.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Vous avez allégé le statut. </a>
+                                                </c:when>
+                                                <c:when test="${ps.typeAction.id == 2}">
+                                                    <a href='${pageContext.request.contextPath}/path/removeAction.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Vous avez allourdi le statut. </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                </c:otherwise>
+
+                                            </c:choose>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                            <c:forEach items="${statut.commentaires}" var="commentaire" >
+                                <div class="commentaires">
+                                    ${commentaire.auteur.prenom} ${commentaire.auteur.nom}
+                                    <div class="commentaire-texte">
+                                        ${commentaire.texte}
+                                    </div>
+                                    <div>
+                                        ${commentaire.date}
+                                    </div>
+                                </div>
+
+                            </c:forEach>
+                            <form Method='POST' action='${pageContext.request.contextPath}/mur/ajoutCommentaire.htm?idStatut=${statuts.id}&idPersonne=${idDestinataire}'>
+                                <textarea rows='3' cols='75' name='commentaire'
+                                          id='commentaire' class='form-control pull-left'
+                                          placeholder='Ajouter un commentaire'
+                                          onfocus="this.placeholder = ''"
+                                          onblur="this.placeholder = 'Ajouter un ptit statut'">
+                                </textarea>
+                                <div id='connectButton'>
+                                    <input type='submit' value='Publier' name='submit'/>
+                                </div>
+                            </form>
+                        </c:forEach>
                     </div>
                 </div>
                 <c:if test="${not empty listeAmi}">
@@ -61,7 +159,6 @@
                         </div>
                     </div>
                 </c:if>
-
             </div>
         </div>
     </body>

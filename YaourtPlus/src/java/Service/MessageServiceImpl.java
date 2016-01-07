@@ -9,7 +9,6 @@ import DAO.MessagesDAO;
 import DAO.MessagesEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
-import DAO.StatutsEntity;
 import Enumerations.TypeNotifications;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

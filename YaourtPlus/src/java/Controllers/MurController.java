@@ -1,11 +1,15 @@
 package Controllers;
 
+import DAO.FichiersEntity;
+import DAO.StatutsEntity;
 import Service.ConnexionService;
 import Service.FichierService;
 import Service.MessageService;
 import Service.MurService;
 import Service.ProfilService;
 import Service.StatutsService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -223,8 +227,8 @@ public class MurController {
             String listFilous = profilService.getFilous(idUtilisateur);
 
             // Récupération des statuts des Filous
-            String statut = statutsService.getStatuts(idUtilisateur);
-
+            List<StatutsEntity> statut = statutsService.getStatuts(idUtilisateur);
+            
             String selectUserList = profilService.getSelectUserList(idUtilisateur);
 
             // Affichage des différentes données récupérées précédemment
@@ -411,7 +415,7 @@ public class MurController {
             case "vueNotif":
                 return new ModelAndView("redirect:/vueNotif.htm?idObject=" + idStatut);
             case "messages":
-                return new ModelAndView("redirect:/messages.htm?idDestinataire=" + idPersonne);
+                return new ModelAndView("redirect:/message.htm?idDestinataire=" + idPersonne);
             case "mur":
             default:
                 return new ModelAndView("redirect:/mur.htm");

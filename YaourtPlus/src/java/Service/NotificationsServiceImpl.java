@@ -46,7 +46,7 @@ public class NotificationsServiceImpl implements NotificationsService {
 
     @Autowired
     StatutsService statutService;
-    
+
     @Autowired
     MessageService messageService;
 
@@ -88,9 +88,8 @@ public class NotificationsServiceImpl implements NotificationsService {
         NotificationsEntity notif = notificationDAO.find(idNotif);
 
         String result = "";
-        
         MessagesEntity m = notif.getMessage();
-        StatutsEntity s = notif.getStatut();
+        StatutsEntity s = statutDAO.find(notif.getStatut().getId());
         if (m != null) {
             result = messageService.getMessagesSinglePersonne(idUtilisateur, m.getEmetteur().getId());
         } else if (s != null) {

@@ -133,7 +133,7 @@ public class CommentairesEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date="
+        return "CommentairesEntity{" + "id=" + id + ", texte=" + texte + ", date="
                 + date + ", auteur=" + auteur + '}';
     }
 
