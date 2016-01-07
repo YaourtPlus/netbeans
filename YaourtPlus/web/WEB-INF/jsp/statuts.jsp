@@ -18,6 +18,7 @@
         <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
         <div>
             ${nomPersonne}
+            ${nomFunction}
         </div>
         <div class="container-fluid">
             <div class="row">

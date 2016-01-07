@@ -14,7 +14,7 @@ import Enumerations.TypeNotifications;
  */
 public interface NotificationsService {
     
-    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, Object o);
+    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, int id);
 
     public String afficheData(int idUtilisateur, int idNotif);
 }

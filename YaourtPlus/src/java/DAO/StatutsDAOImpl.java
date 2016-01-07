@@ -9,6 +9,7 @@ import Enumerations.TypeActions;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -24,9 +25,6 @@ public class StatutsDAOImpl implements StatutsDAO {
     // Communication avec la 
     @PersistenceContext(unitName = "Yaourt_PU")
     private EntityManager em;
-
-    @Resource
-    private PersonnesStatutsDAO personnesStatutsDAO;
 
     @Resource
     private IMCDAO imcDAO;
@@ -209,7 +207,8 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
         em.merge(p);
     }
-
+    
+    
     /**
      * Mise à jour de l'action de l'utilisateur sur le statut Modification du
      * commentaire de l'utilisateur
@@ -217,6 +216,7 @@ public class StatutsDAOImpl implements StatutsDAO {
      * @param p Personne effectuant l'action sur le statut
      * @param s Statut sur lequel l'action est effectuée
      */
+    @Transactional
     private void setCom(StatutsEntity s, PersonnesEntity p) {
         // Récupération de la liste des PersonnesStatutsEntity associée 
         // au statut.
@@ -263,7 +263,14 @@ public class StatutsDAOImpl implements StatutsDAO {
     @Transactional(readOnly = true)
     @Override
     public StatutsEntity find(int id) {
-        return em.find(StatutsEntity.class, id);
+        Query q = em.createQuery("SELECT s FROM StatutsEntity s where s.id = ?");
+        q.setParameter(1, id);
+        try{
+           return (StatutsEntity) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)

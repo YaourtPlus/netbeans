@@ -15,7 +15,7 @@ import java.util.List;
 public interface MessagesDAO {
 
 // Transaction de base =========================================================
-    public void save(MessagesEntity m);
+    public int save(MessagesEntity m);
 
     public void update(MessagesEntity m);
 
@@ -30,6 +30,8 @@ public interface MessagesDAO {
     public List<MessagesEntity> findByAuteur(int auteurId);
 
     public List<MessagesEntity> findByDate(Date date);
+
+    public List<MessagesEntity> findByPersonne(int auteurId, int destinataireId);
 
     public List<MessagesEntity> findByDestinataire(int destinataireId);
 }

@@ -37,19 +37,21 @@ public class NotificationsServiceImpl implements NotificationsService {
 
     @Resource
     PersonnesDAO personneDAO;
-    
+
     @Resource
     StatutsDAO statutDAO;
-    
+
     @Resource
     MessagesDAO messageDAO;
 
-
     @Autowired
     StatutsService statutService;
+    
+    @Autowired
+    MessageService messageService;
 
     @Override
-    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, Object o) {
+    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity notifieur, PersonnesEntity destinataire, int id) {
         boolean add = false;
         if (!notifieur.equals(destinataire)) {
             NotificationsEntity notif = new NotificationsEntity(Calendar.getInstance().getTime(),
@@ -57,13 +59,16 @@ public class NotificationsServiceImpl implements NotificationsService {
             notif.setNotifieur(notifieur);
             notif.ajoutDestinataire(destinataire);
             switch (typeNotif) {
+                case notifStatut:
                 case notifCommentaire:
                 case notifLeger:
                 case notifLourd:
-                    notif.setStatut((StatutsEntity) o);
+                    StatutsEntity statut = statutDAO.find(id);
+                    notif.setStatut(statut);
                     break;
                 case notifMessage:
-                    notif.setMessage((MessagesEntity) o);
+                    MessagesEntity message = messageDAO.find(id);
+                    notif.setMessage(message);
                     break;
                 default:
                     break;
@@ -83,13 +88,13 @@ public class NotificationsServiceImpl implements NotificationsService {
 
         StatutsEntity s = statutDAO.find(idObject);
         MessagesEntity m = null;
-        if(s == null){
+        if (s == null) {
             m = messageDAO.find(idObject);
         }
-        
+
         String result = "";
         if (m != null) {
-            result += m.getTexte();
+            messageService.get();
         } else if (s != null) {
             result = "Statut ";
             result += statutService.statutToString(s, user, "vueNotif");

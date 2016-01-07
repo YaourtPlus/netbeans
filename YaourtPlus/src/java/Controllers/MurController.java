@@ -2,10 +2,8 @@ package Controllers;
 
 import Service.ConnexionService;
 import Service.FichierService;
-import Service.FichierServiceImpl;
 import Service.MessageService;
 import Service.MurService;
-import Service.NotificationsService;
 import Service.ProfilService;
 import Service.StatutsService;
 import javax.servlet.ServletContext;
@@ -177,17 +175,16 @@ public class MurController {
         String statut = request.getParameter("statut");
 
         // Ajout du statut
-        int idStatut;
+        int idStatut = 0;
         if (idPersonne == idUtilisateur) {
             idStatut = murService.ajoutStatut(idUtilisateur, statut);
         } else {
             idStatut = murService.posterStatut(idUtilisateur, idPersonne, statut);
         }
 
-        if (p.getSize() != 0 || idStatut == 0) {
+        if (p.getSize() != 0 && idStatut != 0) {
             fichierService.ajoutFichier(p, idStatut);
         }
-        // Affichage du mur
 
         mv = getRedirect(path, idPersonne, idStatut);
         return mv;
@@ -231,8 +228,11 @@ public class MurController {
             //String messages = messagesService.getMessages(idUtilisateur);
             String selectUserList = profilService.getSelectUserList(idUtilisateur);
             //String messages = messagesService.getMessages(idUtilisateur);
+            
             // Affichage des différentes données récupérées précédemment
-            mv.addObject("listeAmi", listFilous);
+            if(listFilous != null){
+                mv.addObject("listeAmi", listFilous);
+            }
             mv.addObject("nomPersonne", nomPersonne);
             mv.addObject("listStatuts", statut);
             mv.addObject("selectUserList", selectUserList);

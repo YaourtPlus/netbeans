@@ -58,7 +58,9 @@ public class ProfilServiceImpl implements ProfilService {
     public String getFilous(int idUtilisateur) {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-
+        if(user.getListFilous().isEmpty()){
+            return null;
+        }
         // Création de la liste
         String listAmis = "<ul class=\"list-unstyled\">";
 

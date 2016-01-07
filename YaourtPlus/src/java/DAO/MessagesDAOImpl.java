@@ -8,6 +8,7 @@ package DAO;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -35,9 +36,10 @@ public class MessagesDAOImpl implements MessagesDAO {
 // Ecriture ====================================================================
     @Transactional
     @Override
-    public void save(MessagesEntity m) {
+    public int save(MessagesEntity m) {
         m = em.merge(m);
         em.persist(m);
+        return m.getId();
     }
 
     @Transactional
@@ -57,7 +59,13 @@ public class MessagesDAOImpl implements MessagesDAO {
     @Transactional(readOnly = true)
     @Override
     public MessagesEntity find(int id) {
-        return em.find(MessagesEntity.class, id);
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.id = ?");
+        q.setParameter(1, id);
+        try {
+            return (MessagesEntity) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)
@@ -76,11 +84,12 @@ public class MessagesDAOImpl implements MessagesDAO {
     @Transactional(readOnly = true)
     @Override
     public List<MessagesEntity> findByAuteur(int auteurId) {
-        return null;
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.emetteur.id = ?");
+        q.setParameter(1, auteurId);
+        return q.getResultList();
     }
 
     /**
-     * NOT YET IMPLEMENTED
      *
      * @param date
      * @return
@@ -92,7 +101,6 @@ public class MessagesDAOImpl implements MessagesDAO {
     }
 
     /**
-     * NOT YET IMPLEMENTED
      *
      * @param destinataireId
      * @return
@@ -102,6 +110,21 @@ public class MessagesDAOImpl implements MessagesDAO {
     public List<MessagesEntity> findByDestinataire(int destinataireId) {
         Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.destinataire.id <> ?");
         q.setParameter(1, destinataireId);
+        return q.getResultList();
+    }
+
+    /**
+     *
+     * @param destinataireId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<MessagesEntity> findByPersonne(int auteurId, int destinataireId) {
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.emetteur.id = ? AND m.destinataire.id = ?");
+        q.setParameter(1, auteurId);
+        q.setParameter(2, destinataireId);
+        
         return q.getResultList();
     }
 }

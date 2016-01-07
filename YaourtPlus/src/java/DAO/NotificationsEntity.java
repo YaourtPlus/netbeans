@@ -221,7 +221,7 @@ public class NotificationsEntity implements Serializable {
                 result += " a commenté un statut.";
                 break;
             case notifStatut:
-                result += " a posté un statut.";
+                result += " a posté un statut sur votre mur.";
                 break;
             default:
                 break;

@@ -7,6 +7,7 @@ package DAO;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -56,7 +57,14 @@ public class IMCDAOImpl implements IMCDAO {
     @Transactional
     @Override
     public IMCEntity find(int id) {
-        return em.find(IMCEntity.class, id);
+        Query q = em.createQuery("SELECT i FROM IMCEntity i where i.id = ?");
+        q.setParameter(1, id);
+        try{
+           return (IMCEntity) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 
     @Transactional

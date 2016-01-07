@@ -8,6 +8,7 @@ package DAO;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -129,7 +130,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Override
     public boolean ajoutStatutRecu(PersonnesEntity p, StatutsEntity s) {
         // Ajout du statut dans la liste des statuts émis par l'utilisateur
-        boolean add = p.ajoutStatutEmis(s);
+        boolean add = p.ajoutStatutRecu(s);
 
         // Mise à jour de la BD
         if (add) {
@@ -197,7 +198,14 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Override
 
     public PersonnesEntity find(int id) {
-        return em.find(PersonnesEntity.class, id);
+        Query q = em.createQuery("SELECT p FROM PersonnesEntity p where p.id = ?");
+        q.setParameter(1, id);
+        try{
+           return (PersonnesEntity) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)

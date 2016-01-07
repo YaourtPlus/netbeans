@@ -89,7 +89,7 @@ public class MurServiceImpl implements MurService {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
         PersonnesEntity destinataire = personneDAO.find(idPersonne);
-        
+
         // Création du statut
         StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
         // Mise à jour de l'auteur du statut
@@ -100,15 +100,15 @@ public class MurServiceImpl implements MurService {
 
         // Ajout du statut posté à l'utilisateur
         personneDAO.ajoutStatutEmis(user, newStatut);
-        
+
         // Ajout du statut posté au destinataire
         personneDAO.ajoutStatutRecu(destinataire, newStatut);
 
         // Création d'une action sur le statut par l'utilisateur (post du statut)
         personneStatutDAO.addPost(idStatut, user);
-        
+
         // Création d'une notification auprès du destinataire
-        notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, statut);
+        notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, idStatut);
         
         return idStatut;
     }
@@ -149,7 +149,7 @@ public class MurServiceImpl implements MurService {
                 break;
             }
             // Création de la notification de l'auteur du statut dans la BD
-            notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut);
+            notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut.getId());
         }
         statutDAO.addCommentaire(statut, user);
 
@@ -173,7 +173,7 @@ public class MurServiceImpl implements MurService {
             statutDAO.addLeger(statut, user);
 
             // Création de la notification dans la BD
-            notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut);
+            notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
         }
     }
 
@@ -195,7 +195,7 @@ public class MurServiceImpl implements MurService {
             statutDAO.addLourd(statut, user);
 
             // Création de la notification dans la BD
-            notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut);
+            notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut.getId());
         }
 
     }

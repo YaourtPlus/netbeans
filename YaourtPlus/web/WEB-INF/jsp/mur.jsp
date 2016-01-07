@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,16 +16,22 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
-        
+
         <header class="page-header container-fluid">
             <h1>${nomPersonne}</h1>
         </header>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-2">
-                    <div> ${listeAmi} </div>
-                </div>
-                <div class="post col-lg-6">   
+                <c:if test="${not empty listeAmi}">
+                    <div class="col-lg-2">
+                        <div> ${listeAmi} </div>
+                    </div>
+                </c:if>
+                <c:set var="className" value=""/>
+                <c:if test="${empty listeAmi}">
+                    <c:set var="className" value="col-lg-offset-2"/>
+                </c:if>
+                <div class="post col-lg-6 ${className}">   
                     <form Method="POST" action="${pageContext.request.contextPath}/mur/ajoutStatut.htm?idPersonne=${idPersonne}" enctype="multipart/form-data">
                         <textarea rows="5" cols="150" name='statut' id='statut' class="form-control"
                                   placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"></textarea>
@@ -49,11 +56,10 @@
                         </div>
                     </form>
                     <div>
-                        <hr />
                         ${listMessages}
                     </div>
                 </div>
-                   
+
             </div>
         </div>
     </body>

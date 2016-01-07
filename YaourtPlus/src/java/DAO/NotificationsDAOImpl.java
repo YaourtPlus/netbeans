@@ -8,6 +8,7 @@ package DAO;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -58,7 +59,14 @@ public class NotificationsDAOImpl implements NotificationsDAO {
     @Transactional(readOnly = true)
     @Override
     public NotificationsEntity find(int id) {
-        return em.find(NotificationsEntity.class, id);
+        Query q = em.createQuery("SELECT n FROM NotificationsEntity n where n.id = ?");
+        q.setParameter(1, id);
+        try{
+           return (NotificationsEntity) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)

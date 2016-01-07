@@ -7,6 +7,7 @@ package DAO;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -56,7 +57,14 @@ public class FichiersDAOImpl implements FichiersDAO {
     @Transactional(readOnly = true)
     @Override
     public FichiersEntity find(int id) {
-        return em.find(FichiersEntity.class, id);
+        Query q = em.createQuery("SELECT f FROM FichiersEntity f where f.id = ?");
+        q.setParameter(1, id);
+        try{
+           return (FichiersEntity) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)

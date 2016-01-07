@@ -7,6 +7,7 @@ package DAO;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -71,7 +72,14 @@ public class CommentairesDAOImpl implements CommentairesDAO {
     @Transactional(readOnly = true)
     @Override
     public CommentairesEntity find(int id) {
-        return em.find(CommentairesEntity.class, id);
+        Query q = em.createQuery("SELECT c FROM CommentairesEntity c where c.id = ?");
+        q.setParameter(1, id);
+        try{
+           return (CommentairesEntity) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)

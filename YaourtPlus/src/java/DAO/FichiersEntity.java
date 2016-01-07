@@ -49,10 +49,6 @@ public class FichiersEntity implements Serializable {
     @ManyToMany(mappedBy = "listeFichiers", fetch = FetchType.EAGER)
     List<StatutsEntity> listeStatuts = new ArrayList<>();
 
-    // Liste des messages auxquels est associé le fichier
-    @ManyToMany(mappedBy = "listeFichiers", fetch = FetchType.EAGER)
-    List<MessagesEntity> listeMessages = new ArrayList<>();
-
 // Constructeurs ===============================================================
     public FichiersEntity() {
         this.type = "txt";
@@ -87,10 +83,6 @@ public class FichiersEntity implements Serializable {
         return listeStatuts;
     }
 
-    public List<MessagesEntity> getListeMessages() {
-        return listeMessages;
-    }
-
 // Mutateurs ===================================================================
     public void setId(Integer id) {
         this.id = id;
@@ -111,12 +103,6 @@ public class FichiersEntity implements Serializable {
     public void setListeStatuts(List<StatutsEntity> listeStatuts) {
         this.listeStatuts = listeStatuts;
     }
-
-    public void setListeMessages(List<MessagesEntity> listeMessages) {
-        this.listeMessages = listeMessages;
-    }
-
-    
     public boolean addStatutsFichier(StatutsEntity se)
     {
         return this.listeStatuts.add(se);

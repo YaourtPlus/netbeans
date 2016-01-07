@@ -82,7 +82,7 @@ public class StatutsServiceImpl implements StatutsService {
         });
         for(StatutsEntity s : statutsFilous)
         {
-            statuts+= statutToString(s, user, "mur");
+            statuts += statutToString(s, user, "mur");
         }
         return statuts;
     }
@@ -102,6 +102,8 @@ public class StatutsServiceImpl implements StatutsService {
 
         String statuts = "";
         for (StatutsEntity s : personne.getStatutsEmis()) {
+            // On recherche dans les statuts émis, les statuts dont 
+            // l'utilisateur est le destinataire
             if(s.getDestinataire().equals(user)){
                 statuts += statutToString(s, user, "statut");
             }
@@ -125,6 +127,8 @@ public class StatutsServiceImpl implements StatutsService {
 
         String statuts = "";
         for (StatutsEntity s : personne.getStatutsRecu()) {
+            // On recherche les statuts dans les statuts reçu où 
+            // l'auteur n'est pas le propriétaire du mur
             if (!s.getAuteur().equals(personne)) {
                 statuts += statutToString(s, user, "statut");
             }
@@ -154,13 +158,10 @@ public class StatutsServiceImpl implements StatutsService {
             statuts += "<br />";
         }
         
-        
-        
-
         // Récupération de l'action de l'utilisateur sur le statut
         TypeActions action = user.getAction(s);
         int idDestinataire;
-        if (s.getDestinataire() == null) { // Si le destinataire est à null, c'est que c'est un statut que l'utilisateur à posté
+        if (s.getDestinataire() == null) {
             idDestinataire = s.getAuteur().getId();
         } else {
             idDestinataire = s.getDestinataire().getId();

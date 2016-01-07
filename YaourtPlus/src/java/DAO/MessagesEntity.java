@@ -7,20 +7,14 @@ package DAO;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -54,14 +48,6 @@ public class MessagesEntity implements Serializable {
     private PersonnesEntity destinataire;
 // Relations MANY TO ONE
 // Relations MANY TO MANY
-    // Liste des fichiers liés au message
-    @JoinTable(
-            name = "Messages_Fichiers",
-            joinColumns = @JoinColumn(name = "FichiersID"),
-            inverseJoinColumns = @JoinColumn(name = "MessagesID")
-    )
-    @ManyToMany(fetch = FetchType.EAGER)
-    List<FichiersEntity> listeFichiers = new ArrayList<>();
 
 // Constructeurs ===============================================================
     public MessagesEntity() {
@@ -95,10 +81,6 @@ public class MessagesEntity implements Serializable {
         return destinataire;
     }
 
-    public List<FichiersEntity> getListeFichiers() {
-        return listeFichiers;
-    }
-
 // Mutateurs ===================================================================
     public void setId(Integer id) {
         this.id = id;
@@ -118,10 +100,6 @@ public class MessagesEntity implements Serializable {
 
     public void setDestinataire(PersonnesEntity destinataire) {
         this.destinataire = destinataire;
-    }
-
-    public void setListeFichiers(List<FichiersEntity> listeFichiers) {
-        this.listeFichiers = listeFichiers;
     }
 
 // =============================================================================

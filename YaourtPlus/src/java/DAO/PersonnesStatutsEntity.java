@@ -48,13 +48,12 @@ public class PersonnesStatutsEntity implements Serializable {
      */
     @Column
     private boolean commentaire;
-    
+
     /**
      * Indique si l'utilisateur à posté
      */
     @Column
     private boolean post;
-
 
 // Constructeur ================================================================
     public PersonnesStatutsEntity() {
@@ -74,7 +73,15 @@ public class PersonnesStatutsEntity implements Serializable {
         this.post = post;
     }
 
+    public PersonnesStatutsEntity( int action, boolean commentaire, boolean post) {
+        this.personne = null;
+        this.statut = null;
+        this.typeAction = action;
+        this.commentaire = commentaire;
+        this.post = post;
+    }
 // Getters =====================================================================
+
     public PersonnesEntity getPersonne() {
         return personne;
     }
