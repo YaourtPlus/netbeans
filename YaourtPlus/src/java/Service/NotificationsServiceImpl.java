@@ -89,7 +89,10 @@ public class NotificationsServiceImpl implements NotificationsService {
 
         String result = "";
         MessagesEntity m = notif.getMessage();
-        StatutsEntity s = statutDAO.find(notif.getStatut().getId());
+        StatutsEntity s = null;
+        if(notif.getStatut() != null){
+            s = statutDAO.find(notif.getStatut().getId());
+        }
         if (m != null) {
             result = messageService.getMessagesSinglePersonne(idUtilisateur, m.getEmetteur().getId());
         } else if (s != null) {

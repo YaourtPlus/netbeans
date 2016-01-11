@@ -93,27 +93,39 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
+                                    <c:choose>
+                                        <c:when test="${statut.statutsActeurs.size() > 0}">   
+                                            <c:forEach items="${statut.statutsActeurs}" var="ps" >
+                                                <c:choose>
+                                                    <c:when test="${ps.personne.id == idPersonne && ps.statut.id == statut.id}">
+                                                        <c:choose>
+                                                            <c:when test="${ps.typeAction.id == 0}">
+                                                                <a href='${pageContext.request.contextPath}/path/leger.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Léger! </a>
+                                                                <a href='${pageContext.request.contextPath}/path/lourd.htm?id=${statut.id}&idPersonne=${idDestinataire}'> T'es lourd!</a>
+                                                            </c:when>
+                                                            <c:when test="${ps.typeAction.id == 1}">
+                                                                <a href='${pageContext.request.contextPath}/path/removeAction.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Vous avez allégé le statut. </a>
+                                                            </c:when>
+                                                            <c:when test="${ps.typeAction.id == 2}">
+                                                                <a href='${pageContext.request.contextPath}/path/removeAction.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Vous avez allourdi le statut. </a>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                            </c:otherwise>
 
-
-                                    <c:forEach items="${statut.statutsActeurs}" var="ps" >
-                                        <c:if test="${ps.personne.id == idPersonne && ps.statut.id == statut.id}">
-                                            <c:choose>
-                                                <c:when test="${ps.typeAction.id == 0}">
-                                                    <a href='${pageContext.request.contextPath}/path/leger.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Léger! </a>
-                                                    <a href='${pageContext.request.contextPath}/path/lourd.htm?id=${statut.id}&idPersonne=${idDestinataire}'> T'es lourd!</a>
-                                                </c:when>
-                                                <c:when test="${ps.typeAction.id == 1}">
-                                                    <a href='${pageContext.request.contextPath}/path/removeAction.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Vous avez allégé le statut. </a>
-                                                </c:when>
-                                                <c:when test="${ps.typeAction.id == 2}">
-                                                    <a href='${pageContext.request.contextPath}/path/removeAction.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Vous avez allourdi le statut. </a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                </c:otherwise>
-
-                                            </c:choose>
-                                        </c:if>
-                                    </c:forEach>
+                                                        </c:choose>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a href='${pageContext.request.contextPath}/path/leger.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Léger! </a>
+                                                        <a href='${pageContext.request.contextPath}/path/lourd.htm?id=${statut.id}&idPersonne=${idDestinataire}'> T'es lourd!</a> 
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href='${pageContext.request.contextPath}/path/leger.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Léger! </a>
+                                            <a href='${pageContext.request.contextPath}/path/lourd.htm?id=${statut.id}&idPersonne=${idDestinataire}'> T'es lourd!</a> 
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                             <c:forEach items="${statut.commentaires}" var="commentaire" >
