@@ -21,6 +21,7 @@ body {
     text-align: center;
 }
 
+
 label{
     width:200px;
     display:block;
@@ -88,4 +89,8 @@ a.button {
 body .noDisplay{
     background-color: white;
     border : none;
+}
+
+.validMsg{
+    text-align: center; 
 }

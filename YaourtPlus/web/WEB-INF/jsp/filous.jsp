@@ -4,6 +4,7 @@
     Author     : Olivier
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,15 +15,19 @@
         <title>Mes ptits filous !</title>
     </head>
     <body>
-        
+
         <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
-        
-        <p> ${ajoutFilous}</p>
-        <div class="container">
-            <div class="row">
-                ${listFilous}
+
+        <div class="validMsg"> ${ajoutFilous}</div>   
+        <c:forEach items="${listPersonne}" var="filou" >
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-offset-1 col-lg-10">
+                        ${filou.prenom} ${filou.nom}
+                        <a href="${pageContext.request.contextPath}/ajout.htm?id=${filou.id}"> Ajouter </a>
+                    </div>
+                </div>
             </div>
-            
-        </div>
+        </c:forEach>    
     </body>
 </html>

@@ -22,13 +22,20 @@
         </header>
         <div class="container-fluid">
             <div class="row">
-                <c:if test="${not empty listeAmi}">
+                <c:if test="${not empty listFilous}"> 
                     <div class="col-lg-2">
-                        <div> ${listeAmi} </div>
+                        <c:forEach items="${listFilous}" var="filou">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/statuts.htm?idPersonne=${filou.id}"> ${filou.prenom} ${filou.nom}</a>
+                                    <a href="${pageContext.request.contextPath}/suppression.htm?idPersonne=${filou.id}"> Supprimer </a>
+                                </li>
+                            </ul>
+                        </c:forEach>
                     </div>
                 </c:if>
                 <c:set var="className" value=""/>
-                <c:if test="${empty listeAmi}">
+                <c:if test="${empty listFilous}">
                     <c:set var="className" value="col-lg-offset-2"/>
                 </c:if>
                 <div class="post col-lg-6 ${className}">   
