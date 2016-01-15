@@ -6,12 +6,9 @@
 package Service;
 
 import DAO.NotificationsDAO;
-import DAO.NotificationsEntity;
 import DAO.PersonnesDAO;
 import DAO.PersonnesEntity;
 import Enumerations.TypeNotifications;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -44,8 +41,7 @@ public class FilousServiceImpl implements FilousService {
      * @return Un string contenant les informations des potentiels filous
      */
     @Override
-    public String getFilous(int idUtilisateur) {
-        String affichagePersonnes = "";
+    public List<PersonnesEntity> getFilous(int idUtilisateur) {
 
         // Récupération des personnes inscrites dans la BD
         List<PersonnesEntity> filous = personneDAO.findAll();
@@ -53,24 +49,13 @@ public class FilousServiceImpl implements FilousService {
         // On enlève l'utilisateur de la liste précédente pour ne pas qu'il 
         // puisse s'ajouter
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-        filous.remove((PersonnesEntity) user);
-
-        // Parcours de la liste
-        for (PersonnesEntity p : filous) {
-            // Filtre des personnes que l'utilisateur a déjà en ami
-            if (!user.getListFilous().contains(personneDAO.find(p.getId()))) {
-                // Mise en forme des donnése
-                affichagePersonnes += "<div class=\"col-lg-offset-1 "
-                        + "col-lg-10\">";
-                affichagePersonnes += p.getPrenom() + " " + p.getNom();
-                affichagePersonnes += " <a href='" + servletContext.getContextPath() + "/ajout.htm?id=" + p.getId()
-                        + "' > Ajouter </a> ";
-                affichagePersonnes += "</div>";
-            }
-        }
-        return affichagePersonnes;
+        filous.remove(user);
+        // On enlève les amis de l'utilisateur
+        filous.removeAll(user.getListFilous());
+        
+        return filous;
     }
-
+    
     /**
      * Ajout d'un filou à l'utilisateur
      *

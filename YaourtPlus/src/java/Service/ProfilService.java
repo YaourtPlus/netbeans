@@ -6,6 +6,7 @@
 package Service;
 
 import DAO.PersonnesEntity;
+import java.util.List;
 
 /**
  *
@@ -15,7 +16,7 @@ public interface ProfilService {
 
     public PersonnesEntity getPersonne(int idUtilisateur);
     
-    public String getFilous(int idUtilisateur);
+    public List<PersonnesEntity> getFilous(int idUtilisateur);
 
     public boolean exists(String login);
     

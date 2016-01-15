@@ -118,7 +118,8 @@ public class FilousController {
             // Récupération de l'id de l'utilisateur courant
             int idUtilisateur = (int) session.getAttribute("idUtilisateur");
             // Affichage de la liste des filous
-            mv.addObject("listFilous", filousService.getFilous(idUtilisateur));
+            
+            mv.addObject("listPersonne", filousService.getFilous(idUtilisateur));
             mv.addObject("idPersonne", idUtilisateur);
             mv.addObject("idDestinataire", -1);
         }

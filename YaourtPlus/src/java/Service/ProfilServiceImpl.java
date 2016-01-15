@@ -55,14 +55,12 @@ public class ProfilServiceImpl implements ProfilService {
      * @return un string contenant les différents filous
      */
     @Override
-    public String getFilous(int idUtilisateur) {
+    public List<PersonnesEntity> getFilous(int idUtilisateur) {
         // Récupération de l'utilisateur
-        PersonnesEntity user = personneDAO.find(idUtilisateur);
-        if (user.getListFilous().isEmpty()) {
-            return null;
-        }
+        return personneDAO.find(idUtilisateur).getListFilous();
+
         // Création de la liste
-        String listAmis = "<ul class=\"list-unstyled\">";
+        /*String listAmis = "<ul class=\"list-unstyled\">";
 
         // Parcours de la liste de filous de l'utilisateur
         for (PersonnesEntity p : user.getListFilous()) {
@@ -74,7 +72,7 @@ public class ProfilServiceImpl implements ProfilService {
             listAmis += "</li>";
         }
         listAmis += "</ul>";
-        return listAmis;
+        return listAmis;*/
     }
 
     /**
