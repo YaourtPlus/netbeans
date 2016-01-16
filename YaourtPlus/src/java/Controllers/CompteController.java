@@ -35,6 +35,8 @@ public class CompteController {
     InscriptionService inscriptionService;
 
 // Gestion des requêtes GET ====================================================
+
+    
     @RequestMapping(value = "connexion", method = RequestMethod.GET)
     public String connexion() {
         return "connexion";
