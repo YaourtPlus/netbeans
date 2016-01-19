@@ -3,7 +3,6 @@
 /YaourtPlus/dist/
 /YaourtPlus/src/conf/persistence.xml
 /YaourtPlus/web/files/*
-/YaourtPlus2.0/YaourtPlus2.0-ejb/src/conf/
 /YaourtPlus2.0/YaourtPlus2.0-ejb/build/
 /YaourtPlus2.0/YaourtPlus2.0-ejb/build.xml
 /YaourtPlus2.0/YaourtPlus2.0-ejb/nbproject/
@@ -13,10 +12,9 @@
 /YaourtPlus2.0/YaourtPlus2.0-war/build.xml
 /YaourtPlus2.0/YaourtPlus2.0-war/dist/
 /YaourtPlus2.0/YaourtPlus2.0-war/nbproject/
-/YaourtPlus2.0/YaourtPlus2.0-war/src/conf/
 /YaourtPlus2.0/dist/
 /YaourtPlus2.0/build/
 /YaourtPlus2.0/build.xml
-/YaourtPlus2.0/nbproject/private
+/YaourtPlus2.0/nbproject/
 /YaourtPlus2.0/src/conf
 
