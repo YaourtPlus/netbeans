@@ -3,7 +3,15 @@
   <persistence-unit name="YaourtPlus2.0-ejbPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>JNDIYaourtPlus</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>Entities.CommentairesEntity</class>
+    <class>Entities.FichiersEntity</class>
+    <class>Entities.IMCEntity</class>
+    <class>Entities.MessagesEntity</class>
+    <class>Entities.NotificationsEntity</class>
+    <class>Entities.PersonnesEntity</class>
+    <class>Entities.PersonnesStatutsEntity</class>
+    <class>Entities.StatutsEntity</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>

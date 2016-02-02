@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -39,6 +40,7 @@ public class StatutsEntity implements Serializable {
     private String texte;
 
     @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
 
     @Column(nullable = false)
