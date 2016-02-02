@@ -6,7 +6,10 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from connexion
+        <h:form id="form">
+            Nom: <h:inputText id="nom" value="prout" required="true" />
+            <h:commandButton value="OK" action="secured/mur.xhtml" />
+        </h:form>
     </h:body>
 </html>
 
