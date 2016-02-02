@@ -3,3 +3,9 @@
 /YaourtPlus/dist/
 /YaourtPlus/src/conf/persistence.xml
 /YaourtPlus/web/files/*
+/YaourtPlus2.0/YaourtPlus2.0-ejb/build/
+/YaourtPlus2.0/YaourtPlus2.0-ejb/dist/
+/YaourtPlus2.0/YaourtPlus2.0-war/build/
+/YaourtPlus2.0/YaourtPlus2.0-war/dist/
+/YaourtPlus2.0/dist/
+/YaourtPlus2.0/build/
