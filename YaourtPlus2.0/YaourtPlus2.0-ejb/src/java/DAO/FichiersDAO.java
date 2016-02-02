@@ -7,11 +7,13 @@ package DAO;
 
 import Entities.FichiersEntity;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author tbenoist
  */
+@Local
 public interface FichiersDAO {
 
 // Transaction de base =========================================================
