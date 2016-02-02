@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -33,6 +34,7 @@ public class CommentairesEntity implements Serializable{
     private String texte;
 
     @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
 
 // Relations ONE TO ONE

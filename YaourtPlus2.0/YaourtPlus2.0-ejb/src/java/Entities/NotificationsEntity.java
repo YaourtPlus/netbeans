@@ -24,6 +24,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -39,6 +40,7 @@ public class NotificationsEntity implements Serializable {
 
     // Date de la notification
     @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
 
     // Type de la notification

@@ -25,6 +25,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -57,10 +58,12 @@ public class PersonnesEntity implements Serializable {
     private String password;
 
     @Column(nullable = true)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateInscription;
 
     // Date de dernière connexion
     @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateConnexion;
 
     // Quantité de notifications non lues
