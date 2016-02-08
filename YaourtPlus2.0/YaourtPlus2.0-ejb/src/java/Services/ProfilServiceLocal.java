@@ -15,4 +15,5 @@ import javax.ejb.Local;
 public interface ProfilServiceLocal {
     public int connect(String login, String passWord);
     public void inscrire(String login, String passWord, String nom, String prenom, int age, String mail);
+    public boolean exists(String login);
 }

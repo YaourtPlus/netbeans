@@ -32,4 +32,9 @@ public class ProfilService implements ProfilServiceLocal {
         PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, passWord);
         personneDAO.save(pe);
     }
+
+    @Override
+    public boolean exists(String login) {
+        return personneDAO.findByLogin(login) != null;
+    }
 }
