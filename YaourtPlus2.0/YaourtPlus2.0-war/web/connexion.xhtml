@@ -7,13 +7,14 @@
     </h:head>
     <h:body>
         <h:form id="formConnexion">
-            Login : <h:inputText id="nom" value="login" required="true" />
-            Mot de passe :  <h:inputText id="password" value="passWord" required="true" />
+            Login : <h:inputText id="nom" value="#{compteController.login}" required="true" />
+            Mot de passe :  <h:inputText id="password" value="#{compteController.passWord}" required="true" />
             <br/>
             <h:commandButton value="OK" action="#{compteController.connect()}" />
 
-            <h:commandLink value="S'inscrire!" action="#{compteController.connect()}"/>
         </h:form>
+
+        <h:link value="S'inscrire!" outcome="inscription?faces-redirect=true"/>
     </h:body>
 </html>
 

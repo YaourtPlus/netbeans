@@ -22,14 +22,13 @@ public class ProfilService implements ProfilServiceLocal {
 
     @Override
     public boolean connect(String login, String passWord) {
-        //TODO
-        return false;
+        return personneDAO.find(login, passWord)!= null;
     }
 
 
     @Override
     public void inscrire(String login, String passWord, String nom, String prenom, int age, String mail) {
-        /*PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, passWord);
-        personneDAO.save(pe);*/
+        PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, passWord);
+        personneDAO.save(pe);
     }
 }

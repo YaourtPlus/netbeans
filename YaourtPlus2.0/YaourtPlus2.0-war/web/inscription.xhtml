@@ -7,17 +7,19 @@
     </h:head>
     <h:body>
        <h:form id="formInscription">
-            Login :  <h:inputText id="login" value="login" required="true" />
+           Login :  <h:inputText id="login" value="#{compteController.login}" required="true" />
             <br/>
-            Mot de passe :  <h:inputText id="password" value="passWord" required="true" />
+            Mot de passe :  <h:inputText id="password" value="#{compteController.passWord}" required="true" />
             <br/>
-            Mail : <h:inputText id="mail" value="mail" required="true" />
+            Mail : <h:inputText id="mail" value="#{compteController.mail}" required="true" />
             <br/>
-            Age : <h:inputText id="age" value="age" required="true" />
+            Age : <h:inputText id="age" value="#{compteController.age}" required="true" />
             <br/>
-            Nom : <h:inputText id="nom" value="nom" required="true" />
+            Nom : <h:inputText id="nom" value="#{compteController.nom}" required="true" />
             <br/>
-            Prénom : <h:inputText id="prenom" value="prenom" required="true" />
+            Prénom : <h:inputText id="prenom" value="#{compteController.prenom}" required="true" />
+            <br/>
+            <h:commandButton value="OK" action="#{compteController.inscrire()}" />
             <br/>
             </h:form>
     </h:body>
