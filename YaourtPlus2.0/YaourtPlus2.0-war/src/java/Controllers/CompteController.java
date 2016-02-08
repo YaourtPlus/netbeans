@@ -5,6 +5,8 @@
  */
 package Controllers;
 
+import Services.ProfilServiceLocal;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -17,28 +19,86 @@ import javax.faces.bean.RequestScoped;
 public class CompteController {
 
     private String login;
-    private String password;
-    
+    private String passWord;
+    private String nom;
+    private String prenom;
+    private String age;
+    private String mail;
+        
+    @EJB
+    ProfilServiceLocal profilService;
+
     public CompteController() {
     }
 
-    
 // Getters =====================================================================
     public String getLogin() {
         return login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getMail() {
+        return mail;
+    }
     
+    
+
 // Setters =====================================================================
     public void setLogin(String login) {
         this.login = login;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+    
+    
+
+// Methodes ====================================================================
+    public String connect() {
+
+        if (profilService.connect(login, passWord)) {
+            return "secured/mur?faces-redirect=true";
+        } else {
+            return "connexion?faces-redirect=true";
+        }
+    }
+    
+    public String inscrire(){
+        
+        profilService.inscrire(login, passWord, nom, prenom, 10, mail);
+        return "connexion?faces-redirect=true";
+    }
+
 }
