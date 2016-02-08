@@ -35,5 +35,10 @@ public class LoginValidator implements Validator{
 		.get("passWord");
 	  String passWord = uiInputConfirmPassword.getSubmittedValue()
 		.toString();
+          
+          if(profilService.connect(login, passWord) == -1){
+              throw new ValidatorException(new FacesMessage(
+			"Le login ou le mot de passe est incorrect"));
+          }
     }
 }

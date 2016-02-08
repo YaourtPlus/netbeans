@@ -1,0 +1,96 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10 déc. 2015, 15:42:36
+    Author     : Olivier
+*/
+
+body {
+    background-color: white;
+    padding-top: 10px;
+}
+
+[class*="col-"], footer, .statuts, .post{
+    background-color: lightblue;
+    border: 1px solid black;
+    border-radius: 4px;
+    line-height: 40px;
+    text-align: center;
+}
+
+
+label{
+    width:200px;
+    display:block;
+    float : left;
+}
+
+input{
+    display : block;
+    float : left;
+}
+
+
+form{
+    margin : 10%;
+}
+
+#connectButton{
+    display : inline-block;
+    margin: auto;
+}
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+}
+
+.statuts {
+    background-color: #67b168;
+    padding : 1px;
+}
+
+.statuts-texte, .vote{
+    background-color : #fefefe;
+}
+
+.statut-left {
+    margin-left : 10%;
+}
+
+.statut-right {
+    margin-right : 10%;
+}
+
+.rowMessage{
+    border-bottom: 1px solid black;
+}
+
+.message{
+    text-align: left;
+    margin-left: 10%;
+}
+
+.messageText{
+    background-color: white;
+}
+
+.date{
+    text-align: right;
+}
+
+body .noDisplay{
+    background-color: white;
+    border : none;
+}
+
+.validMsg{
+    text-align: center; 
+}

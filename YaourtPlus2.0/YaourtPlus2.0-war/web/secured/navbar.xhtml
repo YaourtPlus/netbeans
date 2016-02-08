@@ -1,0 +1,37 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="#{view.viewId == '/mur.xhtml' ? 'active' : ''}">
+                    <h:link value="Accueil" outcome="/secured/mur" />
+                </li>
+                <li class="#{view.viewId == '/filous.xhtml' ? 'active' : ''}">
+                    <h:link value="Ptit Filous" outcome="/secured/filous" />
+                </li>
+                <li class="#{view.viewId == '/notifications.xhtml' ? 'active' : ''}">
+                    <h:link value="Notifications" outcome="/secured/notifications" />
+                </li>
+                <li class="#{view.viewId == '/messages.xhtml' ? 'active' : ''}">
+                    <h:link value="Messages" outcome="/secured/messages">
+                        <f:param name="idUtilisateur" value="#{compteController.idUtilisateur}" />
+                    </h:link>
+                </li>
+                <li class="#{view.viewId == '/statuts.xhtml' ? 'active' : ''}">
+                    <h:link value="Mon mur" outcome="/secured/mur">
+                        <f:param name="idPersonne" value="#{compteController.idPersonne}" />
+                    </h:link>
+                </li>
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li> 
+                    <h:link value="Deconnexion" outcome="connexion"/>
+                </li>
+            </ul> 
+        </div>
+    </nav>
+</ui:composition>
