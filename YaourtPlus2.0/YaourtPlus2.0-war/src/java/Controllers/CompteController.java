@@ -24,6 +24,7 @@ public class CompteController {
     private String prenom;
     private String age;
     private String mail;
+    private int id;
         
     @EJB
     ProfilServiceLocal profilService;
@@ -88,8 +89,9 @@ public class CompteController {
 // Methodes ====================================================================
     public String connect() {
 
-        if (profilService.connect(login, passWord)) {
-            return "secured/mur?faces-redirect=true";
+        id = profilService.connect(login, passWord);
+        if (id != -1) {
+            return "secured/mur?faces-redirect=true&idUtilisateur="+id;
         } else {
             return "connexion?faces-redirect=true";
         }

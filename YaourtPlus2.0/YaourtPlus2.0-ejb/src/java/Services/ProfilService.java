@@ -21,8 +21,9 @@ public class ProfilService implements ProfilServiceLocal {
     PersonnesDAO personneDAO;
 
     @Override
-    public boolean connect(String login, String passWord) {
-        return personneDAO.find(login, passWord)!= null;
+    public int connect(String login, String passWord) {
+        PersonnesEntity pe = personneDAO.find(login, passWord);
+        return pe != null ? pe.getId() : -1;
     }
 
 
