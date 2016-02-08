@@ -8,7 +8,7 @@
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        <ui:include src="#{pageContext.contextPath}/secured/navbar.xhtml" />
+        <ui:include src="/secured/navbar.xhtml" />
         <h:form id="formConnexion">
             Login : <h:inputText id="nom" value="#{compteController.login}" required="true" />
             Mot de passe :  <h:inputText id="password" value="#{compteController.passWord}" required="true" />

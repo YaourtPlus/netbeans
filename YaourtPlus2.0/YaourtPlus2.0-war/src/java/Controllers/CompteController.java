@@ -18,17 +18,22 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class CompteController {
 
+    private String idUtilisateur;
+    private String idPersonne;
+
     private String login;
     private String passWord;
     private String nom;
     private String prenom;
     private String age;
     private String mail;
-        
+
     @EJB
     ProfilServiceLocal profilService;
 
     public CompteController() {
+        idUtilisateur = "";
+        idPersonne = "";
     }
 
 // Getters =====================================================================
@@ -55,10 +60,17 @@ public class CompteController {
     public String getMail() {
         return mail;
     }
-    
-    
 
+    public String getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public String getIdPersonne() {
+        return idPersonne;
+    }
+    
 // Setters =====================================================================
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -82,9 +94,15 @@ public class CompteController {
     public void setMail(String mail) {
         this.mail = mail;
     }
-    
-    
 
+     public void setIdUtilisateur(String idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
+    public void getIdPersonne(String idPersonne) {
+        this.idPersonne = idPersonne;
+    }
+    
 // Methodes ====================================================================
     public String connect() {
 
@@ -94,9 +112,9 @@ public class CompteController {
             return "connexion?faces-redirect=true";
         }
     }
-    
-    public String inscrire(){
-        
+
+    public String inscrire() {
+
         profilService.inscrire(login, passWord, nom, prenom, 10, mail);
         return "connexion?faces-redirect=true";
     }
