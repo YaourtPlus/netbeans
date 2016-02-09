@@ -8,7 +8,7 @@
     </h:head>
     <h:body>
         <h:form id="formInscription">
-            Login :  <h:inputText id="login" value="#{compteController.login}" required="false" >
+            Login :  <h:inputText id="login" value="#{compteController.login}" required="true" >
                 <f:validator validatorId="inscriptionValidator" />
                 <f:attribute name="passWord" value="#{passWord}" />
                 <f:attribute name="mail" value="#{mail}" />

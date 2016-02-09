@@ -46,26 +46,43 @@ public class InscriptionValidator implements Validator {
         String prenom = uiInputConfirmPrenom.getSubmittedValue()
                 .toString();
 
-        /*if(profilService.exists(login)){
+        
+        
+        
+        
+        if(!login.matches("[a-zA-Z0-9]+")){
             throw new ValidatorException(new FacesMessage(
-                "Le login est déjà pris"));
-        }*/
-        //TODO
-         if(mail.length() < 1){
-            throw new ValidatorException(new FacesMessage(
-                "Vous devez renseigner un mail"));
+                    "Le login ne doit être constitué que de lettres et de chiffres"));
         }
-         if(nom.length() < 1){
+        
+        if(profilService.exists(login)){
             throw new ValidatorException(new FacesMessage(
-                "Vous devez renseigner un nom"));
-        }if(prenom.length() < 1){
-            throw new ValidatorException(new FacesMessage(
-                "Vous devez renseigner un prénom"));
+                    "Le login existe déjà"));
         }
-         
         
+        if (passWord.length() < 3) {
+            throw new ValidatorException(new FacesMessage(
+                    "Le mot de passe doit faire au moins 4 caractères."));
+        }
+
+        if (mail.length() < 1) {
+            throw new ValidatorException(new FacesMessage(
+                    "Vous devez renseigner un mail"));
+        }
         
-        
+        if(!mail.matches(".+@.+[\\.].+")){
+            throw new ValidatorException(new FacesMessage(
+                    "mail non valide : doit matcher ****@****.**"));
+        }
+        if (nom.length() < 1) {
+            throw new ValidatorException(new FacesMessage(
+                    "Vous devez renseigner un nom"));
+        }
+        if (prenom.length() < 1) {
+            throw new ValidatorException(new FacesMessage(
+                    "Vous devez renseigner un prénom"));
+        }
+
     }
 
 }

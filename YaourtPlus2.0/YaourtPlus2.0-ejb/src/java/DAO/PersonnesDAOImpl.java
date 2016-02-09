@@ -190,8 +190,8 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Override
 
     public PersonnesEntity find(int id) {
-        Query q = em.createQuery("SELECT p FROM PersonnesEntity p where p.id = ?");
-        q.setParameter(1, id);
+        Query q = em.createQuery("SELECT p FROM PersonnesEntity p where p.id = :id");
+        q.setParameter("id", id);
         try {
             return (PersonnesEntity) q.getSingleResult();
         } catch (NoResultException e) {
@@ -215,16 +215,16 @@ public class PersonnesDAOImpl implements PersonnesDAO {
     @Override
     public List<PersonnesEntity> findFilous(int id) {
         Query q = em.createQuery("SELECT pl FROM PersonnesEntity P JOIN P.listFilous pl "
-                + "WHERE P.id = ?");
-        q.setParameter(1, id);
+                + "WHERE P.id = :id");
+        q.setParameter("id", id);
         return ((PersonnesEntity) q.getSingleResult()).getListFilous();
     }
 
     @Override
     public PersonnesEntity findByLogin(String login) {
         Query q = em.createQuery("SELECT p FROM PersonnesEntity p "
-                + "WHERE p.login = ?");
-        q.setParameter(1, login);
+                + "WHERE p.login = :login");
+        q.setParameter("login", login);
         PersonnesEntity p = null;
         if (q.getResultList().size() == 1) {
             p = (PersonnesEntity) q.getSingleResult();
