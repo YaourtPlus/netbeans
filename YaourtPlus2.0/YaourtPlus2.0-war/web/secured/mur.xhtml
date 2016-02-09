@@ -2,13 +2,115 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        Hello from mur
+        <ui:include src="/secured/navbar.xhtml"/> 
+        <div>
+            <ul class="list-unstyled">
+                <ui:repeat value="#{filousController.getFilous()}" var="filous" >
+                    <li> <h:outputText value="#{filous.nom} #{filous.prenom}"/></li>
+                </ui:repeat>
+            </ul>
+        </div>
+
+        <div>
+            <ui:repeat value="#{murController.getStatuts()}" var="statut" >
+                <ui:param name="idDestinataire" value="#{empty statut.destinataire ? statut.auteur.id : statut.destinataire.id}" />
+                <div class="statuts">
+                    <div class="row">
+                        <div class="pull-left statut-left">
+                            <h:outputText value="#{statut.auteur.prenom} #{statut.auteur.nom}"/>
+                        </div>
+
+                        <div class="pull-right statut-right">
+                            <h:outputText value="#{statut.date}"/>
+                        </div>
+
+                    </div>
+
+                    <div class="statuts-texte">
+                        <h:outputText value="#{statut.texte}"/>
+                    </div>
+                    <div class="vote">
+                        <ui:repeat value="#{statut.listeFichiers}" var="fichier">
+                            <a href="#{request.contextPath}/files/#{fichier.nom}"> #{fichier.contenu} </a>
+                        </ui:repeat>
+
+                        <!-- <c:choose>
+                                 <c:when test="{empty statut.destinataire}">
+                                         <c:set var="idDestinataire" value="{statut.auteur.id}"/>
+                                 </c:when>
+                                 <c:otherwise>
+                                         <c:set var="idDestinataire" value="(statut.destinataire.id}"/>
+                                 </c:otherwise>
+                         </c:choose>
+                        -->
+                        <div class="row">
+                            <ui:fragment rendered="#{statut.nbLeger > 1}">
+                                <h:outputText value="#{statut.nbLeger} legers"/>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{!(statut.nbLeger > 1)}">
+                                <h:outputText value="#{statut.nbLeger} leger"/>
+                            </ui:fragment>
+
+                            <ui:fragment rendered="#{statut.nbLourd > 1}">
+                                <h:outputText value="#{statut.nbLourd} lourd"/>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{!(statut.nbLourd > 1)}">
+                                <h:outputText value="#{statut.nbLourd} lourds"/>
+                            </ui:fragment>
+                        </div>
+                        <h:panelGroup layout="block" rendered="#{not empty statut.statutsActeurs}">
+                            <ui:repeat value="#{statut.statutsActeurs}" var="ps">
+                                <ui:param name="visible" value="#{ps.personne.id == compteController.idUtilisateur}" />
+
+                                <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 0 ? 'display : visible' : 'display : none'} ">
+                                    <h:link value="Léger!" outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                    <h:link value="T'es lourd!" outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 1 ? 'display : visible' : 'display : none'} ">
+                                    <h:link value="Vous avez allégé le statut." outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 2 ? 'display : visible' : 'display : none'} ">
+                                    <h:link value="Vous avez allourdi le statut." outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" style="#{!visible ? 'display : visible' : 'display : none'} ">
+                                    <h:link value="Léger!" outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                    <h:link value="T'es lourd!" outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                </h:panelGroup>
+                            </ui:repeat>
+                        </h:panelGroup>
+
+
+                    </div>
+                </div>
+            </ui:repeat>
+        </div>
+
     </h:body>
 </html>
 

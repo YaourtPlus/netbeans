@@ -18,14 +18,13 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class CompteController {
 
-    private String idPersonne;
-
     private String login;
     private String passWord;
     private String nom;
     private String prenom;
     private String age;
     private String mail;
+    
     private int idUtilisateur;
         
     @EJB
@@ -33,7 +32,6 @@ public class CompteController {
 
     public CompteController() {
         idUtilisateur = -1;
-        idPersonne = "";
     }
 
 // Getters =====================================================================
@@ -65,9 +63,6 @@ public class CompteController {
         return idUtilisateur;
     }
 
-    public String getIdPersonne() {
-        return idPersonne;
-    }
     
 // Setters =====================================================================
 
@@ -99,15 +94,11 @@ public class CompteController {
         this.idUtilisateur = idUtilisateur;
     }
 
-    public void getIdPersonne(String idPersonne) {
-        this.idPersonne = idPersonne;
-    }
-    
 // Methodes ====================================================================
     public String connect() {
-
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
+            
             return "secured/mur?faces-redirect=true&idUtilisateur="+idUtilisateur;
         } else {
             return "connexion?faces-redirect=true";

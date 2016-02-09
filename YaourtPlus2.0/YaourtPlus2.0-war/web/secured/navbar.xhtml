@@ -22,14 +22,14 @@
                 </li>
                 <li class="#{view.viewId == '/statuts.xhtml' ? 'active' : ''}">
                     <h:link value="Mon mur" outcome="/secured/mur">
-                        <f:param name="idPersonne" value="#{compteController.idPersonne}" />
+                        <f:param name="idPersonne" value="#{compteController.idUtilisateur}" />
                     </h:link>
                 </li>
                 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li> 
-                    <h:link value="Deconnexion" outcome="connexion"/>
+                    <h:link value="Deconnexion" outcome="/connexion"/>
                 </li>
             </ul> 
         </div>

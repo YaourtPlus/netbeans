@@ -5,6 +5,9 @@
  */
 package Controllers;
 
+import Entities.PersonnesEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -19,4 +22,14 @@ public class FilousController {
     
     public FilousController() {
     }
+    
+    public List<PersonnesEntity> getFilous(){
+        List<PersonnesEntity> list = new ArrayList();
+        for(int i = 0; i < 10; i++){
+            String iS = i + "";
+            list.add(new PersonnesEntity(iS, iS, i, iS, iS, iS));
+        }
+        return list;
+    }
+    
 }
