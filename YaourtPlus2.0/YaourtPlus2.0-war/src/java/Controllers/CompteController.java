@@ -7,8 +7,10 @@ package Controllers;
 
 import Services.ProfilServiceLocal;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -26,7 +28,7 @@ public class CompteController {
     private String mail;
     
     private int idUtilisateur;
-        
+
     @EJB
     ProfilServiceLocal profilService;
 
@@ -63,9 +65,7 @@ public class CompteController {
         return idUtilisateur;
     }
 
-    
 // Setters =====================================================================
-
     public void setLogin(String login) {
         this.login = login;
     }
@@ -90,7 +90,7 @@ public class CompteController {
         this.mail = mail;
     }
 
-     public void setIdUtilisateur(int idUtilisateur) {
+    public void setIdUtilisateur(int idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
 
@@ -98,7 +98,6 @@ public class CompteController {
     public String connect() {
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
-            
             return "secured/mur?faces-redirect=true&idUtilisateur="+idUtilisateur;
         } else {
             return "connexion?faces-redirect=true";
@@ -106,7 +105,6 @@ public class CompteController {
     }
 
     public String inscrire() {
-
         profilService.inscrire(login, passWord, nom, prenom, 10, mail);
         return "connexion?faces-redirect=true";
     }
