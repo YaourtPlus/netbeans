@@ -111,11 +111,15 @@ public class StatutsServiceImpl implements StatutsService {
 
         String statuts = "";
         List<StatutsEntity> list = personne.getStatutsEmis();
-        Collections.reverse(list);
+        //Collections.reverse(list);
+        /*
+                if(list.isEmpty()){
+            list = personne.getStatutsEmis();
+        }*/
         for (StatutsEntity s : list) {
             // On recherche dans les statuts émis, les statuts dont 
             // l'utilisateur est le destinataire
-            if (s.getDestinataire().equals(user)) {
+            if (s.getDestinataire().equals(personne)) {
                 statuts += statutToString(s, user, "statut");
             }
         }

@@ -1,6 +1,5 @@
 package Controllers;
 
-import DAO.FichiersEntity;
 import DAO.StatutsEntity;
 import Service.ConnexionService;
 import Service.FichierService;
@@ -8,7 +7,6 @@ import Service.MessageService;
 import Service.MurService;
 import Service.ProfilService;
 import Service.StatutsService;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -224,17 +222,13 @@ public class MurController {
             String nomPersonne = profilService.getPersonne(idUtilisateur).getNom();
 
             // Récupération des Filous de la personne
-            String listFilous = profilService.getFilous(idUtilisateur);
-
             // Récupération des statuts des Filous
             List<StatutsEntity> statut = statutsService.getStatuts(idUtilisateur);
-            
+
             String selectUserList = profilService.getSelectUserList(idUtilisateur);
 
             // Affichage des différentes données récupérées précédemment
-            if (listFilous != null) {
-                mv.addObject("listeAmi", listFilous);
-            }
+            mv.addObject("listFilous", profilService.getFilous(idUtilisateur));
             mv.addObject("nomPersonne", nomPersonne);
             mv.addObject("listStatuts", statut);
             mv.addObject("selectUserList", selectUserList);

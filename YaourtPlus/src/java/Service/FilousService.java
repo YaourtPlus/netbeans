@@ -5,13 +5,16 @@
  */
 package Service;
 
+import DAO.PersonnesEntity;
+import java.util.List;
+
 /**
  *
  * @author tbenoist
  */
 public interface FilousService {
 
-    public String getFilous(int idUtilisateur);
+    public List<PersonnesEntity> getFilous(int idUtilisateur);
 
     public boolean ajoutFilous(int idUtilisateur, int nouveauFilous);
 
