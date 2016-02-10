@@ -121,10 +121,7 @@
 
                                                         </c:choose>
                                                     </c:when>
-                                                    <c:otherwise>
-                                                        <a href='${pageContext.request.contextPath}/path/leger.htm?id=${statut.id}&idPersonne=${idDestinataire}'> Léger! </a>
-                                                        <a href='${pageContext.request.contextPath}/path/lourd.htm?id=${statut.id}&idPersonne=${idDestinataire}'> T'es lourd!</a> 
-                                                    </c:otherwise>
+                                                   
                                                 </c:choose>
                                             </c:forEach>
                                         </c:when>

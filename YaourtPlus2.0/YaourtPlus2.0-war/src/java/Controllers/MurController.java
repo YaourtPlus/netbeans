@@ -4,11 +4,17 @@ import Entities.CommentairesEntity;
 import Entities.PersonnesEntity;
 import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
+import Services.FichierServiceLocal;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,20 +29,53 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class MurController {
 
-    private int idPersonne;
+    private int idUtilisateur;
+    private Part part;
+    private String statut;
+    private String pathFichier;
+
+    @EJB
+    FichierServiceLocal fichierService;
 
     public MurController() {
-        idPersonne = -1;
+        idUtilisateur = -1;
     }
 
-    public int getIdPersonne() {
-        return idPersonne;
+    public int getIdUtilisateur() {
+        return idUtilisateur;
     }
 
-    public void setIdPersonne(int idPersonne) {
-        this.idPersonne = idPersonne;
+    public void setIdUtilisateur(int idPersonne) {
+        this.idUtilisateur = idPersonne;
     }
 
+    public Part getPart() {
+        return part;
+    }
+
+    public void setPart(Part part) {
+        this.part = part;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public String getPathFichier() {
+        return pathFichier;
+    }
+
+    public void setPathFichier(String pathFichier) {
+        this.pathFichier = pathFichier;
+    }
+
+    
+    
+    
     public List<StatutsEntity> getStatuts() {
         List<StatutsEntity> list = new ArrayList();
         for (int i = 0; i < 10; i++) {
@@ -62,5 +101,20 @@ public class MurController {
 
     public String goToMur(int idUtilisateur) {
         return "/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+    }
+    
+    public String goToConnexion() {
+        return "../connexion?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+    }
+    
+    
+
+    public String ajoutFichier() {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        File f = new File(servletContext.getRealPath("/")+"/files");
+        f.mkdir();
+        pathFichier = servletContext.getRealPath("/files")+" - ";
+        pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), this.idUtilisateur);
+        return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
 }

@@ -9,6 +9,7 @@ import Services.ProfilServiceLocal;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
@@ -26,11 +27,14 @@ public class CompteController {
     private String prenom;
     private String age;
     private String mail;
-    
+
     private int idUtilisateur;
 
     @EJB
     ProfilServiceLocal profilService;
+
+    @ManagedProperty(value = "#{murController}")
+    private MurController murController;
 
     public CompteController() {
         idUtilisateur = -1;
@@ -65,6 +69,12 @@ public class CompteController {
         return idUtilisateur;
     }
 
+    public MurController getMurController() {
+        return murController;
+    }
+    
+    
+
 // Setters =====================================================================
     public void setLogin(String login) {
         this.login = login;
@@ -94,11 +104,18 @@ public class CompteController {
         this.idUtilisateur = idUtilisateur;
     }
 
+    public void setMurController(MurController murController) {
+        this.murController = murController;
+    }
+    
+    
+
 // Methodes ====================================================================
     public String connect() {
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
-            return "secured/mur?faces-redirect=true&idUtilisateur="+idUtilisateur;
+            murController.setIdUtilisateur(idUtilisateur);
+            return "secured/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
         } else {
             return "connexion?faces-redirect=true";
         }
