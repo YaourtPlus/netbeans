@@ -9,7 +9,6 @@
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        <ui:include src="/secured/navbar.xhtml" />
         <h:form id="formConnexion">
             Login : <h:inputText id="nom" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login">
                 <f:validator validatorId="loginValidator" />
