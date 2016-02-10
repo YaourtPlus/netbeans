@@ -16,5 +16,5 @@ import javax.ejb.Local;
 @Local
 public interface FilousServiceLocal {
     public List<PersonnesEntity> getFilous(int idUtilisateur);
-    public List<PersonnesEntity> getFilousPossible(int idUtilisateur);
+    public List<PersonnesEntity> getFilousPossibles(int idUtilisateur);
 }
