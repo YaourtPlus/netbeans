@@ -36,7 +36,7 @@ public class MurController {
 
     @EJB
     FichierServiceLocal fichierService;
-
+    
     public MurController() {
         idUtilisateur = -1;
     }
@@ -72,8 +72,6 @@ public class MurController {
     public void setPathFichier(String pathFichier) {
         this.pathFichier = pathFichier;
     }
-
-    
     
     
     public List<StatutsEntity> getStatuts() {

@@ -270,6 +270,19 @@ public class StatutsEntity implements Serializable {
         return statutsActeurs.remove(ps);
     }
     
+    /**
+     * 
+     * @param idPersonne l'id de la personne à trouver
+     * @return true si la personne a intéragit avec le statut, false sinon
+     */
+    public boolean isActeur (int idPersonne){
+        for(PersonnesStatutsEntity ps : statutsActeurs){
+            if(ps.getPersonne().getId().equals(idPersonne)){
+                return true;
+            }
+        }
+        return false;
+    }
 // Gestion Fichiers sur le statut ==============================================
     
     public boolean addFichierStatuts(FichiersEntity fe) {
