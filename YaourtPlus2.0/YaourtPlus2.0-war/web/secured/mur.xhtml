@@ -11,102 +11,125 @@
     </h:head>
     <h:body>
         <ui:include src="/secured/navbar.xhtml"/> 
-        
-        [#{murController.pathFichier}]
-        <div>
-            <ul class="list-unstyled">
-                <ui:repeat value="#{filousController.getFilous()}" var="filous" >
-                    <li> <h:outputText value="#{filous.nom} #{filous.prenom}"/></li>
-                </ui:repeat>
-            </ul>
-        </div>
-
-        <div>
-            <h:form id="formStatut" enctype="multipart/form-data">
-                <h:inputText id="statut" value="#{murController.statut}" required="false" requiredMessage="Veuillez entrer un statut">
-                </h:inputText>
-                <h:inputFile value="#{murController.part}"/>
-                <h:commandButton value="OK" action="#{murController.ajoutFichier()}" />
-            </h:form>
-
-            <ui:repeat value="#{murController.getStatuts()}" var="statut" >
-                <ui:param name="idDestinataire" value="#{empty statut.destinataire ? statut.auteur.id : statut.destinataire.id}" />
-                <div class="statuts">
-                    <div class="row">
-                        <div class="pull-left statut-left">
-                            <h:outputText value="#{statut.auteur.prenom} #{statut.auteur.nom}"/>
-                        </div>
-
-                        <div class="pull-right statut-right">
-                            <h:outputText value="#{statut.date}"/>
-                        </div>
-
-                    </div>
-
-                    <div class="statuts-texte">
-                        <h:outputText value="#{statut.texte}"/>
-                    </div>
-                    <div class="vote">
-                        <ui:repeat value="#{statut.listeFichiers}" var="fichier">
-                            <a href="#{request.contextPath}/files/#{fichier.nom}"> #{fichier.contenu} </a>
+        <h:panelGroup layout="block" class="container-fluid">
+            <h:panelGroup layout="block" class="row" >
+                <h:panelGroup layout="block" class="col-lg-2" style="#{not empty filousController.getFilous(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
+                    <ul class="list-unstyled">
+                        <ui:repeat value="#{filousController.getFilous(murController.idUtilisateur)}" var="filous" >
+                            <li> <h:outputText value="#{filous.nom} #{filous.prenom}"/>
+                                <h:form id="formRemoveFilous">
+                                    <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filou.id, murController.idUtilisateur)}" />
+                                </h:form>
+                            </li>
                         </ui:repeat>
+                    </ul>
+                </h:panelGroup> <!-- Fin Liste filous -->
+            </h:panelGroup> <!-- Fin row -->
+        </h:panelGroup> <!-- Fin div fluid -->
 
-                        <!-- <c:choose>
-                                 <c:when test="{empty statut.destinataire}">
-                                         <c:set var="idDestinataire" value="{statut.auteur.id}"/>
-                                 </c:when>
-                                 <c:otherwise>
-                                         <c:set var="idDestinataire" value="(statut.destinataire.id}"/>
-                                 </c:otherwise>
-                         </c:choose>
-                        -->
+        <div>               
+            <h:panelGroup layout="block" class="post col-lg-6">
+                <h:form id="formStatut" enctype="multipart/form-data">
+                    <h:inputTextarea rows="5" cols="150" id="statut" value="#{murController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                    <h:inputFile value="#{murController.part}"/>
+                    <h:commandButton value="Publier" action="#{murController.ajoutFichier()}" />
+                </h:form>
+            </h:panelGroup>
+
+
+
+            <div>
+                <ui:repeat value="#{murController.getStatuts()}" var="statut" >
+                    <ui:param name="idDestinataire" value="#{empty statut.destinataire ? statut.auteur.id : statut.destinataire.id}" />
+                    <div class="statuts">
                         <div class="row">
-                            <ui:fragment rendered="#{statut.nbLeger > 1}">
-                                <h:outputText value="#{statut.nbLeger} legers"/>
-                            </ui:fragment>
-                            <ui:fragment rendered="#{!(statut.nbLeger > 1)}">
-                                <h:outputText value="#{statut.nbLeger} leger"/>
-                            </ui:fragment>
+                            <div class="pull-left statut-left">
+                                <h:outputText value="#{statut.auteur.prenom} #{statut.auteur.nom}"/>
+                            </div>
 
-                            <ui:fragment rendered="#{statut.nbLourd > 1}">
-                                <h:outputText value="#{statut.nbLourd} lourd"/>
-                            </ui:fragment>
-                            <ui:fragment rendered="#{!(statut.nbLourd > 1)}">
-                                <h:outputText value="#{statut.nbLourd} lourds"/>
-                            </ui:fragment>
+                            <div class="pull-right statut-right">
+                                <h:outputText value="#{statut.date}"/>
+                            </div>
+
                         </div>
-                        <h:panelGroup layout="block" style="#{not empty statut.statutsActeurs ? 'display : visible' : 'display : none'}">
-                            <h:panelGroup layout="block" style="#{statut.isActeur(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
-                               
-                                <ui:param name="visible" value="#{ps.personne.id == murController.idUtilisateur}" />    
-                                <ui:repeat value="#{statut.statutsActeurs}" var="ps">
-                                    <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 0 ? 'display : visible' : 'display : none'} ">
-                                        <h:link value="Léger!" outcome="mur">
-                                            <f:param name="id" value="#{statut.id}" />
-                                            <f:param name="idPersonne" value="#{idDestinataire}" />
-                                        </h:link>
-                                        <h:link value="T'es lourd!" outcome="mur">
-                                            <f:param name="id" value="#{statut.id}" />
-                                            <f:param name="idPersonne" value="#{idDestinataire}" />
-                                        </h:link>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 1 ? 'display : visible' : 'display : none'} ">
-                                        <h:link value="Vous avez allégé le statut." outcome="mur">
-                                            <f:param name="id" value="#{statut.id}" />
-                                            <f:param name="idPersonne" value="#{idDestinataire}" />
-                                        </h:link>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 2 ? 'display : visible' : 'display : none'} ">
-                                        <h:link value="Vous avez allourdi le statut." outcome="mur">
-                                            <f:param name="id" value="#{statut.id}" />
-                                            <f:param name="idPersonne" value="#{idDestinataire}" />
-                                        </h:link>
-                                    </h:panelGroup>
-                                </ui:repeat>
-                                
+
+                        <div class="statuts-texte">
+                            <h:outputText value="#{statut.texte}"/>
+                        </div>
+                        <div class="vote">
+                            <ui:repeat value="#{statut.listeFichiers}" var="fichier">
+                                <a href="#{request.contextPath}/files/#{fichier.nom}"> #{fichier.contenu} </a>
+                            </ui:repeat>
+
+                            <!-- <c:choose>
+                                     <c:when test="{empty statut.destinataire}">
+                                             <c:set var="idDestinataire" value="{statut.auteur.id}"/>
+                                     </c:when>
+                                     <c:otherwise>
+                                             <c:set var="idDestinataire" value="(statut.destinataire.id}"/>
+                                     </c:otherwise>
+                             </c:choose>
+                            -->
+                            <div class="row">
+                                <ui:fragment rendered="#{statut.nbLeger > 1}">
+                                    <h:outputText value="#{statut.nbLeger} legers"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{!(statut.nbLeger > 1)}">
+                                    <h:outputText value="#{statut.nbLeger} leger"/>
+                                </ui:fragment>
+
+                                <ui:fragment rendered="#{statut.nbLourd > 1}">
+                                    <h:outputText value="#{statut.nbLourd} lourd"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{!(statut.nbLourd > 1)}">
+                                    <h:outputText value="#{statut.nbLourd} lourds"/>
+                                </ui:fragment>
+                            </div>
+                            <h:panelGroup layout="block" style="#{not empty statut.statutsActeurs ? 'display : visible' : 'display : none'}">
+                                <h:panelGroup layout="block" style="#{statut.isActeur(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
+
+                                    <ui:param name="visible" value="#{ps.personne.id == murController.idUtilisateur}" />    
+                                    <ui:repeat value="#{statut.statutsActeurs}" var="ps">
+                                        <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 0 ? 'display : visible' : 'display : none'} ">
+                                            <h:link value="Léger!" outcome="mur">
+                                                <f:param name="id" value="#{statut.id}" />
+                                                <f:param name="idPersonne" value="#{idDestinataire}" />
+                                            </h:link>
+                                            <h:link value="T'es lourd!" outcome="mur">
+                                                <f:param name="id" value="#{statut.id}" />
+                                                <f:param name="idPersonne" value="#{idDestinataire}" />
+                                            </h:link>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 1 ? 'display : visible' : 'display : none'} ">
+                                            <h:link value="Vous avez allégé le statut." outcome="mur">
+                                                <f:param name="id" value="#{statut.id}" />
+                                                <f:param name="idPersonne" value="#{idDestinataire}" />
+                                            </h:link>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 2 ? 'display : visible' : 'display : none'} ">
+                                            <h:link value="Vous avez allourdi le statut." outcome="mur">
+                                                <f:param name="id" value="#{statut.id}" />
+                                                <f:param name="idPersonne" value="#{idDestinataire}" />
+                                            </h:link>
+                                        </h:panelGroup>
+                                    </ui:repeat>
+
+                                </h:panelGroup>
+
+                                <h:panelGroup layout="block" style="#{!statut.isActeur(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
+                                    <h:link value="Léger!" outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                    <h:link value="T'es lourd!" outcome="mur">
+                                        <f:param name="id" value="#{statut.id}" />
+                                        <f:param name="idPersonne" value="#{idDestinataire}" />
+                                    </h:link>
+                                </h:panelGroup>
+
                             </h:panelGroup>
-                            
-                            <h:panelGroup layout="block" style="#{!statut.isActeur(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
+
+                            <h:panelGroup layout="block" style="#{empty statut.statutsActeurs ? 'display : visible' : 'display : none'} ">
                                 <h:link value="Léger!" outcome="mur">
                                     <f:param name="id" value="#{statut.id}" />
                                     <f:param name="idPersonne" value="#{idDestinataire}" />
@@ -117,36 +140,23 @@
                                 </h:link>
                             </h:panelGroup>
 
-                        </h:panelGroup>
+                            <ui:repeat value="#{statut.commentaires}" var="commentaire" >
+                                <h:panelGroup layout="block" class="commentaires">
+                                    <h:outputText value="#{commentaire.auteur.prenom} #{commentaire.auteur.nom}"/>
+                                    <h:panelGroup layout="block" class="commentaire-texte">
+                                        <h:outputText value="#{commentaire.texte}"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" >
+                                        <h:outputText value="#{commentaire.date}"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </ui:repeat>
 
-                        <h:panelGroup layout="block" style="#{empty statut.statutsActeurs ? 'display : visible' : 'display : none'} ">
-                            <h:link value="Léger!" outcome="mur">
-                                <f:param name="id" value="#{statut.id}" />
-                                <f:param name="idPersonne" value="#{idDestinataire}" />
-                            </h:link>
-                            <h:link value="T'es lourd!" outcome="mur">
-                                <f:param name="id" value="#{statut.id}" />
-                                <f:param name="idPersonne" value="#{idDestinataire}" />
-                            </h:link>
-                        </h:panelGroup>
-                        
-                        <ui:repeat value="#{statut.commentaires}" var="commentaire" >
-                            <h:panelGroup layout="block" class="commentaires">
-                                <h:outputText value="#{commentaire.auteur.prenom} #{commentaire.auteur.nom}"/>
-                                <h:panelGroup layout="block" class="commentaire-texte">
-                                    <h:outputText value="#{commentaire.texte}"/>
-                                </h:panelGroup>
-                                <h:panelGroup layout="block" >
-                                    <h:outputText value="#{commentaire.date}"/>
-                                </h:panelGroup>
-                            </h:panelGroup>
-                        </ui:repeat>
-                       
+                        </div>
                     </div>
-                </div>
-            </ui:repeat>
+                </ui:repeat>
+            </div>
         </div>
-
     </h:body>
 </html>
 

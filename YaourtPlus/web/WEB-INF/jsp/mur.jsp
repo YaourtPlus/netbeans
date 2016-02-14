@@ -175,7 +175,7 @@
                         </div>
                     </div>
                 </c:if>
-            </div>
-        </div>
+            </div> <!-- Fin div row -->
+        </div> <!-- Fin div fluid -->
     </body>
 </html>

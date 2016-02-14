@@ -6,9 +6,12 @@
 package Controllers;
 
 import Entities.PersonnesEntity;
+import Services.FilousServiceLocal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 /**
@@ -19,17 +22,47 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class FilousController {
 
+    private boolean ajoutFilous;
+    
+    @EJB
+    FilousServiceLocal filouService;
     
     public FilousController() {
+        ajoutFilous = false;
     }
     
-    public List<PersonnesEntity> getFilous(){
-        List<PersonnesEntity> list = new ArrayList();
-        for(int i = 0; i < 10; i++){
-            String iS = i + "";
-            list.add(new PersonnesEntity(iS, iS, i, iS, iS, iS));
-        }
+    public boolean getAjoutFilous(){
+        return ajoutFilous;
+    }
+    
+    public void setAjoutFilous(boolean ajout){
+        ajoutFilous = ajout;
+    }
+    
+    // TO FIX => Access murController directly
+    public List<PersonnesEntity> getFilous(int idUtilisateur){
+        
+        List<PersonnesEntity> list = filouService.getFilous(idUtilisateur);
+
         return list;
     }
     
+    public List<PersonnesEntity> getFilousAjout(int idUtilisateur){
+        
+        List<PersonnesEntity> list = filouService.getFilousPossibles(idUtilisateur);
+
+        return list;
+    }
+    
+    public String ajoutFilou(int idFilous, int idUtilisateur){
+        
+        ajoutFilous =  filouService.ajoutFilous(idFilous, idUtilisateur);
+        return "/secured/filous?faces-redirect=true";
+    }
+    
+    public String suppressionFilou(int idFilous, int idUtilisateur){
+        
+        filouService.suppressionFilous(idFilous, idUtilisateur);
+        return "/secured/mur?faces-redirect=true";
+    }
 }

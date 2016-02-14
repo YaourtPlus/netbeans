@@ -26,4 +26,16 @@ public class PersonnesService implements PersonnesServiceLocal {
         return personneDAO.findAll();
     }
 
+    @Override
+    public PersonnesEntity getPersonne(int idPersonne) {
+        return personneDAO.find(idPersonne);
+    }
+
+    @Override
+    public List<PersonnesEntity> findFilous(int idUtilisateur) {
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        
+        return user.getListFilous();
+    }
+
 }

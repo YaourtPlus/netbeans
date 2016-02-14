@@ -16,4 +16,9 @@ import javax.ejb.Local;
 @Local
 public interface PersonnesServiceLocal {
     public List<PersonnesEntity> getPersonnes();
+    
+    public PersonnesEntity getPersonne(int idPersonne);
+
+    public List<PersonnesEntity> findFilous(int idUtilisateur);
+
 }

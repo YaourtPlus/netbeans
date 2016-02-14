@@ -21,28 +21,53 @@ public class FilousService implements FilousServiceLocal {
 
     @EJB
     PersonnesDAO personneDAO;
-    
+
     @EJB
     PersonnesServiceLocal personneService;
-    
+
+    @EJB
+    FilousServiceLocal filouService;
+
     @Override
     public List<PersonnesEntity> getFilous(int idUtilisateur) {
-        List<PersonnesEntity> filous = personneDAO.findFilous(idUtilisateur);
-        return filous;        
+        PersonnesEntity user = personneService.getPersonne(idUtilisateur);
+        
+        List<PersonnesEntity> list = new ArrayList();
+        list.addAll(user.getListFilous());
+        return list;
     }
 
     @Override
     public List<PersonnesEntity> getFilousPossibles(int idUtilisateur) {
-        List<PersonnesEntity> filous = getFilous(idUtilisateur);
-        List<PersonnesEntity> gens = personneService.getPersonnes();
-        List<PersonnesEntity> filousPossibles = new ArrayList<>();
         
-        for(PersonnesEntity g : gens){
-            if(!filous.contains(g)){
-                filousPossibles.add(g);
-            }
-        }
-        return filousPossibles;
+        PersonnesEntity user = personneService.getPersonne(idUtilisateur);
+        
+        // Récupération de toutes les personnes du site
+        List<PersonnesEntity> gens = personneService.getPersonnes();
+        
+        List<PersonnesEntity> filous = new ArrayList();
+        filous.addAll(gens);
+        // Suppression des filous qu'on ne peut pas ajouter
+        filous.remove(user);
+        filous.removeAll(user.getListFilous());
+        
+        return filous;
+    }
+
+    @Override
+    public boolean ajoutFilous(int idFilous, int idUtilisateur) {
+        PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
+        PersonnesEntity filous = personneService.getPersonne(idFilous);
+
+        return personneDAO.ajoutFilous(utilisateur, filous);
+    }
+
+    @Override
+    public void suppressionFilous(int idFilous, int idUtilisateur) {
+        PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
+        PersonnesEntity filous = personneService.getPersonne(idFilous);
+
+        personneDAO.suppressionFilous(utilisateur, filous);
     }
 
 }

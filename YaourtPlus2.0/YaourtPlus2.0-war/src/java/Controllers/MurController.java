@@ -5,6 +5,7 @@ import Entities.PersonnesEntity;
 import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
 import Services.FichierServiceLocal;
+import Services.FilousServiceLocal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,47 +37,53 @@ public class MurController {
 
     @EJB
     FichierServiceLocal fichierService;
-    
+
+    @EJB
+    FilousServiceLocal filouService;
+
     public MurController() {
         idUtilisateur = -1;
     }
 
+// Getters =====================================================================
     public int getIdUtilisateur() {
         return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(int idPersonne) {
-        this.idUtilisateur = idPersonne;
     }
 
     public Part getPart() {
         return part;
     }
 
-    public void setPart(Part part) {
-        this.part = part;
-    }
-
     public String getStatut() {
         return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
     }
 
     public String getPathFichier() {
         return pathFichier;
     }
 
+// Setters =====================================================================
+    public void setIdUtilisateur(int idPersonne) {
+        this.idUtilisateur = idPersonne;
+    }
+
+    public void setPart(Part part) {
+        this.part = part;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
     public void setPathFichier(String pathFichier) {
         this.pathFichier = pathFichier;
     }
+
     
-    
+// Methods =====================================================================
     public List<StatutsEntity> getStatuts() {
         List<StatutsEntity> list = new ArrayList();
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             String iS = i + "";
             StatutsEntity s = new StatutsEntity("Statut" + i, new Date());
             s.addCommentaire(new CommentairesEntity("commentaire" + i, new Date()));
@@ -93,25 +100,23 @@ public class MurController {
             s.addPersonnesStatuts(new PersonnesStatutsEntity(p1, s, 1, false, true));
             s.setAuteur(p);
             list.add(s);
-        }
+        }*/
         return list;
     }
 
     public String goToMur(int idUtilisateur) {
         return "/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
-    
+
     public String goToConnexion() {
         return "../connexion?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
-    
-    
 
     public String ajoutFichier() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        File f = new File(servletContext.getRealPath("/")+"/files");
+        File f = new File(servletContext.getRealPath("/") + "/files");
         f.mkdir();
-        pathFichier = servletContext.getRealPath("/files")+" - ";
+        pathFichier = servletContext.getRealPath("/files") + " - ";
         pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), this.idUtilisateur);
         return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }

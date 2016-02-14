@@ -188,7 +188,6 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 // Lecture =====================================================================
 
     @Override
-
     public PersonnesEntity find(int id) {
         Query q = em.createQuery("SELECT p FROM PersonnesEntity p where p.id = :id");
         q.setParameter("id", id);
