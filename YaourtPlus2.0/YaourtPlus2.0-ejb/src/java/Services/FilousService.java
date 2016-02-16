@@ -63,11 +63,11 @@ public class FilousService implements FilousServiceLocal {
     }
 
     @Override
-    public void suppressionFilous(int idFilous, int idUtilisateur) {
+    public boolean suppressionFilous(int idFilous, int idUtilisateur) {
         PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
         PersonnesEntity filous = personneService.getPersonne(idFilous);
 
-        personneDAO.suppressionFilous(utilisateur, filous);
+        return personneDAO.suppressionFilous(utilisateur, filous);
     }
 
 }

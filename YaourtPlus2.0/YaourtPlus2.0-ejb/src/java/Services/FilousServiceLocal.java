@@ -22,5 +22,5 @@ public interface FilousServiceLocal {
 
     public boolean ajoutFilous(int idFilous, int idUtilisateur);
 
-    public void suppressionFilous(int idFilous, int idUtilisateur);
+    public boolean suppressionFilous(int idFilous, int idUtilisateur);
 }

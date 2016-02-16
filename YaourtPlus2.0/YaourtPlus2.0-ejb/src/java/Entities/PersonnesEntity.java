@@ -382,8 +382,8 @@ public class PersonnesEntity implements Serializable {
      * dans la liste)
      */
     public boolean suppressionFilous(PersonnesEntity filous) {
-        if (listFilous.contains(filous)) { // ,p, existence
-            listFilous.remove((PersonnesEntity) filous);
+        if (listFilous.contains(filous)) { // non existence
+            listFilous.remove(filous);
             return true;
         } else {
             return false;
@@ -398,7 +398,7 @@ public class PersonnesEntity implements Serializable {
      */
     public boolean suppressionFilousDe(PersonnesEntity filous) {
         if (listFilousDe.contains(filous)) { // non existence
-            listFilousDe.remove((PersonnesEntity) filous);
+            listFilousDe.remove(filous);
             return true;
         } else {
             return false;
@@ -559,11 +559,19 @@ public class PersonnesEntity implements Serializable {
         return s;
     }
 
+    public String afficheAmiDe() {
+        String s = "";
+        for (PersonnesEntity p : listFilousDe) {
+            s += "{" + p.getNom() + " " + p.getPrenom() + "}";
+        }
+        return s;
+    }
+    
     @Override
     public String toString() {
         return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom="
                 + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc
-                + " " + afficheAmi() + '}';
+                + " [" + afficheAmi() + "][" + afficheAmiDe() + "]}";
     }
 
 }

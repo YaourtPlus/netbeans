@@ -23,46 +23,49 @@ import javax.faces.bean.RequestScoped;
 public class FilousController {
 
     private boolean ajoutFilous;
-    
+
     @EJB
     FilousServiceLocal filouService;
-    
+
     public FilousController() {
         ajoutFilous = false;
     }
-    
-    public boolean getAjoutFilous(){
+
+    public boolean getAjoutFilous() {
         return ajoutFilous;
     }
-    
-    public void setAjoutFilous(boolean ajout){
+
+    public void setAjoutFilous(boolean ajout) {
         ajoutFilous = ajout;
     }
-    
+
     // TO FIX => Access murController directly
-    public List<PersonnesEntity> getFilous(int idUtilisateur){
-        
+    public List<PersonnesEntity> getFilous(int idUtilisateur) {
+
         List<PersonnesEntity> list = filouService.getFilous(idUtilisateur);
 
         return list;
     }
-    
-    public List<PersonnesEntity> getFilousAjout(int idUtilisateur){
-        
+
+    public List<PersonnesEntity> getFilousAjout(int idUtilisateur) {
+
         List<PersonnesEntity> list = filouService.getFilousPossibles(idUtilisateur);
 
         return list;
     }
-    
-    public String ajoutFilou(int idFilous, int idUtilisateur){
-        
-        ajoutFilous =  filouService.ajoutFilous(idFilous, idUtilisateur);
+
+    public String ajoutFilou(int idFilous, int idUtilisateur) {
+
+        ajoutFilous = filouService.ajoutFilous(idFilous, idUtilisateur);
         return "/secured/filous?faces-redirect=true";
     }
-    
-    public String suppressionFilou(int idFilous, int idUtilisateur){
-        
-        filouService.suppressionFilous(idFilous, idUtilisateur);
-        return "/secured/mur?faces-redirect=true";
+
+    public String suppressionFilou(int idFilous, int idUtilisateur) {
+
+        if (filouService.suppressionFilous(idFilous, idUtilisateur)) {
+            return "/secured/mur?faces-redirect=true";
+        } else {
+            return "/secured/filous?faces-redirect=true";
+        }
     }
 }

@@ -16,6 +16,7 @@
                 <h:panelGroup layout="block" class="col-lg-2" style="#{not empty filousController.getFilous(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
                     <ul class="list-unstyled">
                         <ui:repeat value="#{filousController.getFilous(murController.idUtilisateur)}" var="filous" >
+                            #{filous}
                             <li> <h:outputText value="#{filous.nom} #{filous.prenom}"/>
                                 <h:form id="formRemoveFilous">
                                     <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filou.id, murController.idUtilisateur)}" />
