@@ -32,6 +32,9 @@ public class FilousService implements FilousServiceLocal {
     public List<PersonnesEntity> getFilous(int idUtilisateur) {
         PersonnesEntity user = personneService.getPersonne(idUtilisateur);
         
+        /*
+            return user.getListFilous();
+        */
         List<PersonnesEntity> list = new ArrayList();
         list.addAll(user.getListFilous());
         return list;
@@ -45,6 +48,11 @@ public class FilousService implements FilousServiceLocal {
         // Récupération de toutes les personnes du site
         List<PersonnesEntity> gens = personneService.getPersonnes();
         
+        /*
+            gens.remove(user);
+            gens.removeAll(user.getListFilous());
+            return gens;
+        */
         List<PersonnesEntity> filous = new ArrayList();
         filous.addAll(gens);
         // Suppression des filous qu'on ne peut pas ajouter
@@ -64,10 +72,17 @@ public class FilousService implements FilousServiceLocal {
 
     @Override
     public boolean suppressionFilous(int idFilous, int idUtilisateur) {
-        PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
-        PersonnesEntity filous = personneService.getPersonne(idFilous);
+        if(idFilous != 2){
+            return false;
+        }
+        else{
+            PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
+            PersonnesEntity filous = personneService.getPersonne(idFilous);
 
-        return personneDAO.suppressionFilous(utilisateur, filous);
+    
+            personneDAO.suppressionFilous(utilisateur, filous);
+            return true;
+        }
     }
 
 }
