@@ -22,21 +22,21 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class FilousController {
 
-    private boolean ajoutFilous;
+    private boolean added;
 
     @EJB
     FilousServiceLocal filouService;
 
     public FilousController() {
-        ajoutFilous = false;
+        added = false;
     }
 
-    public boolean getAjoutFilous() {
-        return ajoutFilous;
+    public boolean getAdded() {
+        return added;
     }
 
-    public void setAjoutFilous(boolean ajout) {
-        ajoutFilous = ajout;
+    public void setAdded(boolean added) {
+        this.added = added;
     }
 
     // TO FIX => Access murController directly
@@ -56,7 +56,7 @@ public class FilousController {
 
     public String ajoutFilou(int idFilous, int idUtilisateur) {
 
-        ajoutFilous = filouService.ajoutFilous(idFilous, idUtilisateur);
+        added = filouService.ajoutFilous(idFilous, idUtilisateur);
         return "/secured/filous?faces-redirect=true";
     }
 

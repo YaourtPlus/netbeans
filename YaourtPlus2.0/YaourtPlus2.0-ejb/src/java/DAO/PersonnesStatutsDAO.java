@@ -11,7 +11,6 @@ import Entities.StatutsEntity;
 import Enumerations.TypeActions;
 import java.util.List;
 import javax.ejb.Local;
-import javax.ejb.Stateless;
 
 /**
  *

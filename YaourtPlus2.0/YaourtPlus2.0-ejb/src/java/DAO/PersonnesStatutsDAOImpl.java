@@ -10,8 +10,8 @@ import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
 import Enumerations.TypeActions;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -25,7 +25,7 @@ import javax.persistence.Query;
 @Stateless
 public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
 
-    @Resource
+    @EJB
     StatutsDAO statutDAO;
 
     // Communication avec la BD
@@ -133,9 +133,9 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
 // Lecture =====================================================================
     @Override
     public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s) {
-        Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = ? AND ps.statut.id = ?");
-        q.setParameter(1, p.getId());
-        q.setParameter(2, s.getId());
+        Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = :pID AND ps.statut.id = :sID");
+        q.setParameter("pID", p.getId());
+        q.setParameter("sID", s.getId());
         try{
            return (PersonnesStatutsEntity) q.getSingleResult();
         }
@@ -152,9 +152,9 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
 
     @Override
     public boolean exist(PersonnesEntity p, StatutsEntity s) {
-        Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = ? AND ps.statut.id = ?");
-        q.setParameter(1, p.getId());
-        q.setParameter(2, s.getId());
+        Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = :pID AND ps.statut.id = :sID");
+        q.setParameter("pID", p.getId());
+        q.setParameter("sID", s.getId());
         return q.getSingleResult() != null;
     }
 

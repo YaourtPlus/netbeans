@@ -31,6 +31,11 @@ public class PersonnesService implements PersonnesServiceLocal {
         return personneDAO.find(idPersonne);
     }
 
+    /**
+     * Dans PersonnesService ou dans FilousService?
+     * @param idUtilisateur
+     * @return 
+     */
     @Override
     public List<PersonnesEntity> findFilous(int idUtilisateur) {
         PersonnesEntity user = personneDAO.find(idUtilisateur);

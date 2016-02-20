@@ -9,8 +9,12 @@
     </h:head>
     <h:body>
         <ui:include src="/secured/navbar.xhtml"/> 
-
-        <h:panelGroup layout="block" class="validMsg" rendered="#{filousController.ajoutFilous}" />
+        <!-- Not fixed yet -->
+        <h:panelGroup layout="block" class="validMsg" rendered="#{filousController.added}">
+            <h:outputText value="Filous ajouté"/>
+        </h:panelGroup>
+        <!-- -->
+        
         <ui:repeat value="#{filousController.getFilousAjout(murController.idUtilisateur)}" var="filou" >
             <h:panelGroup layout="block" class="container">
                 <h:panelGroup layout="block" class="row">

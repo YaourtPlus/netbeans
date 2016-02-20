@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Facelet Title</title>
         <ui:include src="/css.xhtml" />
@@ -15,11 +16,11 @@
         <h:panelGroup layout="block" class="container-fluid">
             <!-- Div Filous/Statuts/Messages -->
             <h:panelGroup layout="block" class="row" >
+                <ui:param name="listFilous" value="#{filousController.getFilous(murController.idUtilisateur)}" />
                 <!-- Liste Filous -->
-                <h:panelGroup layout="block" class="col-lg-2" style="#{not empty filousController.getFilous(murController.idUtilisateur) ? 'display : visible' : 'display : none'}"> 
+                <h:panelGroup layout="block" class="col-lg-2" style="#{not empty  listFilous ? 'display : visible' : 'display : none'}"> 
                     <ul class="list-unstyled">
-                        <ui:repeat value="#{filousController.getFilous(murController.idUtilisateur)}" var="filous" >
-                            #{filous.id}
+                        <ui:repeat value="#{listFilous}" var="filous" >
                             <li> <h:outputText value="#{filous.nom} #{filous.prenom}"/>
                                 <h:form id="formRemoveFilous">
                                     <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id, murController.idUtilisateur)}" />
@@ -29,12 +30,14 @@
                     </ul>
                 </h:panelGroup> <!-- Fin Liste filous -->
                 <!-- Form statut -->
-                <h:panelGroup layout="block" class="post col-lg-6">
+                <h:panelGroup layout="block" class="#{empty listFilous ? 'post col-lg-6 col-lg-offset-2' : 'post col-lg-6'}">
                     <!-- Form post statut -->
                     <h:form id="formStatut" enctype="multipart/form-data">
-                        <h:inputTextarea rows="5" cols="150" id="statut" value="#{murController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                        <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
+                                          p:placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"
+                                         value="#{murController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
                         <h:inputFile value="#{murController.part}"/>
-                        <h:commandButton value="Publier" action="#{murController.ajoutFichier()}" />
+                        <h:commandButton value="Publier" action="#{murController.ajoutStatut()}" />
                     </h:form><!-- Fin form post statut -->
                     <!-- Div liste statuts -->
                     <h:panelGroup layout="block">
@@ -74,11 +77,11 @@
                                         <ui:fragment rendered="#{statut.nbLeger > 1}">
                                             <h:outputText value="#{statut.nbLeger} legers"/>
                                         </ui:fragment>
-                                        <ui:fragment rendered="#{!(statut.nbLeger > 1)}">
+                                        <ui:fragment rendered="#{!(statut.nbLeger == 1)}">
                                             <h:outputText value="#{statut.nbLeger} leger"/>
                                         </ui:fragment>
 
-                                        <ui:fragment rendered="#{statut.nbLourd > 1}">
+                                        <ui:fragment rendered="#{statut.nbLourd == 1}">
                                             <h:outputText value="#{statut.nbLourd} lourd"/>
                                         </ui:fragment>
                                         <ui:fragment rendered="#{!(statut.nbLourd > 1)}">
@@ -168,6 +171,13 @@
                                         </h:panelGroup>
                                     </h:panelGroup> <!-- Fin div commentaire -->
                                 </ui:repeat> <!-- Fin boucle commentaires -->
+                                 <!-- Form post commentaire -->
+                                <h:form id="formStatut" enctype="multipart/form-data">
+                                    <h:inputTextarea rows='3' cols='75' class="form-control pull-left" id="commentaire" 
+                                                      p:placeholder="Ajouter un commentaire" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un commentaire'"
+                                                     value="#{murController.commentaire}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                                    <h:commandButton value="Répondre" action="#{murController.ajoutCommentaire(statut.id)}" />
+                                </h:form><!-- Fin form post commentaire -->
                             </h:panelGroup><!-- Fin div statut -->
                         </ui:repeat><!-- Fin boucle sur liste des statuts -->
                     </h:panelGroup><!-- Fin div liste statuts -->

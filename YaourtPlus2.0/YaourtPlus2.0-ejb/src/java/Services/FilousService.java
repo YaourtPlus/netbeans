@@ -25,9 +25,6 @@ public class FilousService implements FilousServiceLocal {
     @EJB
     PersonnesServiceLocal personneService;
 
-    @EJB
-    FilousServiceLocal filouService;
-
     @Override
     public List<PersonnesEntity> getFilous(int idUtilisateur) {
         PersonnesEntity user = personneService.getPersonne(idUtilisateur);

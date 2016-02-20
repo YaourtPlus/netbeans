@@ -1,14 +1,11 @@
 package Controllers;
 
-import Entities.CommentairesEntity;
-import Entities.PersonnesEntity;
-import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
+import Services.AfficheStatutsServiceLocal;
 import Services.FichierServiceLocal;
 import Services.FilousServiceLocal;
+import Services.StatutServiceLocal;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -33,6 +30,7 @@ public class MurController {
     private int idUtilisateur;
     private Part part;
     private String statut;
+    private String commentaire;
     private String pathFichier;
 
     @EJB
@@ -40,6 +38,12 @@ public class MurController {
 
     @EJB
     FilousServiceLocal filouService;
+
+    @EJB
+    AfficheStatutsServiceLocal afficheStatutService;
+
+    @EJB
+    StatutServiceLocal statutService;
 
     public MurController() {
         idUtilisateur = -1;
@@ -58,6 +62,10 @@ public class MurController {
         return statut;
     }
 
+    public String getCommentaire() {
+        return commentaire;
+    }
+
     public String getPathFichier() {
         return pathFichier;
     }
@@ -74,36 +82,16 @@ public class MurController {
     public void setStatut(String statut) {
         this.statut = statut;
     }
-
+    
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
+    
     public void setPathFichier(String pathFichier) {
         this.pathFichier = pathFichier;
     }
 
-    
 // Methods =====================================================================
-    public List<StatutsEntity> getStatuts() {
-        List<StatutsEntity> list = new ArrayList();
-        /*for (int i = 0; i < 10; i++) {
-            String iS = i + "";
-            StatutsEntity s = new StatutsEntity("Statut" + i, new Date());
-            s.addCommentaire(new CommentairesEntity("commentaire" + i, new Date()));
-            s.addLeger();
-            s.addLeger();
-            s.addLeger();
-            s.addLourd();
-            PersonnesEntity p = new PersonnesEntity(iS, iS, i, iS, iS, iS);
-            PersonnesEntity p1 = new PersonnesEntity(iS, iS, i, iS, iS, iS);
-            p.setId(i);
-            p1.setId(0);
-            s.setId(i);
-            s.addPersonnesStatuts(new PersonnesStatutsEntity(p, s, 0, false, true));
-            s.addPersonnesStatuts(new PersonnesStatutsEntity(p1, s, 1, false, true));
-            s.setAuteur(p);
-            list.add(s);
-        }*/
-        return list;
-    }
-
     public String goToMur(int idUtilisateur) {
         return "/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
@@ -119,5 +107,23 @@ public class MurController {
         pathFichier = servletContext.getRealPath("/files") + " - ";
         pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), this.idUtilisateur);
         return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+    }
+
+    public List<StatutsEntity> getStatuts() {
+        return afficheStatutService.afficheMurStatuts(idUtilisateur);
+    }
+
+    public void ajoutStatut() {
+        statutService.ajoutStatut(statut, idUtilisateur);
+        if (part != null) {
+            ajoutFichier();
+        }
+    }
+    
+    public void ajoutCommentaire(int idStatut) {
+        statutService.ajoutCommentaire(commentaire, idStatut, idUtilisateur);
+        if (part != null) {
+            ajoutFichier();
+        }
     }
 }

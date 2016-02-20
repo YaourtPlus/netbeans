@@ -12,6 +12,7 @@ import Entities.StatutsEntity;
 import Enumerations.TypeActions;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,7 +30,7 @@ public class StatutsDAOImpl implements StatutsDAO {
     @PersistenceContext(unitName = "YaourtPlus2.0-ejbPU")
     private EntityManager em;
 
-    @Resource
+    @EJB
     private IMCDAO imcDAO;
 
     public EntityManager getEm() {
@@ -272,8 +273,8 @@ public class StatutsDAOImpl implements StatutsDAO {
 // Lecture =====================================================================
     @Override
     public StatutsEntity find(int id) {
-        Query q = em.createQuery("SELECT s FROM StatutsEntity s where s.id = ?");
-        q.setParameter(1, id);
+        Query q = em.createQuery("SELECT s FROM StatutsEntity s where s.id = :id");
+        q.setParameter("id", id);
         try {
             return (StatutsEntity) q.getSingleResult();
         } catch (NoResultException e) {
