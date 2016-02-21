@@ -50,7 +50,6 @@
                             <ui:param name="idDestinataire" value="#{empty statut.destinataire ? statut.auteur.id : statut.destinataire.id}" />
                             <!-- Div statut -->
                             <h:panelGroup layout="block" class="statuts">
-
                                 <!-- Div info statut -->
                                 <h:panelGroup layout="block" class="row">
                                     <!-- Div auteur statut -->
@@ -154,29 +153,26 @@
                                     </h:panelGroup> <!-- Fin div lien sans actions statut-->
 
                                 </h:panelGroup><!-- Fin div léger/lourd -->
-                                <!-- Div commentaires statut -->
-                                <h:panelGroup layout="block">
-                                    <!-- Boucle sur les commentaires -->
-                                    <ui:repeat value="#{statut.commentaires}" var="commentaire" >
-                                        <!-- Div d'un commentaire -->
-                                        <h:panelGroup layout="block" class="commentaires">
-                                            <h:outputText value="#{commentaire.auteur.prenom} #{commentaire.auteur.nom}"/>
-                                            <h:panelGroup layout="block" class="commentaire-texte">
-                                                <h:outputText value="#{commentaire.texte}"/>
-                                            </h:panelGroup>
-                                            <h:panelGroup layout="block" >
-                                                <h:outputText value="#{commentaire.date}"/>
-                                            </h:panelGroup>
-                                        </h:panelGroup> <!-- Fin div commentaire -->
-                                    </ui:repeat> <!-- Fin boucle commentaires -->
-                                    <!-- Form post commentaire -->
-                                    <h:form id="formStatut#{statut.id}" enctype="text/plain" class="form-control pull-left">
-                                        <h:inputTextarea rows='3' cols='75' id="commentaire#{statut.id}" 
-                                                         value="#{murController.commentaire}" required="false" requiredMessage="Ajouter un commentaire"/>
-                                        <h:commandButton value="Répondre" action="#{murController.ajoutCommentaire(statut.id)}" />
-                                    </h:form><!-- Fin form post commentaire -->
-                                </h:panelGroup><!-- Fin div commentaires statut -->
                             </h:panelGroup><!-- Fin div statut -->
+                            <!-- Boucle sur les commentaires -->
+                            <ui:repeat value="#{statut.commentaires}" var="commentaire" >
+                                <!-- Div d'un commentaire -->
+                                <h:panelGroup layout="block" class="commentaires">
+                                    <h:outputText value="#{commentaire.auteur.prenom} #{commentaire.auteur.nom}"/>
+                                    <h:panelGroup layout="block" class="commentaire-texte">
+                                        <h:outputText value="#{commentaire.texte}"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" >
+                                        <h:outputText value="#{commentaire.date}"/>
+                                    </h:panelGroup>
+                                </h:panelGroup> <!-- Fin div commentaire -->
+                            </ui:repeat> <!-- Fin boucle commentaires -->
+                            <!-- Form post commentaire -->
+                            <h:form id="formStatut#{statut.id}">
+                                <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire#{statut.id}" 
+                                                 value="#{murController.commentaire}" required="false" />
+                                <h:commandButton value="Répondre" action="#{murController.ajoutCommentaire(statut.id)}" />
+                            </h:form><!-- Fin form post commentaire -->
                         </ui:repeat><!-- Fin boucle sur liste des statuts -->
                     </h:panelGroup><!-- Fin div liste statuts -->
                 </h:panelGroup><!-- Fin post statut -->

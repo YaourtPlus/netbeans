@@ -16,14 +16,10 @@
                     <h:link value="Notifications" outcome="/secured/notifications" />
                 </li>
                 <li class="#{view.viewId == '/messages.xhtml' ? 'active' : ''}">
-                    <h:link value="Messages" outcome="/secured/messages">
-                        <f:param name="idUtilisateur" value="#{murController.idUtilisateur}" />
-                    </h:link>
+                    <h:link value="Messages" outcome="/secured/messages"/>
                 </li>
                 <li class="#{view.viewId == '/statuts.xhtml' ? 'active' : ''}">
-                    <h:link value="Mon mur" outcome="/secured/mur">
-                        <f:param name="idPersonne" value="#{murController.idUtilisateur}" />
-                    </h:link>
+                    <h:link value="Mon mur" outcome="/secured/mur"/>
                 </li>
                 
             </ul>
