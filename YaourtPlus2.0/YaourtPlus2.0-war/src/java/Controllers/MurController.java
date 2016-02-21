@@ -30,7 +30,7 @@ public class MurController {
     private int idUtilisateur;
     private Part part;
     private String statut;
-    private String commentaire;
+    private int info;
     private String pathFichier;
 
     @EJB
@@ -62,9 +62,10 @@ public class MurController {
         return statut;
     }
 
-    public String getCommentaire() {
-        return commentaire;
+    public int getInfo() {
+        return info;
     }
+
 
     public String getPathFichier() {
         return pathFichier;
@@ -79,14 +80,14 @@ public class MurController {
         this.part = part;
     }
 
+    public void setInfo(int info) {
+        this.info = info;
+    }
+
     public void setStatut(String statut) {
         this.statut = statut;
     }
-    
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
-    }
-    
+
     public void setPathFichier(String pathFichier) {
         this.pathFichier = pathFichier;
     }
@@ -119,22 +120,15 @@ public class MurController {
             ajoutFichier(idStatut);
         }
     }
-    
-    public void ajoutCommentaire(int idStatut) {
-        int idCommentaire = statutService.ajoutCommentaire(commentaire, idStatut, idUtilisateur);
-        if (part != null) {
-            ajoutFichier(idCommentaire);
-        }
-    }
-    
+
     public void ajoutLeger(int idStatut, int idUtilisateur) {
         statutService.ajoutLeger(idStatut, idUtilisateur);
     }
-    
+
     public void ajoutLourd(int idStatut, int idUtilisateur) {
-       statutService.ajoutLourd(idStatut, idUtilisateur);
+        statutService.ajoutLourd(idStatut, idUtilisateur);
     }
-    
+
     public void suppressionAction(int idStatut, int idUtilisateur) {
         statutService.removeAction(idStatut, idUtilisateur);
     }

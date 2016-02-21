@@ -12,9 +12,6 @@
     </h:head>
     <h:body>
         <ui:include src="/secured/navbar.xhtml"/>
-        ====
-        #{murController.commentaire}
-        ====
         <!-- Div mur -->
         <h:panelGroup layout="block" class="container-fluid">
             <!-- Div Filous/Statuts/Messages -->
@@ -168,10 +165,10 @@
                                 </h:panelGroup> <!-- Fin div commentaire -->
                             </ui:repeat> <!-- Fin boucle commentaires -->
                             <!-- Form post commentaire -->
-                            <h:form id="formStatut#{statut.id}">
-                                <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire#{statut.id}" 
-                                                 value="#{murController.commentaire}" required="false" />
-                                <h:commandButton value="Répondre" action="#{murController.ajoutCommentaire(statut.id)}" />
+                            <h:form id="formCommentaire">
+                                <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire" 
+                                                 value="#{commentaireController.commentaire}" required="false"/>
+                                <h:commandButton value="Répondre" action="#{commentaireController.ajoutCommentaire(statut.id, murController.idUtilisateur)}"/>
                             </h:form><!-- Fin form post commentaire -->
                         </ui:repeat><!-- Fin boucle sur liste des statuts -->
                     </h:panelGroup><!-- Fin div liste statuts -->

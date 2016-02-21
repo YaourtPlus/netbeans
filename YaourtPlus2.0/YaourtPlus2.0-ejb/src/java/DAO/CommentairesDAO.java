@@ -19,7 +19,7 @@ public interface CommentairesDAO {
     
 
 // Transaction de base =========================================================
-    public void save(CommentairesEntity c);
+    public int save(CommentairesEntity c);
 
     public void update(CommentairesEntity c);
 

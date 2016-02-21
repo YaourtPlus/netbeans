@@ -106,7 +106,7 @@ public class StatutService implements StatutServiceLocal {
         // Ajout du statut commenté
         newCommentaire.setStatut(statut);
 
-        commentaireDAO.save(newCommentaire);
+        int idCommentaire = commentaireDAO.save(newCommentaire);
         // Création d'une notification à l'auteur du statut
         //notificationService.createNotification(TypeNotifications.notifCommentaire, user, statut.getDestinataire(), statut.getId());
         // Préparation de la notifications des personnes ayant commenté le statut
@@ -119,7 +119,7 @@ public class StatutService implements StatutServiceLocal {
         statutDAO.addCommentaire(statut, user);
 
         commentaireDAO.ajoutCommentaire(statut, newCommentaire);
-        return newCommentaire.getId();
+        return idCommentaire;
     }
 
     @Override
@@ -153,7 +153,7 @@ public class StatutService implements StatutServiceLocal {
      * @param idUtilisateur id de l'utilisateur
      */
     @Override
-    public void removeAction(int idStatut, int idUtilisateur){
+    public void removeAction(int idStatut, int idUtilisateur) {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUtilisateur);
