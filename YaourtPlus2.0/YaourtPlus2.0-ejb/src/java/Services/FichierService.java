@@ -36,8 +36,8 @@ public class FichierService implements FichierServiceLocal {
     @Override
     public String ajoutFichier(Part p, String path, int idStatut) {
         
-        //StatutsEntity se = statutsDAO.find(idStatut);
-        String nouveauNom = ("olivier"+ p.getSubmittedFileName());
+        StatutsEntity se = statutsDAO.find(idStatut);
+        String nouveauNom = (se.getAuteur().getLogin()+ p.getSubmittedFileName());
         String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
         nouveauNom =hashService.hash(nouveauNom)+ "." + ext;
@@ -49,9 +49,7 @@ public class FichierService implements FichierServiceLocal {
             Logger.getLogger(FichierService.class.getName()).log(Level.SEVERE, null, ex);
         }
         FichiersEntity fe = new FichiersEntity(ext, p.getSubmittedFileName(), nouveauNom);
-        
-
-        //statutsDAO.addFichier(se, fe);
+        statutsDAO.addFichier(se, fe);
         return s;
         
     }

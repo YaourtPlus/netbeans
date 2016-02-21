@@ -51,9 +51,9 @@ public class StatutService implements StatutServiceLocal {
     }
 
     @Override
-    public boolean ajoutStatut(String statut, int idAuteur, int idDestinataire) {
+    public int ajoutStatut(String statut, int idAuteur, int idDestinataire) {
         if (statut.length() == 0) { // Gestion d'un statut vide
-            return false;
+            return -1;
         }
         // Récupération de l'utilisateur
         PersonnesEntity user = personneService.getPersonne(idAuteur);
@@ -79,18 +79,18 @@ public class StatutService implements StatutServiceLocal {
 
         // Création d'une notification auprès du destinataire
         //notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, idStatut);
-        return true;
+        return idStatut;
     }
 
     @Override
-    public boolean ajoutStatut(String statut, int idAuteur) {
+    public int ajoutStatut(String statut, int idAuteur) {
         return ajoutStatut(statut, idAuteur, idAuteur);
     }
 
     @Override
-    public boolean ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur) {
+    public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur) {
         if (commentaire == null || commentaire.length() == 0) {
-            return false;
+            return -1;
         }
 
         // Récupération du statut
@@ -118,7 +118,8 @@ public class StatutService implements StatutServiceLocal {
          }*/
         statutDAO.addCommentaire(statut, user);
 
-        return commentaireDAO.ajoutCommentaire(statut, newCommentaire);
+        commentaireDAO.ajoutCommentaire(statut, newCommentaire);
+        return newCommentaire.getId();
     }
 
     @Override

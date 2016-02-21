@@ -18,11 +18,11 @@ public interface StatutServiceLocal {
 
     public List<StatutsEntity> getStatuts(int idPersonne);
 
-    public boolean ajoutStatut(String statut, int idAuteur, int idDestinataire);
+    public int ajoutStatut(String statut, int idAuteur, int idDestinataire);
 
-    public boolean ajoutStatut(String statut, int idAuteur);
+    public int ajoutStatut(String statut, int idAuteur);
 
-    public boolean ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur);
+    public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur);
 
     public void ajoutLeger(int idStatut, int idUtilisateur);
 

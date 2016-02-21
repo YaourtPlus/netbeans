@@ -100,12 +100,12 @@ public class MurController {
         return "../connexion?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
 
-    public String ajoutFichier() {
+    public String ajoutFichier(int idStatut) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         File f = new File(servletContext.getRealPath("/") + "/files");
         f.mkdir();
         pathFichier = servletContext.getRealPath("/files") + " - ";
-        pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), this.idUtilisateur);
+        pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), idStatut);
         return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
 
@@ -114,16 +114,16 @@ public class MurController {
     }
 
     public void ajoutStatut() {
-        statutService.ajoutStatut(statut, idUtilisateur);
+        int idStatut = statutService.ajoutStatut(statut, idUtilisateur);
         if (part != null) {
-            ajoutFichier();
+            ajoutFichier(idStatut);
         }
     }
     
     public void ajoutCommentaire(int idStatut) {
-        statutService.ajoutCommentaire(commentaire, idStatut, idUtilisateur);
+        int idCommentaire = statutService.ajoutCommentaire(commentaire, idStatut, idUtilisateur);
         if (part != null) {
-            ajoutFichier();
+            ajoutFichier(idCommentaire);
         }
     }
     
