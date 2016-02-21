@@ -126,4 +126,16 @@ public class MurController {
             ajoutFichier();
         }
     }
+    
+    public void ajoutLeger(int idStatut, int idUtilisateur) {
+        statutService.ajoutLeger(idStatut, idUtilisateur);
+    }
+    
+    public void ajoutLourd(int idStatut, int idUtilisateur) {
+       statutService.ajoutLourd(idStatut, idUtilisateur);
+    }
+    
+    public void suppressionAction(int idStatut, int idUtilisateur) {
+        statutService.removeAction(idStatut, idUtilisateur);
+    }
 }

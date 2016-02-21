@@ -13,6 +13,7 @@ import Entities.CommentairesEntity;
 import Entities.PersonnesEntity;
 import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
+import Enumerations.TypeActions;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,13 +35,13 @@ public class StatutService implements StatutServiceLocal {
      */
     @EJB
     PersonnesDAO personneDAO;
-    
+
     @EJB
-    PersonnesStatutsDAO  personneStatutDAO;
-    
+    PersonnesStatutsDAO personneStatutDAO;
+
     @EJB
     CommentairesDAO commentaireDAO;
-    
+
     @EJB
     PersonnesServiceLocal personneService;
 
@@ -60,7 +61,7 @@ public class StatutService implements StatutServiceLocal {
 
         // Création du statut
         StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
-        
+
         // Mise à jour de l'auteur du statut
         newStatut.setAuteur(user);
         newStatut.setDestinataire(destinataire);
@@ -78,7 +79,6 @@ public class StatutService implements StatutServiceLocal {
 
         // Création d'une notification auprès du destinataire
         //notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, idStatut);
-
         return true;
     }
 
@@ -89,7 +89,7 @@ public class StatutService implements StatutServiceLocal {
 
     @Override
     public boolean ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur) {
-         if (commentaire.length() == 0) {
+        if (commentaire == null || commentaire.length() == 0) {
             return false;
         }
 
@@ -111,15 +111,65 @@ public class StatutService implements StatutServiceLocal {
         //notificationService.createNotification(TypeNotifications.notifCommentaire, user, statut.getDestinataire(), statut.getId());
         // Préparation de la notifications des personnes ayant commenté le statut
         /*for (PersonnesStatutsEntity ps : statut.getStatutsActeurs()) {
-            // Création de la notification aux gens qui ont agit sur le statut
-            if (ps.getStatut().equals(statut) && (ps.getCommentaire() || ps.getPost())) {
-                notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut.getId());
-            }
-        }*/
+         // Création de la notification aux gens qui ont agit sur le statut
+         if (ps.getStatut().equals(statut) && (ps.getCommentaire() || ps.getPost())) {
+         notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut.getId());
+         }
+         }*/
         statutDAO.addCommentaire(statut, user);
 
         return commentaireDAO.ajoutCommentaire(statut, newCommentaire);
     }
-    
-    
+
+    @Override
+    public void ajoutLeger(int idStatut, int idUtilisateur) {
+        // Récupération des entités
+        StatutsEntity statut = statutDAO.find(idStatut);
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        PersonnesEntity auteur = statut.getAuteur();
+        statutDAO.addLeger(statut, user);
+
+        // Création de la notification dans la BD
+        //notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
+    }
+
+    @Override
+    public void ajoutLourd(int idStatut, int idUtilisateur) {
+        // Récupération des entités
+        StatutsEntity statut = statutDAO.find(idStatut);
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+        PersonnesEntity auteur = statut.getAuteur();
+        statutDAO.addLourd(statut, user);
+
+        // Création de la notification dans la BD
+        //notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
+    }
+
+    /**
+     * Annulation d'une action
+     *
+     * @param idStatut id du statut sur lequel on veut annuler l'action
+     * @param idUtilisateur id de l'utilisateur
+     */
+    @Override
+    public void removeAction(int idStatut, int idUtilisateur){
+        // Récupération des entités
+        StatutsEntity statut = statutDAO.find(idStatut);
+        PersonnesEntity user = personneDAO.find(idUtilisateur);
+
+        // Récuoération du type d'action effectuée par l'utilisateur
+        TypeActions action = personneStatutDAO.removeAction(user, statut);
+        switch (action) {
+            case leger:
+                statutDAO.removeLeger(statut, user);
+                break;
+            case lourd:
+                statutDAO.removeLourd(statut, user);
+                break;
+            default:
+                break;
+        } // Fin switch
+
+    }
+
 }
