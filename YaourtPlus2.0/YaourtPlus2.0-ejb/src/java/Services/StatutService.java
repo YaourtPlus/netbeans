@@ -49,6 +49,20 @@ public class StatutService implements StatutServiceLocal {
     public List<StatutsEntity> getStatuts(int idPersonne) {
         return statutDAO.findByAuteur(idPersonne);
     }
+    
+    @Override
+    public List<StatutsEntity> getStatutsEmis(int idPersonne){
+        PersonnesEntity p = personneService.getPersonne(idPersonne);
+        return p.getStatutsEmis();
+    }
+    
+    @Override
+    public List<StatutsEntity> getStatutsRecus(int idPersonne){
+        PersonnesEntity p = personneService.getPersonne(idPersonne);
+        return p.getStatutsRecu();
+    }
+    
+    
 
     @Override
     public int ajoutStatut(String statut, int idAuteur, int idDestinataire) {

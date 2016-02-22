@@ -18,6 +18,10 @@ public interface StatutServiceLocal {
 
     public List<StatutsEntity> getStatuts(int idPersonne);
 
+    public List<StatutsEntity> getStatutsEmis(int idPersonne);
+
+    public List<StatutsEntity> getStatutsRecus(int idPersonne);
+
     public int ajoutStatut(String statut, int idAuteur, int idDestinataire);
 
     public int ajoutStatut(String statut, int idAuteur);

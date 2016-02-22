@@ -100,6 +100,10 @@ public class MurController {
     public String goToConnexion() {
         return "../connexion?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
+    
+    public String goToFilou(Integer filouId){
+        return "/profil?faces-redirect=true&idPersonne=" + filouId;
+    }
 
     public String ajoutFichier(int idStatut) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
