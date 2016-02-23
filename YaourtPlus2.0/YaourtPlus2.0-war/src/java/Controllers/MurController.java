@@ -1,9 +1,11 @@
 package Controllers;
 
+import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
 import Services.AfficheStatutsServiceLocal;
 import Services.FichierServiceLocal;
 import Services.FilousServiceLocal;
+import Services.PersonnesServiceLocal;
 import Services.StatutServiceLocal;
 import java.io.File;
 import java.util.List;
@@ -29,7 +31,6 @@ public class MurController {
 
     private int idUtilisateur;
     private Part part;
-    private String statut;
     private int info;
     private String pathFichier;
 
@@ -44,6 +45,7 @@ public class MurController {
 
     @EJB
     StatutServiceLocal statutService;
+    
 
     public MurController() {
         idUtilisateur = -1;
@@ -58,14 +60,9 @@ public class MurController {
         return part;
     }
 
-    public String getStatut() {
-        return statut;
-    }
-
     public int getInfo() {
         return info;
     }
-
 
     public String getPathFichier() {
         return pathFichier;
@@ -84,17 +81,13 @@ public class MurController {
         this.info = info;
     }
 
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
-
     public void setPathFichier(String pathFichier) {
         this.pathFichier = pathFichier;
     }
 
 // Methods =====================================================================
     public String goToMur(int idUtilisateur) {
-        return "/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+        return "/secured/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
 
     public String goToConnexion() {
@@ -102,7 +95,7 @@ public class MurController {
     }
     
     public String goToFilou(Integer filouId){
-        return "/profil?faces-redirect=true&idPersonne=" + filouId;
+        return "/secured/profil?faces-redirect=true&idPersonne=" + filouId;
     }
 
     public String ajoutFichier(int idStatut) {
@@ -113,18 +106,7 @@ public class MurController {
         pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), idStatut);
         return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
-
-    public List<StatutsEntity> getStatuts() {
-        return afficheStatutService.afficheMurStatuts(idUtilisateur);
-    }
-
-    public void ajoutStatut() {
-        int idStatut = statutService.ajoutStatut(statut, idUtilisateur);
-        if (part != null) {
-            ajoutFichier(idStatut);
-        }
-    }
-
+        
     public void ajoutLeger(int idStatut, int idUtilisateur) {
         statutService.ajoutLeger(idStatut, idUtilisateur);
     }
@@ -136,4 +118,6 @@ public class MurController {
     public void suppressionAction(int idStatut, int idUtilisateur) {
         statutService.removeAction(idStatut, idUtilisateur);
     }
+    
+
 }

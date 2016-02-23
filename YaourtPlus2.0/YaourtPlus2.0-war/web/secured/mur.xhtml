@@ -21,7 +21,7 @@
                 <h:panelGroup layout="block" class="col-lg-2" style="#{not empty  listFilous ? 'display : visible' : 'display : none'}"> 
                     <ul class="list-unstyled">
                         <ui:repeat value="#{listFilous}" var="filous" >
-                            <li> #{filous.id}
+                            <li>
                                 <h:form id="formStatutsFilous">
                                     <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{murController.goToFilou(filous.id)}" />
                                 </h:form>
@@ -38,14 +38,14 @@
                     <h:form id="formStatut" enctype="multipart/form-data">
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
                                          p:placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"
-                                         value="#{murController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
                         <h:inputFile value="#{murController.part}"/>
-                        <h:commandButton value="Publier" action="#{murController.ajoutStatut()}" />
+                        <h:commandButton value="Publier" action="#{statutsController.ajoutStatut()}" />
                     </h:form><!-- Fin form post statut -->
                     <!-- Div liste statuts -->
                     <h:panelGroup layout="block">
                         <!-- Boucle sur liste des statuts -->
-                        <ui:repeat value="#{murController.getStatuts()}" var="statut" >
+                        <ui:repeat value="#{statutsController.getStatuts()}" var="statut" >
                             <!-- Destinataire statut -->
                             <ui:param name="idDestinataire" value="#{empty statut.destinataire ? statut.auteur.id : statut.destinataire.id}" />
                             <!-- Div statut -->

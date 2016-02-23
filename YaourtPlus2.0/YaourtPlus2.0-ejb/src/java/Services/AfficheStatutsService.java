@@ -49,10 +49,43 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
         return statutsFilous;
     }
 
+        
+    
+    @Override
+    public List<StatutsEntity> getStatutsEmis(int idPersonne){
+        PersonnesEntity p = personneService.getPersonne(idPersonne);
+        List<StatutsEntity> statutsEmis = statutService.getStatutsByAuteur(idPersonne);
+        List<StatutsEntity> list = new ArrayList();
+        
+        // Parcours des statuts émis par la personne
+        for(StatutsEntity s : statutsEmis){
+            // On recherche les statuts que la personne n'a pas posté sur un mur
+            if(s.getDestinataire().equals(p)){
+                list.add(s);
+            }
+        }
+        return list;
+    }
+    
+    @Override
+    public List<StatutsEntity> getStatutsRecus(int idPersonne){
+        PersonnesEntity p = personneService.getPersonne(idPersonne);
+        List<StatutsEntity> statutsRecus = statutService.getStatutsByDestinataire(idPersonne);
+        List<StatutsEntity> list = new ArrayList();
+        
+        // Parcours des statuts émis par la personne
+        for(StatutsEntity s : statutsRecus){
+            // On recherche les statuts que la personne a reçu et qui ne viennent pas d'elle
+            if(!s.getAuteur().equals(p)){
+                list.add(s);
+            }
+        }
+        return list;
+    }
     /**
      * Trie une liste de StatutsEntity en utilisant la méthode Compare de
      * Collections
-     * @param l
+      *@param l
      * @return
      */
     public List<StatutsEntity> sortListe(List<StatutsEntity> l) {

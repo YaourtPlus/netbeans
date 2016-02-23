@@ -5,41 +5,36 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Accueuil</title>
+        <title>Statuts</title>
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
         <ui:include src="/secured/navbar.xhtml"/>
         <f:metadata>
-            <f:viewParam name="idPersonne" value="#{statutsController.filouId}"/>
+            <f:viewParam name="idPersonne" value="#{statutsController.idPersonne}"/>
         </f:metadata>
-
-        <h:panelGroup>
-            #{statutsController.filouId}
-        </h:panelGroup>
 
         <h:panelGroup layout="block" class="container-fluid">
             <h:panelGroup layout="block" class="row">
                 <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-6">
                     <h:form id="formStatut" enctype="multipart/form-data">
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         value="#{murController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
                         <h:inputFile value="#{murController.part}"/>
-                        <h:commandButton value="Publier" action="#{murController.ajoutStatut()}" />
+                        <h:commandButton value="Publier" action="#{statutsController.postStatut()}" />
                     </h:form>
                 </h:panelGroup>
             </h:panelGroup>
         </h:panelGroup>
-
-
-        <ui:param name="listStatutsEmis" value="#{statutController.getStatutEmis(idPersonne)}" />
+       
+        <ui:param name="listStatutsEmis" value="#{statutsController.getStatutsEmis()}" />
         <h:panelGroup layout="block" rendered="#{not empty listStatutsEmis}" class="col-lg-6">
-
+            #{listStatutsEmis}
         </h:panelGroup>
 
-        <ui:param name="listStatutsRecu" value="#{statutController.getStatutRecu(idPersonne)}" />
-        <h:panelGroup layout="block" class="#{empty listStatutsRecu ? 'col-lg-6 col-lg-offset-6' : 'col-lg-6'}" >
-           
+        <ui:param name="listStatutsRecu" value="#{statutsController.getStatutsRecu()}" />
+        <h:panelGroup layout="block" rendered="#{not empty listStatutsRecu}" class="#{empty listStatutsEmis ? 'col-lg-6 col-lg-offset-6' : 'col-lg-6'}" >
+            #{listStatutsRecu}
         </h:panelGroup>
 
     </h:body>
