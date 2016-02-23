@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Accueil</title>
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
@@ -21,8 +21,11 @@
                 <h:panelGroup layout="block" class="col-lg-2" style="#{not empty  listFilous ? 'display : visible' : 'display : none'}"> 
                     <ul class="list-unstyled">
                         <ui:repeat value="#{listFilous}" var="filous" >
-                            <li> <h:outputText value="#{filous.nom} #{filous.prenom}"/>
-                                <h:form id="formRemoveFilous#{filous.id}">
+                            <li> #{filous.id}
+                                <h:form id="formStatutsFilous">
+                                    <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{murController.goToFilou(filous.id)}" />
+                                </h:form>
+                                <h:form id="formRemoveFilous">
                                     <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id, murController.idUtilisateur)}" />
                                 </h:form>
                             </li>

@@ -13,13 +13,13 @@
                     <h:link value="Ptit Filous" outcome="/secured/filous" />
                 </li>
                 <li class="#{view.viewId == '/notifications.xhtml' ? 'active' : ''}">
-                    <h:link value="Notifications" outcome="/secured/notifications" />
+                    <h:link value="Notifications" outcome="/secured/vueNotif" />
                 </li>
                 <li class="#{view.viewId == '/messages.xhtml' ? 'active' : ''}">
                     <h:link value="Messages" outcome="/secured/messages"/>
                 </li>
-                <li class="#{view.viewId == '/statuts.xhtml' ? 'active' : ''}">
-                    <h:link value="Mon mur" outcome="/secured/mur"/>
+                <li class="#{view.viewId == '/profil.xhtml' ? 'active' : ''}">
+                    <h:link value="Mon mur" outcome="/secured/profil?idPersonne=#{murController.idUtilisateur}"/>
                 </li>
                 
             </ul>
