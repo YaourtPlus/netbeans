@@ -98,6 +98,15 @@ public class StatutService implements StatutServiceLocal {
 
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
+        
+        if(statut == null || user == null){
+            System.err.println("AjoutCommentaire");
+            
+            System.err.println(statut);
+            System.err.println(user);
+            
+            return -1;
+        }
         /* Création du commentaire
          Un commentaire n'est rien d'autre qu'un statut en réponse à un autre statut
          */

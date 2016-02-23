@@ -30,7 +30,6 @@ public class MurController {
     private int idUtilisateur;
     private Part part;
     private String statut;
-    private int info;
     private String pathFichier;
 
     @EJB
@@ -62,11 +61,6 @@ public class MurController {
         return statut;
     }
 
-    public int getInfo() {
-        return info;
-    }
-
-
     public String getPathFichier() {
         return pathFichier;
     }
@@ -78,10 +72,6 @@ public class MurController {
 
     public void setPart(Part part) {
         this.part = part;
-    }
-
-    public void setInfo(int info) {
-        this.info = info;
     }
 
     public void setStatut(String statut) {
@@ -114,11 +104,12 @@ public class MurController {
         return afficheStatutService.afficheMurStatuts(idUtilisateur);
     }
 
-    public void ajoutStatut() {
+    public String ajoutStatut() {
         int idStatut = statutService.ajoutStatut(statut, idUtilisateur);
         if (part != null) {
             ajoutFichier(idStatut);
         }
+        return "mur?faces-redirect=true";
     }
 
     public void ajoutLeger(int idStatut, int idUtilisateur) {
