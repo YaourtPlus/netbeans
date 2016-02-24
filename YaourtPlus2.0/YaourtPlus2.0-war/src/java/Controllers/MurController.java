@@ -84,7 +84,7 @@ public class MurController {
 
 // Methods =====================================================================
     public String goToMur(int idUtilisateur) {
-        return "/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+        return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
 
     public String goToConnexion() {
@@ -92,7 +92,7 @@ public class MurController {
     }
     
     public String goToFilou(Integer filouId){
-        return "/profil?faces-redirect=true&idPersonne=" + filouId;
+        return "profil?faces-redirect=true&idPersonne=" + filouId;
     }
 
     public String ajoutFichier(int idStatut) {
