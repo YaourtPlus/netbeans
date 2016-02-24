@@ -78,7 +78,7 @@ public class MurController {
     }
 
 // Methods =====================================================================
-    public String goToMur(int idUtilisateur) {
+    public String goToMur() {
         return "/secured/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
     }
 
@@ -100,15 +100,15 @@ public class MurController {
     }
 
     
-    public void ajoutLeger(int idStatut, int idUtilisateur) {
+    public void ajoutLeger(int idStatut) {
         statutService.ajoutLeger(idStatut, idUtilisateur);
     }
 
-    public void ajoutLourd(int idStatut, int idUtilisateur) {
+    public void ajoutLourd(int idStatut) {
         statutService.ajoutLourd(idStatut, idUtilisateur);
     }
 
-    public void suppressionAction(int idStatut, int idUtilisateur) {
+    public void suppressionAction(int idStatut) {
         statutService.removeAction(idStatut, idUtilisateur);
     }
     

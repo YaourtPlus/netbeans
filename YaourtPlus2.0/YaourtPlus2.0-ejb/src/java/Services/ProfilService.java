@@ -6,7 +6,10 @@
 package Services;
 
 import DAO.PersonnesDAO;
+import Entities.IMCEntity;
 import Entities.PersonnesEntity;
+import java.util.Calendar;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -30,6 +33,13 @@ public class ProfilService implements ProfilServiceLocal {
     @Override
     public void inscrire(String login, String passWord, String nom, String prenom, int age, String mail) {
         PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, passWord);
+        // Création de la date d'inscription
+        Date dateInscription = Calendar.getInstance().getTime();
+        
+        pe.setDateInscription(dateInscription);
+        
+        // Création d'un IMC
+        pe.setImc(new IMCEntity());
         personneDAO.save(pe);
     }
 

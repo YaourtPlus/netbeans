@@ -193,7 +193,8 @@ public class StatutService implements StatutServiceLocal {
         statutDAO.addLeger(statut, user);
 
         // Création de la notification dans la BD
-        notificationService.createNotificationLeger(user, auteur, statut.getId());
+        if(!auteur.equals(user))
+            notificationService.createNotificationLeger(user, auteur, statut.getId());
     }
 
     @Override
@@ -205,7 +206,8 @@ public class StatutService implements StatutServiceLocal {
         statutDAO.addLourd(statut, user);
 
         // Création de la notification dans la BD
-        notificationService.createNotificationLourd(user, auteur, statut.getId());
+        if(!auteur.equals(user))
+            notificationService.createNotificationLourd(user, auteur, statut.getId());
     }
 
     /**

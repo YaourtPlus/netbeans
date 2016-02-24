@@ -25,13 +25,16 @@ public class FilousService implements FilousServiceLocal {
     @EJB
     PersonnesServiceLocal personneService;
 
+    @EJB
+    NotificationServiceLocal notificationService;
+    
     @Override
     public List<PersonnesEntity> getFilous(int idUtilisateur) {
         PersonnesEntity user = personneService.getPersonne(idUtilisateur);
-        
+
         /*
-            return user.getListFilous();
-        */
+         return user.getListFilous();
+         */
         List<PersonnesEntity> list = new ArrayList();
         list.addAll(user.getListFilous());
         return list;
@@ -39,23 +42,23 @@ public class FilousService implements FilousServiceLocal {
 
     @Override
     public List<PersonnesEntity> getFilousPossibles(int idUtilisateur) {
-        
+
         PersonnesEntity user = personneService.getPersonne(idUtilisateur);
-        
+
         // Récupération de toutes les personnes du site
         List<PersonnesEntity> gens = personneService.getPersonnes();
-        
+
         /*
-            gens.remove(user);
-            gens.removeAll(user.getListFilous());
-            return gens;
-        */
+         gens.remove(user);
+         gens.removeAll(user.getListFilous());
+         return gens;
+         */
         List<PersonnesEntity> filous = new ArrayList();
         filous.addAll(gens);
         // Suppression des filous qu'on ne peut pas ajouter
         filous.remove(user);
         filous.removeAll(user.getListFilous());
-        
+
         return filous;
     }
 
@@ -64,22 +67,17 @@ public class FilousService implements FilousServiceLocal {
         PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
         PersonnesEntity filous = personneService.getPersonne(idFilous);
 
+        notificationService.createNotificationFilou(utilisateur, filous);
+        
         return personneDAO.ajoutFilous(utilisateur, filous);
     }
 
     @Override
     public boolean suppressionFilous(int idFilous, int idUtilisateur) {
-        if(idFilous != 2){
-            return false;
-        }
-        else{
-            PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
-            PersonnesEntity filous = personneService.getPersonne(idFilous);
+        PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
+        PersonnesEntity filous = personneService.getPersonne(idFilous);
 
-    
-            personneDAO.suppressionFilous(utilisateur, filous);
-            return true;
-        }
+        return personneDAO.suppressionFilous(utilisateur, filous);
     }
 
 }

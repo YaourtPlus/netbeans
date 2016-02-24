@@ -5,8 +5,9 @@
  */
 package Services;
 
+import Entities.NotificationsEntity;
 import Entities.PersonnesEntity;
-import Enumerations.TypeNotifications;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,9 +17,11 @@ import javax.ejb.Local;
 @Local
 public interface NotificationServiceLocal {
     public boolean createNotificationCommentaire(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
-    public boolean createNotificationFilou(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationFilou(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire);
     public boolean createNotificationLeger(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
     public boolean createNotificationLourd(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
-    public boolean createNotificationMessage(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationMessage(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idMessage);
     public boolean createNotificationStatut(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    
+    public List<NotificationsEntity> getNotifs(int utilisateurId);
 }

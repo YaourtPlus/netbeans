@@ -8,6 +8,7 @@ package Controllers;
 import Services.StatutServiceLocal;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 /**
@@ -19,6 +20,9 @@ import javax.faces.bean.RequestScoped;
 public class CommentaireController {
 
     private String commentaire;
+
+    @ManagedProperty(value = "#{murController}")
+    private MurController murController;
 
     @EJB
     StatutServiceLocal statutService;
@@ -33,19 +37,20 @@ public class CommentaireController {
         return commentaire;
     }
 
+    public MurController getMurController() {
+        return murController;
+    }
+
     public void setCommentaire(String commentaire) {
-        System.err.println("setCommentaire");
-        System.err.println(commentaire);
         this.commentaire = commentaire;
     }
 
-    public String ajoutCommentaire(int idStatut, int idUtilisateur) {
-        System.err.println("AjoutCommentaire");
-        System.err.println(commentaire);
-        System.err.println(idStatut);
-        System.err.println(idUtilisateur);
+    public void setMurController(MurController murController) {
+        this.murController = murController;
+    }
 
-        statutService.ajoutCommentaire(commentaire, idStatut, idUtilisateur);
+    public String ajoutCommentaire(int idStatut) {
+        statutService.ajoutCommentaire(commentaire, idStatut, murController.getIdUtilisateur());
         return "mur?faces-redirect=true";
     }
 

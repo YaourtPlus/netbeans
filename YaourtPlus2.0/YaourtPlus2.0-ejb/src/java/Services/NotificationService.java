@@ -21,6 +21,7 @@ import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
 import Enumerations.TypeNotifications;
 import java.util.Calendar;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -31,6 +32,9 @@ import javax.ejb.Stateless;
 @Stateless
 public class NotificationService implements NotificationServiceLocal {
 
+    @EJB
+    PersonnesServiceLocal personneService;
+    
     @EJB
     StatutsDAO statutDAO;
 
@@ -60,7 +64,7 @@ public class NotificationService implements NotificationServiceLocal {
     }
 
     @Override
-    public boolean createNotificationFilou(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+    public boolean createNotificationFilou(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire) {
         NotificationsFilouEntity notif = new NotificationsFilouEntity(Calendar.getInstance().getTime());
         notif.setNotifieur(idNotifieur);
         notif.ajoutDestinataire(idDestinataire);
@@ -106,9 +110,9 @@ public class NotificationService implements NotificationServiceLocal {
     }
 
     @Override
-    public boolean createNotificationMessage(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+    public boolean createNotificationMessage(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idMessage) {
         NotificationsMessageEntity notif = new NotificationsMessageEntity(Calendar.getInstance().getTime());
-        MessagesEntity message = messageDAO.find(idStatut);
+        MessagesEntity message = messageDAO.find(idMessage);
         notif.setMessage(message);
         notif.setNotifieur(idNotifieur);
         notif.ajoutDestinataire(idDestinataire);
@@ -135,6 +139,13 @@ public class NotificationService implements NotificationServiceLocal {
         boolean add = false;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
+    }
+
+    @Override
+    public List<NotificationsEntity> getNotifs(int utilisateurId) {
+        PersonnesEntity user = personneService.getPersonne(utilisateurId);
+        
+        return user.getNotificationRecues();
     }
 
 }

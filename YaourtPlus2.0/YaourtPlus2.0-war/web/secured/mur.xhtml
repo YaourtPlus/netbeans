@@ -16,20 +16,22 @@
         <h:panelGroup layout="block" class="container-fluid">
             <!-- Div Filous/Statuts/Messages -->
             <h:panelGroup layout="block" class="row" >
-                <ui:param name="listFilous" value="#{filousController.getFilous(murController.idUtilisateur)}" />
+                <ui:param name="listFilous" value="#{filousController.getFilous()}" />
                 <!-- Liste Filous -->
                 <h:panelGroup layout="block" class="col-lg-2" style="#{not empty  listFilous ? 'display : visible' : 'display : none'}"> 
                     <ul class="list-unstyled">
-                        <ui:repeat value="#{listFilous}" var="filous" >
-                            <li>
-                                <h:form id="formStatutsFilous">
-                                    <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{murController.goToFilou(filous.id)}" />
-                                </h:form>
-                                <h:form id="formRemoveFilous">
-                                    <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id, murController.idUtilisateur)}" />
-                                </h:form>
-                            </li>
-                        </ui:repeat>
+                        <h:dataTable value="#{listFilous}" var="filous" class="full-width">
+                            <h:column>
+                                <li>
+                                    <h:form id="formStatutsFilous">
+                                        <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{murController.goToFilou(filous.id)}" />
+                                    </h:form>
+                                    <h:form id="formRemoveFilous">
+                                        <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
+                                    </h:form>
+                                </li>
+                            </h:column>
+                        </h:dataTable>
                     </ul>
                 </h:panelGroup> <!-- Fin Liste filous -->
                 <!-- Form statut -->

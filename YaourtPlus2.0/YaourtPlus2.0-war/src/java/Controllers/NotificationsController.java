@@ -5,7 +5,12 @@
  */
 package Controllers;
 
+import Entities.NotificationsEntity;
+import Services.NotificationServiceLocal;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 /**
@@ -16,7 +21,24 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class NotificationsController {
 
+    @ManagedProperty(value = "#{murController}")
+    private MurController murController;
+
+    @EJB
+    NotificationServiceLocal notificationService;
+    
     public NotificationsController() {
     }
 
+    public MurController getMurController() {
+        return murController;
+    }
+
+    public void setMurController(MurController murController) {
+        this.murController = murController;
+    }
+
+    public List<NotificationsEntity> getNotifs(){
+        return notificationService.getNotifs(murController.getIdUtilisateur());
+    }
 }
