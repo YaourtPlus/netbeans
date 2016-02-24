@@ -2,13 +2,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Statuts</title>
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        Hello from profil
+        <ui:include src="/secured/navbar.xhtml"/>
+        <f:metadata>
+            <f:viewParam name="idPersonne" value="#{statutsController.idPersonne}"/>
+        </f:metadata>
+
+        <h:panelGroup layout="block" class="container-fluid">
+            <h:panelGroup layout="block" class="row">
+                <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-6">
+                    <h:form id="formStatut" enctype="multipart/form-data">
+                        <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
+                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                        <h:inputFile value="#{murController.part}"/>
+                        <h:commandButton value="Publier" action="#{statutsController.postStatut()}" />
+                    </h:form>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <ui:param name="listStatutsEmis" value="#{statutsController.getStatutsEmis()}" />
+        <h:panelGroup layout="block" rendered="#{not empty listStatutsEmis}" class="col-lg-6">
+            <ui:include src="/secured/afficheStatut.xhtml">
+                <ui:param name="listStatuts" value="#{listStatutsEmis}" />
+            </ui:include>
+        </h:panelGroup>
+
+        <ui:param name="listStatutsRecu" value="#{statutsController.getStatutsRecu()}" />
+        <h:panelGroup layout="block" rendered="#{not empty listStatutsRecu}" class="#{empty listStatutsEmis ? 'col-lg-6 col-lg-offset-6' : 'col-lg-6'}" >
+            <ui:include src="/secured/afficheStatut.xhtml">
+                <ui:param name="listStatuts" value="#{listStatutsRecu}" />
+            </ui:include>
+        </h:panelGroup>
+
     </h:body>
 </html>
 

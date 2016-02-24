@@ -492,18 +492,19 @@ public class PersonnesEntity implements Serializable {
     }
 
 // Gestion des messages ========================================================
-    
     /**
      * Ajoute des messages que l'utilisateur a émis
+     *
      * @param m le message émis par l'utilisateur
      * @return true si le message est ajouté
      */
     public boolean ajoutMessagesEmis(MessagesEntity m) {
         return messagesEmis.add(m);
     }
-    
+
     /**
      * Ajoute des messages que l'utlilisateur a reçu
+     *
      * @param m le message reçu par l'utilisateur
      * @return true si le message est ajouté
      */
@@ -566,12 +567,29 @@ public class PersonnesEntity implements Serializable {
         }
         return s;
     }
-    
+
+    public String afficheStatutsEmis() {
+        String s = "";
+        for (StatutsEntity st : statutsEmis) {
+            s += "{" + st.getTexte() + "}\n";
+        }
+        return s;
+    }
+
+    public String afficheStatutsReçus() {
+        String s = "";
+        for (StatutsEntity st : statutsRecu) {
+            s += "{" + st.getTexte() + "}\n";
+        }
+        return s;
+    }
+
     @Override
     public String toString() {
         return "PersonnesEntity{" + "id=" + id + ", nom=" + nom + ", prenom="
                 + prenom + ", age=" + age + ", mail=" + mail + ", imc=" + imc
-                + " [" + afficheAmi() + "][" + afficheAmiDe() + "]}";
+                + " [" + afficheAmi() + "][" + afficheAmiDe() + "]"
+                + " [" + afficheStatutsEmis() + "][" + afficheStatutsReçus() + "]}";
     }
 
 }

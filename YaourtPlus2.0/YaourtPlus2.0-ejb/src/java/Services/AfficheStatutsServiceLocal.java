@@ -15,5 +15,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface AfficheStatutsServiceLocal {
-     public List<StatutsEntity> afficheMurStatuts(int idUtilisateur);
+    public List<StatutsEntity> afficheMurStatuts(int idUtilisateur);
+    public List<StatutsEntity> getStatutsEmis(int idPersonne);
+    public List<StatutsEntity> getStatutsRecus(int idPersonne);
+    
 }

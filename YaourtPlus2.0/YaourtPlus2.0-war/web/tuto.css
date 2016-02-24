@@ -10,7 +10,6 @@ and open the template in the editor.
 
 body {
     background-color: white;
-    padding-top: 10px;
 }
 
 [class*="col-"], footer, .statuts, .post{
@@ -21,6 +20,9 @@ body {
     text-align: center;
 }
 
+.full-width{
+    width:100%;
+}
 
 label{
     width:200px;

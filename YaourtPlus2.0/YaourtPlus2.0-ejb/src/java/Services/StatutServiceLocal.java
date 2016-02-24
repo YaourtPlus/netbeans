@@ -16,11 +16,15 @@ import javax.ejb.Local;
 @Local
 public interface StatutServiceLocal {
 
-    public List<StatutsEntity> getStatuts(int idPersonne);
+    public List<StatutsEntity> getStatutsByAuteur(int idPersonne);
+
+    public List<StatutsEntity> getStatutsByDestinataire(int idPersonne);
 
     public int ajoutStatut(String statut, int idAuteur, int idDestinataire);
 
     public int ajoutStatut(String statut, int idAuteur);
+    
+    public int postStatut(String statut, int idAuteur, int idDestinataire);
 
     public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur);
 

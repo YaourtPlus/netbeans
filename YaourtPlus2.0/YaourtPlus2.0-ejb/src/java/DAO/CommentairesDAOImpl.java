@@ -34,9 +34,10 @@ public class CommentairesDAOImpl implements CommentairesDAO {
 
 // Ecriture ====================================================================
     @Override
-    public void save(CommentairesEntity c) {
+    public int save(CommentairesEntity c) {
         c = em.merge(c);
         em.persist(c);
+        return c.getId();
     }
 
     @Override

@@ -14,6 +14,7 @@ import Entities.PersonnesEntity;
 import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
 import Enumerations.TypeActions;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -45,10 +46,25 @@ public class StatutService implements StatutServiceLocal {
     @EJB
     PersonnesServiceLocal personneService;
 
+    /**
+     * 
+     * @param idPersonne
+     * @return 
+     */
     @Override
-    public List<StatutsEntity> getStatuts(int idPersonne) {
+    public List<StatutsEntity> getStatutsByAuteur(int idPersonne) {
         return statutDAO.findByAuteur(idPersonne);
     }
+
+    /**
+     * 
+     * @param idPersonne
+     * @return 
+     */
+    @Override
+    public List<StatutsEntity> getStatutsByDestinataire(int idPersonne) {
+        return statutDAO.findByDestinataire(idPersonne);
+    }    
 
     @Override
     public int ajoutStatut(String statut, int idAuteur, int idDestinataire) {
@@ -86,7 +102,39 @@ public class StatutService implements StatutServiceLocal {
     public int ajoutStatut(String statut, int idAuteur) {
         return ajoutStatut(statut, idAuteur, idAuteur);
     }
+    
+    @Override
+    public int postStatut(String statut, int idAuteur, int idDestinataire) {
+                if (statut.length() == 0) { // Gestion d'un statut vide
+            return 0;
+        }
+        // Récupération de l'utilisateur
+        PersonnesEntity user = personneDAO.find(idAuteur);
+        PersonnesEntity destinataire = personneDAO.find(idDestinataire);
 
+        // Création du statut
+        StatutsEntity newStatut = new StatutsEntity(statut, Calendar.getInstance().getTime());
+        // Mise à jour de l'auteur du statut
+        newStatut.setAuteur(user);
+        newStatut.setDestinataire(destinataire);
+        // Ajout dans la BD
+        int idStatut = statutDAO.save(newStatut);
+
+        // Ajout du statut posté à l'utilisateur
+        personneDAO.ajoutStatutEmis(user, newStatut);
+
+        // Ajout du statut posté au destinataire
+        personneDAO.ajoutStatutRecu(destinataire, newStatut);
+
+        // Création d'une action sur le statut par l'utilisateur (post du statut)
+        personneStatutDAO.addPost(idStatut, user);
+
+        // Création d'une notification auprès du destinataire
+        //notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, idStatut);
+
+        return idStatut;
+    }
+    
     @Override
     public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur) {
         if (commentaire == null || commentaire.length() == 0) {
@@ -98,6 +146,15 @@ public class StatutService implements StatutServiceLocal {
 
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
+        
+        if(statut == null || user == null){
+            System.err.println("AjoutCommentaire");
+            
+            System.err.println(statut);
+            System.err.println(user);
+            
+            return -1;
+        }
         /* Création du commentaire
          Un commentaire n'est rien d'autre qu'un statut en réponse à un autre statut
          */
@@ -106,7 +163,7 @@ public class StatutService implements StatutServiceLocal {
         // Ajout du statut commenté
         newCommentaire.setStatut(statut);
 
-        commentaireDAO.save(newCommentaire);
+        int idCommentaire = commentaireDAO.save(newCommentaire);
         // Création d'une notification à l'auteur du statut
         //notificationService.createNotification(TypeNotifications.notifCommentaire, user, statut.getDestinataire(), statut.getId());
         // Préparation de la notifications des personnes ayant commenté le statut
@@ -119,7 +176,7 @@ public class StatutService implements StatutServiceLocal {
         statutDAO.addCommentaire(statut, user);
 
         commentaireDAO.ajoutCommentaire(statut, newCommentaire);
-        return newCommentaire.getId();
+        return idCommentaire;
     }
 
     @Override
@@ -153,7 +210,7 @@ public class StatutService implements StatutServiceLocal {
      * @param idUtilisateur id de l'utilisateur
      */
     @Override
-    public void removeAction(int idStatut, int idUtilisateur){
+    public void removeAction(int idStatut, int idUtilisateur) {
         // Récupération des entités
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUtilisateur);
