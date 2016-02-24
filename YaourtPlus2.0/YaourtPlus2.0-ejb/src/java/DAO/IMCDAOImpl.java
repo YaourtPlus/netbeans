@@ -88,9 +88,9 @@ public class IMCDAOImpl implements IMCDAO {
     @Override
     public void removeIMC(PersonnesEntity auteur, PersonnesEntity allourdeur) {
         IMCEntity imcAuteurStatut = auteur.getImc();
-        IMCEntity imcAuteurLeger = allourdeur.getImc();
+        IMCEntity imcAuteurLourd = allourdeur.getImc();
 
-        imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()-(1/imcAuteurLeger.getValeur()));
+        imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()-(1/imcAuteurLourd.getValeur()));
         imcAuteurStatut = em.merge(imcAuteurStatut);}
 
 }
