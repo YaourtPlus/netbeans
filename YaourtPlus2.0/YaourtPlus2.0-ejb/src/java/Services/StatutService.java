@@ -30,10 +30,6 @@ public class StatutService implements StatutServiceLocal {
     @EJB
     StatutsDAO statutDAO;
 
-    /**
-     * =========================================================================
-     * Temporaire
-     */
     @EJB
     PersonnesDAO personneDAO;
 

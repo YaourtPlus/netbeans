@@ -82,7 +82,6 @@ public class NotificationsEntity implements Serializable {
 
 // Constructeurs ===============================================================
     public NotificationsEntity() {
-        System.err.println("classe mere");
         this.date = Calendar.getInstance().getTime();
         this.type = 0;
         this.notifieur = null;
