@@ -64,6 +64,9 @@ public class FichierService implements FichierServiceLocal {
             File fdef = new File(path + separator + nom);
             fdef.delete();
             fdef.createNewFile();
+            
+            //TODO go to a link not destroy after an app clean
+            
             try {
                 s += "[[[[" + fdef.getAbsolutePath() + "]]]";
                 InputStream in = p.getInputStream();
