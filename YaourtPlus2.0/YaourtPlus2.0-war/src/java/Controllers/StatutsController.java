@@ -5,11 +5,16 @@
  */
 package Controllers;
 
+import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
+import Services.AfficheStatutsServiceLocal;
+import Services.PersonnesServiceLocal;
 import Services.StatutServiceLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -20,34 +25,76 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class StatutsController {
 
-    private Integer filouId;
+    private Integer idPersonne;
+    private String statut;
     
     @EJB
-    StatutServiceLocal statutsService;
+    AfficheStatutsServiceLocal afficheStatutService;
+
+    @EJB
+    StatutServiceLocal statutService;
+    
+    @ManagedProperty(value = "#{murController}")
+    private MurController murController;
     /**
      * Creates a new instance of StatutsController
      */
     public StatutsController() {
     }
 
-    public Integer getFilouId() {
-        return filouId;
+    public MurController getMurController() {
+        return murController;
     }
 
-    public void setFilouId(Integer filouId) {
-        this.filouId = filouId;
+    public void setMurController(MurController murController) {
+        this.murController = murController;
+    }
+
+    
+    public Integer getIdPersonne() {
+        return idPersonne;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setIdPersonne(Integer idPersonne) {
+        this.idPersonne = idPersonne;
     }
     
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
     
-    public List<StatutsEntity> getStatutEmis(int idPersonne){
-        List<StatutsEntity> list = statutsService.getStatutsEmis(1);
-        if(list.isEmpty()){
-            list = statutsService.getStatuts(1);
+    public List<StatutsEntity> getStatutsEmis(){
+        return afficheStatutService.getStatutsEmis(idPersonne);
+    }
+    
+    public List<StatutsEntity> getStatutsRecu(){
+        return afficheStatutService.getStatutsRecus(idPersonne);
+    }
+    
+    public List<StatutsEntity> getStatuts() {
+        return afficheStatutService.afficheMurStatuts(murController.getIdUtilisateur());
+    }
+    
+    public void ajoutStatut() {
+        int idStatut = statutService.ajoutStatut(statut, murController.getIdUtilisateur());
+        if (murController.getPart() != null) {
+            murController.ajoutFichier(idStatut);
         }
-        return list;
     }
-    
-    public List<StatutsEntity> getStatutsRecu(int idPersonne){
-        return statutsService.getStatutsRecus(1);
+
+    public void postStatut() {
+        if(idPersonne == murController.getIdUtilisateur()){
+            ajoutStatut();
+        }
+        else{
+            int idStatut = statutService.postStatut(statut, murController.getIdUtilisateur(), idPersonne);
+            if (murController.getPart() != null) {
+                murController.ajoutFichier(idStatut);
+            }
+        }
     }
 }

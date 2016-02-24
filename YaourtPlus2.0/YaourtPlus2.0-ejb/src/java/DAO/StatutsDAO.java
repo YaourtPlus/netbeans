@@ -44,4 +44,6 @@ public interface StatutsDAO {
     public List<StatutsEntity> findAll();
 
     public List<StatutsEntity> findByAuteur(int auteurId);
+    
+    public List<StatutsEntity> findByDestinataire(int destinataireId);
 }

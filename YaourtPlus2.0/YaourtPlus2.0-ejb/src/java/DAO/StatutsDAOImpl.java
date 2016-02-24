@@ -296,7 +296,17 @@ public class StatutsDAOImpl implements StatutsDAO {
      */
     @Override
     public List<StatutsEntity> findByAuteur(int auteurId) {
-        return null;
+        Query q = em.createQuery("SELECT s1 FROM PersonnesEntity P JOIN P.statutsEmis s1 " +
+                    "WHERE P.id = :id");
+        q.setParameter("id", auteurId);
+        return q.getResultList();
     }
-
+    
+    @Override
+    public List<StatutsEntity> findByDestinataire(int destinataireId) {
+         Query q = em.createQuery("SELECT s1 FROM PersonnesEntity P JOIN P.statutsRecu s1 " +
+                    "WHERE P.id = :id");
+        q.setParameter("id", destinataireId);
+        return q.getResultList();
+    }
 }
