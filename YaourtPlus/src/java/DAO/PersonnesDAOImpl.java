@@ -156,7 +156,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         // Mise à jour des personnes
         boolean added = notifieur.ajoutNotificationEmise(notif);
         added = added && destinataire.ajoutNotificationsRecu(notif);
-
+        
         // Incrémentation du nombre de notification du destinataire
         destinataire.addNotif();
 

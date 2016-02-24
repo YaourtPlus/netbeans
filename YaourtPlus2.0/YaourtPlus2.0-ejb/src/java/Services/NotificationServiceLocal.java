@@ -15,5 +15,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface NotificationServiceLocal {
-    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationCommentaire(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationFilou(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationLeger(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationLourd(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationMessage(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
+    public boolean createNotificationStatut(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
 }

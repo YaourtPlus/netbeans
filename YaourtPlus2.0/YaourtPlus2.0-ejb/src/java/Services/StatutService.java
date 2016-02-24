@@ -46,10 +46,13 @@ public class StatutService implements StatutServiceLocal {
     @EJB
     PersonnesServiceLocal personneService;
 
+    @EJB
+    NotificationServiceLocal notificationService;
+
     /**
-     * 
+     *
      * @param idPersonne
-     * @return 
+     * @return
      */
     @Override
     public List<StatutsEntity> getStatutsByAuteur(int idPersonne) {
@@ -57,14 +60,14 @@ public class StatutService implements StatutServiceLocal {
     }
 
     /**
-     * 
+     *
      * @param idPersonne
-     * @return 
+     * @return
      */
     @Override
     public List<StatutsEntity> getStatutsByDestinataire(int idPersonne) {
         return statutDAO.findByDestinataire(idPersonne);
-    }    
+    }
 
     @Override
     public int ajoutStatut(String statut, int idAuteur, int idDestinataire) {
@@ -94,7 +97,7 @@ public class StatutService implements StatutServiceLocal {
         personneStatutDAO.addPost(idStatut, user);
 
         // Création d'une notification auprès du destinataire
-        //notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, idStatut);
+        //notificationService.createNotificationStatut(user, destinataire, idStatut);
         return idStatut;
     }
 
@@ -102,10 +105,10 @@ public class StatutService implements StatutServiceLocal {
     public int ajoutStatut(String statut, int idAuteur) {
         return ajoutStatut(statut, idAuteur, idAuteur);
     }
-    
+
     @Override
     public int postStatut(String statut, int idAuteur, int idDestinataire) {
-                if (statut.length() == 0) { // Gestion d'un statut vide
+        if (statut.length() == 0) { // Gestion d'un statut vide
             return 0;
         }
         // Récupération de l'utilisateur
@@ -130,11 +133,17 @@ public class StatutService implements StatutServiceLocal {
         personneStatutDAO.addPost(idStatut, user);
 
         // Création d'une notification auprès du destinataire
-        //notificationService.createNotification(TypeNotifications.notifStatut, user, destinataire, idStatut);
+        if(user == null){
+            System.err.println("user nul");
+        }
+        else if (destinataire == null){
+            System.err.println("dest nul");
+        }
+        notificationService.createNotificationStatut(user, destinataire, idStatut);
 
         return idStatut;
     }
-    
+
     @Override
     public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur) {
         if (commentaire == null || commentaire.length() == 0) {
@@ -146,13 +155,13 @@ public class StatutService implements StatutServiceLocal {
 
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-        
-        if(statut == null || user == null){
+
+        if (statut == null || user == null) {
             System.err.println("AjoutCommentaire");
-            
+
             System.err.println(statut);
             System.err.println(user);
-            
+
             return -1;
         }
         /* Création du commentaire
@@ -165,14 +174,14 @@ public class StatutService implements StatutServiceLocal {
 
         int idCommentaire = commentaireDAO.save(newCommentaire);
         // Création d'une notification à l'auteur du statut
-        //notificationService.createNotification(TypeNotifications.notifCommentaire, user, statut.getDestinataire(), statut.getId());
+        notificationService.createNotificationCommentaire(user, statut.getDestinataire(), statut.getId());
         // Préparation de la notifications des personnes ayant commenté le statut
-        /*for (PersonnesStatutsEntity ps : statut.getStatutsActeurs()) {
-         // Création de la notification aux gens qui ont agit sur le statut
-         if (ps.getStatut().equals(statut) && (ps.getCommentaire() || ps.getPost())) {
-         notificationService.createNotification(TypeNotifications.notifCommentaire, user, ps.getPersonne(), statut.getId());
-         }
-         }*/
+        for (PersonnesStatutsEntity ps : statut.getStatutsActeurs()) {
+            // Création de la notification aux gens qui ont agit sur le statut
+            if (ps.getStatut().equals(statut) && (ps.getCommentaire() || ps.getPost())) {
+                notificationService.createNotificationCommentaire(user, ps.getPersonne(), statut.getId());
+            }
+        }
         statutDAO.addCommentaire(statut, user);
 
         commentaireDAO.ajoutCommentaire(statut, newCommentaire);
@@ -188,7 +197,7 @@ public class StatutService implements StatutServiceLocal {
         statutDAO.addLeger(statut, user);
 
         // Création de la notification dans la BD
-        //notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
+        notificationService.createNotificationLeger(user, auteur, statut.getId());
     }
 
     @Override
@@ -200,7 +209,7 @@ public class StatutService implements StatutServiceLocal {
         statutDAO.addLourd(statut, user);
 
         // Création de la notification dans la BD
-        //notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
+        notificationService.createNotificationLourd(user, auteur, statut.getId());
     }
 
     /**

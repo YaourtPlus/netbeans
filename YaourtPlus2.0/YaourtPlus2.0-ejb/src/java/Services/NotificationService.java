@@ -10,7 +10,13 @@ import DAO.NotificationsDAO;
 import DAO.PersonnesDAO;
 import DAO.StatutsDAO;
 import Entities.MessagesEntity;
+import Entities.NotificationsCommentaireEntity;
 import Entities.NotificationsEntity;
+import Entities.NotificationsFilouEntity;
+import Entities.NotificationsLegerEntity;
+import Entities.NotificationsLourdEntity;
+import Entities.NotificationsMessageEntity;
+import Entities.NotificationsStatutEntity;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
 import Enumerations.TypeNotifications;
@@ -27,46 +33,108 @@ public class NotificationService implements NotificationServiceLocal {
 
     @EJB
     StatutsDAO statutDAO;
-    
+
     @EJB
     MessagesDAO messageDAO;
-    
-    @EJB 
+
+    @EJB
     NotificationsDAO notificationDAO;
-    
+
     @EJB
     PersonnesDAO personneDAO;
-    
+
     @Override
-    public boolean createNotification(TypeNotifications typeNotif, PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+    public boolean createNotificationCommentaire(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+        NotificationsCommentaireEntity notif = new NotificationsCommentaireEntity(Calendar.getInstance().getTime());
+        notif.setNotifieur(idNotifieur);
+        notif.ajoutDestinataire(idDestinataire);
+
+        StatutsEntity statut = statutDAO.find(idStatut);
+        notif.setStatut(statut);
+        notificationDAO.save(notif);
+
+        // Ajout de la notification a l'auteur du statut
         boolean add = false;
-        if (!idNotifieur.equals(idDestinataire)) {
-            NotificationsEntity notif = new NotificationsEntity(Calendar.getInstance().getTime(),
-                    typeNotif.getId());
-            notif.setNotifieur(idNotifieur);
-            notif.ajoutDestinataire(idDestinataire);
-            switch (typeNotif) {
-                case notifStatut:
-                case notifCommentaire:
-                case notifLeger:
-                case notifLourd:
-                    StatutsEntity statut = statutDAO.find(idStatut);
-                    notif.setStatut(statut);
-                    break;
-                case notifMessage:
-                    MessagesEntity message = messageDAO.find(idStatut);
-                    notif.setMessage(message);
-                    break;
-                default:
-                    break;
-            } // End switch
-            // Création de la notification dans la BD
-            notificationDAO.save(notif);
-            // Ajout de la notification a l'auteur du statut
-            add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
-        }
+        add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
 
-    
+    @Override
+    public boolean createNotificationFilou(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+        NotificationsFilouEntity notif = new NotificationsFilouEntity(Calendar.getInstance().getTime());
+        notif.setNotifieur(idNotifieur);
+        notif.ajoutDestinataire(idDestinataire);
+
+        notificationDAO.save(notif);
+
+        // Ajout de la notification a l'auteur du statut
+        boolean add = false;
+        add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
+        return add;
+    }
+
+    @Override
+    public boolean createNotificationLeger(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+        NotificationsLegerEntity notif = new NotificationsLegerEntity(Calendar.getInstance().getTime());
+        notif.setNotifieur(idNotifieur);
+        notif.ajoutDestinataire(idDestinataire);
+
+        StatutsEntity statut = statutDAO.find(idStatut);
+        notif.setStatut(statut);
+        notificationDAO.save(notif);
+
+        // Ajout de la notification a l'auteur du statut
+        boolean add = false;
+        add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
+        return add;
+    }
+
+    @Override
+    public boolean createNotificationLourd(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+        NotificationsLourdEntity notif = new NotificationsLourdEntity(Calendar.getInstance().getTime());
+        notif.setNotifieur(idNotifieur);
+        notif.ajoutDestinataire(idDestinataire);
+
+        StatutsEntity statut = statutDAO.find(idStatut);
+        notif.setStatut(statut);
+        notificationDAO.save(notif);
+
+        // Ajout de la notification a l'auteur du statut
+        boolean add = false;
+        add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
+        return add;
+    }
+
+    @Override
+    public boolean createNotificationMessage(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+        NotificationsMessageEntity notif = new NotificationsMessageEntity(Calendar.getInstance().getTime());
+        MessagesEntity message = messageDAO.find(idStatut);
+        notif.setMessage(message);
+        notif.setNotifieur(idNotifieur);
+        notif.ajoutDestinataire(idDestinataire);
+
+        notificationDAO.save(notif);
+
+        // Ajout de la notification a l'auteur du statut
+        boolean add = false;
+        add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
+        return add;
+    }
+
+    @Override
+    public boolean createNotificationStatut(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
+        NotificationsStatutEntity notif = new NotificationsStatutEntity(Calendar.getInstance().getTime());
+        notif.setNotifieur(idNotifieur);
+        notif.ajoutDestinataire(idDestinataire);
+
+        StatutsEntity statut = statutDAO.find(idStatut);
+        notif.setStatut(statut);
+        notificationDAO.save(notif);
+
+        // Ajout de la notification a l'auteur du statut
+        boolean add = false;
+        add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
+        return add;
+    }
+
 }

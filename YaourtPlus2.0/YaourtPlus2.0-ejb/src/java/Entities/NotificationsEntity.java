@@ -82,6 +82,7 @@ public class NotificationsEntity implements Serializable {
 
 // Constructeurs ===============================================================
     public NotificationsEntity() {
+        System.err.println("classe mere");
         this.date = Calendar.getInstance().getTime();
         this.type = 0;
         this.notifieur = null;
@@ -203,31 +204,7 @@ public class NotificationsEntity implements Serializable {
     @Override
     public String toString() {
         String result = notifieur.getPrenom() + " " + notifieur.getNom();
-        switch (TypeNotifications.getType(type)) {
-            case emptyNotification:
-                result = "";
-                break;
-            case notifFilou:
-                result += " vous a ajouté en tant que Filou.";
-                break;
-            case notifMessage:
-                result += " vous a envoyé un message.";
-                break;
-            case notifLeger:
-                result += " a allégé un statut.";
-                break;
-            case notifLourd:
-                result += " a allourdi un statut.";
-                break;
-            case notifCommentaire:
-                result += " a commenté un statut.";
-                break;
-            case notifStatut:
-                result += " a posté un statut sur votre mur.";
-                break;
-            default:
-                break;
-        };
+        result += " vous a notifié";
         return result;
     }
 

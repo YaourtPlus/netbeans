@@ -7,6 +7,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        <h:link value="Accueil" outcome="connexion.xhtml"/>
         <h:form id="formInscription">
             Login :  <h:inputText id="login" value="#{compteController.login}" required="true" >
                 <f:validator validatorId="inscriptionValidator" />

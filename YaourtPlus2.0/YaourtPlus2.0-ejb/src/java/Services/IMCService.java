@@ -9,7 +9,6 @@ import DAO.PersonnesDAO;
 import DAO.StatutsDAO;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
-import Enumerations.TypeNotifications;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -36,7 +35,7 @@ public class IMCService implements IMCServiceLocal {
         statutDAO.addLeger(statut, user);
 
         // Création de la notification dans la BD
-        notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
+        notificationService.createNotificationLeger(user, auteur, statut.getId());
     }
 
     @Override
@@ -47,7 +46,7 @@ public class IMCService implements IMCServiceLocal {
         statutDAO.addLourd(statut, user);
 
         // Création de la notification dans la BD
-        notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut.getId());
+        notificationService.createNotificationLourd(user, auteur, statut.getId());
     }
 
     @Override

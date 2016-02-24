@@ -11,7 +11,6 @@ import Entities.NotificationsEntity;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
 import java.util.List;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -154,9 +153,11 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 
         // Incrémentation du nombre de notification du destinataire
         destinataire.addNotif();
+        
 
         // Mise à jour de la BD
         if (added) {
+            System.err.println(em);
             em.merge(notifieur);
             em.merge(destinataire);
         }
