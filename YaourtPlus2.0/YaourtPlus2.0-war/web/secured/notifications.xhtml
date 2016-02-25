@@ -11,9 +11,14 @@
         <ui:include src="/secured/navbar.xhtml"/>
         <h:dataTable value="#{notificationsController.getNotifs()}" var="notif" class="full-width">
             <h:column>
-                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10">
+                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{not empty notif.statut}"> 
                     <h:outputText value="#{notif.toString()}" />
-                    <h:link value="ici" outcome="/secured/vueNotif?idNotif=#{notif.id}"/><br/>
+                        <h:link value="ici" outcome="/secured/vueNotifStatut?idNotif=#{notif.id}"/><br/>
+                    <h:outputText value="#{notif.date}" />
+                </h:panelGroup>
+                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{not empty notif.message}"> 
+                    <h:outputText value="#{notif.toString()}" />
+                        <h:link value="ici" outcome="/secured/vueNotifMessage?idNotif=#{notif.id}"/><br/>
                     <h:outputText value="#{notif.date}" />
                 </h:panelGroup>
             </h:column>

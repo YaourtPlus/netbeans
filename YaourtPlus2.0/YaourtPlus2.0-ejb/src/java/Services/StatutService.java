@@ -45,6 +45,10 @@ public class StatutService implements StatutServiceLocal {
     @EJB
     NotificationServiceLocal notificationService;
 
+    @Override
+    public StatutsEntity getStatut(int idStatut){
+        return statutDAO.find(idStatut);
+    }
     /**
      *
      * @param idPersonne

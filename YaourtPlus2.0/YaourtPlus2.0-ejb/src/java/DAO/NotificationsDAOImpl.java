@@ -58,8 +58,8 @@ public class NotificationsDAOImpl implements NotificationsDAO {
 // Lecture =====================================================================
     @Override
     public NotificationsEntity find(int id) {
-        Query q = em.createQuery("SELECT n FROM NotificationsEntity n where n.id = ?");
-        q.setParameter(1, id);
+        Query q = em.createQuery("SELECT n FROM NotificationsEntity n where n.id = :id");
+        q.setParameter("id", id);
         try{
            return (NotificationsEntity) q.getSingleResult();
         }

@@ -7,6 +7,7 @@ package Services;
 
 import Entities.NotificationsEntity;
 import Entities.PersonnesEntity;
+import Entities.StatutsEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -24,4 +25,5 @@ public interface NotificationServiceLocal {
     public boolean createNotificationStatut(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut);
     
     public List<NotificationsEntity> getNotifs(int utilisateurId);
+    public StatutsEntity getStatut(int idNotif);
 }

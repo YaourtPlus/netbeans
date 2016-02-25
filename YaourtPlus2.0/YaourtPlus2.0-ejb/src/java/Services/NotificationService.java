@@ -148,4 +148,11 @@ public class NotificationService implements NotificationServiceLocal {
         return user.getNotificationRecues();
     }
 
+    @Override
+    public StatutsEntity getStatut(int idNotif) {
+        NotificationsEntity notif = notificationDAO.find(idNotif);
+        
+        return notif.getStatut();
+    }
+
 }
