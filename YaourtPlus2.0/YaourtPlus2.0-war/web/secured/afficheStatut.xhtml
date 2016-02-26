@@ -62,62 +62,71 @@
                             </h:panelGroup><!-- Fin affichage nombre léger/lourd -->
 
                             <!-- Div lien not empty action statut-->
-                            <h:panelGroup layout="block" style="#{not empty statut.statutsActeurs ? 'display : visible' : 'display : none'}">
+                            <h:panelGroup layout="block" rendered="#{not empty statut.statutsActeurs}">
 
                                 <!-- Div lien action utilisateur statut -->
-                                <h:panelGroup layout="block" style="#{statut.isActeur(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
-
+                                <h:panelGroup layout="block" rendered="#{statut.isActeur(murController.idUtilisateur)}">
                                     <ui:param name="visible" value="#{ps.personne.id == murController.idUtilisateur}" />    
-
                                     <!-- Boucle action statut -->
                                     <ui:repeat value="#{statut.statutsActeurs}" var="ps">
-
                                         <!-- If lien statuts -->
-                                        <!-- Case action = 0 -->
-                                        <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 0 ? 'display : visible' : 'display : none'} ">
-                                            <h:form>
-                                                <h:commandLink value="Léger!" action="#{murController.ajoutLeger(statut.id)}" />
-                                            </h:form>
-                                            <h:form>
-                                                <h:commandLink value="T'es lourd!" action="#{murController.ajoutLourd(statut.id)}" />
-                                            </h:form>
-                                        </h:panelGroup> <!-- Fin case action = 0 -->
-                                        <!-- Case action = 1 -->
-                                        <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 1 ? 'display : visible' : 'display : none'} ">
-                                            <h:form>
-                                                <h:commandLink value="Vous avez allégé le statut." action="#{murController.suppressionAction(statut.id)}" />
-                                            </h:form>
-                                        </h:panelGroup><!-- Fin case action = 1 -->
-                                        <!-- Case action = 2 -->
-                                        <h:panelGroup layout="block" style="#{visible and ps.typeAction.id == 2 ? 'display : visible' : 'display : none'} ">
-                                            <h:form>
-                                                <h:commandLink value="Vous avez allourdi le statut." action="#{murController.suppressionAction(statut.id)}" />
-                                            </h:form>
-                                        </h:panelGroup><!-- Fin case action = 2 -->
+                                        <h:panelGroup layout="block" rendered="#{visible}">
+                                            <!-- Case action = 0 -->
+                                            <h:panelGroup layout="block" rendered="#{ps.typeAction.id == 0}">
+                                                <h:form>
+                                                    <h:commandLink value="Léger!" action="#{murController.ajoutLeger(statut.id)}">
+                                                        <f:param name="id" value="#{param['id']}" />
+                                                    </h:commandLink>
+                                                    <h:commandLink value="T'es lourd!" action="#{murController.ajoutLourd(statut.id)}" >
+                                                        <f:param name="id" value="#{param['id']}" />
+                                                    </h:commandLink>
+                                                </h:form>
+                                            </h:panelGroup> <!-- Fin case action = 0 -->
+                                            <!-- Case action = 1 -->
+                                            <h:panelGroup layout="block" rendered="#{ps.typeAction.id==1}" >
+                                                <h:form>
+                                                    <h:commandLink value="Vous avez allégé le statut." action="#{murController.suppressionAction(statut.id)}" >
+                                                        <f:param name="id" value="#{param['id']}" />
+                                                    </h:commandLink>
+                                                </h:form>
+                                            </h:panelGroup><!-- Fin case action = 1 -->
+                                            <!-- Case action = 2 -->
+                                            <h:panelGroup layout="block" rendered="#{ps.typeAction.id == 2}">
+                                                <h:form>
+                                                    <h:commandLink value="Vous avez allourdi le statut." action="#{murController.suppressionAction(statut.id)}" >
+                                                        <f:param name="id" value="#{param['id']}" />
+                                                    </h:commandLink>
+                                                </h:form>
+                                            </h:panelGroup><!-- Fin case action = 2 -->
+                                        </h:panelGroup>
                                         <!-- Fin lien statuts -->
                                     </ui:repeat> <!-- Fin boucle action statut -->
 
                                 </h:panelGroup> <!-- Fin lien action utilisateur statut -->
 
                                 <!-- Div lien non action utilisateur statut -->
-                                <h:panelGroup layout="block" style="#{!statut.isActeur(murController.idUtilisateur) ? 'display : visible' : 'display : none'}">
+                                <h:panelGroup layout="block" rendered="#{!statut.isActeur(murController.idUtilisateur)}">
                                     <h:form>
-                                        <h:commandLink value="Léger!" action="#{murController.ajoutLeger(statut.id)}" />
-                                    </h:form>
-                                    <h:form>
-                                        <h:commandLink value="T'es lourd!" action="#{murController.ajoutLourd(statut.id)}" />
+                                        <h:commandLink value="Léger!" action="#{murController.ajoutLeger(statut.id)}" >
+                                            <f:param name="id" value="#{param['id']}" />
+                                        </h:commandLink>
+                                        <h:commandLink value="T'es lourd!" action="#{murController.ajoutLourd(statut.id)}" >
+                                            <f:param name="id" value="#{param['id']}" />
+                                        </h:commandLink>
                                     </h:form>
                                 </h:panelGroup> <!-- Fin div lien non action utilisateur statut -->
 
                             </h:panelGroup> <!-- fin div lien not empty action statut-->
 
                             <!-- Div lien sans actions statut-->
-                            <h:panelGroup layout="block" style="#{empty statut.statutsActeurs ? 'display : visible' : 'display : none'} ">
+                            <h:panelGroup layout="block" rendered="#{empty statut.statutsActeurs} ">
                                 <h:form>
-                                    <h:commandLink value="Léger!" action="#{murController.ajoutLeger(statut.id)}" />
-                                </h:form>
-                                <h:form>
-                                    <h:commandLink value="T'es lourd!" action="#{murController.ajoutLourd(statut.id)}" />
+                                    <h:commandLink value="Léger!" action="#{murController.ajoutLeger(statut.id)}" >
+                                        <f:param name="id" value="#{param['id']}" />
+                                    </h:commandLink>
+                                    <h:commandLink value="T'es lourd!" action="#{murController.ajoutLourd(statut.id)}" >
+                                        <f:param name="id" value="#{param['id']}" />
+                                    </h:commandLink>
                                 </h:form>
                             </h:panelGroup> <!-- Fin div lien sans actions statut-->
 
@@ -141,7 +150,9 @@
                 <h:form id="formCommentaire">
                     <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire" 
                                      value="#{commentaireController.commentaire}" required="false"/>
-                    <h:commandButton value="Répondre" action="#{commentaireController.ajoutCommentaire(statut.id)}"/>
+                    <h:commandButton value="Répondre" action="#{commentaireController.ajoutCommentaire(statut.id)}">
+                        <f:param name="id" value="#{param['id']}" />
+                    </h:commandButton>
                 </h:form><!-- Fin form post commentaire -->
             </h:column>
         </h:dataTable><!-- Fin boucle sur liste des statuts -->

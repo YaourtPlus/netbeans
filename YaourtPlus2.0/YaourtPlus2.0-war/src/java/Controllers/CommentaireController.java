@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -52,13 +51,9 @@ public class CommentaireController {
 
     public String ajoutCommentaire(int idStatut) {
         statutService.ajoutCommentaire(commentaire, idStatut, murController.getIdUtilisateur());
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        for(Object o : FacesContext.getCurrentInstance().getAttributes().entrySet()){
-            System.out.println(o);
-        }
-        System.err.println(FacesContext.getCurrentInstance().getAttributes());
-        // Add param.
-        return viewId + "?faces-redirect=true";
+        
+        return murController.goToCurrentPage();
     }
+    
 
 }

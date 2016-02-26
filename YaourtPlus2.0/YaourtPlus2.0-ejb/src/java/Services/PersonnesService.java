@@ -6,6 +6,7 @@
 package Services;
 
 import DAO.PersonnesDAO;
+import Entities.MessagesEntity;
 import Entities.PersonnesEntity;
 import java.util.List;
 import javax.ejb.EJB;
@@ -41,6 +42,18 @@ public class PersonnesService implements PersonnesServiceLocal {
         PersonnesEntity user = personneDAO.find(idUtilisateur);
         
         return user.getListFilous();
+    }
+
+    
+    @Override
+    public void ajoutMessageEnvoi(PersonnesEntity sender, MessagesEntity newMessagesEntity) {
+        personneDAO.ajoutMessageEnvoi(sender, newMessagesEntity);
+    }
+
+    
+    @Override
+    public void ajoutMessageRecu(PersonnesEntity dest, MessagesEntity newMessagesEntity) {
+        personneDAO.ajoutMessageRecu(dest, newMessagesEntity);
     }
 
 }

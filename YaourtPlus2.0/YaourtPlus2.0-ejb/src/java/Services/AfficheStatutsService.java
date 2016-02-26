@@ -54,11 +54,11 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
     @Override
     public List<StatutsEntity> getStatutsEmis(int idPersonne){
         PersonnesEntity p = personneService.getPersonne(idPersonne);
-        List<StatutsEntity> statutsEmis = statutService.getStatutsByAuteur(idPersonne);
+        //List<StatutsEntity> statutsEmis = statutService.getStatutsByAuteur(idPersonne);
         List<StatutsEntity> list = new ArrayList();
         
         // Parcours des statuts émis par la personne
-        for(StatutsEntity s : statutsEmis){
+        for(StatutsEntity s : p.getStatutsEmis()){
             // On recherche les statuts que la personne n'a pas posté sur un mur
             if(s.getDestinataire().equals(p)){
                 list.add(s);
@@ -70,11 +70,11 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
     @Override
     public List<StatutsEntity> getStatutsRecus(int idPersonne){
         PersonnesEntity p = personneService.getPersonne(idPersonne);
-        List<StatutsEntity> statutsRecus = statutService.getStatutsByDestinataire(idPersonne);
+        //List<StatutsEntity> statutsRecus = statutService.getStatutsByDestinataire(idPersonne);
         List<StatutsEntity> list = new ArrayList();
         
         // Parcours des statuts émis par la personne
-        for(StatutsEntity s : statutsRecus){
+        for(StatutsEntity s : p.getStatutsRecu()){
             // On recherche les statuts que la personne a reçu et qui ne viennent pas d'elle
             if(!s.getAuteur().equals(p)){
                 list.add(s);

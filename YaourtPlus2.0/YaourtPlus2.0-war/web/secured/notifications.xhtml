@@ -13,13 +13,16 @@
             <h:column>
                 <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{not empty notif.statut}"> 
                     <h:outputText value="#{notif.toString()}" />
-                        <h:link value="ici" outcome="/secured/vueNotifStatut?idNotif=#{notif.id}"/><br/>
+                        <h:link value="ici" outcome="/secured/vueNotifStatut?id=#{notif.id}"/><br/>
                     <h:outputText value="#{notif.date}" />
                 </h:panelGroup>
                 <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{not empty notif.message}"> 
                     <h:outputText value="#{notif.toString()}" />
-                        <h:link value="ici" outcome="/secured/vueNotifMessage?idNotif=#{notif.id}"/><br/>
+                        <h:link value="ici" outcome="/secured/vueNotifMessage?id=#{notif.id}"/><br/>
                     <h:outputText value="#{notif.date}" />
+                </h:panelGroup>
+                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{empty notif.message and empty notif.statut}"> 
+                    <h:outputText value="#{notif.toString()}" />
                 </h:panelGroup>
             </h:column>
         </h:dataTable>

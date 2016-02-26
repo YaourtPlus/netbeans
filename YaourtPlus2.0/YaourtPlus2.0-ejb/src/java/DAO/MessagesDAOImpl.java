@@ -60,8 +60,8 @@ public class MessagesDAOImpl implements MessagesDAO {
     
     @Override
     public MessagesEntity find(int id) {
-        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.id = ?");
-        q.setParameter(1, id);
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.id = :id");
+        q.setParameter("id", id);
         try {
             return (MessagesEntity) q.getSingleResult();
         } catch (NoResultException e) {
@@ -85,8 +85,8 @@ public class MessagesDAOImpl implements MessagesDAO {
     
     @Override
     public List<MessagesEntity> findByAuteur(int auteurId) {
-        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.emetteur.id = ?");
-        q.setParameter(1, auteurId);
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.emetteur.id = :id");
+        q.setParameter("id", auteurId);
         return q.getResultList();
     }
 
@@ -109,8 +109,8 @@ public class MessagesDAOImpl implements MessagesDAO {
     
     @Override
     public List<MessagesEntity> findByDestinataire(int destinataireId) {
-        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.destinataire.id <> ?");
-        q.setParameter(1, destinataireId);
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.destinataire.id <> :id");
+        q.setParameter("id", destinataireId);
         return q.getResultList();
     }
 
@@ -119,14 +119,17 @@ public class MessagesDAOImpl implements MessagesDAO {
      * @param destinataireId
      * @return
      */
-    
     @Override
     public List<MessagesEntity> findByPersonne(int auteurId, int destinataireId) {
-        Query q = em.createQuery("SELECT m FROM MessagesEntity m where (m.emetteur.id = ? AND m.destinataire.id = ?) OR  (m.emetteur.id = ? AND m.destinataire.id = ?)");
-        q.setParameter(1, auteurId);
-        q.setParameter(2, destinataireId);
-        q.setParameter(3, destinataireId);
-        q.setParameter(4, auteurId);
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where "
+                + "(m.emetteur.id = :emetteurId AND m.destinataire.id = :destinataireId) "
+                + "OR "
+                + "(m.emetteur.id = :destinataireIdR AND m.destinataire.id = :emetteurIdR)"); 
+        
+        q.setParameter("emetteurId", auteurId);
+        q.setParameter("destinataireId", destinataireId);
+        q.setParameter("emetteurIdR", destinataireId);
+        q.setParameter("destinataireIdR", auteurId);
         
         return q.getResultList();
     }

@@ -4,28 +4,29 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Accueil</title>
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
         <ui:include src="/secured/navbar.xhtml"/>
+        #{murController.idUtilisateur}
+        #{messagesController.idPersonne}
         <!-- Div mur -->
         <h:panelGroup layout="block" class="container-fluid">
             <!-- Div Filous/Statuts/Messages -->
             <h:panelGroup layout="block" class="row" >
                 <ui:param name="listFilous" value="#{filousController.getFilous()}" />
                 <!-- Liste Filous -->
-                <h:panelGroup layout="block" class="col-lg-2" style="#{not empty  listFilous ? 'display : visible' : 'display : none'}"> 
+                <h:panelGroup layout="block" class="col-lg-2" rendered="#{not empty  listFilous}"> 
                     <ul class="list-unstyled">
                         <h:dataTable value="#{listFilous}" var="filous" class="full-width">
                             <h:column>
                                 <li>
-                                    <h:form id="formStatutsFilous">
+                                    <h:form id="filousForm">
                                         <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{murController.goToFilou(filous.id)}" />
-                                    </h:form>
-                                    <h:form id="formRemoveFilous">
                                         <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
                                     </h:form>
                                 </li>
@@ -48,6 +49,53 @@
                     </ui:include>
 
                 </h:panelGroup><!-- Fin post statut -->
+
+                <!-- Div envoie messages -->
+                <h:panelGroup layout="block" class="col-lg-4" rendered="#{not empty  listFilous}">
+                    <!-- Form post message -->
+                    <h:form id="formMessage"> 
+                       <!-- List select filou -->
+                        <h:selectOneMenu value="#{messagesController.idPersonne}">
+                            <f:selectItems value="#{listFilous}" var="filou"
+                                           itemLabel="#{filou.prenom} #{filou.nom}" itemValue="#{filou.id}" />
+                        </h:selectOneMenu><!-- Fin list select filou -->
+                        <h:inputTextarea rows="2" cols="150" class="form-control" id="statut" 
+                                         p:placeholder="Ajouter un ptit statut"
+                                         value="#{messagesController.message}" requiredMessage="Envoyer un ptit message"/>
+                        <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" >
+                            <f:param name="id" value="#{param['id']}" />
+                        </h:commandButton>
+                    </h:form><!-- Fin form post message -->
+
+                    <!-- Boucle message conversation -->
+                    <ui:repeat value="#{messagesController.getMessages()}" var="message">
+                        <!-- Div messages -->
+                        <h:panelGroup layout="block" class="message col-lg-offset-1 col-lg-10 col-lg-offset-1">
+                            <!-- Div info emetteur message-->
+                            <h:panelGroup layout="block" class="row rowMessage">
+                                <h:panelGroup layout="block" class="message">
+                                    <h:outputText value="#{message.emetteur.prenom} #{message.emetteur.prenom}" />
+                                </h:panelGroup>
+                            </h:panelGroup><!-- Fin div info emmeteur message-->
+
+                            <!-- Div texte message -->
+                            <h:panelGroup layout="block" class="row rowMessage messageText">
+                                <h:panelGroup layout="block" class="message">
+                                    <h:outputText value="#{message.texte}" />
+                                </h:panelGroup>
+                            </h:panelGroup><!-- Fin div texte message -->
+
+                            <!-- Div date message -->
+                            <h:panelGroup layout="block" class="row rowMessage">
+                                <h:panelGroup layout="block" class="message">
+                                    <h:outputText value="Envoyé le #{message.date}" />
+                                </h:panelGroup>
+                            </h:panelGroup><!-- Fin div date message -->
+
+                        </h:panelGroup><!-- Fin div messages -->
+                    </ui:repeat> <!-- Fin boucle message conversation -->
+
+                </h:panelGroup> <!-- Fin div envoie message -->
             </h:panelGroup> <!-- Fin row -->
         </h:panelGroup> <!-- Fin div fluid -->
     </h:body>

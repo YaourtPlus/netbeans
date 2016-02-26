@@ -5,6 +5,7 @@
  */
 package Services;
 
+import Entities.MessagesEntity;
 import Entities.PersonnesEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -20,5 +21,9 @@ public interface PersonnesServiceLocal {
     public PersonnesEntity getPersonne(int idPersonne);
 
     public List<PersonnesEntity> findFilous(int idUtilisateur);
+
+    public void ajoutMessageEnvoi(PersonnesEntity sender, MessagesEntity newMessagesEntity);
+
+    public void ajoutMessageRecu(PersonnesEntity dest, MessagesEntity newMessagesEntity);
 
 }

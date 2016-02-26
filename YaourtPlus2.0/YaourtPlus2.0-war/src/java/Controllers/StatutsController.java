@@ -24,8 +24,9 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class StatutsController {
-
+    
     private Integer idPersonne;
+    
     private String statut;
     
     @EJB
@@ -79,22 +80,24 @@ public class StatutsController {
         return afficheStatutService.afficheMurStatuts(murController.getIdUtilisateur());
     }
     
-    public void ajoutStatut() {
+    public String ajoutStatut() {
         int idStatut = statutService.ajoutStatut(statut, murController.getIdUtilisateur());
         if (murController.getPart() != null) {
             murController.ajoutFichier(idStatut);
         }
+        return murController.goToCurrentPage();
     }
 
-    public void postStatut() {
+    public String postStatut() {
         if(idPersonne == murController.getIdUtilisateur()){
-            ajoutStatut();
+            return ajoutStatut();
         }
         else{
             int idStatut = statutService.postStatut(statut, murController.getIdUtilisateur(), idPersonne);
             if (murController.getPart() != null) {
                 murController.ajoutFichier(idStatut);
             }
+            return murController.goToCurrentPage();
         }
     }
 }

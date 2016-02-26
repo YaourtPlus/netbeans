@@ -95,3 +95,7 @@ body .noDisplay{
 .validMsg{
     text-align: center; 
 }
+
+span > form {
+    margin : 0px;
+}

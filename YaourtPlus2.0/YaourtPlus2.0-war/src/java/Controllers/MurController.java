@@ -9,6 +9,7 @@ import Services.PersonnesServiceLocal;
 import Services.StatutServiceLocal;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -45,7 +46,6 @@ public class MurController {
 
     @EJB
     StatutServiceLocal statutService;
-    
 
     public MurController() {
         idUtilisateur = -1;
@@ -78,16 +78,25 @@ public class MurController {
     }
 
 // Methods =====================================================================
+    public String goToCurrentPage() {        
+        FacesContext fc = FacesContext.getCurrentInstance();
+
+        String id = fc.getExternalContext().getRequestParameterMap().get("id");
+        String viewId = fc.getViewRoot().getViewId();
+
+        return viewId + "?faces-redirect=true&id=" + id;
+    }
+
     public String goToMur() {
-        return "/secured/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+        return "/secured/mur?faces-redirect=true&id=" + idUtilisateur;
     }
 
     public String goToConnexion() {
-        return "../connexion?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+        return "../connexion?faces-redirect=true&id=" + idUtilisateur;
     }
-    
-    public String goToFilou(Integer filouId){
-        return "/secured/profil?faces-redirect=true&idPersonne=" + filouId;
+
+    public String goToFilou(Integer filouId) {
+        return "/secured/profil?faces-redirect=true&id=" + filouId;
     }
 
     public String ajoutFichier(int idStatut) {
@@ -96,21 +105,22 @@ public class MurController {
         f.mkdir();
         pathFichier = servletContext.getRealPath("/files") + " - ";
         pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), idStatut);
-        return "mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+        return "mur?faces-redirect=true&id=" + idUtilisateur;
     }
 
-    
-    public void ajoutLeger(int idStatut) {
+    public String ajoutLeger(int idStatut) {
         statutService.ajoutLeger(idStatut, idUtilisateur);
+        return goToCurrentPage();
     }
 
-    public void ajoutLourd(int idStatut) {
+    public String ajoutLourd(int idStatut) {
         statutService.ajoutLourd(idStatut, idUtilisateur);
+        return goToCurrentPage();
     }
 
-    public void suppressionAction(int idStatut) {
+    public String suppressionAction(int idStatut) {
         statutService.removeAction(idStatut, idUtilisateur);
+        return goToCurrentPage();
     }
-    
 
 }

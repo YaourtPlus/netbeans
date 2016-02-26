@@ -156,14 +156,6 @@ public class StatutService implements StatutServiceLocal {
         // Récupération de l'utilisateur
         PersonnesEntity user = personneDAO.find(idUtilisateur);
 
-        if (statut == null || user == null) {
-            System.err.println("AjoutCommentaire");
-
-            System.err.println(statut);
-            System.err.println(user);
-
-            return -1;
-        }
         /* Création du commentaire
          Un commentaire n'est rien d'autre qu'un statut en réponse à un autre statut
          */
@@ -174,11 +166,13 @@ public class StatutService implements StatutServiceLocal {
 
         int idCommentaire = commentaireDAO.save(newCommentaire);
         // Création d'une notification à l'auteur du statut
-        notificationService.createNotificationCommentaire(user, statut.getDestinataire(), statut.getId());
+        //notificationService.createNotificationCommentaire(user, statut.getDestinataire(), statut.getId());
         // Préparation de la notifications des personnes ayant commenté le statut
         for (PersonnesStatutsEntity ps : statut.getStatutsActeurs()) {
-            // Création de la notification aux gens qui ont agit sur le statut
-            if (ps.getStatut().equals(statut) && (ps.getCommentaire() || ps.getPost())) {
+            // Création de la notification aux gens qui ont agit sur le statut sauf la personne qui a posté le statut
+            if (ps.getStatut().equals(statut) 
+                    && (ps.getCommentaire() || ps.getPost())
+                    && !(ps.getPersonne().equals(user))) {
                 notificationService.createNotificationCommentaire(user, ps.getPersonne(), statut.getId());
             }
         }

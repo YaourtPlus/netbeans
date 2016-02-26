@@ -136,7 +136,7 @@ public class NotificationService implements NotificationServiceLocal {
         notificationDAO.save(notif);
 
         // Ajout de la notification a l'auteur du statut
-        boolean add = false;
+        boolean add;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
