@@ -115,7 +115,7 @@ public class CompteController {
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
             murController.setIdUtilisateur(idUtilisateur);
-            return "secured/mur?faces-redirect=true&idUtilisateur=" + idUtilisateur;
+            return "secured/mur?faces-redirect=true";
         } else {
             return "connexion?faces-redirect=true";
         }

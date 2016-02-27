@@ -46,6 +46,9 @@ public class NotificationService implements NotificationServiceLocal {
 
     @EJB
     PersonnesDAO personneDAO;
+    
+    @EJB
+    MessageServiceLocal messageService;
 
     @Override
     public boolean createNotificationCommentaire(PersonnesEntity idNotifieur, PersonnesEntity idDestinataire, int idStatut) {
@@ -155,4 +158,12 @@ public class NotificationService implements NotificationServiceLocal {
         return notif.getStatut();
     }
 
+    @Override
+    public List<MessagesEntity> getMessages(int idNotif) {
+        NotificationsEntity notif = notificationDAO.find(idNotif);
+        MessagesEntity msg = notif.getMessage();
+        
+        List<MessagesEntity> messages = messageService.getMessagesSinglePersonne(msg.getEmetteur().getId() , msg.getDestinataire().getId());
+        return messages;
+    }
 }

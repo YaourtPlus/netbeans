@@ -80,10 +80,8 @@ public class MurController {
 // Methods =====================================================================
     public String goToCurrentPage() {        
         FacesContext fc = FacesContext.getCurrentInstance();
-
         String id = fc.getExternalContext().getRequestParameterMap().get("id");
         String viewId = fc.getViewRoot().getViewId();
-
         return viewId + "?faces-redirect=true&id=" + id;
     }
 

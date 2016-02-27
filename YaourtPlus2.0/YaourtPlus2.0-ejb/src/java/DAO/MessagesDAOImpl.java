@@ -109,13 +109,14 @@ public class MessagesDAOImpl implements MessagesDAO {
     
     @Override
     public List<MessagesEntity> findByDestinataire(int destinataireId) {
-        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.destinataire.id <> :id");
+        Query q = em.createQuery("SELECT m FROM MessagesEntity m where m.destinataire.id = :id");
         q.setParameter("id", destinataireId);
         return q.getResultList();
     }
 
     /**
      *
+     * @param auteurId
      * @param destinataireId
      * @return
      */
@@ -124,12 +125,11 @@ public class MessagesDAOImpl implements MessagesDAO {
         Query q = em.createQuery("SELECT m FROM MessagesEntity m where "
                 + "(m.emetteur.id = :emetteurId AND m.destinataire.id = :destinataireId) "
                 + "OR "
-                + "(m.emetteur.id = :destinataireIdR AND m.destinataire.id = :emetteurIdR)"); 
+                + "(m.emetteur.id = :destinataireId AND m.destinataire.id = :emetteurId)"); 
+        
         
         q.setParameter("emetteurId", auteurId);
         q.setParameter("destinataireId", destinataireId);
-        q.setParameter("emetteurIdR", destinataireId);
-        q.setParameter("destinataireIdR", auteurId);
         
         return q.getResultList();
     }

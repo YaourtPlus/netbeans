@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.jms.Message;
 
 /**
  *
@@ -26,6 +27,16 @@ public class FilousController {
 
     @ManagedProperty(value = "#{murController}")
     private MurController murController;
+    
+    @ManagedProperty(value = "#{messagesController}")
+    private MessagesController messagesController;
+
+    @EJB
+    FilousServiceLocal filouService;
+
+    public FilousController() {
+        added = false;
+    }
 
     public MurController getMurController() {
         return murController;
@@ -34,14 +45,16 @@ public class FilousController {
     public void setMurController(MurController murController) {
         this.murController = murController;
     }
-    
-    @EJB
-    FilousServiceLocal filouService;
 
-    public FilousController() {
-        added = false;
+    public MessagesController getMessagesController() {
+        return messagesController;
     }
 
+    public void setMessagesController(MessagesController messagesController) {
+        this.messagesController = messagesController;
+    }
+    
+    
     public boolean getAdded() {
         return added;
     }
@@ -54,7 +67,9 @@ public class FilousController {
     public List<PersonnesEntity> getFilous() {
 
         List<PersonnesEntity> list = filouService.getFilous(murController.getIdUtilisateur());
-
+        if(list.size() > 0){
+            messagesController.setIdPersonne(list.get(0).getId());
+        }
         return list;
     }
 

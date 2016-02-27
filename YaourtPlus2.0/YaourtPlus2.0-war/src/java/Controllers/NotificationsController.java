@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import Entities.MessagesEntity;
 import Entities.NotificationsEntity;
 import Entities.StatutsEntity;
 import Services.NotificationServiceLocal;
@@ -57,5 +58,9 @@ public class NotificationsController {
     
     public StatutsEntity getStatut(){
         return notificationService.getStatut(idNotification);
+    }
+    
+    public List<MessagesEntity> getMessages(){
+        return notificationService.getMessages(idNotification);
     }
 }

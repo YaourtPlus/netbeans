@@ -8,6 +8,7 @@ package Controllers;
 import Entities.MessagesEntity;
 import Services.MessageServiceLocal;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -36,6 +37,7 @@ public class MessagesController {
     public MessagesController() {
     }
 
+        
     public int getIdPersonne() {
         return idPersonne;
     }
@@ -48,7 +50,6 @@ public class MessagesController {
         return murController;
     }
     
-
     
     public void setIdPersonne(int idPersonne) {
         this.idPersonne = idPersonne;
@@ -62,8 +63,6 @@ public class MessagesController {
         this.murController = murController;
     }
     
-    
-    
     public String envoieMessage(){   
         messageService.ajoutMessage(message, murController.getIdUtilisateur(), idPersonne);
         return murController.goToCurrentPage();
@@ -72,4 +71,5 @@ public class MessagesController {
     public List<MessagesEntity> getMessages(){
         return messageService.getMessagesSinglePersonne(murController.getIdUtilisateur(), idPersonne);
     }
+    
 }

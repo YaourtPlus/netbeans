@@ -158,7 +158,7 @@
                         </c:forEach>
                     </div>
                 </div>
-                <c:if test="${not empty listeAmi}">
+                <c:if test="${not empty listFilous}">
                     <div class="col-lg-4">
                         <form Method="POST" action="${pageContext.request.contextPath}/mur/ajoutMessage.htm">
                             <select name="idDestinataire" id="idDestinataire" class="form-control">

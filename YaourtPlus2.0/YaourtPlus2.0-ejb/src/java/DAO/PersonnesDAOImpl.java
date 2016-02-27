@@ -157,7 +157,6 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 
         // Mise à jour de la BD
         if (added) {
-            System.err.println(em);
             em.merge(notifieur);
             em.merge(destinataire);
         }

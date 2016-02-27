@@ -12,8 +12,9 @@
     </h:head>
     <h:body>
         <ui:include src="/secured/navbar.xhtml"/>
-        #{murController.idUtilisateur}
-        #{messagesController.idPersonne}
+        <f:metadata>
+            <f:viewParam name="id" value="#{messagesController.idPersonne}"/> 
+        </f:metadata>
         <!-- Div mur -->
         <h:panelGroup layout="block" class="container-fluid">
             <!-- Div Filous/Statuts/Messages -->
@@ -54,16 +55,21 @@
                 <h:panelGroup layout="block" class="col-lg-4" rendered="#{not empty  listFilous}">
                     <!-- Form post message -->
                     <h:form id="formMessage"> 
-                       <!-- List select filou -->
-                        <h:selectOneMenu value="#{messagesController.idPersonne}">
+                        <!-- List select filou -->
+                        <h:selectOneMenu value="#{messagesController.idPersonne}" >
                             <f:selectItems value="#{listFilous}" var="filou"
-                                           itemLabel="#{filou.prenom} #{filou.nom}" itemValue="#{filou.id}" />
+                                           itemLabel="#{filou.id}" itemValue="#{filou.id}" />    
                         </h:selectOneMenu><!-- Fin list select filou -->
-                        <h:inputTextarea rows="2" cols="150" class="form-control" id="statut" 
-                                         p:placeholder="Ajouter un ptit statut"
-                                         value="#{messagesController.message}" requiredMessage="Envoyer un ptit message"/>
+                        <h:commandButton value="Selectionner" action="#{murController.goToCurrentPage()}">
+                            <f:param name="id" value="#{messagesController.idPersonne}"/>
+                        </h:commandButton>
+                    </h:form>
+                    
+                    <h:form>
+                        <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
+                                         value="#{messagesController.message}" required="true" requiredMessage="Vous ne pouvez pas envoyer de message vide"/>
                         <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" >
-                            <f:param name="id" value="#{param['id']}" />
+                            <f:param name="id" value="#{messagesController.idPersonne}"/>
                         </h:commandButton>
                     </h:form><!-- Fin form post message -->
 

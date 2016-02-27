@@ -40,6 +40,7 @@ public class MessageService implements MessageServiceLocal {
         PersonnesEntity sender = personneService.getPersonne(idUser);
         PersonnesEntity dest = personneService.getPersonne(idDestinataire);
 
+        
         MessagesEntity newMessagesEntity = new MessagesEntity(message, Calendar.getInstance().getTime());
         newMessagesEntity.setEmetteur(sender);
         newMessagesEntity.setDestinataire(dest);
@@ -51,15 +52,12 @@ public class MessageService implements MessageServiceLocal {
 
         // Création d'une notification auprès du destinataire
         notificationService.createNotificationMessage(sender, dest, idMessage);
+        
     }
 
     @Override
     public List<MessagesEntity> getMessagesSinglePersonne(int idUser, int idPersonne) {
-        System.err.println(idPersonne);
-        System.err.println(idUser);
-        
-        List<MessagesEntity> messages = messagesDAO.findByPersonne(idPersonne, idUser);
-        System.err.println(messages);
+        List<MessagesEntity> messages = messagesDAO.findByPersonne(idPersonne, idUser); 
         Collections.sort(messages, new Comparator<MessagesEntity>() {
             @Override
             public int compare(MessagesEntity o1, MessagesEntity o2) {
