@@ -5,7 +5,7 @@
  */
 package Validators;
 
-import Services.ProfilServiceLocal;
+import Services.composites.ProfilServiceLocal;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

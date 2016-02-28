@@ -27,7 +27,7 @@
                             <h:column>
                                 <li>
                                     <h:form id="filousForm">
-                                        <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{murController.goToFilou(filous.id)}" />
+                                        <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{redirectController.goToFilou(filous.id)}" />
                                         <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
                                     </h:form>
                                 </li>
@@ -42,8 +42,10 @@
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
                                          p:placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"
                                          value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
-                        <h:inputFile value="#{murController.part}"/>
-                        <h:commandButton value="Publier" action="#{statutsController.ajoutStatut()}" />
+                        <h:inputFile value="#{statutsController.part}"/>
+                        <h:commandButton value="Publier" action="#{statutsController.ajoutStatut()}" >
+                            <f:param name="id" value="#{param['id']}" />
+                        </h:commandButton>
                     </h:form><!-- Fin form post statut -->
                     <ui:include src="/secured/afficheStatut.xhtml">
                         <ui:param name="listStatuts" value="#{statutsController.getStatuts()}" />
@@ -60,11 +62,11 @@
                             <f:selectItems value="#{listFilous}" var="filou"
                                            itemLabel="#{filou.id}" itemValue="#{filou.id}" />    
                         </h:selectOneMenu><!-- Fin list select filou -->
-                        <h:commandButton value="Selectionner" action="#{murController.goToCurrentPage()}">
+                        <h:commandButton value="Selectionner" action="#{redirectController.goToCurrentPage()}">
                             <f:param name="id" value="#{messagesController.idPersonne}"/>
                         </h:commandButton>
                     </h:form>
-                    
+
                     <h:form>
                         <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
                                          value="#{messagesController.message}" required="true" requiredMessage="Vous ne pouvez pas envoyer de message vide"/>
@@ -73,33 +75,9 @@
                         </h:commandButton>
                     </h:form><!-- Fin form post message -->
 
-                    <!-- Boucle message conversation -->
-                    <ui:repeat value="#{messagesController.getMessages()}" var="message">
-                        <!-- Div messages -->
-                        <h:panelGroup layout="block" class="message col-lg-offset-1 col-lg-10 col-lg-offset-1">
-                            <!-- Div info emetteur message-->
-                            <h:panelGroup layout="block" class="row rowMessage">
-                                <h:panelGroup layout="block" class="message">
-                                    <h:outputText value="#{message.emetteur.prenom} #{message.emetteur.prenom}" />
-                                </h:panelGroup>
-                            </h:panelGroup><!-- Fin div info emmeteur message-->
-
-                            <!-- Div texte message -->
-                            <h:panelGroup layout="block" class="row rowMessage messageText">
-                                <h:panelGroup layout="block" class="message">
-                                    <h:outputText value="#{message.texte}" />
-                                </h:panelGroup>
-                            </h:panelGroup><!-- Fin div texte message -->
-
-                            <!-- Div date message -->
-                            <h:panelGroup layout="block" class="row rowMessage">
-                                <h:panelGroup layout="block" class="message">
-                                    <h:outputText value="Envoyé le #{message.date}" />
-                                </h:panelGroup>
-                            </h:panelGroup><!-- Fin div date message -->
-
-                        </h:panelGroup><!-- Fin div messages -->
-                    </ui:repeat> <!-- Fin boucle message conversation -->
+                    <ui:include src="/secured/afficheMessage.xhtml">
+                        <ui:param name="messages" value="#{messagesController.getMessages()}" />
+                    </ui:include>
 
                 </h:panelGroup> <!-- Fin div envoie message -->
             </h:panelGroup> <!-- Fin row -->

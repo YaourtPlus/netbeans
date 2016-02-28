@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.composites;
 
 import Entities.StatutsEntity;
 import java.util.List;
@@ -16,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface AfficheStatutsServiceLocal {
     public List<StatutsEntity> afficheMurStatuts(int idUtilisateur);
-    public List<StatutsEntity> getStatutsEmis(int idPersonne);
-    public List<StatutsEntity> getStatutsRecus(int idPersonne);
+    public List<StatutsEntity> afficheStatutsEmis(int idPersonne);
+    public List<StatutsEntity> afficheStatutsRecus(int idPersonne);
     
 }

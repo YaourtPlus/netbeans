@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import DAO.PersonnesDAO;
 import Entities.MessagesEntity;
@@ -21,6 +21,11 @@ public class PersonnesService implements PersonnesServiceLocal {
 
     @EJB
     PersonnesDAO personneDAO;
+    
+    @Override
+    public void addPersonne(PersonnesEntity p){
+        personneDAO.save(p);
+    }
     
     @Override
     public List<PersonnesEntity> getPersonnes() {
@@ -44,6 +49,15 @@ public class PersonnesService implements PersonnesServiceLocal {
         return user.getListFilous();
     }
 
+    @Override
+    public boolean ajoutFilous(PersonnesEntity utilisateur, PersonnesEntity filous){
+        return personneDAO.ajoutFilous(utilisateur, filous);
+    }
+       
+    @Override
+    public boolean suppressionFilous(PersonnesEntity utilisateur, PersonnesEntity filous){
+        return personneDAO.suppressionFilous(utilisateur, filous);
+    }
     
     @Override
     public void ajoutMessageEnvoi(PersonnesEntity sender, MessagesEntity newMessagesEntity) {
@@ -54,6 +68,16 @@ public class PersonnesService implements PersonnesServiceLocal {
     @Override
     public void ajoutMessageRecu(PersonnesEntity dest, MessagesEntity newMessagesEntity) {
         personneDAO.ajoutMessageRecu(dest, newMessagesEntity);
+    }
+
+    @Override
+    public PersonnesEntity getPersonne(String login, String password) {
+        return personneDAO.find(login, password);
+    }   
+    
+    @Override
+    public PersonnesEntity getPersonne(String login) {
+        return personneDAO.findByLogin(login);
     }
 
 }

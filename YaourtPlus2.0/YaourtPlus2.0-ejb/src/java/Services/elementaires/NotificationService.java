@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import DAO.MessagesDAO;
 import DAO.NotificationsDAO;
@@ -19,7 +19,6 @@ import Entities.NotificationsMessageEntity;
 import Entities.NotificationsStatutEntity;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
-import Enumerations.TypeNotifications;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -61,7 +60,7 @@ public class NotificationService implements NotificationServiceLocal {
         notificationDAO.save(notif);
 
         // Ajout de la notification a l'auteur du statut
-        boolean add = false;
+        boolean add;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
@@ -75,7 +74,7 @@ public class NotificationService implements NotificationServiceLocal {
         notificationDAO.save(notif);
 
         // Ajout de la notification a l'auteur du statut
-        boolean add = false;
+        boolean add;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
@@ -91,7 +90,7 @@ public class NotificationService implements NotificationServiceLocal {
         notificationDAO.save(notif);
 
         // Ajout de la notification a l'auteur du statut
-        boolean add = false;
+        boolean add;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
@@ -107,7 +106,7 @@ public class NotificationService implements NotificationServiceLocal {
         notificationDAO.save(notif);
 
         // Ajout de la notification a l'auteur du statut
-        boolean add = false;
+        boolean add;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
@@ -123,7 +122,7 @@ public class NotificationService implements NotificationServiceLocal {
         notificationDAO.save(notif);
 
         // Ajout de la notification a l'auteur du statut
-        boolean add = false;
+        boolean add;
         add = personneDAO.ajoutNotif(idNotifieur, idDestinataire, notif);
         return add;
     }
@@ -152,14 +151,14 @@ public class NotificationService implements NotificationServiceLocal {
     }
 
     @Override
-    public StatutsEntity getStatut(int idNotif) {
+    public StatutsEntity getStatutNotif(int idNotif) {
         NotificationsEntity notif = notificationDAO.find(idNotif);
         
         return notif.getStatut();
     }
 
     @Override
-    public List<MessagesEntity> getMessages(int idNotif) {
+    public List<MessagesEntity> getMessagesNotif(int idNotif) {
         NotificationsEntity notif = notificationDAO.find(idNotif);
         MessagesEntity msg = notif.getMessage();
         

@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import Services.StatutServiceLocal;
+import Services.elementaires.CommentaireServiceLocal;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -21,11 +21,14 @@ public class CommentaireController {
 
     private String commentaire;
 
-    @ManagedProperty(value = "#{murController}")
-    private MurController murController;
+    @ManagedProperty(value = "#{sessionController}")
+    private SessionController sessionController;
+    
+    @ManagedProperty(value = "#{redirectController}")
+    private RedirectController redirectController;
 
     @EJB
-    StatutServiceLocal statutService;
+    CommentaireServiceLocal commentaireService;
 
     /**
      * Creates a new instance of CommentaireController
@@ -37,22 +40,29 @@ public class CommentaireController {
         return commentaire;
     }
 
-    public MurController getMurController() {
-        return murController;
+    public RedirectController getRedirectController() {
+        return redirectController;
+    }
+
+    public void setRedirectController(RedirectController redirectController) {
+        this.redirectController = redirectController;
+    }
+
+    public SessionController getSessionController() {
+        return sessionController;
     }
 
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
     }
 
-    public void setMurController(MurController murController) {
-        this.murController = murController;
+    public void setSessionController(SessionController murController) {
+        this.sessionController = murController;
     }
 
     public String ajoutCommentaire(int idStatut) {
-        statutService.ajoutCommentaire(commentaire, idStatut, murController.getIdUtilisateur());
-        
-        return murController.goToCurrentPage();
+        commentaireService.ajoutCommentaire(commentaire, idStatut, sessionController.getIdUtilisateur());
+        return redirectController.goToCurrentPage();
     }
     
 

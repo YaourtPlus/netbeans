@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.composites;
 
+import Entities.MessagesEntity;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
+import Services.elementaires.PersonnesServiceLocal;
+import Services.elementaires.StatutServiceLocal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -14,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+
 /**
  *
  * @author Thomas
@@ -45,47 +49,48 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
         statutsFilous.addAll(user.getStatutsEmis());
         sortListe(statutsFilous);
 
-
         return statutsFilous;
     }
 
-        
-    
     @Override
-    public List<StatutsEntity> getStatutsEmis(int idPersonne){
+    public List<StatutsEntity> afficheStatutsEmis(int idPersonne) {
         PersonnesEntity p = personneService.getPersonne(idPersonne);
         //List<StatutsEntity> statutsEmis = statutService.getStatutsByAuteur(idPersonne);
         List<StatutsEntity> list = new ArrayList();
-        
+
         // Parcours des statuts émis par la personne
-        for(StatutsEntity s : p.getStatutsEmis()){
+        for (StatutsEntity s : p.getStatutsEmis()) {
             // On recherche les statuts que la personne n'a pas posté sur un mur
-            if(s.getDestinataire().equals(p)){
+            if (s.getDestinataire().equals(p)) {
                 list.add(s);
             }
         }
+        reverse(list);
         return list;
     }
-    
+
     @Override
-    public List<StatutsEntity> getStatutsRecus(int idPersonne){
+    public List<StatutsEntity> afficheStatutsRecus(int idPersonne) {
         PersonnesEntity p = personneService.getPersonne(idPersonne);
         //List<StatutsEntity> statutsRecus = statutService.getStatutsByDestinataire(idPersonne);
         List<StatutsEntity> list = new ArrayList();
-        
+
         // Parcours des statuts émis par la personne
-        for(StatutsEntity s : p.getStatutsRecu()){
+        for (StatutsEntity s : p.getStatutsRecu()) {
             // On recherche les statuts que la personne a reçu et qui ne viennent pas d'elle
-            if(!s.getAuteur().equals(p)){
+            if (!s.getAuteur().equals(p)) {
                 list.add(s);
             }
         }
+        reverse(list);
         return list;
     }
+
     /**
      * Trie une liste de StatutsEntity en utilisant la méthode Compare de
      * Collections
-      *@param l
+     *
+     * @param l
      * @return
      */
     public List<StatutsEntity> sortListe(List<StatutsEntity> l) {
@@ -122,6 +127,16 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
                         return (o1Leger / o1Lourd) >= (o2Leger / o2Lourd) ? -1 : 1;
                     }
                 }
+            }
+        });
+        return l;
+    }
+
+    public List<StatutsEntity> reverse(List<StatutsEntity> l) {
+        Collections.sort(l, new Comparator<StatutsEntity>() {
+            @Override
+            public int compare(StatutsEntity o1, StatutsEntity o2) {
+                return o2.getDate().compareTo(o1.getDate());
             }
         });
         return l;

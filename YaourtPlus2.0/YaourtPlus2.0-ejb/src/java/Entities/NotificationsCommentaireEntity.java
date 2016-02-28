@@ -19,7 +19,6 @@ public class NotificationsCommentaireEntity extends NotificationsEntity{
     public NotificationsCommentaireEntity() {
         
         this.setDate(Calendar.getInstance().getTime());
-        this.setType(0);
         this.setNotifieur(null);
         this.setStatut(null);
         this.setMessage(null);
@@ -27,7 +26,6 @@ public class NotificationsCommentaireEntity extends NotificationsEntity{
     
     public NotificationsCommentaireEntity(Date date) {
         this.setDate(date);
-        this.setType(0);
         this.setNotifieur(null);
         this.setStatut(null);
         this.setMessage(null);

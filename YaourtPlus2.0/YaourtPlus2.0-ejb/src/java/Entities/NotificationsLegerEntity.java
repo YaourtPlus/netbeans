@@ -18,7 +18,6 @@ public class NotificationsLegerEntity extends NotificationsEntity{
     
     public NotificationsLegerEntity() {
         this.setDate(Calendar.getInstance().getTime());
-        this.setType(0);
         this.setNotifieur(null);
         this.setStatut(null);
         this.setMessage(null);
@@ -26,7 +25,6 @@ public class NotificationsLegerEntity extends NotificationsEntity{
     
     public NotificationsLegerEntity(Date date) {
         this.setDate(date);
-        this.setType(0);
         this.setNotifieur(null);
         this.setStatut(null);
         this.setMessage(null);

@@ -19,7 +19,6 @@ public class NotificationsStatutEntity extends NotificationsEntity{
     public NotificationsStatutEntity() {
         System.err.println("classe fille");
         this.setDate(Calendar.getInstance().getTime());
-        this.setType(0);
         this.setNotifieur(null);
         this.setStatut(null);
         this.setMessage(null);
@@ -27,7 +26,6 @@ public class NotificationsStatutEntity extends NotificationsEntity{
     
     public NotificationsStatutEntity(Date date) {
         this.setDate(date);
-        this.setType(0);
         this.setNotifieur(null);
         this.setStatut(null);
         this.setMessage(null);

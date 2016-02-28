@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import DAO.MessagesDAO;
 import Entities.MessagesEntity;
@@ -38,6 +38,7 @@ public class MessageService implements MessageServiceLocal {
         }
 
         PersonnesEntity sender = personneService.getPersonne(idUser);
+        System.err.println(idDestinataire);
         PersonnesEntity dest = personneService.getPersonne(idDestinataire);
 
         
@@ -48,6 +49,8 @@ public class MessageService implements MessageServiceLocal {
         int idMessage = messagesDAO.save(newMessagesEntity);
 
         personneService.ajoutMessageEnvoi(sender, newMessagesEntity);
+        System.err.println(newMessagesEntity);
+        
         personneService.ajoutMessageRecu(dest, newMessagesEntity);
 
         // Création d'une notification auprès du destinataire
@@ -57,14 +60,6 @@ public class MessageService implements MessageServiceLocal {
 
     @Override
     public List<MessagesEntity> getMessagesSinglePersonne(int idUser, int idPersonne) {
-        List<MessagesEntity> messages = messagesDAO.findByPersonne(idPersonne, idUser); 
-        Collections.sort(messages, new Comparator<MessagesEntity>() {
-            @Override
-            public int compare(MessagesEntity o1, MessagesEntity o2) {
-                return o2.getDate().compareTo(o1.getDate());
-            }
-        });
-        Collections.reverse(messages);
-        return messages;
+        return messagesDAO.findByPersonne(idPersonne, idUser);
     }
 }

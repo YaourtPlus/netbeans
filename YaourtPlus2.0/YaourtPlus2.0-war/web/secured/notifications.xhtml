@@ -11,9 +11,8 @@
     <h:body>
         
         <f:metadata>
-            <f:viewParam name="id" value="prout"/>
+            <f:viewParam name="id" value="#{notificationsController.idNotification}"/>
         </f:metadata>
-        #{prout}
         
         <ui:include src="/secured/navbar.xhtml"/>
         <h:dataTable value="#{notificationsController.getNotifs()}" var="notif" class="full-width">

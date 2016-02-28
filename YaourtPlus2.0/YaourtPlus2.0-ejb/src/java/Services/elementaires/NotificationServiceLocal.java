@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import Entities.MessagesEntity;
 import Entities.NotificationsEntity;
@@ -33,7 +33,7 @@ public interface NotificationServiceLocal {
 
     public List<NotificationsEntity> getNotifs(int utilisateurId);
 
-    public StatutsEntity getStatut(int idNotif);
+    public StatutsEntity getStatutNotif(int idNotif);
 
-    public List<MessagesEntity> getMessages(int idNotif);
+    public List<MessagesEntity> getMessagesNotif(int idNotif);
 }

@@ -6,20 +6,20 @@
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li class="#{view.viewId == '/mur.xhtml' ? 'active' : ''}">
+                <li class="#{view.viewId == '/secured/mur.xhtml' ? 'active' : ''}">
                     <h:link value="Accueil" outcome="/secured/mur" />
                 </li>
-                <li class="#{view.viewId == '/filous.xhtml' ? 'active' : ''}">
+                <li class="#{view.viewId == '/secured/filous.xhtml' ? 'active' : ''}">
                     <h:link value="Ptit Filous" outcome="/secured/filous" />
                 </li>
-                <li class="#{view.viewId == '/notifications.xhtml' ? 'active' : ''}">
+                <li class="#{view.viewId == '/secured/notifications.xhtml' ? 'active' : ''}">
                     <h:link value="Notifications" outcome="/secured/notifications" />
                 </li>
-                <li class="#{view.viewId == '/messages.xhtml' ? 'active' : ''}">
+                <li class="#{view.viewId == '/secured/messages.xhtml' ? 'active' : ''}">
                     <h:link value="Messages" outcome="/secured/messages"/>
                 </li>
-                <li class="#{view.viewId == '/profil.xhtml' ? 'active' : ''}">
-                    <h:link value="Mon mur" outcome="/secured/profil?id=#{murController.idUtilisateur}"/>
+                <li class="#{view.viewId == '/secured/profil.xhtml' ? 'active' : ''}">
+                    <h:link value="Mon mur" outcome="/secured/profil?id=#{sessionController.idUtilisateur}"/>
                 </li>
                 
             </ul>

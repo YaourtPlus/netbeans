@@ -3,15 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import javax.ejb.Local;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Olivier
  */
 @Local
-public interface HashServiceLocal {
-    public String hash(String s);
+public interface FichierServiceLocal {
+    
+    public String ajoutFichier(Part p, String path, int idStatut);
+    
 }

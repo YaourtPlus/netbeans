@@ -8,28 +8,30 @@
     </h:head>
     <h:body>
         <h:link value="Accueil" outcome="connexion.xhtml"/>
-        <h:form id="formInscription">
-            Login :  <h:inputText id="login" value="#{compteController.login}" required="true" >
-                <f:validator validatorId="inscriptionValidator" />
-                <f:attribute name="passWord" value="#{passWord}" />
-                <f:attribute name="mail" value="#{mail}" />
-                <f:attribute name="nom" value="#{nom}" />
-                <f:attribute name="prenom" value="#{prenom}" />
-            </h:inputText>
-            <br/>
-            Mot de passe :  <h:inputSecret id="password" value="#{compteController.passWord}" required="false" binding="#{passWord}"/>
-            <br/>
-            Mail : <h:inputText id="mail" value="#{compteController.mail}" required="false" binding="#{mail}"/>
-            <br/>
-            Age : <h:inputText id="age" value="#{compteController.age}" required="false" />
-            <br/>
-            Nom : <h:inputText id="nom" value="#{compteController.nom}" required="false" binding="#{nom}"/>
-            <br/>
-            Prénom : <h:inputText id="prenom" value="#{compteController.prenom}" required="false" binding="#{prenom}"/>
-            <br/>
-            <h:commandButton value="OK" action="#{compteController.inscrire()}" />
-            <br/>
-        </h:form>
+        <h:panelGroup layout="blok" class="col-lg-offset-2 col-lg-4">
+            <h:form id="formInscription">
+                Login :  <h:inputText id="login" value="#{compteController.login}" required="true" >
+                    <f:validator validatorId="inscriptionValidator" />
+                    <f:attribute name="passWord" value="#{passWord}" />
+                    <f:attribute name="mail" value="#{mail}" />
+                    <f:attribute name="nom" value="#{nom}" />
+                    <f:attribute name="prenom" value="#{prenom}" />
+                </h:inputText>
+                <br/>
+                Mot de passe :  <h:inputSecret id="password" value="#{compteController.passWord}" required="false" binding="#{passWord}"/>
+                <br/>
+                Mail : <h:inputText id="mail" value="#{compteController.mail}" required="false" binding="#{mail}"/>
+                <br/>
+                Age : <h:inputText id="age" value="#{compteController.age}" required="false" />
+                <br/>
+                Nom : <h:inputText id="nom" value="#{compteController.nom}" required="false" binding="#{nom}"/>
+                <br/>
+                Prénom : <h:inputText id="prenom" value="#{compteController.prenom}" required="false" binding="#{prenom}"/>
+                <br/>
+                <h:commandButton value="OK" action="#{compteController.inscrire()}" />
+                <br/>
+            </h:form>
+        </h:panelGroup>        
     </h:body>
 </html>
 

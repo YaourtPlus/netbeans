@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import Entities.StatutsEntity;
 import java.util.List;
@@ -27,8 +27,6 @@ public interface StatutServiceLocal {
     public int ajoutStatut(String statut, int idAuteur);
 
     public int postStatut(String statut, int idAuteur, int idDestinataire);
-
-    public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur);
 
     public void ajoutLeger(int idStatut, int idUtilisateur);
 

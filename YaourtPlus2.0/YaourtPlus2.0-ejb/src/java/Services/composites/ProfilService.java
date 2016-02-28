@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.composites;
 
-import DAO.PersonnesDAO;
 import Entities.IMCEntity;
 import Entities.PersonnesEntity;
+import Services.elementaires.PersonnesServiceLocal;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
@@ -21,11 +21,11 @@ import javax.ejb.Stateless;
 public class ProfilService implements ProfilServiceLocal {
     
     @EJB
-    PersonnesDAO personneDAO;
+    PersonnesServiceLocal personneService;
 
     @Override
     public int connect(String login, String passWord) {
-        PersonnesEntity pe = personneDAO.find(login, passWord);
+        PersonnesEntity pe = personneService.getPersonne(login, passWord);
         return pe != null ? pe.getId() : -1;
     }
 
@@ -40,11 +40,11 @@ public class ProfilService implements ProfilServiceLocal {
         
         // Création d'un IMC
         pe.setImc(new IMCEntity());
-        personneDAO.save(pe);
+        personneService.addPersonne(pe);
     }
 
     @Override
     public boolean exists(String login) {
-        return personneDAO.findByLogin(login) != null;
+        return personneService.getPersonne(login) != null;
     }
 }

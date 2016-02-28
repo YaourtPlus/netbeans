@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import DAO.PersonnesDAO;
 import DAO.StatutsDAO;
@@ -53,22 +53,14 @@ public class IMCService implements IMCServiceLocal {
     public void suppressionLeger(int idStatut, int idUtilisateur) {
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-        PersonnesEntity auteur = statut.getAuteur();
         statutDAO.removeLeger(statut, user);
-
-        // Création de la notification dans la BD
-        //notificationService.createNotification(TypeNotifications.notifLourd, user, auteur, statut.getId());
     }
 
     @Override
     public void suppressionLourd(int idStatut, int idUtilisateur) {
         StatutsEntity statut = statutDAO.find(idStatut);
         PersonnesEntity user = personneDAO.find(idUtilisateur);
-        PersonnesEntity auteur = statut.getAuteur();
         statutDAO.removeLourd(statut, user);
-
-        // Création de la notification dans la BD
-        //notificationService.createNotification(TypeNotifications.notifLeger, user, auteur, statut.getId());
     }
 
 }

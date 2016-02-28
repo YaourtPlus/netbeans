@@ -1,0 +1,33 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:repeat value="#{messages}" var="message">
+        <!-- Div messages -->
+        <h:panelGroup layout="block" class="message col-lg-offset-1 col-lg-10 col-lg-offset-1">
+            <!-- Div info emetteur message-->
+            <h:panelGroup layout="block" class="row rowMessage">
+                <h:panelGroup layout="block" class="message">
+                    <h:outputText value="#{message.emetteur.prenom} #{message.emetteur.prenom}" />
+                </h:panelGroup>
+            </h:panelGroup><!-- Fin div info emmeteur message-->
+
+            <!-- Div texte message -->
+            <h:panelGroup layout="block" class="row rowMessage messageText">
+                <h:panelGroup layout="block" class="message">
+                    <h:outputText value="#{message.texte}" />
+                </h:panelGroup>
+            </h:panelGroup><!-- Fin div texte message -->
+
+            <!-- Div date message -->
+            <h:panelGroup layout="block" class="row rowMessage">
+                <h:panelGroup layout="block" class="message">
+                    <h:outputText value="Envoyé le #{message.date}" />
+                </h:panelGroup>
+            </h:panelGroup><!-- Fin div date message -->
+
+        </h:panelGroup><!-- Fin div messages -->
+    </ui:repeat> <!-- Fin boucle message conversation -->
+</ui:composition>
+

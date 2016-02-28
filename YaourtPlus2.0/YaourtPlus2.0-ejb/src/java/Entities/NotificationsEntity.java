@@ -5,7 +5,6 @@
  */
 package Entities;
 
-import Enumerations.TypeNotifications;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,13 +42,6 @@ public class NotificationsEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
 
-    // Type de la notification
-    // Id de la valeur de l'énum de la notification
-    // => Stocker énum trop compliquer
-    @Column(nullable = false)
-    private Integer type;
-    
-    
 // Relations ONE TO ONE
     /* La notification ne possède qu'un seul des deux objets */
     
@@ -83,7 +75,6 @@ public class NotificationsEntity implements Serializable {
 // Constructeurs ===============================================================
     public NotificationsEntity() {
         this.date = Calendar.getInstance().getTime();
-        this.type = 0;
         this.notifieur = null;
         this.statut = null;
         this.message = null;
@@ -91,7 +82,6 @@ public class NotificationsEntity implements Serializable {
 
     public NotificationsEntity(Date date, Integer type) {
         this.date = date;
-        this.type = type;
         this.notifieur = null;
         this.statut = null;
         this.message = null;
@@ -106,16 +96,8 @@ public class NotificationsEntity implements Serializable {
         return date;
     }
 
-    public TypeNotifications getTypeNotification() {
-        return TypeNotifications.getType(this.type);
-    }
-
     public PersonnesEntity getNotifieur() {
         return notifieur;
-    }
-
-    public Integer getType() {
-        return type;
     }
 
     public StatutsEntity getStatut() {
@@ -139,20 +121,8 @@ public class NotificationsEntity implements Serializable {
         this.date = date;
     }
 
-    public void setType(TypeNotifications type) {
-        if (type == null) {
-            this.type = null;
-        } else {
-            this.type = type.getId();
-        }
-    }
-
     public void setNotifieur(PersonnesEntity notifieur) {
         this.notifieur = notifieur;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public void setStatut(StatutsEntity statut) {
@@ -180,7 +150,6 @@ public class NotificationsEntity implements Serializable {
         int hash = 7;
         hash = 43 * hash + Objects.hashCode(this.id);
         hash = 43 * hash + Objects.hashCode(this.date);
-        hash = 43 * hash + Objects.hashCode(this.type);
         hash = 43 * hash + Objects.hashCode(this.notifieur);
         return hash;
     }

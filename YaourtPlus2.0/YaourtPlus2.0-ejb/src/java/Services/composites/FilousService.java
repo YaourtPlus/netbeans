@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.composites;
 
 import DAO.PersonnesDAO;
 import Entities.PersonnesEntity;
+import Services.elementaires.NotificationServiceLocal;
+import Services.elementaires.PersonnesServiceLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -20,9 +22,6 @@ import javax.ejb.Stateless;
 public class FilousService implements FilousServiceLocal {
 
     @EJB
-    PersonnesDAO personneDAO;
-
-    @EJB
     PersonnesServiceLocal personneService;
 
     @EJB
@@ -31,13 +30,7 @@ public class FilousService implements FilousServiceLocal {
     @Override
     public List<PersonnesEntity> getFilous(int idUtilisateur) {
         PersonnesEntity user = personneService.getPersonne(idUtilisateur);
-
-        /*
-         return user.getListFilous();
-         */
-        List<PersonnesEntity> list = new ArrayList();
-        list.addAll(user.getListFilous());
-        return list;
+        return user.getListFilous();
     }
 
     @Override
@@ -48,11 +41,6 @@ public class FilousService implements FilousServiceLocal {
         // Récupération de toutes les personnes du site
         List<PersonnesEntity> gens = personneService.getPersonnes();
 
-        /*
-         gens.remove(user);
-         gens.removeAll(user.getListFilous());
-         return gens;
-         */
         List<PersonnesEntity> filous = new ArrayList();
         filous.addAll(gens);
         // Suppression des filous qu'on ne peut pas ajouter
@@ -69,7 +57,7 @@ public class FilousService implements FilousServiceLocal {
 
         notificationService.createNotificationFilou(utilisateur, filous);
         
-        return personneDAO.ajoutFilous(utilisateur, filous);
+        return personneService.ajoutFilous(utilisateur, filous);
     }
 
     @Override
@@ -77,7 +65,7 @@ public class FilousService implements FilousServiceLocal {
         PersonnesEntity utilisateur = personneService.getPersonne(idUtilisateur);
         PersonnesEntity filous = personneService.getPersonne(idFilous);
 
-        return personneDAO.suppressionFilous(utilisateur, filous);
+        return personneService.suppressionFilous(utilisateur, filous);
     }
 
 }

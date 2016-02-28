@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.elementaires;
 
 import DAO.StatutsDAO;
 import Entities.FichiersEntity;
@@ -40,7 +40,7 @@ public class FichierService implements FichierServiceLocal {
         String nouveauNom = (se.getAuteur().getLogin()+ p.getSubmittedFileName());
         String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
-        nouveauNom =hashService.hash(nouveauNom)+ "." + ext;
+        nouveauNom = hashService.hash(nouveauNom)+ "." + ext;
         String s = nouveauNom;
         try {
             s = ajoutFichierInterne(p, nouveauNom, path);

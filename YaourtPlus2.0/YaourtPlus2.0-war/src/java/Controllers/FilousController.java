@@ -6,14 +6,12 @@
 package Controllers;
 
 import Entities.PersonnesEntity;
-import Services.FilousServiceLocal;
-import java.util.ArrayList;
+import Services.composites.FilousServiceLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.jms.Message;
 
 /**
  *
@@ -25,8 +23,11 @@ public class FilousController {
 
     private boolean added;
 
-    @ManagedProperty(value = "#{murController}")
-    private MurController murController;
+    @ManagedProperty(value = "#{sessionController}")
+    private SessionController sessionController;
+    
+    @ManagedProperty(value = "#{redirectController}")
+    RedirectController redirectController;
     
     @ManagedProperty(value = "#{messagesController}")
     private MessagesController messagesController;
@@ -38,12 +39,12 @@ public class FilousController {
         added = false;
     }
 
-    public MurController getMurController() {
-        return murController;
+    public SessionController getSessionController() {
+        return sessionController;
     }
 
-    public void setMurController(MurController murController) {
-        this.murController = murController;
+    public void setSessionController(SessionController sessionController) {
+        this.sessionController = sessionController;
     }
 
     public MessagesController getMessagesController() {
@@ -52,6 +53,14 @@ public class FilousController {
 
     public void setMessagesController(MessagesController messagesController) {
         this.messagesController = messagesController;
+    }
+
+    public RedirectController getRedirectController() {
+        return redirectController;
+    }
+
+    public void setRedirectController(RedirectController redirectController) {
+        this.redirectController = redirectController;
     }
     
     
@@ -66,27 +75,24 @@ public class FilousController {
     // TO FIX => Access murController directly
     public List<PersonnesEntity> getFilous() {
 
-        List<PersonnesEntity> list = filouService.getFilous(murController.getIdUtilisateur());
-        if(list.size() > 0){
-            messagesController.setIdPersonne(list.get(0).getId());
-        }
+        List<PersonnesEntity> list = filouService.getFilous(sessionController.getIdUtilisateur());
         return list;
     }
 
     public List<PersonnesEntity> getFilousAjout() {
 
-        List<PersonnesEntity> list = filouService.getFilousPossibles(murController.getIdUtilisateur());
-
+        List<PersonnesEntity> list = filouService.getFilousPossibles(sessionController.getIdUtilisateur());
         return list;
     }
 
     public String ajoutFilou(int idFilous) {
 
-        added = filouService.ajoutFilous(idFilous, murController.getIdUtilisateur());
-        return "/secured/filous?faces-redirect=true";
+        added = filouService.ajoutFilous(idFilous, sessionController.getIdUtilisateur());
+        return redirectController.goToAddFilous();
     }
 
-    public void suppressionFilou(int idFilous) {
-       filouService.suppressionFilous(idFilous, murController.getIdUtilisateur());
+    public String suppressionFilou(int idFilous) {
+       filouService.suppressionFilous(idFilous, sessionController.getIdUtilisateur());
+       return redirectController.goToCurrentPage();
     }
 }

@@ -8,8 +8,8 @@ package Controllers;
 import Entities.MessagesEntity;
 import Entities.NotificationsEntity;
 import Entities.StatutsEntity;
-import Services.NotificationServiceLocal;
-import Services.StatutServiceLocal;
+import Services.elementaires.NotificationServiceLocal;
+import Services.elementaires.StatutServiceLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -27,8 +27,8 @@ public class NotificationsController {
 
     private int idNotification;
 
-    @ManagedProperty(value = "#{murController}")
-    private MurController murController;
+    @ManagedProperty(value = "#{sessionController}")
+    private SessionController sessionController;
 
     @EJB
     NotificationServiceLocal notificationService;
@@ -36,16 +36,16 @@ public class NotificationsController {
     public NotificationsController() {
     }
 
-    public MurController getMurController() {
-        return murController;
+    public SessionController getSessionController() {
+        return sessionController;
     }
 
     public int getIdNotification() {
         return idNotification;
     }
 
-    public void setMurController(MurController murController) {
-        this.murController = murController;
+    public void setSessionController(SessionController sessionController) {
+        this.sessionController = sessionController;
     }
 
     public void setIdNotification(int idNotification) {
@@ -53,14 +53,14 @@ public class NotificationsController {
     }
 
     public List<NotificationsEntity> getNotifs() {
-        return notificationService.getNotifs(murController.getIdUtilisateur());
+        return notificationService.getNotifs(sessionController.getIdUtilisateur());
     }
     
     public StatutsEntity getStatut(){
-        return notificationService.getStatut(idNotification);
+        return notificationService.getStatutNotif(idNotification);
     }
     
     public List<MessagesEntity> getMessages(){
-        return notificationService.getMessages(idNotification);
+        return notificationService.getMessagesNotif(idNotification);
     }
 }

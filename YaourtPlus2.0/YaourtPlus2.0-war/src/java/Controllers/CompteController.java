@@ -5,13 +5,11 @@
  */
 package Controllers;
 
-import Services.ProfilServiceLocal;
+import Services.composites.ProfilServiceLocal;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -33,8 +31,11 @@ public class CompteController {
     @EJB
     ProfilServiceLocal profilService;
 
-    @ManagedProperty(value = "#{murController}")
-    private MurController murController;
+    @ManagedProperty(value = "#{sessionController}")
+    private SessionController sessionController;
+
+    @ManagedProperty(value = "#{redirectController}")
+    private RedirectController redirectController;
 
     public CompteController() {
         idUtilisateur = -1;
@@ -69,11 +70,13 @@ public class CompteController {
         return idUtilisateur;
     }
 
-    public MurController getMurController() {
-        return murController;
+    public SessionController getSessionController() {
+        return sessionController;
     }
-    
-    
+
+    public RedirectController getRedirectController() {
+        return redirectController;
+    }
 
 // Setters =====================================================================
     public void setLogin(String login) {
@@ -104,18 +107,19 @@ public class CompteController {
         this.idUtilisateur = idUtilisateur;
     }
 
-    public void setMurController(MurController murController) {
-        this.murController = murController;
+    public void setSessionController(SessionController sessionController) {
+        this.sessionController = sessionController;
     }
-    
-    
 
+    public void setRedirectController(RedirectController redirectController) {
+        this.redirectController = redirectController;
+    }
 // Methodes ====================================================================
     public String connect() {
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
-            murController.setIdUtilisateur(idUtilisateur);
-            return "secured/mur?faces-redirect=true";
+            sessionController.setIdUtilisateur(idUtilisateur);
+            return redirectController.goToMur(idUtilisateur);
         } else {
             return "connexion?faces-redirect=true";
         }

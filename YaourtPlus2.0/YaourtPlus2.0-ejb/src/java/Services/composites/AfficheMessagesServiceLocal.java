@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package Services.composites;
 
+import Entities.MessagesEntity;
+import java.util.List;
 import javax.ejb.Local;
-import javax.servlet.ServletContext;
-import javax.servlet.http.Part;
 
 /**
  *
- * @author Olivier
+ * @author Thomas
  */
 @Local
-public interface FichierServiceLocal {
+public interface AfficheMessagesServiceLocal {
     
-    public String ajoutFichier(Part p, String path, int idStatut);
-    
+    public List<MessagesEntity> getMessagesSinglePersonne(int idPersonne, int idUser);
 }

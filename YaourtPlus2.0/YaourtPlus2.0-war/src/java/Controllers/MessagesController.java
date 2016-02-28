@@ -6,9 +6,9 @@
 package Controllers;
 
 import Entities.MessagesEntity;
-import Services.MessageServiceLocal;
+import Services.elementaires.MessageServiceLocal;
+import Services.composites.AfficheMessagesServiceLocal;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -23,21 +23,27 @@ import javax.faces.bean.ViewScoped;
 public class MessagesController {
 
     private int idPersonne;
-    
+
     private String message;
-    
-    @ManagedProperty(value = "#{murController}")
-    private MurController murController;
+
+    @ManagedProperty(value = "#{sessionController}")
+    private SessionController sessionController;
+
+    @ManagedProperty(value = "#{redirectController}")
+    private RedirectController redirectController;
 
     @EJB
     MessageServiceLocal messageService;
+
+    @EJB
+    AfficheMessagesServiceLocal afficheMessageService;
+
     /**
      * Creates a new instance of MessagesController
      */
     public MessagesController() {
     }
 
-        
     public int getIdPersonne() {
         return idPersonne;
     }
@@ -46,10 +52,14 @@ public class MessagesController {
         return message;
     }
 
-    public MurController getMurController() {
-        return murController;
+    public SessionController getSessionController() {
+        return sessionController;
     }
-    
+
+    public RedirectController getRedirectController() {
+        return redirectController;
+    }
+
     
     public void setIdPersonne(int idPersonne) {
         this.idPersonne = idPersonne;
@@ -59,17 +69,20 @@ public class MessagesController {
         this.message = message;
     }
 
-    public void setMurController(MurController murController) {
-        this.murController = murController;
+    public void setSessionController(SessionController sessionController) {
+        this.sessionController = sessionController;
     }
-    
-    public String envoieMessage(){   
-        messageService.ajoutMessage(message, murController.getIdUtilisateur(), idPersonne);
-        return murController.goToCurrentPage();
+
+    public void setRedirectController(RedirectController redirectController) {
+        this.redirectController = redirectController;
     }
-    
-    public List<MessagesEntity> getMessages(){
-        return messageService.getMessagesSinglePersonne(murController.getIdUtilisateur(), idPersonne);
+
+    public String envoieMessage() {
+        messageService.ajoutMessage(message, sessionController.getIdUtilisateur(), idPersonne);
+        return redirectController.goToCurrentPage();
     }
-    
+
+    public List<MessagesEntity> getMessages() {
+        return afficheMessageService.getMessagesSinglePersonne(sessionController.getIdUtilisateur(), idPersonne);
+    }
 }
