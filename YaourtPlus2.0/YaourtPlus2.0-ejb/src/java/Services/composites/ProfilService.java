@@ -7,6 +7,7 @@ package Services.composites;
 
 import Entities.IMCEntity;
 import Entities.PersonnesEntity;
+import Services.elementaires.HashServiceLocal;
 import Services.elementaires.PersonnesServiceLocal;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,17 +23,20 @@ public class ProfilService implements ProfilServiceLocal {
     
     @EJB
     PersonnesServiceLocal personneService;
+    
+    @EJB
+    HashServiceLocal hashService;
 
     @Override
     public int connect(String login, String passWord) {
-        PersonnesEntity pe = personneService.getPersonne(login, passWord);
+        PersonnesEntity pe = personneService.getPersonne(login, hashService.hash(passWord));
         return pe != null ? pe.getId() : -1;
     }
 
 
     @Override
     public void inscrire(String login, String passWord, String nom, String prenom, int age, String mail) {
-        PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, passWord);
+        PersonnesEntity pe = new PersonnesEntity(nom, prenom, age, mail, login, hashService.hash(passWord));
         // Création de la date d'inscription
         Date dateInscription = Calendar.getInstance().getTime();
         
