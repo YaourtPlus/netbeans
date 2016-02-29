@@ -33,7 +33,7 @@ public class NotificationService implements NotificationServiceLocal {
 
     @EJB
     PersonnesServiceLocal personneService;
-    
+
     @EJB
     StatutsDAO statutDAO;
 
@@ -45,7 +45,7 @@ public class NotificationService implements NotificationServiceLocal {
 
     @EJB
     PersonnesDAO personneDAO;
-    
+
     @EJB
     MessageServiceLocal messageService;
 
@@ -146,14 +146,14 @@ public class NotificationService implements NotificationServiceLocal {
     @Override
     public List<NotificationsEntity> getNotifs(int utilisateurId) {
         PersonnesEntity user = personneService.getPersonne(utilisateurId);
-        
+        user.resetNotif();
         return user.getNotificationRecues();
     }
 
     @Override
     public StatutsEntity getStatutNotif(int idNotif) {
         NotificationsEntity notif = notificationDAO.find(idNotif);
-        
+
         return notif.getStatut();
     }
 
@@ -161,8 +161,15 @@ public class NotificationService implements NotificationServiceLocal {
     public List<MessagesEntity> getMessagesNotif(int idNotif) {
         NotificationsEntity notif = notificationDAO.find(idNotif);
         MessagesEntity msg = notif.getMessage();
-        
-        List<MessagesEntity> messages = messageService.getMessagesSinglePersonne(msg.getEmetteur().getId() , msg.getDestinataire().getId());
+
+        List<MessagesEntity> messages = messageService.getMessagesSinglePersonne(msg.getEmetteur().getId(), msg.getDestinataire().getId());
         return messages;
+    }
+
+    @Override
+    public int getNbNotifsNonLues(int utilisateurId) {
+        PersonnesEntity user = personneService.getPersonne(utilisateurId);
+        
+        return user.getNotifNonLues();
     }
 }

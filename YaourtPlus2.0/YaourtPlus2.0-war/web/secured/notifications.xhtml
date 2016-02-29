@@ -28,7 +28,7 @@
                     <h:outputText value="#{notif.date}" />
                 </h:panelGroup>
                 <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{empty notif.message and empty notif.statut}"> 
-                    <h:outputText value="#{notif.toString()}" />
+                    <h:outputText value="#{notif.toString()}"/>
                 </h:panelGroup>
             </h:column>
         </h:dataTable>

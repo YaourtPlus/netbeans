@@ -13,7 +13,11 @@
                     <h:link value="Ptit Filous" outcome="/secured/filous" />
                 </li>
                 <li class="#{view.viewId == '/secured/notifications.xhtml' ? 'active' : ''}">
-                    <h:link value="Notifications" outcome="/secured/notifications" />
+                    <h:link value="Notifications" outcome="/secured/notifications">
+                        <h:panelGroup class="badge">
+                            <h:outputText value="#{notificationsController.getNbNotifsNonLues()}" />
+                        </h:panelGroup>
+                    </h:link>
                 </li>
                 <li class="#{view.viewId == '/secured/messages.xhtml' ? 'active' : ''}">
                     <h:link value="Messages" outcome="/secured/messages"/>

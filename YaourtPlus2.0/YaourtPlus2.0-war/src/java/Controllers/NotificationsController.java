@@ -9,12 +9,11 @@ import Entities.MessagesEntity;
 import Entities.NotificationsEntity;
 import Entities.StatutsEntity;
 import Services.elementaires.NotificationServiceLocal;
-import Services.elementaires.StatutServiceLocal;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -23,7 +22,8 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class NotificationsController {
+public class NotificationsController implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private int idNotification;
 
@@ -63,4 +63,9 @@ public class NotificationsController {
     public List<MessagesEntity> getMessages(){
         return notificationService.getMessagesNotif(idNotification);
     }
+    
+    public int getNbNotifsNonLues(){
+        return notificationService.getNbNotifsNonLues(sessionController.getIdUtilisateur());
+    }
+    
 }

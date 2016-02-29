@@ -68,7 +68,7 @@
                                         <h:panelGroup layout="block" rendered="#{visible}">
                                             <!-- Case action = 0 -->
                                             <h:panelGroup layout="block" rendered="#{ps.typeAction.id == 0}">
-                                                <h:form>
+                                                <h:form class="like">
                                                     <h:commandLink value="Léger!" action="#{statutsController.ajoutLeger(statut.id)}">
                                                         <f:param name="id" value="#{param['id']}" />
                                                     </h:commandLink>
@@ -79,7 +79,7 @@
                                             </h:panelGroup> <!-- Fin case action = 0 -->
                                             <!-- Case action = 1 -->
                                             <h:panelGroup layout="block" rendered="#{ps.typeAction.id==1}" >
-                                                <h:form>
+                                                <h:form class="like">
                                                     <h:commandLink value="Vous avez allégé le statut." action="#{statutsController.suppressionAction(statut.id)}" >
                                                         <f:param name="id" value="#{param['id']}" />
                                                     </h:commandLink>
@@ -87,7 +87,7 @@
                                             </h:panelGroup><!-- Fin case action = 1 -->
                                             <!-- Case action = 2 -->
                                             <h:panelGroup layout="block" rendered="#{ps.typeAction.id == 2}">
-                                                <h:form>
+                                                <h:form class="like">
                                                     <h:commandLink value="Vous avez allourdi le statut." action="#{statutsController.suppressionAction(statut.id)}" >
                                                         <f:param name="id" value="#{param['id']}" />
                                                     </h:commandLink>
@@ -101,7 +101,7 @@
 
                                 <!-- Div lien non action utilisateur statut -->
                                 <h:panelGroup layout="block" rendered="#{!statut.isActeur(sessionController.idUtilisateur)}">
-                                    <h:form>
+                                    <h:form class="like">
                                         <h:commandLink value="Léger!" action="#{statutsController.ajoutLeger(statut.id)}" >
                                             <f:param name="id" value="#{param['id']}" />
                                         </h:commandLink>
@@ -115,7 +115,7 @@
 
                             <!-- Div lien sans actions statut-->
                             <h:panelGroup layout="block" rendered="#{empty statut.statutsActeurs} ">
-                                <h:form>
+                                <h:form class="like">
                                     <h:commandLink value="Léger!" action="#{statutsController.ajoutLeger(statut.id)}" >
                                         <f:param name="id" value="#{param['id']}" />
                                     </h:commandLink>
@@ -142,7 +142,7 @@
                     </h:panelGroup> <!-- Fin div commentaire -->
                 </ui:repeat> <!-- Fin boucle commentaires -->
                 <!-- Form post commentaire -->
-                <h:form id="formCommentaire">
+                <h:form class="formPost">
                     <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire" 
                                      value="#{commentaireController.commentaire}" required="false"/>
                     <h:commandButton value="Répondre" action="#{commentaireController.ajoutCommentaire(statut.id)}">
