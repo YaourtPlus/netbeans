@@ -19,8 +19,8 @@
             <h:panelGroup layout="block" class="container">
                 <h:panelGroup layout="block" class="row">
                     <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10">
-                        <h:outputText value="#{filou.prenom} #{filou.nom}"/>
-                        <h:form id="formFilous">
+                        <h:form>
+                            <h:outputText value="#{filou.prenom} #{filou.nom}"/>
                             <h:commandLink value="Ajouter" action="#{filousController.ajoutFilou(filou.id)}" />
                         </h:form>
                     </h:panelGroup> 

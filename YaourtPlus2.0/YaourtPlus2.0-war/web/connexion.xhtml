@@ -11,7 +11,7 @@
     </h:head>
     <h:body>
         <div class="col-lg-offset-4 col-lg-4">
-            <h:form id="formConnexion">
+            <h:form class="formPost">
                 <h:inputText id="nom" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login" p:placeholder="Login">
                     <f:validator validatorId="loginValidator" />
                     <f:attribute name="passWord" value="#{passWord}" />

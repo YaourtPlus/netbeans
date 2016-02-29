@@ -8,10 +8,11 @@ and open the template in the editor.
     Author     : Olivier
 */
 
-body {
+html, body{
     background-color: white;
 }
 
+/* Bootstrap */
 [class*="col-"], footer, .statuts, .post{
     background-color: lightblue;
     border: 1px solid black;
@@ -20,13 +21,16 @@ body {
     text-align: center;
 }
 
-.full-width{
-    width:100%;
+.fill{
+    height : 100%;
+    min-height : 100%;
 }
 
+/* General CSS */
+
 label{
-    width:200px;
-    display:block;
+    width: 200px;
+    display: block;
     float : left;
 }
 
@@ -35,10 +39,11 @@ input{
     float : left;
 }
 
-form{
-    margin : 10%;
+a{
+    margin-right : 10px;
 }
 
+/* ID */
 #connectButton{
     display : inline-block;
     margin: auto;
@@ -53,6 +58,25 @@ a.button {
     color: initial;
 }
 
+/* Class */
+
+.full-width{
+    width:100%;
+}
+
+.date{
+    text-align: right;
+}
+
+.formPost {
+    margin : 10%;
+}
+
+body .noDisplay{
+    background-color: white;
+    border : none;
+}
+/* Statuts */
 .statuts {
     background-color: #67b168;
     padding : 1px;
@@ -70,6 +94,7 @@ a.button {
     margin-right : 10%;
 }
 
+/* Messages */
 .rowMessage{
     border-bottom: 1px solid black;
 }
@@ -83,19 +108,10 @@ a.button {
     background-color: white;
 }
 
-.date{
-    text-align: right;
-}
-
-body .noDisplay{
-    background-color: white;
-    border : none;
-}
-
 .validMsg{
     text-align: center; 
 }
 
-span > form {
-    margin : 0px;
+.formMessage{
+    margin-top : 10px;
 }

@@ -10,6 +10,7 @@ import Services.composites.AfficheStatutsServiceLocal;
 import Services.elementaires.FichierServiceLocal;
 import Services.elementaires.StatutServiceLocal;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -25,7 +26,8 @@ import javax.servlet.http.Part;
  */
 @ManagedBean
 @ViewScoped
-public class StatutsController {
+public class StatutsController implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private Integer idPersonne;
     private String statut;

@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import java.io.Serializable;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -15,7 +16,8 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ApplicationScoped
-public class RedirectController {
+public class RedirectController implements Serializable{
+    private static final long serialVersionUID = 1L;
     /**
      * Creates a new instance of RedirectController
      */

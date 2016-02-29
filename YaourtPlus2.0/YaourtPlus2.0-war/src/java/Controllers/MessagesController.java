@@ -9,6 +9,7 @@ import Entities.MessagesEntity;
 import Services.elementaires.MessageServiceLocal;
 import Services.composites.AfficheMessagesServiceLocal;
 import Services.composites.FilousServiceLocal;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -21,7 +22,8 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class MessagesController {
+public class MessagesController implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private int idPersonne;
 
