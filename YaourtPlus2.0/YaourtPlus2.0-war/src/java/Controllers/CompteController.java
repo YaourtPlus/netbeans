@@ -126,7 +126,7 @@ public class CompteController {
     }
 
     public String inscrire() {
-        profilService.inscrire(login, passWord, nom, prenom, 10, mail);
+        profilService.inscrire(login, passWord, nom, prenom, !"".equals(age) ? Integer.parseInt(age):0, mail);
         return "connexion?faces-redirect=true";
     }
 

@@ -2,13 +2,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
         <h:link value="Accueil" outcome="connexion.xhtml"/>
-        <h:panelGroup layout="blok" class="col-lg-offset-2 col-lg-4">
+        <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-4">
             <h:form id="formInscription">
                 Login :  <h:inputText id="login" value="#{compteController.login}" required="true" >
                     <f:validator validatorId="inscriptionValidator" />
@@ -16,17 +17,18 @@
                     <f:attribute name="mail" value="#{mail}" />
                     <f:attribute name="nom" value="#{nom}" />
                     <f:attribute name="prenom" value="#{prenom}" />
+                    <f:attribute name="age" value="#{age}" />
                 </h:inputText>
                 <br/>
-                Mot de passe :  <h:inputSecret id="password" value="#{compteController.passWord}" required="false" binding="#{passWord}"/>
+                Mot de passe :  <h:inputSecret id="password" value="#{compteController.passWord}" required="true" binding="#{passWord}"/>
                 <br/>
-                Mail : <h:inputText id="mail" value="#{compteController.mail}" required="false" binding="#{mail}"/>
+                Mail : <h:inputText id="mail" value="#{compteController.mail}" required="true" binding="#{mail}" p:placeholder="example@test.ex" />
                 <br/>
-                Age : <h:inputText id="age" value="#{compteController.age}" required="false" />
+                Age : <h:inputText id="age" value="#{compteController.age}" required="false" binding="#{age}"  />
                 <br/>
-                Nom : <h:inputText id="nom" value="#{compteController.nom}" required="false" binding="#{nom}"/>
+                Nom : <h:inputText id="nom" value="#{compteController.nom}" required="true" binding="#{nom}"/>
                 <br/>
-                Prénom : <h:inputText id="prenom" value="#{compteController.prenom}" required="false" binding="#{prenom}"/>
+                Prénom : <h:inputText id="prenom" value="#{compteController.prenom}" required="true" binding="#{prenom}"/>
                 <br/>
                 <h:commandButton value="OK" action="#{compteController.inscrire()}" />
                 <br/>
