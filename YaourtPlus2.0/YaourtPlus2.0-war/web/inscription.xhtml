@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
@@ -12,25 +13,39 @@
         <h:link value="Accueil" outcome="connexion.xhtml"/>
         <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-4">
             <h:form id="formInscription">
-                Login :  <h:inputText id="login" value="#{compteController.login}" required="true" >
-                    <f:validator validatorId="inscriptionValidator" />
-                    <f:attribute name="passWord" value="#{passWord}" />
-                    <f:attribute name="mail" value="#{mail}" />
-                    <f:attribute name="nom" value="#{nom}" />
-                    <f:attribute name="prenom" value="#{prenom}" />
-                </h:inputText>
-                <br/>
-                Mot de passe :  <h:inputSecret id="password" value="#{compteController.passWord}" required="false" binding="#{passWord}"/>
-                <br/>
-                Mail : <h:inputText id="mail" value="#{compteController.mail}" required="false" binding="#{mail}"/>
-                <br/>
-                Age : <h:inputText id="age" value="#{compteController.age}" required="false" />
-                <br/>
-                Nom : <h:inputText id="nom" value="#{compteController.nom}" required="false" binding="#{nom}"/>
-                <br/>
-                Prénom : <h:inputText id="prenom" value="#{compteController.prenom}" required="false" binding="#{prenom}"/>
-                <br/>
-                <h:commandButton value="OK" action="#{compteController.inscrire()}" />
+                <h:panelGroup class="row" layout="block">
+                    <h:outputText value="Login" class="outputStyle"/> <br/><h:inputText id="login" value="#{compteController.login}" required="true" >
+                        <f:validator validatorId="inscriptionValidator" />
+                        <f:attribute name="passWord" value="#{passWord}" />
+                        <f:attribute name="mail" value="#{mail}" />
+                        <f:attribute name="nom" value="#{nom}" />
+                        <f:attribute name="prenom" value="#{prenom}" />
+                        <f:attribute name="age" value="#{age}" />
+                    </h:inputText><br />
+                </h:panelGroup>
+                <h:panelGroup class="row" layout="block">
+                    <h:outputText value="Mot de Passe" class="outputStyle" /><br/>
+                    <h:inputSecret id="password" value="#{compteController.passWord}" required="true" binding="#{passWord}" />
+                </h:panelGroup>
+                <h:panelGroup class="row" layout="block">
+                    <h:outputText value="Mail" class="outputStyle" /><br/>
+                    <h:inputText id="mail" value="#{compteController.mail}" required="true" binding="#{mail}" p:placeholder="example@test.ex" />
+                </h:panelGroup>
+                <h:panelGroup class="row" layout="block">
+                    <h:outputText value="Age" class="outputStyle" /><br/>
+                    <h:inputText id="age" value="#{compteController.age}" required="false" binding="#{age}"  />
+                </h:panelGroup>
+                <h:panelGroup class="row" layout="block">
+                    <h:outputText value="Nom" class="outputStyle" /><br/>
+                    <h:inputText id="nom" value="#{compteController.nom}" required="true" binding="#{nom}"/>
+                </h:panelGroup>
+                <h:panelGroup class="row" layout="block">
+                    <h:outputText value="Prénom" class="outputStyle" /><br/>
+                    <h:inputText id="prenom" value="#{compteController.prenom}" required="true" binding="#{prenom}"/>
+                </h:panelGroup>
+                <h:panelGroup class="row" layout="block">
+                    <h:commandButton value="OK" action="#{compteController.inscrire()}" />
+                </h:panelGroup>
                 <br/>
             </h:form>
         </h:panelGroup>        

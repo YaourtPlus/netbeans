@@ -76,6 +76,11 @@ body .noDisplay{
     background-color: white;
     border : none;
 }
+
+.outputStyle{
+    float:left;
+}
+
 /* Statuts */
 .statuts {
     background-color: #67b168;

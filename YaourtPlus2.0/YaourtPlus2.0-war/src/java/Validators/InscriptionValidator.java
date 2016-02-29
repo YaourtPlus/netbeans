@@ -37,6 +37,8 @@ public class InscriptionValidator implements Validator {
                 .get("nom");
         UIInput uiInputConfirmPrenom = (UIInput) uic.getAttributes()
                 .get("prenom");
+        UIInput uiInputConfirmAge = (UIInput) uic.getAttributes()
+                .get("age");
         String passWord = uiInputConfirmPassword.getSubmittedValue()
                 .toString();
         String mail = uiInputConfirmMail.getSubmittedValue()
@@ -44,6 +46,8 @@ public class InscriptionValidator implements Validator {
         String nom = uiInputConfirmNom.getSubmittedValue()
                 .toString();
         String prenom = uiInputConfirmPrenom.getSubmittedValue()
+                .toString();
+        String age = uiInputConfirmAge.getSubmittedValue()
                 .toString();
 
         
@@ -67,7 +71,18 @@ public class InscriptionValidator implements Validator {
 
         if (mail.length() < 1) {
             throw new ValidatorException(new FacesMessage(
-                    "Vous devez renseigner un mail"));
+                    "Vous devez renseigner un mail."));
+        }
+        
+        if(!age.equals("")){
+            if(!age.matches("[0-9]*")){
+                throw new ValidatorException(new FacesMessage(
+                    "Age non valide : vous devez rentrer un nombre."));
+            }
+        }
+        else{
+            throw new ValidatorException(new FacesMessage(
+                    "Vous devez rentrer un age."));
         }
         
         if(!mail.matches(".+@.+[\\.].+")){
@@ -76,11 +91,11 @@ public class InscriptionValidator implements Validator {
         }
         if (nom.length() < 1) {
             throw new ValidatorException(new FacesMessage(
-                    "Vous devez renseigner un nom"));
+                    "Vous devez renseigner un nom."));
         }
         if (prenom.length() < 1) {
             throw new ValidatorException(new FacesMessage(
-                    "Vous devez renseigner un prénom"));
+                    "Vous devez renseigner un prénom."));
         }
 
     }
