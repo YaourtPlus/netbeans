@@ -19,11 +19,15 @@
                 <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-6">
                     <h:form class="formPost" enctype="multipart/form-data">
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
+                                         value="#{statutsController.statut}" validatorMessage="Statut vide">
+                            
+                            <f:validateLength minimum="1"/>
+                        </h:inputTextarea>
                         <h:inputFile value="#{statutsController.part}"/>
                         <h:commandButton value="Publier" action="#{statutsController.postStatut()}" >
                             <f:param name="id" value="#{param['id']}" />
                         </h:commandButton>
+                        <h:message for="statut"/>
                     </h:form>
                 </h:panelGroup>
             </h:panelGroup>

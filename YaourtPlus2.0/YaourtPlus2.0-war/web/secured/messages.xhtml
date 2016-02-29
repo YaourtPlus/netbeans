@@ -37,8 +37,11 @@
         <h:panelGroup layout="block" class="#{not empty listFilous ? 'col-lg-2': 'col-lg-offset-8 col-lg-2'}" rendered="#{not empty listFilous}">
             <h:form class="formPost">
                 <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
-                                 value="#{messagesController.message}" required="true" requiredMessage="Vous ne pouvez pas envoyer de message vide"/>
+                                 value="#{messagesController.message}" validatorMessage="Message vide">
+                <f:validateLength minimum="1"/>
+                </h:inputTextarea>
                 <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" />
+                <h:message for="message"/>
             </h:form>
         </h:panelGroup>
     </h:body>
