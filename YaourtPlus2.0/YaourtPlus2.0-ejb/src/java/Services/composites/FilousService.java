@@ -34,6 +34,15 @@ public class FilousService implements FilousServiceLocal {
     }
 
     @Override
+    public int getFirstFilousId(int idUtilisateur){
+        PersonnesEntity user = personneService.getPersonne(idUtilisateur);
+        
+        PersonnesEntity firstFilou = user.getListFilous().get(0);
+        
+        return firstFilou.getId();
+    }
+    
+    @Override
     public List<PersonnesEntity> getFilousPossibles(int idUtilisateur) {
 
         PersonnesEntity user = personneService.getPersonne(idUtilisateur);

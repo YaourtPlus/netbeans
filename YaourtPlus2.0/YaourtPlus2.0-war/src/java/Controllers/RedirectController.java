@@ -29,8 +29,8 @@ public class RedirectController {
         return viewId + "?faces-redirect=true&id=" + id;
     }
 
-    public String goToMur(int id) {
-        return "/secured/mur?faces-redirect=true&id=" + id;
+    public String goToMur() {
+        return "/secured/mur?faces-redirect=true";
     }
 
     public String goToAddFilous() {
@@ -43,5 +43,13 @@ public class RedirectController {
 
     public String goToFilou(Integer filouId) {
         return "/secured/profil?faces-redirect=true&id=" + filouId;
+    }
+    
+    public String getViewId(){
+        return FacesContext.getCurrentInstance().getViewRoot().getViewId();
+    }
+    
+    public boolean isParameter(String name){
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().containsKey("id");
     }
 }

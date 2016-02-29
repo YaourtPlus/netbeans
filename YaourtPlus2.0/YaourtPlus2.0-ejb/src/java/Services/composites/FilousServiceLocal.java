@@ -18,6 +18,8 @@ public interface FilousServiceLocal {
     
     public List<PersonnesEntity> getFilous(int idUtilisateur);
     
+    public int getFirstFilousId(int idUtilisateur);    
+    
     public List<PersonnesEntity> getFilousPossibles(int idUtilisateur);
 
     public boolean ajoutFilous(int idFilous, int idUtilisateur);

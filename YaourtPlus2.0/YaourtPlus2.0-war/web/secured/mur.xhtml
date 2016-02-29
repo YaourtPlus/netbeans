@@ -3,9 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Accueil</title>
         <ui:include src="/css.xhtml" />
@@ -40,7 +39,6 @@
                     <!-- Form post statut -->
                     <h:form id="formStatut" enctype="multipart/form-data">
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         p:placeholder="Ajouter un ptit statut" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ajouter un ptit statut'"
                                          value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
                         <h:inputFile value="#{statutsController.part}"/>
                         <h:commandButton value="Publier" action="#{statutsController.ajoutStatut()}" >
@@ -56,23 +54,17 @@
                 <!-- Div envoie messages -->
                 <h:panelGroup layout="block" class="col-lg-4" rendered="#{not empty  listFilous}">
                     <!-- Form post message -->
-                    <h:form id="formMessage"> 
-                        <!-- List select filou -->
-                        <h:selectOneMenu value="#{messagesController.idPersonne}" >
+                    <h:form id="formMessage">
+                        <h:selectOneMenu value="#{messagesController.idPersonne}" onchange="SelectFilou()">
                             <f:selectItems value="#{listFilous}" var="filou"
-                                           itemLabel="#{filou.id}" itemValue="#{filou.id}" />    
+                                           itemLabel="#{filou.prenom} #{filou.nom}" itemValue="#{filou.id}" />
                         </h:selectOneMenu><!-- Fin list select filou -->
-                        <h:commandButton value="Selectionner" action="#{redirectController.goToCurrentPage()}">
-                            <f:param name="id" value="#{messagesController.idPersonne}"/>
-                        </h:commandButton>
+                        <p:remoteCommand name="SelectFilou" action="#{messagesController.selectFilous()}" />
                     </h:form>
-
                     <h:form>
                         <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
                                          value="#{messagesController.message}" required="true" requiredMessage="Vous ne pouvez pas envoyer de message vide"/>
-                        <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" >
-                            <f:param name="id" value="#{messagesController.idPersonne}"/>
-                        </h:commandButton>
+                        <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" />
                     </h:form><!-- Fin form post message -->
 
                     <ui:include src="/secured/afficheMessage.xhtml">

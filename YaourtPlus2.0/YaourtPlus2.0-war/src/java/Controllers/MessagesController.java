@@ -8,6 +8,7 @@ package Controllers;
 import Entities.MessagesEntity;
 import Services.elementaires.MessageServiceLocal;
 import Services.composites.AfficheMessagesServiceLocal;
+import Services.composites.FilousServiceLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -36,6 +37,9 @@ public class MessagesController {
     MessageServiceLocal messageService;
 
     @EJB
+    FilousServiceLocal filousService;
+
+    @EJB
     AfficheMessagesServiceLocal afficheMessageService;
 
     /**
@@ -60,7 +64,6 @@ public class MessagesController {
         return redirectController;
     }
 
-    
     public void setIdPersonne(int idPersonne) {
         this.idPersonne = idPersonne;
     }
@@ -77,12 +80,30 @@ public class MessagesController {
         this.redirectController = redirectController;
     }
 
-    public String envoieMessage() {
-        messageService.ajoutMessage(message, sessionController.getIdUtilisateur(), idPersonne);
-        return redirectController.goToCurrentPage();
+    private int getFirstFilousId() {
+        return filousService.getFirstFilousId(sessionController.getIdUtilisateur());
     }
 
     public List<MessagesEntity> getMessages() {
+        // Il n'y a pas de problèmes dans le cas où l'utilisateur n'a pas de filous, car la fonction n'est pas appelée.
+        // On n'a donc pas de problème d'id.
+        if (!redirectController.isParameter("id")) { // On arrive sur la page sans paramètres
+            idPersonne = getFirstFilousId(); // On récupère le premier filou de la liste de filous
+        }
         return afficheMessageService.getMessagesSinglePersonne(sessionController.getIdUtilisateur(), idPersonne);
+    }
+
+    /*
+     * On ne peut pas passer par les méthodes du redirectController pour 
+     * rediriger directement car il y a un problème de passage de valeur avec le 
+     * selectOneMenu pour choisir le filous
+     */
+    public String envoieMessage() {
+        messageService.ajoutMessage(message, sessionController.getIdUtilisateur(), idPersonne);
+        return redirectController.getViewId() + "?faces-redirect=true&id=" + idPersonne;
+    }
+
+    public String selectFilous() {
+        return redirectController.getViewId() + "?faces-redirect=true&id=" + idPersonne;
     }
 }

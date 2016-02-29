@@ -119,7 +119,7 @@ public class CompteController {
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
             sessionController.setIdUtilisateur(idUtilisateur);
-            return redirectController.goToMur(idUtilisateur);
+            return redirectController.goToMur();
         } else {
             return "connexion?faces-redirect=true";
         }
