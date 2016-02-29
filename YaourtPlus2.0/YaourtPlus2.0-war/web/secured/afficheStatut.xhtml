@@ -149,10 +149,13 @@
                 <h:form class="formPost">
                     <h:outputLabel class="pull-left" value="Commentaires"/>
                     <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire" 
-                                     value="#{commentaireController.commentaire}" required="false"/>
+                                     value="#{commentaireController.commentaire}" validatorMessage="Commentaire vide">
+                        <f:validateLength minimum="1"/>
+                    </h:inputTextarea>
                     <h:commandButton value="Répondre" class="pull-right btn btn-primary" action="#{commentaireController.ajoutCommentaire(statut.id)}">
                         <f:param name="id" value="#{param['id']}" />
                     </h:commandButton>
+                    <h:message for="commentaire"/>
                 </h:form><!-- Fin form post commentaire -->
             </h:column>
         </h:dataTable><!-- Fin boucle sur liste des statuts -->

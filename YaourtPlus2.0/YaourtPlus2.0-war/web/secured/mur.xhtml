@@ -40,12 +40,15 @@
                     <h:form class="formPost" enctype="multipart/form-data">
                         <h:outputLabel class="pull-left" value="Statut"/>
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         value="#{statutsController.statut}" required="true" requiredMessage="Ajouter un ptit statut"/>
+                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut" validatorMessage="Statut vide">
+                            <f:validateLength minimum="1" />
+                        </h:inputTextarea>
                         <h:panelGroup layout="block" class="form-horizontal container-fluid upload">    
                             <h:inputFile class="pull-left" value="#{statutsController.part}"/>
                             <h:commandButton value="Publier" class="pull-right btn btn-primary" action="#{statutsController.ajoutStatut()}" >
                                 <f:param name="id" value="#{param['id']}" />
                             </h:commandButton>
+                            <h:message for="statut"/>
                         </h:panelGroup>
                     </h:form><!-- Fin form post statut -->
                     <ui:param name="listStatuts" value="#{statutsController.getStatuts()}"/>
@@ -70,8 +73,12 @@
                     </h:form>
                     <h:form class="formPost formMessage">
                         <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
-                                         value="#{messagesController.message}" required="true" requiredMessage="Vous ne pouvez pas envoyer de message vide"/>
+                                         value="#{messagesController.message}" validatorMessage="Message vide">
+                            <f:validateLength minimum="1"/>
+                        </h:inputTextarea>
                         <h:commandButton value="Envoyer" class="pull-right btn btn-primary" action="#{messagesController.envoieMessage()}" />
+
+                        <h:message for="message"/>
                     </h:form><!-- Fin form post message -->
 
                     <ui:include src="/secured/afficheMessage.xhtml">

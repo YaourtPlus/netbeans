@@ -27,6 +27,7 @@ public class InscriptionValidator implements Validator {
 
     @Override
     public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        
         String login = o.toString();
 
         UIInput uiInputConfirmPassword = (UIInput) uic.getAttributes()
