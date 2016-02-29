@@ -1,21 +1,8 @@
 package Controllers;
 
-import Entities.PersonnesEntity;
-import Entities.StatutsEntity;
-import Services.composites.AfficheStatutsServiceLocal;
-import Services.elementaires.FichierServiceLocal;
-import Services.composites.FilousServiceLocal;
-import Services.elementaires.PersonnesServiceLocal;
-import Services.elementaires.StatutServiceLocal;
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import javax.ejb.EJB;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.http.Part;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,7 +15,7 @@ import javax.servlet.http.Part;
  */
 @ManagedBean
 @SessionScoped
-public class SessionController {
+public class SessionController implements Serializable {
 
     private int idUtilisateur;
 
