@@ -117,6 +117,7 @@ public class StatutsController implements Serializable{
 
     public String ajoutStatut() {
         int idStatut = statutService.ajoutStatut(statut, sessionController.getIdUtilisateur());
+        System.err.println(idStatut);
         if (part != null) {
             ajoutFichier(idStatut);
         }

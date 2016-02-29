@@ -38,15 +38,22 @@
                 <h:panelGroup layout="block" class="#{empty listFilous ? 'post col-lg-6 col-lg-offset-2' : 'post col-lg-6'}">
                     <!-- Form post statut -->
                     <h:form class="formPost" enctype="multipart/form-data">
+                        <h:outputLabel class="pull-left" value="Statut"/>
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
-                        <h:inputFile value="#{statutsController.part}"/>
-                        <h:commandButton value="Publier" action="#{statutsController.ajoutStatut()}" >
-                            <f:param name="id" value="#{param['id']}" />
-                        </h:commandButton>
+                                         value="#{statutsController.statut}" required="true" requiredMessage="Ajouter un ptit statut"/>
+                        <h:panelGroup layout="block" class="form-horizontal container-fluid upload">    
+                            <h:inputFile class="pull-left" value="#{statutsController.part}"/>
+                            <h:commandButton value="Publier" class="pull-right btn btn-primary" action="#{statutsController.ajoutStatut()}" >
+                                <f:param name="id" value="#{param['id']}" />
+                            </h:commandButton>
+                        </h:panelGroup>
                     </h:form><!-- Fin form post statut -->
+                    <ui:param name="listStatuts" value="#{statutsController.getStatuts()}"/>
+                    <h:panelGroup layout="block" rendered="#{not empty listStatuts}">
+                        <hr/>
+                    </h:panelGroup>
                     <ui:include src="/secured/afficheStatut.xhtml">
-                        <ui:param name="listStatuts" value="#{statutsController.getStatuts()}" />
+                        <ui:param name="listStatuts" value="#{listStatuts}" />
                     </ui:include>
 
                 </h:panelGroup><!-- Fin post statut -->
@@ -64,7 +71,7 @@
                     <h:form class="formPost formMessage">
                         <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
                                          value="#{messagesController.message}" required="true" requiredMessage="Vous ne pouvez pas envoyer de message vide"/>
-                        <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" />
+                        <h:commandButton value="Envoyer" class="pull-right btn btn-primary" action="#{messagesController.envoieMessage()}" />
                     </h:form><!-- Fin form post message -->
 
                     <ui:include src="/secured/afficheMessage.xhtml">

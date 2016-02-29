@@ -19,11 +19,13 @@
                 <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-6">
                     <h:form class="formPost" enctype="multipart/form-data">
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut"/>
-                        <h:inputFile value="#{statutsController.part}"/>
-                        <h:commandButton value="Publier" action="#{statutsController.postStatut()}" >
-                            <f:param name="id" value="#{param['id']}" />
-                        </h:commandButton>
+                                         value="#{statutsController.statut}" required="true" requiredMessage="Ajouter un ptit statut"/>
+                        <h:panelGroup layout="block" class="form-horizontal container-fluid upload">    
+                            <h:inputFile class="pull-left" value="#{statutsController.part}"/>
+                            <h:commandButton value="Publier" class="pull-right btn btn-primary" action="#{statutsController.postStatut()}" >
+                                <f:param name="id" value="#{param['id']}" />
+                            </h:commandButton>
+                        </h:panelGroup>
                     </h:form>
                 </h:panelGroup>
             </h:panelGroup>
