@@ -73,9 +73,8 @@
                                                         <h:commandLink class="col-xs-offset-4 col-xs-2 noBG"  action="#{statutsController.ajoutLeger(statut.id)}">
                                                             <f:param name="id" value="#{param['id']}" />
                                                             <h:outputText value="Léger!" class="pull-left"/>
-                                                             
                                                         </h:commandLink>
-                                                        <h:commandLink class="col-xs-offset-1 col-xs-2 noBG" action="#{statutsController.ajoutLourd(statut.id)}" >
+                                                        <h:commandLink class="col-xs-offset-1 col-xs-4 noBG " action="#{statutsController.ajoutLourd(statut.id)}" >
                                                             <f:param name="id" value="#{param['id']}" />
                                                             <h:outputText value="T'es lourd!" class="pull-left"/>
                                                         </h:commandLink>
@@ -95,7 +94,7 @@
                                                         <h:commandLink value="Vous avez allourdi le statut." action="#{statutsController.suppressionAction(statut.id)}" >
                                                             <f:param name="id" value="#{param['id']}" />
                                                         </h:commandLink>
-                                                    </h:form>
+                                                    </h:form>   
                                                 </h:panelGroup><!-- Fin case action = 2 -->
                                             </h:panelGroup>
                                             <!-- Fin lien statuts -->
@@ -106,11 +105,13 @@
                                     <!-- Div lien non action utilisateur statut -->
                                     <h:panelGroup layout="block" rendered="#{!statut.isActeur(sessionController.idUtilisateur)}">
                                         <h:form class="like">
-                                            <h:commandLink value="Léger!" action="#{statutsController.ajoutLeger(statut.id)}" >
+                                            <h:commandLink class="col-xs-offset-4 col-xs-2 noBG" action="#{statutsController.ajoutLeger(statut.id)}" >
                                                 <f:param name="id" value="#{param['id']}" />
+                                                <h:outputText value="Léger!" class="pull-left"/>
                                             </h:commandLink>
-                                            <h:commandLink value="T'es lourd!" action="#{statutsController.ajoutLourd(statut.id)}" >
+                                            <h:commandLink class="col-xs-offset-1 col-xs-4 noBG" action="#{statutsController.ajoutLourd(statut.id)}" >
                                                 <f:param name="id" value="#{param['id']}" />
+                                                <h:outputText value="T'es lourd!" class="pull-left"/>
                                             </h:commandLink>
                                         </h:form>
                                     </h:panelGroup> <!-- Fin div lien non action utilisateur statut -->
@@ -120,11 +121,13 @@
                                 <!-- Div lien sans actions statut-->
                                 <h:panelGroup layout="block" rendered="#{empty statut.statutsActeurs} ">
                                     <h:form class="like">
-                                        <h:commandLink value="Léger!" action="#{statutsController.ajoutLeger(statut.id)}" >
+                                        <h:commandLink class="col-xs-offset-4 col-xs-2 noBG" action="#{statutsController.ajoutLeger(statut.id)}" >
                                             <f:param name="id" value="#{param['id']}" />
+                                            <h:outputText value="Léger!" class="pull-left"/>
                                         </h:commandLink>
-                                        <h:commandLink value="T'es lourd!" action="#{statutsController.ajoutLourd(statut.id)}" >
+                                        <h:commandLink class="col-xs-offset-1 col-xs-4 noBG" action="#{statutsController.ajoutLourd(statut.id)}" >
                                             <f:param name="id" value="#{param['id']}" />
+                                            <h:outputText value="T'es lourd!" class="pull-left"/>
                                         </h:commandLink>
                                     </h:form>
                                 </h:panelGroup> <!-- Fin div lien sans actions statut-->
@@ -147,7 +150,7 @@
                 </ui:repeat> <!-- Fin boucle commentaires -->
                 <!-- Form post commentaire -->
                 <h:form class="formPost">
-                    <h:outputLabel class="pull-left" value="Commentaires"/>
+                    <h:outputLabel value="Commentaires"/>
                     <h:inputTextarea rows='3' cols='75' class="form-control" id="commentaire" 
                                      value="#{commentaireController.commentaire}" validatorMessage="Commentaire vide">
                         <f:validateLength minimum="1"/>

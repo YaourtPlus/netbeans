@@ -10,19 +10,17 @@
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        <div class="col-lg-offset-4 col-lg-4">
+        <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4">
             <h:form class="formPost">
-                <h:inputText id="nom" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login" p:placeholder="Login">
+                <h:inputText id="nom" class="form-control" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login" p:placeholder="Login">
                     <f:validator validatorId="loginValidator" />
                     <f:attribute name="passWord" value="#{passWord}" />
                 </h:inputText>
-                <h:inputSecret id="password" value="#{compteController.passWord}" required="true" requiredMessage="Veuillez entrer votre mot de passe" binding="#{passWord}" p:placeholder="Mot de passe"/>
-                <h:commandButton value="OK" action="#{compteController.connect()}" />
-            </h:form>   
-            <br />
-            <br/>
-        </div>
-        <h:link value="S'inscrire!" outcome="inscription"/>
+                <h:inputSecret id="password" class="form-control" value="#{compteController.passWord}" required="true" requiredMessage="Veuillez entrer votre mot de passe" binding="#{passWord}" p:placeholder="Mot de passe" />
+                <h:commandButton value="OK" class="btnConnection btn btn-primary" action="#{compteController.connect()}" />
+                <h:link value="S'inscrire!" class="pull-right" outcome="inscription"/>
+            </h:form>
+        </h:panelGroup>
     </h:body>
 </html>
 

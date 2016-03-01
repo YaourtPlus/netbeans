@@ -17,7 +17,6 @@ import javax.persistence.Entity;
 public class NotificationsStatutEntity extends NotificationsEntity{
     
     public NotificationsStatutEntity() {
-        System.err.println("classe fille");
         this.setDate(Calendar.getInstance().getTime());
         this.setNotifieur(null);
         this.setStatut(null);

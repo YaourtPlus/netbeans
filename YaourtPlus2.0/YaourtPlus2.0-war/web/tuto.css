@@ -32,13 +32,13 @@ html, body{
 label{
     width: 200px;
     display: block;
-    float : left;
 }
 
 input{
-    display : block;
+    display : none;
     float : left;
     margin-top : 10px;
+    display : block;
 }
 
 a{
@@ -66,6 +66,14 @@ a.button {
 }
 
 /* Class */
+.btn{
+    margin-bottom : 5px;
+}
+
+.btnConnection{
+    margin-top : 0px;
+}
+
 .green{
     background-color: green;
 }
@@ -79,7 +87,7 @@ a.button {
     background-color: white;
     border: 0px;
     border-radius: 0px;
-    text-align: centered;
+    text-align: center;
 }
 
 .upload{
@@ -94,11 +102,14 @@ a.button {
     text-align: right;
 }
 
-.formPost {
-    margin : 10%;
-    margin-top : 5%;
+.formPost{
+    margin : 5%;
 }
 
+.formChoice{
+    margin-bottom : 0px;
+    margin-top : 0px;
+}
 body .noDisplay{
     background-color: white;
     border : none;
@@ -142,8 +153,4 @@ body .noDisplay{
 
 .validMsg{
     text-align: center; 
-}
-
-.formMessage{
-    margin-top : 10px;
 }

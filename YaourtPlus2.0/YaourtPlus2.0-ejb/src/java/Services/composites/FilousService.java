@@ -5,7 +5,6 @@
  */
 package Services.composites;
 
-import DAO.PersonnesDAO;
 import Entities.PersonnesEntity;
 import Services.elementaires.NotificationServiceLocal;
 import Services.elementaires.PersonnesServiceLocal;

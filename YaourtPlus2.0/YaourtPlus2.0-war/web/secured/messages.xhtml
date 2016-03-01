@@ -39,9 +39,8 @@
                 <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
                                  value="#{messagesController.message}" validatorMessage="Message vide">
                     <f:validateLength minimum="1"/>
-                    <h:commandButton value="Envoyer" class="btn btn-primary" action="#{messagesController.envoieMessage()}" />
                 </h:inputTextarea>
-                <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" />
+                <h:commandButton value="Envoyer" class="btn btn-primary" action="#{messagesController.envoieMessage()}" />
                 <h:message for="message"/>
             </h:form>
         </h:panelGroup>
