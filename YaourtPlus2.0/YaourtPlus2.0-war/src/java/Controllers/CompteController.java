@@ -10,6 +10,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -119,6 +120,7 @@ public class CompteController {
         idUtilisateur = profilService.connect(login, passWord);
         if (idUtilisateur != -1) {
             sessionController.setIdUtilisateur(idUtilisateur);
+            
             return redirectController.goToMur();
         } else {
             return "connexion?faces-redirect=true";
