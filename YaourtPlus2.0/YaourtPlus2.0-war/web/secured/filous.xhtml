@@ -14,14 +14,16 @@
             <h:outputText value="Filous ajouté"/>
         </h:panelGroup>
         <!-- -->
-        
+
         <ui:repeat value="#{filousController.getFilousAjout()}" var="filou" >
             <h:panelGroup layout="block" class="container">
                 <h:panelGroup layout="block" class="row">
-                    <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10">
+                    <h:panelGroup layout="block" class="col-xs-offset-3 col-xs-6">
+                        <h:outputText class="pull-left" value="#{filou.prenom} #{filou.nom}"/>
                         <h:form>
-                            <h:outputText value="#{filou.prenom} #{filou.nom}"/>
-                            <h:commandLink value="Ajouter" action="#{filousController.ajoutFilou(filou.id)}" />
+                            <h:panelGroup layout="block" class="form-group">
+                                <h:commandLink class="pull-right btn btn-primary" value="Ajouter" action="#{filousController.ajoutFilou(filou.id)}" />
+                            </h:panelGroup>
                         </h:form>
                     </h:panelGroup> 
                 </h:panelGroup>

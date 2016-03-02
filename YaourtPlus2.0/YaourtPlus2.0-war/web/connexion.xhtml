@@ -10,15 +10,23 @@
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4">
-            <h:form class="formPost">
-                <h:inputText id="nom" class="form-control" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login" p:placeholder="Login">
-                    <f:validator validatorId="loginValidator" />
-                    <f:attribute name="passWord" value="#{passWord}" />
-                </h:inputText>
-                <h:inputSecret id="password" class="form-control" value="#{compteController.passWord}" required="true" requiredMessage="Veuillez entrer votre mot de passe" binding="#{passWord}" p:placeholder="Mot de passe" />
-                <h:commandButton value="OK" class="btnConnection btn btn-primary" action="#{compteController.connect()}" />
-                <h:link value="S'inscrire!" class="pull-right" outcome="inscription"/>
+        <h:panelGroup layout="block" class="text-center">
+            <h:outputText value="Connexion" class="h1"/>
+        </h:panelGroup>
+        <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4 centeredConnexion">
+            <h:form>
+                <h:message for="nom"/>
+                <h:panelGroup layout="block" class="form-group">
+                    <h:inputText id="nom" class="form-control" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login" p:placeholder="Login">
+                        <f:validator validatorId="loginValidator" />
+                        <f:attribute name="passWord" value="#{passWord}" />
+                    </h:inputText>
+                    <h:inputSecret id="password" class="form-control" value="#{compteController.passWord}" required="true" requiredMessage="Veuillez entrer votre mot de passe" binding="#{passWord}" p:placeholder="Mot de passe" />
+                    <h:panelGroup layout="block" class="form-group">
+                        <h:commandButton value="OK" class="btn btn-primary" action="#{compteController.connect()}" />
+                        <h:link value="S'inscrire!" class="pull-right" outcome="inscription"/>
+                    </h:panelGroup>
+                </h:panelGroup>
             </h:form>
         </h:panelGroup>
     </h:body>

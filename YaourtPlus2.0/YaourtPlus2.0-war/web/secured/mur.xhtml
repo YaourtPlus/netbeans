@@ -26,8 +26,14 @@
                             <h:column>
                                 <li>
                                     <h:form>
-                                        <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{redirectController.goToFilou(filous.id)}" />
-                                        <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
+                                        <h:panelGroup layout="block" class="form-group">
+                                            <h:panelGroup layout="block" class="pull-left">
+                                                <h:commandLink class="btn btn-link" value="#{filous.nom} #{filous.prenom}" action="#{redirectController.goToFilou(filous.id)}" />
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="pull-right">
+                                                <h:commandLink class="btn btn-danger" value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
+                                            </h:panelGroup>
+                                        </h:panelGroup>
                                     </h:form>
                                 </li>
                             </h:column>

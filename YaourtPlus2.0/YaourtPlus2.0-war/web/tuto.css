@@ -66,6 +66,16 @@ a.button {
 }
 
 /* Class */
+.centeredInscription{
+    position : absolute;
+    top : calc(50% - (355px/2));
+}
+
+.centeredConnexion{
+    position : absolute;
+    top : calc(50% - (185px/2));
+}
+
 .btn{
     margin-bottom : 5px;
 }

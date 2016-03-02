@@ -38,7 +38,6 @@ public class MessageService implements MessageServiceLocal {
         }
 
         PersonnesEntity sender = personneService.getPersonne(idUser);
-        System.err.println(idDestinataire);
         PersonnesEntity dest = personneService.getPersonne(idDestinataire);
 
         
@@ -49,7 +48,6 @@ public class MessageService implements MessageServiceLocal {
         int idMessage = messagesDAO.save(newMessagesEntity);
 
         personneService.ajoutMessageEnvoi(sender, newMessagesEntity);
-        System.err.println(newMessagesEntity);
         
         personneService.ajoutMessageRecu(dest, newMessagesEntity);
 

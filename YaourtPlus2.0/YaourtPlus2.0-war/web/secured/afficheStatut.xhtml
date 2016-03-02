@@ -43,15 +43,15 @@
                                 <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-2 noBG" rendered="#{statut.nbLeger > 1}">
                                     <h:outputText class="pull-left" value="#{statut.nbLeger} Légers   "/>
                                 </h:panelGroup>
-                                <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-2 noBG">
+                                <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-2 noBG" rendered="#{!(statut.nbLeger > 1)}">
                                     <h:outputText class="pull-left" value="#{statut.nbLeger} Léger    "/>
                                 </h:panelGroup>
 
                                 <h:panelGroup layout="block" class="col-xs-offset-1 col-xs-2 noBG" rendered="#{statut.nbLourd > 1}">
-                                    <h:outputText class="pull-left" value="#{statut.nbLourd} Lourds"/>
+                                    <h:outputText class="pull-left" value="#{statut.nbLourd} T'es Lourds!"/>
                                 </h:panelGroup>
                                 <h:panelGroup layout="block" class="col-xs-offset-1 col-xs-2 noBG" rendered="#{!(statut.nbLourd > 1)}">
-                                    <h:outputText class="pull-left" value="#{statut.nbLourd} Lourd"/>
+                                    <h:outputText class="pull-left" value="#{statut.nbLourd} T'es Lourd!"/>
                                 </h:panelGroup>
                             </h:panelGroup><!-- Fin affichage nombre léger/lourd -->
 

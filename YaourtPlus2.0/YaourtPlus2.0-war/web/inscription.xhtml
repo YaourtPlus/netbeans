@@ -10,46 +10,49 @@
         <ui:include src="/css.xhtml"/>
     </h:head>
     <h:body>
-        <h:link value="Accueil" outcome="connexion.xhtml"/> 
-        <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-4">
+        <h:panelGroup layout="block" class="text-center">
+            <h:outputText value="Inscription" class="h1"/>
+        </h:panelGroup>
+        <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4 centeredInscription">
             <h:form id="formInscription">
-                <h:panelGroup class="row" layout="block">
-                    <h:outputText value="Login" class="outputStyle"/> <br/><h:inputText id="login" value="#{compteController.login}" required="true" >
-                        <f:validator validatorId="inscriptionValidator" />
-                        <f:attribute name="passWord" value="#{passWord}" />
-                        <f:attribute name="mail" value="#{mail}" />
-                        <f:attribute name="nom" value="#{nom}" />
-                        <f:attribute name="prenom" value="#{prenom}" />
-                        <f:attribute name="age" value="#{age}" />
-                    </h:inputText><br />
-                </h:panelGroup>
-                <h:panelGroup class="row" layout="block">
-                    <h:outputText value="Mot de Passe" class="outputStyle" /><br/>
-                    <h:inputSecret id="password" value="#{compteController.passWord}" required="true" binding="#{passWord}" />
-                </h:panelGroup>
-                <h:panelGroup class="row" layout="block">
-                    <h:outputText value="Mail" class="outputStyle" /><br/>
-                    <h:inputText id="mail" value="#{compteController.mail}" required="true" binding="#{mail}" p:placeholder="example@test.ex" />
-                </h:panelGroup>
-                <h:panelGroup class="row" layout="block">
-                    <h:outputText value="Age" class="outputStyle" /><br/>
-                    <h:inputText id="age" value="#{compteController.age}" required="false" binding="#{age}"  />
-                </h:panelGroup>
-                <h:panelGroup class="row" layout="block">
-                    <h:outputText value="Nom" class="outputStyle" /><br/>
-                    <h:inputText id="nom" value="#{compteController.nom}" required="true" binding="#{nom}"/>
-                </h:panelGroup>
-                <h:panelGroup class="row" layout="block">
-                    <h:outputText value="Prénom" class="outputStyle" /><br/>
-                    <h:inputText id="prenom" value="#{compteController.prenom}" required="true" binding="#{prenom}"/>
-                </h:panelGroup>
-                <h:panelGroup class="row" layout="block">
-                    <h:commandButton value="OK" action="#{compteController.inscrire()}" />
-                </h:panelGroup>
-                <br/>
+                    <h:message for="login"/>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:inputText id="login" class="form-control" label="Login" value="#{compteController.login}" required="true" 
+                                     p:placeholder="Login">
+                            <f:validator validatorId="inscriptionValidator" />
+                            <f:attribute name="passWord" value="#{passWord}" />
+                            <f:attribute name="mail" value="#{mail}" />
+                            <f:attribute name="nom" value="#{nom}" />
+                            <f:attribute name="prenom" value="#{prenom}" />
+                            <f:attribute name="age" value="#{age}" />
+                        </h:inputText>
+                    </h:panelGroup>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:inputSecret id="password" class="form-control" value="#{compteController.passWord}" required="true" binding="#{passWord}" 
+                                       p:placeholder="Password" />
+                    </h:panelGroup>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:inputText id="mail" class="form-control" value="#{compteController.mail}" required="true" binding="#{mail}" 
+                                     p:placeholder="example@test.ex" />
+                    </h:panelGroup>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:inputText id="age" class="form-control" value="#{compteController.age}" required="false" binding="#{age}"  
+                                     p:placeholder="Age" />
+                    </h:panelGroup>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:inputText id="nom" class="form-control" value="#{compteController.nom}" required="true" binding="#{nom}"
+                                     p:placeholder="Nom" />
+                    </h:panelGroup>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:inputText id="prenom" class="form-control" value="#{compteController.prenom}" required="true" binding="#{prenom}"
+                                     p:placeholder="Prénom"/>
+                    </h:panelGroup>
+                    <h:panelGroup class="form-group" layout="block">
+                        <h:commandButton class="btn btn-primary" value="OK" action="#{compteController.inscrire()}" />
+                        <h:link class="pull-right" value="Accueil" outcome="connexion.xhtml"/> 
+                    </h:panelGroup>
             </h:form>
         </h:panelGroup>      
-        <h:message for="login"/>
     </h:body>
 </html>
 

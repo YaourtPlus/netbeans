@@ -5,6 +5,7 @@
  */
 package Security;
 
+import Controllers.SessionController;
 import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;
@@ -38,9 +39,11 @@ public class SessionFilter implements Filter {
 
         HttpSession session = request.getSession(false);
 
+        SessionController sessionController = (SessionController) request.getSession(false).getAttribute("sessionController");
+
         String loginUrl = request.getContextPath() + "/faces/connexion.xhtml";
 
-        boolean loggedIn = (session != null) && (session.getAttribute("idUtilisateur") != null);
+        boolean loggedIn = (session != null) && (sessionController.getIdUtilisateur() != -1);
         boolean loginRequest = request.getRequestURI().equals(loginUrl);
 
         if (loggedIn || loginRequest) {
