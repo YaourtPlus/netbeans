@@ -85,10 +85,13 @@ public class PersonnesEntity implements Serializable {
     @OneToMany(mappedBy = "auteur", fetch = FetchType.EAGER)
     private List<StatutsEntity> statutsEmis = new ArrayList<>();
 
+    @OneToMany(mappedBy = "auteur", fetch = FetchType.EAGER)
+    private List<CommentairesEntity> commentairesEmis = new ArrayList<>();
+    
     // Liste des statuts dont la personne est le destinataire
     @OneToMany(mappedBy = "destinataire", fetch = FetchType.EAGER)
     private List<StatutsEntity> statutsRecu = new ArrayList<>();
-
+    
     // Liste des messages émis par une personne
     @OneToMany(mappedBy = "emetteur", fetch = FetchType.EAGER)
     private List<MessagesEntity> messagesEmis = new ArrayList<>();
@@ -196,7 +199,11 @@ public class PersonnesEntity implements Serializable {
     public List<StatutsEntity> getStatutsEmis() {
         return statutsEmis;
     }
-
+    
+    public List<CommentairesEntity> getCommentairesEmis() {
+        return commentairesEmis;
+    }
+    
     /**
      * Récupère les statuts qui ont été postés pendant une certaine période La
      * période est une durée de 2 semaines à partir d'aujourd'hui
