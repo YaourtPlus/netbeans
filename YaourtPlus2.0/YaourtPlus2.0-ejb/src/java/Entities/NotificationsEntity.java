@@ -82,6 +82,14 @@ public class NotificationsEntity implements Serializable {
         return date;
     }
 
+    public StatutsEntity getStatut() {
+        return null;
+    }
+        
+    public MessagesEntity getMessage() {
+        return null;
+    }
+        
     public PersonnesEntity getNotifieur() {
         return notifieur;
     }

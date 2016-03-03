@@ -43,10 +43,11 @@ public class NotificationsStatutEntity extends NotificationsEntity {
         //this.setMessage(null);
     }
 
+    @Override
     public StatutsEntity getStatut() {
         return statut;
     }
-
+    
     public void setStatut(StatutsEntity statut) {
         this.statut = statut;
     }

@@ -19,7 +19,10 @@ import Entities.NotificationsMessageEntity;
 import Entities.NotificationsStatutEntity;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -147,19 +150,21 @@ public class NotificationService implements NotificationServiceLocal {
     public List<NotificationsEntity> getNotifs(int utilisateurId) {
         PersonnesEntity user = personneService.getPersonne(utilisateurId);
         user.resetNotif();
-        return user.getNotificationRecues();
+        List<NotificationsEntity> list = user.getNotificationRecues();
+        Collections.reverse(list);
+        return list;
     }
 
     @Override
     public StatutsEntity getStatutNotif(int idNotif) {
-        NotificationsStatutEntity notif = (NotificationsStatutEntity) notificationDAO.find(idNotif);
+        NotificationsEntity notif = notificationDAO.find(idNotif);
 
         return notif.getStatut();
     }
 
     @Override
     public List<MessagesEntity> getMessagesNotif(int idNotif) {
-        NotificationsMessageEntity notif = (NotificationsMessageEntity) notificationDAO.find(idNotif);
+        NotificationsEntity notif = notificationDAO.find(idNotif);
         MessagesEntity msg = notif.getMessage();
 
         List<MessagesEntity> messages = messageService.getMessagesSinglePersonne(msg.getEmetteur().getId(), msg.getDestinataire().getId());
@@ -169,7 +174,7 @@ public class NotificationService implements NotificationServiceLocal {
     @Override
     public int getNbNotifsNonLues(int utilisateurId) {
         PersonnesEntity user = personneService.getPersonne(utilisateurId);
-        
+
         return user.getNotifNonLues();
     }
 }

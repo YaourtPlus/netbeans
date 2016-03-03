@@ -132,12 +132,7 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
     }
 
     public List<StatutsEntity> reverse(List<StatutsEntity> l) {
-        Collections.sort(l, new Comparator<StatutsEntity>() {
-            @Override
-            public int compare(StatutsEntity o1, StatutsEntity o2) {
-                return o2.getDate().compareTo(o1.getDate());
-            }
-        });
+        Collections.reverse(l);
         return l;
     }
 }

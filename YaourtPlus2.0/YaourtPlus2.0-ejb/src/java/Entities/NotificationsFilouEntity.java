@@ -15,6 +15,7 @@ import javax.persistence.Entity;
  */
 @Entity
 public class NotificationsFilouEntity extends NotificationsEntity{
+    private static final long serialVersionUID = 1L;
     
     public NotificationsFilouEntity() {
         this.setDate(Calendar.getInstance().getTime());

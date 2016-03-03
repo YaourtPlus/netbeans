@@ -42,6 +42,7 @@ public class NotificationsMessageEntity extends NotificationsEntity{
         this.message = null;
     }
 
+    @Override
     public MessagesEntity getMessage() {
         return message;
     }
