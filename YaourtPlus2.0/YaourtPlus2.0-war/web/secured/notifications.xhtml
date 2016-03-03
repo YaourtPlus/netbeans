@@ -9,26 +9,43 @@
         <ui:include src="/css.xhtml" />
     </h:head>
     <h:body>
-        
+
         <f:metadata>
             <f:viewParam name="id" value="#{notificationsController.idNotification}"/>
         </f:metadata>
-        
+
         <ui:include src="/secured/navbar.xhtml"/>
         <h:dataTable value="#{notificationsController.getNotifs()}" var="notif" class="full-width">
             <h:column>
-                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{not empty notif.statut}"> 
+                <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4" rendered="#{not empty notif.statut}"> 
                     <h:outputText value="#{notif.toString()}" />
-                        <h:link value="ici" outcome="/secured/vueNotifStatut?id=#{notif.id}"/><br/>
-                    <h:outputText value="#{notif.date}" />
+                    <h:panelGroup layout="block" class="row">
+                        <h:link value="Cliquez ici pour voir le statut." outcome="/secured/vueNotifStatut?id=#{notif.id}" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="row">
+                        <h:outputText value="#{notif.date}"  >
+                            <f:convertDateTime pattern="dd-mm-yyyy" />
+                        </h:outputText>
+                    </h:panelGroup>
                 </h:panelGroup>
-                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{not empty notif.message}"> 
+                <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4" rendered="#{not empty notif.message}"> 
                     <h:outputText value="#{notif.toString()}" />
-                        <h:link value="ici" outcome="/secured/vueNotifMessage?id=#{notif.id}"/><br/>
-                    <h:outputText value="#{notif.date}" />
+                    <h:panelGroup layout="block" class="row" >
+                        <h:link value="Cliquez ici pour voir la conversation." outcome="/secured/vueNotifMessage?id=#{notif.id}"/>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="row">
+                        <h:outputText value="#{notif.date}" >
+                            <f:convertDateTime pattern="dd-mm-yyyy" />
+                        </h:outputText>
+                    </h:panelGroup>
                 </h:panelGroup>
-                <h:panelGroup layout="block" class="col-lg-offset-1 col-lg-10" rendered="#{empty notif.message and empty notif.statut}"> 
+                <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4" rendered="#{empty notif.message and empty notif.statut}"> 
                     <h:outputText value="#{notif.toString()}"/>
+                    <h:panelGroup layout="block" class="row">
+                        <h:outputText value="#{notif.date}"  >
+                            <f:convertDateTime pattern="dd-mm-yyyy" />
+                        </h:outputText>
+                    </h:panelGroup>
                 </h:panelGroup>
             </h:column>
         </h:dataTable>

@@ -13,9 +13,11 @@
         <f:metadata>
             <f:viewParam name="id" value="#{notificationsController.idNotification}"/>
         </f:metadata>
-        
+
         <ui:param name="listStatuts" value="#{notificationsController.getStatut()}" />
-        <ui:include src="/secured/afficheStatut.xhtml"/>
+        <h:panelGroup layout="block" class="col-xs-offset-3 col-xs-6">
+            <ui:include src="/secured/afficheStatut.xhtml"/>
+        </h:panelGroup>
 
     </h:body>
 </html>

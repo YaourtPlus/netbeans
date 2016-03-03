@@ -14,7 +14,8 @@
                 </li>
                 <li class="#{view.viewId == '/secured/notifications.xhtml' ? 'active' : ''}">
                     <h:link value="Notifications" outcome="/secured/notifications">
-                        <h:panelGroup class="badge">
+                        <ui:param name="nbNotif" value="#{notificationsController.getNbNotifsNonLues()}" />
+                        <h:panelGroup class="#{nbNotif eq 0 ? 'badge red' : 'badge green'}">
                             <h:outputText value="#{notificationsController.getNbNotifsNonLues()}" />
                         </h:panelGroup>
                     </h:link>

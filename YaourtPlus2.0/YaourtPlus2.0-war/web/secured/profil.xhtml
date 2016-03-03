@@ -16,32 +16,34 @@
 
         <h:panelGroup layout="block" class="container-fluid">
             <h:panelGroup layout="block" class="row">
-                <h:panelGroup layout="block" class="col-lg-offset-2 col-lg-6">
+                <h:panelGroup layout="block" class="col-xs-offset-2 col-xs-6">
                     <h:form class="formPost" enctype="multipart/form-data">
+                        <h:outputLabel value="Statut"/>
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
                                          value="#{statutsController.statut}" validatorMessage="Statut vide">
-                            
                             <f:validateLength minimum="1"/>
                         </h:inputTextarea>
-                        <h:inputFile value="#{statutsController.part}"/>
-                        <h:commandButton value="Publier" action="#{statutsController.postStatut()}" >
-                            <f:param name="id" value="#{param['id']}" />
-                        </h:commandButton>
-                        <h:message for="statut"/>
+                        <h:panelGroup layout="block" class="form-horizontal container-fluid upload">    
+                            <h:inputFile class="pull-left" value="#{statutsController.part}"/>
+                            <h:commandButton value="Publier" class="pull-right btn btn-primary" action="#{statutsController.postStatut()}" >
+                                <f:param name="id" value="#{param['id']}" />
+                            </h:commandButton>
+                            <h:message for="statut" class="text-danger"/>
+                        </h:panelGroup>
                     </h:form>
                 </h:panelGroup>
             </h:panelGroup>
         </h:panelGroup>
 
         <ui:param name="listStatutsEmis" value="#{statutsController.getStatutsEmis()}" />
-        <h:panelGroup layout="block" rendered="#{not empty listStatutsEmis}" class="col-lg-6">
+        <h:panelGroup layout="block" rendered="#{not empty listStatutsEmis}" class="col-xs-6">
             <ui:include src="/secured/afficheStatut.xhtml">
                 <ui:param name="listStatuts" value="#{listStatutsEmis}" />
             </ui:include>
         </h:panelGroup>
 
         <ui:param name="listStatutsRecu" value="#{statutsController.getStatutsRecu()}" />
-        <h:panelGroup layout="block" rendered="#{not empty listStatutsRecu}" class="#{empty listStatutsEmis ? 'col-lg-6 col-lg-offset-6' : 'col-lg-6'}" >
+        <h:panelGroup layout="block" rendered="#{not empty listStatutsRecu}" class="#{empty listStatutsEmis ? 'col-xs-6 col-xs-offset-6' : 'col-xs-6'}" >
             <ui:include src="/secured/afficheStatut.xhtml">
                 <ui:param name="listStatuts" value="#{listStatutsRecu}" />
             </ui:include>

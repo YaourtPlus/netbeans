@@ -3,6 +3,7 @@ package Controllers;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,6 +33,7 @@ public class SessionController implements Serializable {
 
 // Setters =====================================================================
     public void setIdUtilisateur(int idPersonne) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idUtilisateur", idPersonne);
         this.idUtilisateur = idPersonne;
     }
     

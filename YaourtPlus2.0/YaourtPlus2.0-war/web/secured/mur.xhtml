@@ -26,8 +26,14 @@
                             <h:column>
                                 <li>
                                     <h:form>
-                                        <h:commandLink value="#{filous.nom} #{filous.prenom}" action="#{redirectController.goToFilou(filous.id)}" />
-                                        <h:commandLink value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
+                                        <h:panelGroup layout="block" class="form-group">
+                                            <h:panelGroup layout="block" class="pull-left">
+                                                <h:commandLink class="btn btn-link" value="#{filous.nom} #{filous.prenom}" action="#{redirectController.goToFilou(filous.id)}" />
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" class="pull-right">
+                                                <h:commandLink class="btn btn-danger" value="Supprimer" action="#{filousController.suppressionFilou(filous.id)}" />
+                                            </h:panelGroup>
+                                        </h:panelGroup>
                                     </h:form>
                                 </li>
                             </h:column>
@@ -35,21 +41,29 @@
                     </ul>
                 </h:panelGroup> <!-- Fin Liste filous -->
                 <!-- Form statut -->
-                <h:panelGroup layout="block" class="#{empty listFilous ? 'post col-lg-6 col-lg-offset-2' : 'post col-lg-6'}">
+                <h:panelGroup layout="block" class="#{empty listFilous ? 'post col-xs-6 col-xs-offset-2' : 'post col-xs-6'}">
                     <!-- Form post statut -->
                     <h:form class="formPost" enctype="multipart/form-data">
+                        <h:outputLabel value="Statut"/>
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
-                                         value="#{statutsController.statut}" required="false" requiredMessage="Ajouter un ptit statut" validatorMessage="Statut vide">
+                                         value="#{statutsController.statut}" validatorMessage="Statut vide">
                             <f:validateLength minimum="1" />
                         </h:inputTextarea>
-                        <h:inputFile value="#{statutsController.part}"/>
-                        <h:commandButton value="Publier" action="#{statutsController.ajoutStatut()}" >
-                            <f:param name="id" value="#{param['id']}" />
-                        </h:commandButton>
-                        <h:message for="statut"/>
+                        <h:panelGroup layout="block" class="container-fluid upload">    
+                            <h:inputFile class="pull-left" value="#{statutsController.part}"/>
+                            <h:commandButton value="Publier" class="pull-right btn btn-primary" action="#{statutsController.ajoutStatut()}" >
+                                <f:param name="id" value="#{param['id']}" />
+                            </h:commandButton>
+                            <h:message for="statut" class="text-danger"/>
+                        </h:panelGroup>
                     </h:form><!-- Fin form post statut -->
+
+                    <ui:param name="listStatuts" value="#{statutsController.getStatuts()}"/>
+                    <h:panelGroup layout="block" rendered="#{not empty listStatuts}">
+                        <hr/>
+                    </h:panelGroup>
                     <ui:include src="/secured/afficheStatut.xhtml">
-                        <ui:param name="listStatuts" value="#{statutsController.getStatuts()}" />
+                        <ui:param name="listStatuts" value="#{listStatuts}" />
                     </ui:include>
 
                 </h:panelGroup><!-- Fin post statut -->
@@ -57,20 +71,26 @@
                 <!-- Div envoie messages -->
                 <h:panelGroup layout="block" class="col-lg-4" rendered="#{not empty  listFilous}">
                     <!-- Form post message -->
-                    <h:form>
-                        <h:selectOneMenu class="form-horizontal" value="#{messagesController.idPersonne}" onchange="SelectFilou()">
-                            <f:selectItems value="#{listFilous}" var="filou"
-                                           itemLabel="#{filou.prenom} #{filou.nom}" itemValue="#{filou.id}" />
-                        </h:selectOneMenu><!-- Fin list select filou -->
-                        <p:remoteCommand name="SelectFilou" action="#{messagesController.selectFilous()}" />
+                    <h:form class="formPost formChoice">  
+                        <h:panelGroup layout="block" class="form-group">
+                            <h:outputLabel value="Choix filou" />
+                            <h:selectOneMenu class="form-control" value="#{messagesController.idPersonne}" onchange="SelectFilou()">
+                                <f:selectItems value="#{listFilous}" var="filou"
+                                               itemLabel="#{filou.prenom} #{filou.nom}" itemValue="#{filou.id}" />
+                            </h:selectOneMenu><!-- Fin list select filou -->
+                            <p:remoteCommand name="SelectFilou" action="#{messagesController.selectFilous()}" />
+                        </h:panelGroup>
                     </h:form>
-                    <h:form class="formPost formMessage">
-                        <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
-                                         value="#{messagesController.message}" validatorMessage="Message vide">
-                            <f:validateLength minimum="1"/>
-                        </h:inputTextarea>
-                        <h:commandButton value="Envoyer" action="#{messagesController.envoieMessage()}" />
-                        <h:message for="message"/>
+                    <h:form class="formPost">
+                        <h:panelGroup layout="block" class="form-group">
+                            <h:outputLabel value="Message"/>
+                            <h:inputTextarea rows="2" cols="150" class="form-control" id="message" 
+                                             value="#{messagesController.message}" validatorMessage="Message vide">
+                                <f:validateLength minimum="1"/>
+                            </h:inputTextarea>
+                            <h:commandButton value="Envoyer" class="pull-right btn btn-primary" action="#{messagesController.envoieMessage()}" />
+                            <h:message for="message" class="text-danger"/>
+                        </h:panelGroup>
                     </h:form><!-- Fin form post message -->
 
                     <ui:include src="/secured/afficheMessage.xhtml">

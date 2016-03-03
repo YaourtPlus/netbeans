@@ -30,7 +30,13 @@ public class ProfilService implements ProfilServiceLocal {
     @Override
     public int connect(String login, String passWord) {
         PersonnesEntity pe = personneService.getPersonne(login, hashService.hash(passWord));
-        return pe != null ? pe.getId() : -1;
+        if(pe != null){
+            pe.setDateConnexion(new Date());
+            return pe.getId();
+        }
+        else{
+            return -1;
+        }
     }
 
 

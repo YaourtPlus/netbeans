@@ -90,10 +90,6 @@ public class IMCDAOImpl implements IMCDAO {
         IMCEntity imcAuteurStatut = auteur.getImc();
         IMCEntity imcAuteurLourd = allourdeur.getImc();
         
-        System.err.println("RemoveIMC");
-        System.err.println("auteur : " + auteur);
-        System.err.println("allourdeur : " + allourdeur);
-        
         imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()-(1/imcAuteurLourd.getValeur()));
         imcAuteurStatut = em.merge(imcAuteurStatut);}
 

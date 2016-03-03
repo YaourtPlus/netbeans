@@ -7,6 +7,7 @@ and open the template in the editor.
     Created on : 10 déc. 2015, 15:42:36
     Author     : Olivier
 */
+@import url('/bootstrap-3.3.6-dist/css/bootstrap.css');
 
 html, body{
     background-color: white;
@@ -31,17 +32,23 @@ html, body{
 label{
     width: 200px;
     display: block;
-    float : left;
 }
 
 input{
-    display : block;
+    display : none;
     float : left;
+    margin-top : 10px;
+    display : block;
 }
 
 a{
     margin-right : 10px;
 }
+
+form label{
+    text-align : left;
+}
+
 
 /* ID */
 #connectButton{
@@ -59,6 +66,43 @@ a.button {
 }
 
 /* Class */
+.centeredInscription{
+    position : absolute;
+    top : calc(50% - (355px/2));
+}
+
+.centeredConnexion{
+    position : absolute;
+    top : calc(50% - (185px/2));
+}
+
+.btn{
+    margin-bottom : 5px;
+}
+
+.btnConnection{
+    margin-top : 0px;
+}
+
+.green{
+    background-color: green;
+}
+
+.red{
+    background-color: grey;
+}
+
+.noBG{
+    margin-right : 0px;
+    background-color: white;
+    border: 0px;
+    border-radius: 0px;
+    text-align: center;
+}
+
+.upload{
+    padding : 0px;
+}
 
 .full-width{
     width:100%;
@@ -68,10 +112,14 @@ a.button {
     text-align: right;
 }
 
-.formPost {
-    margin : 10%;
+.formPost{
+    margin : 5%;
 }
 
+.formChoice{
+    margin-bottom : 0px;
+    margin-top : 0px;
+}
 body .noDisplay{
     background-color: white;
     border : none;
@@ -115,8 +163,4 @@ body .noDisplay{
 
 .validMsg{
     text-align: center; 
-}
-
-.formMessage{
-    margin-top : 10px;
 }
