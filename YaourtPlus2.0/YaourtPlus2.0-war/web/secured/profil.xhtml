@@ -21,15 +21,15 @@
                         <h:outputLabel value="Statut"/>
                         <h:inputTextarea rows="5" cols="150" class="form-control" id="statut" 
                                          value="#{statutsController.statut}" validatorMessage="Statut vide">
-                                          <f:validateLength minimum="1"/>
+                            <f:validateLength minimum="1"/>
                         </h:inputTextarea>
                         <h:panelGroup layout="block" class="form-horizontal container-fluid upload">    
                             <h:inputFile class="pull-left" value="#{statutsController.part}"/>
                             <h:commandButton value="Publier" class="pull-right btn btn-primary" action="#{statutsController.postStatut()}" >
                                 <f:param name="id" value="#{param['id']}" />
                             </h:commandButton>
+                            <h:message for="statut" class="text-danger"/>
                         </h:panelGroup>
-                        <h:message for="statut"/>
                     </h:form>
                 </h:panelGroup>
             </h:panelGroup>

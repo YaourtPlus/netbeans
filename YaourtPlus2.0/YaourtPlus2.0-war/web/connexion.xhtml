@@ -15,7 +15,7 @@
         </h:panelGroup>
         <h:panelGroup layout="block" class="col-xs-offset-4 col-xs-4 centeredConnexion">
             <h:form>
-                <h:message for="nom"/>
+                <h:message for="nom" class="text-danger"/>
                 <h:panelGroup layout="block" class="form-group">
                     <h:inputText id="nom" class="form-control" value="#{compteController.login}" required="true" requiredMessage="Veuillez entrer votre login" p:placeholder="Login">
                         <f:validator validatorId="loginValidator" />

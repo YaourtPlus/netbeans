@@ -158,7 +158,7 @@
                     <h:commandButton value="Répondre" class="pull-right btn btn-primary" action="#{commentaireController.ajoutCommentaire(statut.id)}">
                         <f:param name="id" value="#{param['id']}" />
                     </h:commandButton>
-                    <h:message for="commentaire"/>
+                    <h:message for="commentaire" class="text-danger"/>
                 </h:form><!-- Fin form post commentaire -->
             </h:column>
         </h:dataTable><!-- Fin boucle sur liste des statuts -->
