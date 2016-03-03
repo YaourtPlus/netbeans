@@ -8,7 +8,6 @@ package Services.composites;
 import Entities.MessagesEntity;
 import Services.elementaires.MessageServiceLocal;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,13 +24,9 @@ public class AfficheMessagesService implements AfficheMessagesServiceLocal {
     
     @Override
     public List<MessagesEntity> getMessagesSinglePersonne(int idPersonne, int idUser) {
+        // Récupération des messages émis par une seule personne
         List<MessagesEntity> messages = messageService.getMessagesSinglePersonne(idPersonne, idUser);
-        Collections.sort(messages, new Comparator<MessagesEntity>() {
-            @Override
-            public int compare(MessagesEntity o1, MessagesEntity o2) {
-                return o2.getDate().compareTo(o1.getDate());
-            }
-        });
+        // On inverse l'ordre des messages récupérés pour les afficher ensuite du plus récent au plus vieux.
         Collections.reverse(messages);
         return messages;
     }

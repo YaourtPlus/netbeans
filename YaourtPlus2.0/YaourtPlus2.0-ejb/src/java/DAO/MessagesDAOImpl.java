@@ -6,7 +6,6 @@
 package DAO;
 
 import Entities.MessagesEntity;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -76,10 +75,10 @@ public class MessagesDAOImpl implements MessagesDAO {
     }
 
     /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param auteurId
-     * @return
+     * Récupération des messages émis par une personne
+     * 
+     * @param auteurId auteur des messages à récupérer
+     * @return la liste des messages émis par la personne
      */
     
     @Override
@@ -88,22 +87,13 @@ public class MessagesDAOImpl implements MessagesDAO {
         q.setParameter("id", auteurId);
         return q.getResultList();
     }
-
-    /**
-     *
-     * @param date
-     * @return
-     */
     
-    @Override
-    public List<MessagesEntity> findByDate(Date date) {
-        return null;
-    }
 
     /**
-     *
-     * @param destinataireId
-     * @return
+     * Récupération des messages reçus par une personne
+     * 
+     * @param destinataireId destinataire des messages à récupérer
+     * @return la liste des messages reçus par la personne
      */
     
     @Override
@@ -121,6 +111,7 @@ public class MessagesDAOImpl implements MessagesDAO {
      */
     @Override
     public List<MessagesEntity> findByPersonne(int auteurId, int destinataireId) {
+        // Récupération à la fois des messages dont l'auteur est émetteur et destinataire et même chose pour le destinataire
         Query q = em.createQuery("SELECT m FROM MessagesEntity m where "
                 + "(m.emetteur.id = :emetteurId AND m.destinataire.id = :destinataireId) "
                 + "OR "

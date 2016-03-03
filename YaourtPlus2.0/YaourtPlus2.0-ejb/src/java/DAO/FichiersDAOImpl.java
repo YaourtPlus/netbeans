@@ -70,27 +70,4 @@ public class FichiersDAOImpl implements FichiersDAO {
         Query q = em.createQuery("SELECT f FROM FichiersEntity f");
         return q.getResultList();
     }
-
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param statutId
-     * @return
-     */
-    @Override
-    public List<FichiersEntity> findByStatuts(int statutId) {
-        return null;
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param messageId
-     * @return
-     */
-    @Override
-    public List<FichiersEntity> findByMessages(int messageId) {
-        return null;
-    }
-
 }

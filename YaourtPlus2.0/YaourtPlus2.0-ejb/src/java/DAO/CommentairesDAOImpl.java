@@ -68,8 +68,8 @@ public class CommentairesDAOImpl implements CommentairesDAO {
 // Lecture =====================================================================
     @Override
     public CommentairesEntity find(int id) {
-        Query q = em.createQuery("SELECT c FROM CommentairesEntity c where c.id = ?");
-        q.setParameter(1, id);
+        Query q = em.createQuery("SELECT c FROM CommentairesEntity c where c.id = :id");
+        q.setParameter("id", id);
         try{
            return (CommentairesEntity) q.getSingleResult();
         }
@@ -82,16 +82,6 @@ public class CommentairesDAOImpl implements CommentairesDAO {
     public List<CommentairesEntity> findAll() {
         Query q = em.createQuery("SELECT c FROM CommentairesEntity c");
         return q.getResultList();
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     * @param auteurId
-     * @return 
-     */
-    @Override
-    public List<CommentairesEntity> findByAuteur(int auteurId) {
-        return null;
     }
 
 }

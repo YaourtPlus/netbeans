@@ -6,7 +6,6 @@
 package DAO;
 
 import Entities.NotificationsEntity;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -72,37 +71,6 @@ public class NotificationsDAOImpl implements NotificationsDAO {
     public List<NotificationsEntity> findAll() {
         Query q = em.createQuery("SELECT n FROM NotificationsEntity n");
         return q.getResultList();
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param notifieurId
-     * @return
-     */
-    @Override
-    public List<NotificationsEntity> findByNotifieur(int notifieurId) {
-        return null;
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     * @param date
-     * @return
-     */
-    @Override
-    public List<NotificationsEntity> findByDate(Date date) {
-        return null;
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     * @param destinataireId
-     * @return 
-     */
-    @Override
-    public List<NotificationsEntity> findByDestinataire(int destinataireId) {
-        return null;
     }
 
 }

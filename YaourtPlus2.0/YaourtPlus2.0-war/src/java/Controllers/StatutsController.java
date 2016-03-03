@@ -55,16 +55,13 @@ public class StatutsController implements Serializable{
     public StatutsController() {
     }
 
+// Getters =====================================================================
     public SessionController getSessionController() {
         return sessionController;
     }
 
     public RedirectController getRedirectController() {
         return redirectController;
-    }
-
-    public void setRedirectController(RedirectController redirectController) {
-        this.redirectController = redirectController;
     }
 
     public String getPathFichier() {
@@ -74,6 +71,19 @@ public class StatutsController implements Serializable{
     public Part getPart() {
         return part;
     }
+    
+    public Integer getIdPersonne() {
+        return idPersonne;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+// Setters =====================================================================
+    public void setRedirectController(RedirectController redirectController) {
+        this.redirectController = redirectController;
+    }
+
 
     public void setSessionController(SessionController sessionController) {
         this.sessionController = sessionController;
@@ -86,15 +96,7 @@ public class StatutsController implements Serializable{
     public void setPart(Part part) {
         this.part = part;
     }
-
-    public Integer getIdPersonne() {
-        return idPersonne;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
+    
     public void setIdPersonne(Integer idPersonne) {
         this.idPersonne = idPersonne;
     }
@@ -103,18 +105,38 @@ public class StatutsController implements Serializable{
         this.statut = statut;
     }
 
+// Methodes ====================================================================
+    /**
+     * Récupération des statuts émis par la personne dont l'id est stocké en attribut
+     * @return la liste des statuts émis par la personne
+     */
     public List<StatutsEntity> getStatutsEmis() {
         return afficheStatutService.afficheStatutsEmis(idPersonne);
     }
 
+    
+    /**
+     * Récupération des stattus reçus par la personne dont l'id est stocké en attribut
+     * @return la liste des statuts reçus par la personne
+     */
     public List<StatutsEntity> getStatutsRecu() {
         return afficheStatutService.afficheStatutsRecus(idPersonne);
     }
 
+    
+    /**
+     * Récupération des statuts visible par l'utilisateur (filous et les siens)
+     * @return la liste des statuts postés par les filous et les siens
+     */
     public List<StatutsEntity> getStatuts() {
         return afficheStatutService.afficheMurStatuts(sessionController.getIdUtilisateur());
     }
 
+    
+    /**
+     * Ajout d'un statut par l'utilisateur
+     * @return l'url vers la page courante
+     */
     public String ajoutStatut() {
         int idStatut = statutService.ajoutStatut(statut, sessionController.getIdUtilisateur());
         if (part != null) {
@@ -123,6 +145,11 @@ public class StatutsController implements Serializable{
         return redirectController.goToCurrentPage();
     }
 
+    
+    /**
+     * Ajout d'un statut par l'utilisateur à direction de la personne dont l'id est stocké en attribut
+     * @return l'url vers la page courante
+     */
     public String postStatut() {
         if (idPersonne == sessionController.getIdUtilisateur()) {
             return ajoutStatut();
@@ -135,27 +162,52 @@ public class StatutsController implements Serializable{
         }
     }
 
+    
+    /**
+     * Ajout d'un léger sur un statut par l'utilisateur
+     * @param idStatut l'id du statut auquel on ajoute le léger
+     * @return l'url vers la page courante
+     */
     public String ajoutLeger(int idStatut) {
         statutService.ajoutLeger(idStatut, sessionController.getIdUtilisateur());
         return redirectController.goToCurrentPage();
     }
 
+    
+    /**
+     * Ajout d'un lourd sur un statut par l'utilisateur
+     * @param idStatut l'id du statut auquel on ajout le lourd
+     * @return l'url vers la page courante
+     */
     public String ajoutLourd(int idStatut) {
         statutService.ajoutLourd(idStatut, sessionController.getIdUtilisateur());
         return redirectController.goToCurrentPage();
     }
 
+    
+    /**
+     * Annulation d'une action effectué par l'utilisateur sur un statut
+     * @param idStatut id du statut dont on annule l'action
+     * @return l'url vers la page courante
+     */
     public String suppressionAction(int idStatut) {
         statutService.removeAction(idStatut, sessionController.getIdUtilisateur());
         return redirectController.goToCurrentPage();
     }
 
+    
+    /**
+     * Ajout du fichier en attribut au statut
+     * 
+     * @param idStatut id du statut
+     * @return l'url vers la page courante
+     */
     public String ajoutFichier(int idStatut) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         File f = new File(servletContext.getRealPath("/") + "/files");
         f.mkdir();
         pathFichier = servletContext.getRealPath("/files") + " - ";
         pathFichier += fichierService.ajoutFichier(part, servletContext.getRealPath("/files"), idStatut);
-        return "mur?faces-redirect=true&id=" + sessionController.getIdUtilisateur();
+        return redirectController.goToCurrentPage();
     }
 }

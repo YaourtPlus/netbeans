@@ -51,11 +51,4 @@ public interface PersonnesDAO {
     public List<PersonnesEntity> findFilous(int id);
 
     public List<PersonnesEntity> findAll();
-
-    public List<PersonnesEntity> findByNom(String nom);
-
-    public List<PersonnesEntity> findByPrenom(String prenom);
-
-    public List<PersonnesEntity> findByMail(String mail);
-
 }

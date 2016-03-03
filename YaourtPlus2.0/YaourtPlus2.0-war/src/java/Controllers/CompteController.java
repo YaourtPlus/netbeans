@@ -10,6 +10,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -114,6 +116,7 @@ public class CompteController {
     public void setRedirectController(RedirectController redirectController) {
         this.redirectController = redirectController;
     }
+    
 // Methodes ====================================================================
     public String connect() {
         idUtilisateur = profilService.connect(login, passWord);
@@ -122,13 +125,19 @@ public class CompteController {
             
             return redirectController.goToMur();
         } else {
-            return "connexion?faces-redirect=true";
+            return "/connexion?faces-redirect=true";
         }
     }
 
+    public String deconnection(){
+        // Suppression de la sesion
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/connexion?faces-redirect=true";
+    }
+    
     public String inscrire() {
         profilService.inscrire(login, passWord, nom, prenom, !"".equals(age) ? Integer.parseInt(age):0, mail);
-        return "connexion?faces-redirect=true";
+        return "/connexion?faces-redirect=true";
     }
 
 }

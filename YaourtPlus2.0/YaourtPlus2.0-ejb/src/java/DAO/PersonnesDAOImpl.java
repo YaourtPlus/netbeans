@@ -54,6 +54,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         em.remove(p);
     }
 
+    
     /**
      * Ajout d'un filou par l'utilisateur
      *
@@ -75,6 +76,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return added;
     }
 
+    
     /**
      * Suppression d'un filou par l'utilisateur
      *
@@ -96,6 +98,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return delete;
     }
 
+    
     /**
      * Ajout d'un statut émis par l'utilisateur
      *
@@ -115,6 +118,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return add;
     }
 
+    
     /**
      * Ajout d'un statut posté sur le mur de la personne
      *
@@ -134,6 +138,7 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return add;
     }
 
+    
     /**
      * Ajout d'une notification
      *
@@ -164,6 +169,14 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return added;
     }
 
+    
+    /**
+     * Ajout d'un message envoyé par une personne
+     * 
+     * @param sender Personne émettrice du message
+     * @param newMessagesEntity message envoyé
+     * @return true si l'ajout s'est correctement effecuté, false sinon
+     */
     @Override
     public boolean ajoutMessageEnvoi(PersonnesEntity sender, MessagesEntity newMessagesEntity) {
         boolean add = sender.ajoutMessagesEmis(newMessagesEntity);
@@ -175,6 +188,14 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return add;
     }
 
+    
+    /**
+     * Ajout d'un message reçu par une personne
+     * 
+     * @param dest destinataire du message
+     * @param newMessagesEntity message reçu
+     * @return true si l'ajout s'est correctement effectué, false sinon
+     */
     @Override
     public boolean ajoutMessageRecu(PersonnesEntity dest, MessagesEntity newMessagesEntity) {
         boolean add = dest.ajoutMessagesRecu(newMessagesEntity);
@@ -185,8 +206,8 @@ public class PersonnesDAOImpl implements PersonnesDAO {
 
         return add;
     }
+    
 // Lecture =====================================================================
-
     @Override
     public PersonnesEntity find(int id) {
         Query q = em.createQuery("SELECT p FROM PersonnesEntity p where p.id = :id");
@@ -198,6 +219,13 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         }
     }
 
+    /**
+     * Récupération d'une personne selon un login et un password
+     * 
+     * @param login login de la personne
+     * @param password password de la personne
+     * @return la personne correspondant au login et au password, null sinon
+     */
     @Override
     public PersonnesEntity find(String login, String password) {
         Query q = em.createQuery("SELECT p FROM PersonnesEntity p "
@@ -211,6 +239,13 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return p;
     }
 
+    
+    /**
+     * Récupération des filous d'une personne
+     * 
+     * @param id id de la personne dont on veut les filous
+     * @return list des filous de la personne
+     */
     @Override
     public List<PersonnesEntity> findFilous(int id) {
         Query q = em.createQuery("SELECT pl FROM PersonnesEntity P JOIN P.listFilous pl "
@@ -219,6 +254,13 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return ((PersonnesEntity) q.getSingleResult()).getListFilous();
     }
 
+    
+    /**
+     * Récupération d'un personne selon son login
+     * 
+     * @param login login de la personne
+     * @return la personne correspondant au login, null sinon
+     */
     @Override
     public PersonnesEntity findByLogin(String login) {
         Query q = em.createQuery("SELECT p FROM PersonnesEntity p "
@@ -231,43 +273,11 @@ public class PersonnesDAOImpl implements PersonnesDAO {
         return p;
     }
 
+
     @Override
     public List<PersonnesEntity> findAll() {
         Query q = em.createQuery("SELECT p FROM PersonnesEntity p");
         return q.getResultList();
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param nom
-     * @return
-     */
-    @Override
-    public List<PersonnesEntity> findByNom(String nom) {
-        return null;
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param prenom
-     * @return
-     */
-    @Override
-    public List<PersonnesEntity> findByPrenom(String prenom) {
-        return null;
-    }
-
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * @param mail
-     * @return
-     */
-    @Override
-    public List<PersonnesEntity> findByMail(String mail) {
-        return null;
     }
 
 }

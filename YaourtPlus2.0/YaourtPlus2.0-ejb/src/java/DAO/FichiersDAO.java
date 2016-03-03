@@ -26,10 +26,6 @@ public interface FichiersDAO {
     public FichiersEntity find(int id);
 
     public List<FichiersEntity> findAll();
-
-    public List<FichiersEntity> findByStatuts(int statutId);
-
-    public List<FichiersEntity> findByMessages(int messageId);
 }
 
 // Transaction de base =========================================================

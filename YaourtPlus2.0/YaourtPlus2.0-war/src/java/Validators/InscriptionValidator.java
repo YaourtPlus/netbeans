@@ -65,9 +65,9 @@ public class InscriptionValidator implements Validator {
                     "Le login existe déjà"));
         }
         
-        if (passWord.length() < 3) {
+        if (passWord.length() <= 3) {
             throw new ValidatorException(new FacesMessage(
-                    "Le mot de passe doit faire au moins 4 caractères."));
+                    "Le mot de passe doit faire au moins 3 caractères."));
         }
 
         if (mail.length() < 1) {

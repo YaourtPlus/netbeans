@@ -32,6 +32,4 @@ public interface CommentairesDAO {
     public CommentairesEntity find(int id);
 
     public List<CommentairesEntity> findAll();
-
-    public List<CommentairesEntity> findByAuteur(int auteurId);
 }

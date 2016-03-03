@@ -16,9 +16,15 @@ import javax.ejb.Stateless;
 @Stateless
 public class HashService implements HashServiceLocal {
 
+    /**
+     * Hashage d'un string
+     *
+     * @param s le string à hasher
+     * @return le nouveau string hashé
+     */
     @Override
     public String hash(String s) {
-         byte[] uniqueKey = s.getBytes();
+        byte[] uniqueKey = s.getBytes();
         byte[] hash = null;
 
         try {

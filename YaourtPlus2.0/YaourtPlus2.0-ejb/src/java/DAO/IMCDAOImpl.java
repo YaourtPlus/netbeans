@@ -75,21 +75,34 @@ public class IMCDAOImpl implements IMCDAO {
         return q.getResultList();
     }
 // Custom ======================================================================
+    /**
+     * Ajout d'IMC à une personne
+     * 
+     * @param auteur Personne qui va modifier l'IMC
+     * @param allegeur Personne dont on modifie l'IMC
+     */
     @Override
     public void addIMC(PersonnesEntity auteur, PersonnesEntity allegeur) {
         IMCEntity imcAuteurStatut = auteur.getImc();
         IMCEntity imcAuteurLeger = allegeur.getImc();
 
         imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()+(1/imcAuteurLeger.getValeur()));
-        imcAuteurStatut = em.merge(imcAuteurStatut);
+        em.merge(imcAuteurStatut);
     }
 
+    
+    /**
+     * Suppression d'IMC à une personne
+     * @param auteur Personne qui va modifier l'IMC
+     * @param allourdeur Personne dont on modifie l'IMC 
+     */
     @Override
     public void removeIMC(PersonnesEntity auteur, PersonnesEntity allourdeur) {
         IMCEntity imcAuteurStatut = auteur.getImc();
         IMCEntity imcAuteurLourd = allourdeur.getImc();
         
         imcAuteurStatut.setValeur(imcAuteurStatut.getValeur()-(1/imcAuteurLourd.getValeur()));
-        imcAuteurStatut = em.merge(imcAuteurStatut);}
+        em.merge(imcAuteurStatut);
+    }
 
 }

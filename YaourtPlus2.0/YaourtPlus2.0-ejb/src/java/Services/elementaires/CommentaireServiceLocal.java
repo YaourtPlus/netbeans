@@ -13,6 +13,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface CommentaireServiceLocal {
-    
+
     public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur);
 }

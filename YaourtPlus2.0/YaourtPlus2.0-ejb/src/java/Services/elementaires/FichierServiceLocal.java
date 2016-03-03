@@ -6,7 +6,6 @@
 package Services.elementaires;
 
 import javax.ejb.Local;
-import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
 /**
@@ -15,7 +14,7 @@ import javax.servlet.http.Part;
  */
 @Local
 public interface FichierServiceLocal {
-    
+
     public String ajoutFichier(Part p, String path, int idStatut);
-    
+
 }

@@ -6,10 +6,8 @@
 package DAO;
 
 import Entities.MessagesEntity;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
-import javax.ejb.Stateless;
 
 /**
  *
@@ -32,8 +30,6 @@ public interface MessagesDAO {
     public List<MessagesEntity> findAll();
 
     public List<MessagesEntity> findByAuteur(int auteurId);
-
-    public List<MessagesEntity> findByDate(Date date);
 
     public List<MessagesEntity> findByPersonne(int auteurId, int destinataireId);
 

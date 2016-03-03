@@ -33,10 +33,9 @@ public class SessionController implements Serializable {
 
 // Setters =====================================================================
     public void setIdUtilisateur(int idPersonne) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idUtilisateur", idPersonne);
         this.idUtilisateur = idPersonne;
     }
     
-// Methods =====================================================================
+// Methodes ====================================================================
 
 }

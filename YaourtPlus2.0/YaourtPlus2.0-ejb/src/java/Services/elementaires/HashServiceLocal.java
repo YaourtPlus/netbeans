@@ -13,5 +13,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface HashServiceLocal {
+
     public String hash(String s);
 }

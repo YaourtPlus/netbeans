@@ -9,7 +9,6 @@ import Entities.NotificationsEntity;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
-import javax.ejb.Stateless;
 
 /**
  *
@@ -31,9 +30,4 @@ public interface NotificationsDAO {
 
     public List<NotificationsEntity> findAll();
 
-    public List<NotificationsEntity> findByNotifieur(int notifieurId);
-
-    public List<NotificationsEntity> findByDate(Date date);
-
-    public List<NotificationsEntity> findByDestinataire(int destinataireId);
 }

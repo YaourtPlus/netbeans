@@ -299,7 +299,11 @@ public class PersonnesEntity implements Serializable {
     public void setStatutsEmis(List<StatutsEntity> statuts) {
         this.statutsEmis = statuts;
     }
-
+    
+    public void setCommentairesEmis(List<CommentairesEntity> commentaires) {
+        this.commentairesEmis = commentaires;
+    }
+    
     public void setMessagesEmis(List<MessagesEntity> messagesEmis) {
         this.messagesEmis = messagesEmis;
     }

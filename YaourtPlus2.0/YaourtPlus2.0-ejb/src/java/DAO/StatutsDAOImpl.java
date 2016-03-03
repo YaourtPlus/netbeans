@@ -41,7 +41,6 @@ public class StatutsDAOImpl implements StatutsDAO {
     }
 
 // Ecriture ====================================================================
-    
     @Override
     public int save(StatutsEntity s) {
         s = em.merge(s);
@@ -49,26 +48,24 @@ public class StatutsDAOImpl implements StatutsDAO {
         return s.getId();
     }
 
-    
     @Override
     public void update(StatutsEntity s) {
         em.merge(s);
     }
 
-    
     @Override
     public void delete(StatutsEntity s) {
         s = em.merge(s);
         em.remove(s);
     }
 
+    
     /**
      * Ajout d'un léger au statut
      *
      * @param s Statut auquel le léger est ajouté
      * @param p Personne ajoutant le léger
      */
-    
     @Override
     public void addLeger(StatutsEntity s, PersonnesEntity p) {
         // Ajout du léger au statut
@@ -90,7 +87,8 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(p);
         em.merge(s);
     }
-
+    
+    
     /**
      * Suppression d'un léger au statut
      *
@@ -98,7 +96,6 @@ public class StatutsDAOImpl implements StatutsDAO {
      * @param p Personne supprimant le léger Suppression de l'action par
      * l'utilisateur à définir ?
      */
-    
     @Override
     public void removeLeger(StatutsEntity s, PersonnesEntity p) {
         s.delLeger();
@@ -108,13 +105,13 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
     }
 
+    
     /**
      * Ajout d'un lourd au statut
      *
      * @param s Statut auquel le lourd est ajouté
      * @param p Personne ajoutant le lourd
      */
-    
     @Override
     public void addLourd(StatutsEntity s, PersonnesEntity p) {
         // Ajout du lourd au statut
@@ -141,6 +138,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
     }
 
+    
     /**
      * Suppression d'un lourd au statut
      *
@@ -148,7 +146,6 @@ public class StatutsDAOImpl implements StatutsDAO {
      * @param p Personne supprimant le lourd Suppression de l'action par
      * l'utilisateur à définir ?
      */
-    
     @Override
     public void removeLourd(StatutsEntity s, PersonnesEntity p) {
         s.delLourd();
@@ -158,13 +155,13 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
     }
 
+    
     /**
      * Ajout d'un léger au statut
      *
      * @param s Statut auquel le léger est ajouté
      * @param p Personne ajoutant le léger
      */
-    
     @Override
     public void addCommentaire(StatutsEntity s, PersonnesEntity p) {
         // Création d'une action entre la personne et le statut
@@ -183,6 +180,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(s);
     }
 
+    
     /**
      * Mise à jour de l'action de l'utilisateur sur le statut Modification des
      * TypeActions (léger, lourd, ou noAction)
@@ -191,7 +189,6 @@ public class StatutsDAOImpl implements StatutsDAO {
      * @param s Statut sur lequel l'action est effectuée
      * @param action Action effectuée sur le statut
      */
-    
     public void setAction(PersonnesEntity p, StatutsEntity s, TypeActions action) {
         // Récupération de la liste des PersonnesStatutsEntity associée 
         // au statut.
@@ -219,6 +216,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(p);
     }
 
+    
     /**
      * Mise à jour de l'action de l'utilisateur sur le statut Modification du
      * commentaire de l'utilisateur
@@ -226,7 +224,6 @@ public class StatutsDAOImpl implements StatutsDAO {
      * @param p Personne effectuant l'action sur le statut
      * @param s Statut sur lequel l'action est effectuée
      */
-    
     private void setCom(StatutsEntity s, PersonnesEntity p) {
         // Récupération de la liste des PersonnesStatutsEntity associée 
         // au statut.
@@ -254,8 +251,8 @@ public class StatutsDAOImpl implements StatutsDAO {
         em.merge(p);
     }
 
-// Lecture =====================================================================
     
+// Lecture =====================================================================
     @Override
     public void addFichier(StatutsEntity se, FichiersEntity fe) {
 
@@ -264,12 +261,12 @@ public class StatutsDAOImpl implements StatutsDAO {
 
         fe.addStatutsFichier(se);
         se.addFichierStatuts(fe);
-        se = em.merge(se);
-        fe = em.merge(fe);
+        em.merge(se);
+        em.merge(fe);
 
     }
 
-// Lecture =====================================================================
+    
     @Override
     public StatutsEntity find(int id) {
         Query q = em.createQuery("SELECT s FROM StatutsEntity s where s.id = :id");
@@ -281,6 +278,7 @@ public class StatutsDAOImpl implements StatutsDAO {
         }
     }
 
+    
     @Override
     public List<StatutsEntity> findAll() {
         Query q = em.createQuery("SELECT s FROM StatutsEntity s");
@@ -288,23 +286,30 @@ public class StatutsDAOImpl implements StatutsDAO {
     }
 
     /**
-     * NOT YET IMPLEMENTED
+     * Récupération de statuts selon un auteur
      *
-     * @param auteurId
-     * @return
+     * @param auteurId id de la personne
+     * @return la liste des statuts émis par la personne
      */
     @Override
     public List<StatutsEntity> findByAuteur(int auteurId) {
-        Query q = em.createQuery("SELECT s1 FROM PersonnesEntity P JOIN P.statutsEmis s1 " +
-                    "WHERE P.id = :id");
+        Query q = em.createQuery("SELECT s1 FROM PersonnesEntity P JOIN P.statutsEmis s1 "
+                + "WHERE P.id = :id");
         q.setParameter("id", auteurId);
         return q.getResultList();
     }
+
     
+    /**
+     * Récupération de statuts selon un destinataire
+     * 
+     * @param destinataireId id de la personne
+     * @return la liste des statuts reçu par la personne
+     */
     @Override
     public List<StatutsEntity> findByDestinataire(int destinataireId) {
-         Query q = em.createQuery("SELECT s1 FROM PersonnesEntity P JOIN P.statutsRecu s1 " +
-                    "WHERE P.id = :id");
+        Query q = em.createQuery("SELECT s1 FROM PersonnesEntity P JOIN P.statutsRecu s1 "
+                + "WHERE P.id = :id");
         q.setParameter("id", destinataireId);
         return q.getResultList();
     }

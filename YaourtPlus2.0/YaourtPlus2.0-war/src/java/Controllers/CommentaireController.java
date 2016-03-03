@@ -23,7 +23,7 @@ public class CommentaireController {
 
     @ManagedProperty(value = "#{sessionController}")
     private SessionController sessionController;
-    
+
     @ManagedProperty(value = "#{redirectController}")
     private RedirectController redirectController;
 
@@ -36,6 +36,7 @@ public class CommentaireController {
     public CommentaireController() {
     }
 
+// Getters =====================================================================
     public String getCommentaire() {
         return commentaire;
     }
@@ -44,12 +45,13 @@ public class CommentaireController {
         return redirectController;
     }
 
-    public void setRedirectController(RedirectController redirectController) {
-        this.redirectController = redirectController;
-    }
-
     public SessionController getSessionController() {
         return sessionController;
+    }
+
+// Setters =====================================================================
+    public void setRedirectController(RedirectController redirectController) {
+        this.redirectController = redirectController;
     }
 
     public void setCommentaire(String commentaire) {
@@ -60,10 +62,10 @@ public class CommentaireController {
         this.sessionController = murController;
     }
 
+// Methodes ====================================================================
     public String ajoutCommentaire(int idStatut) {
         commentaireService.ajoutCommentaire(commentaire, idStatut, sessionController.getIdUtilisateur());
         return redirectController.goToCurrentPage();
     }
-    
 
 }

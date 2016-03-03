@@ -30,6 +30,15 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
     @EJB
     PersonnesServiceLocal personneService;
 
+    
+    /**
+     * Récupération des statuts à afficher sur la page d'accueil selon leur IMC
+     * 
+     * @param idUtilisateur id de la personne détentrice de la page d'accueil.
+     * Cet id permet de récupérer les statuts des filous à afficher ainsi que ses propres statuts
+     * 
+     * @return la liste des statuts à afficher triés selon leur imc (quantité de Léger/Lourd)
+     */
     @Override
     public List<StatutsEntity> afficheMurStatuts(int idUtilisateur) {
         // Récupération de l'utilisateur
@@ -51,10 +60,16 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
         return statutsFilous;
     }
 
+    
+    /**
+     * Récupération des statuts qu'une personne à émis pour itération à l'affichage.
+     * 
+     * @param idPersonne id de la personne dont on veut afficher les statuts émis
+     * @return la liste des statuts émis du plus récent au plus vieux
+     */
     @Override
     public List<StatutsEntity> afficheStatutsEmis(int idPersonne) {
         PersonnesEntity p = personneService.getPersonne(idPersonne);
-        //List<StatutsEntity> statutsEmis = statutService.getStatutsByAuteur(idPersonne);
         List<StatutsEntity> list = new ArrayList();
 
         // Parcours des statuts émis par la personne
@@ -64,14 +79,21 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
                 list.add(s);
             }
         }
+        // Inversion pour aller du plus récent au plus vieux
         reverse(list);
         return list;
     }
 
+    
+    /**
+     * Récupération des statuts qu'une personne à reçu pour itération à l'affichage.
+     * 
+     * @param idPersonne id de la personne dont on veut afficher les statuts reçus
+     * @return la liste des statuts reçus du plus récent au plus vieux
+     */
     @Override
     public List<StatutsEntity> afficheStatutsRecus(int idPersonne) {
         PersonnesEntity p = personneService.getPersonne(idPersonne);
-        //List<StatutsEntity> statutsRecus = statutService.getStatutsByDestinataire(idPersonne);
         List<StatutsEntity> list = new ArrayList();
 
         // Parcours des statuts émis par la personne
@@ -81,16 +103,18 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
                 list.add(s);
             }
         }
+        // Inversion pour aller du plus récent au plus vieux
         reverse(list);
         return list;
     }
 
+    
     /**
      * Trie une liste de StatutsEntity en utilisant la méthode Compare de
      * Collections
      *
-     * @param l
-     * @return
+     * @param l la liste à trier
+     * @return la liste triée selon l'imc
      */
     public List<StatutsEntity> sortListe(List<StatutsEntity> l) {
         Collections.sort(l, new Comparator<StatutsEntity>() {
@@ -131,6 +155,11 @@ public class AfficheStatutsService implements AfficheStatutsServiceLocal {
         return l;
     }
 
+    /**
+     * Inverse l'ordre d'une liste
+     * @param l la liste à inverser
+     * @return la liste inversée
+     */
     public List<StatutsEntity> reverse(List<StatutsEntity> l) {
         Collections.reverse(l);
         return l;

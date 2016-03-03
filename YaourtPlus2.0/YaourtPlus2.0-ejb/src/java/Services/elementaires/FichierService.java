@@ -32,27 +32,53 @@ public class FichierService implements FichierServiceLocal {
     @EJB
     HashServiceLocal hashService;
     
+    
+    /**
+     * Ajout d'un fichier à un statut
+     * 
+     * @param p part du fichier à ajouter
+     * @param path chemin du fichier qu'on veut enregistrer
+     * @param idStatut id du statut auquel on ajoute un fichier
+     * @return Le path du fichier ajouté
+     */
     @Override
     public String ajoutFichier(Part p, String path, int idStatut) {
-        
+        // Récupération du statut
         StatutsEntity se = statutsDAO.find(idStatut);
+        
+        // Création du nom du fichier
         String nouveauNom = (se.getAuteur().getLogin()+ p.getSubmittedFileName());
         String[] split = p.getSubmittedFileName().split("\\.");
         String ext = split[split.length - 1];
         nouveauNom = hashService.hash(nouveauNom)+ "." + ext;
         String s = nouveauNom;
         try {
+            // Ajout du fichier
             s = ajoutFichierInterne(p, nouveauNom, path);
         } catch (IOException ex) {
+            // Exception retournée
             s += ex.toString();
             Logger.getLogger(FichierService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // Création de l'entité fichier (url)
         FichiersEntity fe = new FichiersEntity(ext, p.getSubmittedFileName(), nouveauNom);
+        
+        // Ajout de l'url au statut
         statutsDAO.addFichier(se, fe);
         return s;
         
     }
     
+    
+    /**
+     * Ajout du fichier sur le serveur
+     * 
+     * @param p part du fichier à ajouter
+     * @param nom nom du fichier à ajouter
+     * @param path path du fichier à ajouter
+     * @return le nom du fichier
+     * @throws IOException 
+     */
     private String ajoutFichierInterne(Part p, String nom, String path) throws IOException {
         String s = "";
         if (!"".equals(p.getSubmittedFileName())) {

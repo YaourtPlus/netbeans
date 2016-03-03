@@ -19,5 +19,5 @@ public interface MessageServiceLocal {
     public void ajoutMessage(String message, int idUser, int idDestinataire);
 
     public List<MessagesEntity> getMessagesSinglePersonne(int idUser, int idPersonne);
-    
+
 }

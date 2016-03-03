@@ -34,7 +34,7 @@ public interface NotificationServiceLocal {
     public List<NotificationsEntity> getNotifs(int utilisateurId);
 
     public StatutsEntity getStatutNotif(int idNotif);
- 
+
     public int getNbNotifsNonLues(int utilisateurId);
 
     public List<MessagesEntity> getMessagesNotif(int idNotif);

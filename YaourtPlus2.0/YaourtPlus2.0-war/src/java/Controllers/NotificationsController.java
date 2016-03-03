@@ -36,34 +36,60 @@ public class NotificationsController implements Serializable{
     public NotificationsController() {
     }
 
-    public SessionController getSessionController() {
-        return sessionController;
-    }
-
+// Getters =====================================================================
     public int getIdNotification() {
         return idNotification;
     }
-
-    public void setSessionController(SessionController sessionController) {
-        this.sessionController = sessionController;
+    
+    public SessionController getSessionController() {
+        return sessionController;
     }
-
+    
+// Setters =====================================================================
     public void setIdNotification(int idNotification) {
         this.idNotification = idNotification;
     }
-
+    
+    public void setSessionController(SessionController sessionController) {
+        this.sessionController = sessionController;
+    }
+    
+// Methodes ====================================================================
+    /**
+     * Récupération des notifications de l'utilisateur
+     * 
+     * @return la liste des notifications de l'utilisateur
+     */
     public List<NotificationsEntity> getNotifs() {
         return notificationService.getNotifs(sessionController.getIdUtilisateur());
     }
     
+    
+    /**
+     * Récupération du statut associé à la notification sélectionnée 
+     * 
+     * @return le statut de la notification
+     */
     public StatutsEntity getStatut(){
         return notificationService.getStatutNotif(idNotification);
     }
     
+    
+    /**
+     * Récupération des messages associés à la notification sélectionnée
+     * 
+     * @return la conversation de la notification
+     */
     public List<MessagesEntity> getMessages(){
         return notificationService.getMessagesNotif(idNotification);
     }
     
+    
+    /**
+     * Récupération de la quantité de notifications non lues par l'utilisateur
+     *
+     * @return la quantité de notifications non lues par l'utilisateur
+     */
     public int getNbNotifsNonLues(){
         return notificationService.getNbNotifsNonLues(sessionController.getIdUtilisateur());
     }

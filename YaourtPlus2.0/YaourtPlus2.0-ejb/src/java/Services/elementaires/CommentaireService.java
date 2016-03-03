@@ -35,6 +35,15 @@ public class CommentaireService implements CommentaireServiceLocal {
     @EJB
     NotificationServiceLocal notificationService;
     
+    
+    /**
+     * Ajout d'un commentaire à un utilisateur
+     * 
+     * @param commentaire le texte du commentaire à ajouter
+     * @param idStatut l'id du statut auquel on veut ajouter un commentaire
+     * @param idUtilisateur l'id de l'utilisateur qui poste le statut
+     * @return -1 si le texte du commentaire est vide, 0 si le commentaire n'a pas pu être ajouté, 1 sinon
+     */
     @Override
     public int ajoutCommentaire(String commentaire, int idStatut, int idUtilisateur) {
         if (commentaire == null || commentaire.length() == 0) {
@@ -69,6 +78,13 @@ public class CommentaireService implements CommentaireServiceLocal {
         }
         statutDAO.addCommentaire(statut, user);
 
+        /* Problème avec l'id lorsqu'on sort de la fonction save.
+            Les commentaires sont sauvegardés en double dans la DAO car lors de la fonction ajoutCommentaire,
+            on merge le statut avec le commentaire d'id null, ce qui créé un nouveau commentaire dans la BD.
+            Ce problème n'intervient qu'a partir d'une nouvelle connexion.
+            On va donc chercher le commentaire avec le DAO à partir de l'id retourné lors de la sauvegarde (qui n'est pas null)
+        */
+        newCommentaire = commentaireDAO.find(idCommentaire);
         commentaireDAO.ajoutCommentaire(statut, newCommentaire);
         return idCommentaire;
     }

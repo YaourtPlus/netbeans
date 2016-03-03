@@ -60,6 +60,7 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         em.remove(ps);
     }
 
+    
     /**
      * Création d'une action par l'utilisateurs sur le statut par le posteur.
      * Met le champ post de PersonnesStatutsEntity à true
@@ -87,6 +88,7 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         em.merge(s);
     }
 
+    
     /**
      * Annule une action de l'utilisateur Passe le type d'action à noAction
      *
@@ -129,7 +131,15 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         return typeAction;
     }
 
+    
 // Lecture =====================================================================
+    /**
+     * Récupération d'un PersonnesStatutEntity selon une personne et un statut
+     * 
+     * @param p personne du personneStatut
+     * @param s statut du personneStatut
+     * @return le personneStatut possédant la personne et le statut
+     */
     @Override
     public PersonnesStatutsEntity find(PersonnesEntity p, StatutsEntity s) {
         Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = :pID AND ps.statut.id = :sID");
@@ -143,12 +153,21 @@ public class PersonnesStatutsDAOImpl implements PersonnesStatutsDAO {
         }
     }
 
+    
     @Override
     public List<PersonnesStatutsEntity> findAll() {
         Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps");
         return q.getResultList();
     }
 
+    
+    /**
+     * Test l'existance d'un personne statut dans la BD
+     * 
+     * @param p personne du personneStatut
+     * @param s statut du personneStatut
+     * @return true si le personneStatut existe, false sinon
+     */
     @Override
     public boolean exist(PersonnesEntity p, StatutsEntity s) {
         Query q = em.createQuery("SELECT ps FROM PersonnesStatutsEntity ps WHERE ps.personne.id = :pID AND ps.statut.id = :sID");
