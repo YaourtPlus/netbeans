@@ -40,7 +40,6 @@ public class CommentaireService implements CommentaireServiceLocal {
         if (commentaire == null || commentaire.length() == 0) {
             return -1;
         }
-
         // Récupération du statut
         StatutsEntity statut = statutDAO.find(idStatut);
 
