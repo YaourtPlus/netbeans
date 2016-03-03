@@ -11,7 +11,6 @@ import Entities.PersonnesStatutsEntity;
 import Entities.StatutsEntity;
 import Enumerations.TypeActions;
 import java.util.List;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

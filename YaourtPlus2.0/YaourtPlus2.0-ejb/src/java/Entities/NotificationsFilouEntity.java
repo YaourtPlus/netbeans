@@ -19,15 +19,15 @@ public class NotificationsFilouEntity extends NotificationsEntity{
     public NotificationsFilouEntity() {
         this.setDate(Calendar.getInstance().getTime());
         this.setNotifieur(null);
-        this.setStatut(null);
-        this.setMessage(null);
+        //this.setStatut(null);
+        //this.setMessage(null);
     }
     
     public NotificationsFilouEntity(Date date) {
         this.setDate(date);
         this.setNotifieur(null);
-        this.setStatut(null);
-        this.setMessage(null);
+       // this.setStatut(null);
+       // this.setMessage(null);
     }
     
     @Override

@@ -14,21 +14,21 @@ import javax.persistence.Entity;
  * @author Olivier
  */
 @Entity
-public class NotificationsCommentaireEntity extends NotificationsEntity{
+public class NotificationsCommentaireEntity extends NotificationsStatutEntity{
+    private static final long serialVersionUID = 1L;
     
     public NotificationsCommentaireEntity() {
-        
         this.setDate(Calendar.getInstance().getTime());
         this.setNotifieur(null);
         this.setStatut(null);
-        this.setMessage(null);
+        //this.setMessage(null);
     }
     
     public NotificationsCommentaireEntity(Date date) {
         this.setDate(date);
         this.setNotifieur(null);
         this.setStatut(null);
-        this.setMessage(null);
+        //this.setMessage(null);
     }
     
     

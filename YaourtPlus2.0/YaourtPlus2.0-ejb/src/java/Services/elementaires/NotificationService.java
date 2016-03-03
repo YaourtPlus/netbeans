@@ -152,14 +152,14 @@ public class NotificationService implements NotificationServiceLocal {
 
     @Override
     public StatutsEntity getStatutNotif(int idNotif) {
-        NotificationsEntity notif = notificationDAO.find(idNotif);
+        NotificationsStatutEntity notif = (NotificationsStatutEntity) notificationDAO.find(idNotif);
 
         return notif.getStatut();
     }
 
     @Override
     public List<MessagesEntity> getMessagesNotif(int idNotif) {
-        NotificationsEntity notif = notificationDAO.find(idNotif);
+        NotificationsMessageEntity notif = (NotificationsMessageEntity) notificationDAO.find(idNotif);
         MessagesEntity msg = notif.getMessage();
 
         List<MessagesEntity> messages = messageService.getMessagesSinglePersonne(msg.getEmetteur().getId(), msg.getDestinataire().getId());

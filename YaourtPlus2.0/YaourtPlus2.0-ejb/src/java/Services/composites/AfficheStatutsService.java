@@ -5,7 +5,6 @@
  */
 package Services.composites;
 
-import Entities.MessagesEntity;
 import Entities.PersonnesEntity;
 import Entities.StatutsEntity;
 import Services.elementaires.PersonnesServiceLocal;

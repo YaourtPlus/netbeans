@@ -9,8 +9,6 @@ import DAO.MessagesDAO;
 import Entities.MessagesEntity;
 import Entities.PersonnesEntity;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

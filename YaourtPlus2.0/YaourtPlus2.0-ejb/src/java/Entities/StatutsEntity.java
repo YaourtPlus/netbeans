@@ -49,7 +49,7 @@ public class StatutsEntity implements Serializable {
     @Column(nullable = false)
     private Integer nbLourd;
 
-// Relations ONE TO ONE
+// Relations ONE TO ONE    
 // Relations ONE TO MANY
     // Liste des acteurs sur le statut (notamment pour notification)
     @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
@@ -58,7 +58,7 @@ public class StatutsEntity implements Serializable {
     // Liste des commentaires du statuts
     @OneToMany(mappedBy = "statut", fetch = FetchType.EAGER)
     private List<CommentairesEntity> commentaires = new ArrayList<>();
-    
+
 // Relations MANY TO ONE
     // Auteur du statut
     @ManyToOne
@@ -69,7 +69,7 @@ public class StatutsEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "destinataireId")
     private PersonnesEntity destinataire;
-    
+
 // Relations MANY TO MANY
     // Liste des fichiers liés au statut
     @JoinTable(
@@ -178,7 +178,6 @@ public class StatutsEntity implements Serializable {
         this.destinataire = destinataire;
     }
 
-
 // Gestion rapide nbLéger / nbLourd ============================================
     /**
      * Incrémentation du nombre de léger du statut
@@ -269,37 +268,36 @@ public class StatutsEntity implements Serializable {
         }
         return statutsActeurs.remove(ps);
     }
-    
+
     /**
-     * 
+     *
      * @param idPersonne l'id de la personne à trouver
      * @return true si la personne a intéragit avec le statut, false sinon
      */
-    public boolean isActeur (int idPersonne){
-        for(PersonnesStatutsEntity ps : statutsActeurs){
-            if(ps.getPersonne().getId().equals(idPersonne)){
+    public boolean isActeur(int idPersonne) {
+        for (PersonnesStatutsEntity ps : statutsActeurs) {
+            if (ps.getPersonne().getId().equals(idPersonne)) {
                 return true;
             }
         }
         return false;
     }
 // Gestion Fichiers sur le statut ==============================================
-    
+
     public boolean addFichierStatuts(FichiersEntity fe) {
-        
+
         return listeFichiers.add(fe);
 
     }
-    
+
     public boolean removeFichiersStatuts(FichiersEntity fe) {
         if (!listeFichiers.contains(fe)) { // Gestion de non existence
             return false;
         }
         return listeFichiers.remove(fe);
     }
-    
-// =============================================================================
 
+// =============================================================================
     @Override
     public int hashCode() {
         int hash = 5;
@@ -330,7 +328,7 @@ public class StatutsEntity implements Serializable {
     public String toString() {
         return "StatutsEntity{" + "id=" + id + ", texte=" + texte + ", date="
                 + date + ", nbLeger=" + nbLeger + ", nbLourd=" + nbLourd
-                +  '}';
+                + '}';
     }
 
 }
