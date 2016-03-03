@@ -23,7 +23,9 @@
             <!-- Div date message -->
             <h:panelGroup layout="block" class="row rowMessage">
                 <h:panelGroup layout="block" class="message">
-                    <h:outputText value="Envoyé le #{message.date}" />
+                    <h:outputText value="Envoyé le #{message.date}">
+                        <f:convertDateTime pattern="dd-mm-yyyy" />
+                    </h:outputText>
                 </h:panelGroup>
             </h:panelGroup><!-- Fin div date message -->
 

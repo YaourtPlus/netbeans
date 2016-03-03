@@ -20,7 +20,9 @@
                         </h:panelGroup><!-- Fin div auteur statut -->
                         <!-- Div date statut -->
                         <h:panelGroup layout="block" class="pull-right statut-right">
-                            <h:outputText value="#{statut.date}"/>
+                            <h:outputText value="#{statut.date}">
+                                <f:convertDateTime pattern="dd-mm-yyyy" />
+                            </h:outputText>
                         </h:panelGroup><!-- Fin div date statut -->
                     </h:panelGroup><!-- Fin div info statut -->
 
@@ -144,7 +146,9 @@
                             <h:outputText value="#{commentaire.texte}"/>
                         </h:panelGroup>
                         <h:panelGroup layout="block" >
-                            <h:outputText value="#{commentaire.date}"/>
+                            <h:outputText value="#{commentaire.date}">
+                                <f:convertDateTime pattern="dd-mm-yyyy" />
+                            </h:outputText>
                         </h:panelGroup>
                     </h:panelGroup> <!-- Fin div commentaire -->
                 </ui:repeat> <!-- Fin boucle commentaires -->
